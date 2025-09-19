@@ -12,7 +12,6 @@ public class Player_Movement : MonoBehaviour
     private float h;
     private float v;
 
-
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
