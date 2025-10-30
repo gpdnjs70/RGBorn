@@ -1,11 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
-    public float Speed;
+    public float Speed = 5f;
 
     [Header("Dash")]
     [SerializeField] private float dashingPower = 24f;
@@ -20,6 +18,7 @@ public class Player_Movement : MonoBehaviour
     private float v;
     private Vector2 move;              // 현재 프레임 이동 입력 (정규화)
     private Vector2 lastDir = Vector2.right; // 마지막 비영(0) 방향(대시 방향)
+
     private bool canDash = true;
     private bool isDashing;
 
@@ -31,21 +30,22 @@ public class Player_Movement : MonoBehaviour
 
     private void Update()
     {
+        // 대시 중엔 입력/애니메이션 갱신 차단
         if (isDashing) return;
 
-        // Move Value
+        // 입력
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
-        Vector2 input = new Vector2(h, v);
-        if (input.sqrMagnitude > 0.0001f)   // 0이 아닐 때만
-            lastDir = input.normalized;
+        move = new Vector2(h, v);
+        if (move.sqrMagnitude > 0.0001f)
+            lastDir = move.normalized; // 0이 아닐 때만 갱신
 
-        // 움직임 여부
+        // 이동 여부 -> 애니메이터
         bool isMove = (h != 0 || v != 0);
         anim.SetBool("isMove", isMove);
 
-        // 방향(좌/우) 파라미터 업데이트
+        // 방향 파라미터 (필요시 유지)
         if (anim.GetInteger("hAxisRaw") != (int)h)
         {
             anim.SetBool("isChange", true);
@@ -61,6 +61,7 @@ public class Player_Movement : MonoBehaviour
             anim.SetBool("isChange", false);
         }
 
+        // 대시 입력
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
             StartCoroutine(Dash());
@@ -69,8 +70,8 @@ public class Player_Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isDashing) return;
-        rigid.velocity = new Vector2(h, v) * Speed;
+        if (isDashing) return; // 대시 중 일반 이동 막기
+        rigid.velocity = move.normalized * Speed; // 대각선 속도 보정
     }
 
     private IEnumerator Dash()
