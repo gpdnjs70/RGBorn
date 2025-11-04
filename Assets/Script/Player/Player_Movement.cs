@@ -79,6 +79,9 @@ public class Player_Movement : MonoBehaviour
         canDash = false;
         isDashing = true;
 
+        string dashStateName = lastDir.x > 0 ? "Right_dash" : "Left_dash";
+        anim.CrossFade(dashStateName, 0f);
+
         anim.SetFloat("dashX", lastDir.x);
         anim.SetBool("isDashing", true);
 

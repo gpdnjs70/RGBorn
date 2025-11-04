@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PatrolState : IEnemyState
+{
+    public void EnterState(EnemyStateManager enemy)
+    {
+        Debug.Log("[Patrol State] : State Entered");
+    }
+
+    public void ExitState(EnemyStateManager enemy)
+    {
+        Debug.Log("[Patrol State] : State Exited");
+    }
+
+    public void UpdateState(EnemyStateManager enemy)
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            enemy.TransitionToState(new ChaseState());
+        }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+}
