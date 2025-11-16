@@ -17,10 +17,13 @@ public class Player_Movement : MonoBehaviour
     private float h;
     private float v;
     private Vector2 move;              // 현재 프레임 이동 입력 (정규화)
-    private Vector2 lastDir = Vector2.left; // 마지막 비영(0) 방향(대시 방향)
+    public Vector2 lastDir = Vector2.left; // 마지막 비영(0) 방향(대시 방향)
 
     private bool canDash = true;
     private bool isDashing;
+
+    private bool isAttacking = false;
+    public bool IsMovementLocked => isDashing || isAttacking;
 
     private void Awake()
     {
@@ -30,8 +33,7 @@ public class Player_Movement : MonoBehaviour
 
     private void Update()
     {
-        // 대시 중엔 입력/애니메이션 갱신 차단
-        if (isDashing) return;
+        if (IsMovementLocked) return;
 
         // 입력
         h = Input.GetAxisRaw("Horizontal");
@@ -46,60 +48,53 @@ public class Player_Movement : MonoBehaviour
         anim.SetBool("isMove", isMove);
 
         // 방향 파라미터 (필요시 유지)
-        if (anim.GetInteger("hAxisRaw") != (int)h)
-        {
-            anim.SetBool("isChange", true);
-            anim.SetInteger("hAxisRaw", (int)h);
-        }
-        else if (anim.GetInteger("vAxisRaw") != (int)v)
-        {
-            anim.SetBool("isChange", true);
-            anim.SetInteger("vAxisRaw", (int)v);
-        }
-        else
-        {
-            anim.SetBool("isChange", false);
-        }
+        float dirX = (isMove ? lastDir.x : lastDir.x);   // 정지 시에도 마지막 방향 유지
+        anim.SetFloat("Direction", Mathf.Clamp(dirX, -1f, 1f));
 
         // 대시 입력
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && !isDashing)
         {
+            isDashing = true;          // 로직 잠금
+            canDash = false;
+            anim.SetTrigger("Dash");   // 애니메이션 점화
             StartCoroutine(Dash());
         }
     }
 
     private void FixedUpdate()
     {
-        if (isDashing) return; // 대시 중 일반 이동 막기
+        if (IsMovementLocked)
+        {
+            rigid.velocity = Vector2.zero;
+            return;
+        }
+
         rigid.velocity = move.normalized * Speed; // 대각선 속도 보정
     }
 
     private IEnumerator Dash()
     {
-        canDash = false;
-        isDashing = true;
-
-        string dashStateName = lastDir.x > 0 ? "Right_dash" : "Left_dash";
-        anim.CrossFade(dashStateName, 0f);
-
-        anim.SetFloat("dashX", lastDir.x);
-        anim.SetBool("isDashing", true);
-
-        // 대시 시작
         tr.emitting = true;
         rigid.velocity = lastDir * dashingPower;
 
         yield return new WaitForSeconds(dashingTime);
 
-        // 대시 종료
+        // 종료
         tr.emitting = false;
-        isDashing = false;
         rigid.velocity = Vector2.zero;
-
-        anim.SetBool("isDashing", false);
+        isDashing = false;
 
         // 쿨다운
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
+    }
+
+    public void SetAttacking(bool value)
+    {
+        if (isAttacking == value) return;
+        isAttacking = value;
+
+        // 이동 즉시 정지 & 애니메이터 플래그(선택)
+        if (value) rigid.velocity = Vector2.zero;
     }
 }
