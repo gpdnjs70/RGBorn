@@ -21,6 +21,8 @@ public class Player_Attack : MonoBehaviour
     [SerializeField] private Player_Movement movement;
     [SerializeField] private float attackLockTime = 0.35f;
 
+    [SerializeField] public float damage = 20f;
+
     // Update is called once per frame
     void Update()
     {
@@ -28,24 +30,39 @@ public class Player_Attack : MonoBehaviour
 
         if (curTime <= 0)
         {
+            // 평타
             if (Input.GetMouseButtonDown(0))
             {
-                Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(pos.position, boxSize, 0);
-                foreach (Collider2D collider in collider2Ds)
-                {
-                   if(collider.tag == "Enemy")
-                    {
-                        collider.GetComponent<Enemy_HP>().TakeDamage(1);
-                    }
-                }
-
-                StartCoroutine(Attack());
+                DoAttack(damage);
+            }
+            // 스킬 공격
+            else if (Input.GetMouseButtonDown(1))
+            {
+                DoAttack(damage);
             }
         }
         else
         {
             curTime -= Time.deltaTime;
         }        
+    }
+
+    void DoAttack(float damage)
+    {
+        Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(pos.position, boxSize, 0);
+        foreach (Collider2D collider in collider2Ds)
+        {
+            if (collider.tag == "Enemy")
+            {
+                Enemy_HP enemy_HP = collider.GetComponent<Enemy_HP>();
+                if(enemy_HP != null)
+                {
+                    enemy_HP.TakeDamage(damage);
+                }
+            }
+        }
+
+        StartCoroutine(Attack());
     }
 
     private IEnumerator Attack()

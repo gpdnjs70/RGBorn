@@ -12,6 +12,10 @@ public class Enemy : MonoBehaviour
     public float atkCoolTime = 4;
     public float atkDelay;
 
+    public Transform target;
+    public Enemy_HP hp;
+    public Entity targetHP;
+
     void Start()
     {
         animator = GetComponent<Animator>();
