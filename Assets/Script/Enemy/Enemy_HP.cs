@@ -5,21 +5,19 @@ using UnityEngine;
 public class Enemy_HP : Entity
 {
     private SpriteRenderer spriteRenderer;
+    private Animator animator;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
 
         base.Setup();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown("3"))
-        {
-            int damage = Random.Range(1, 100);
-            target.TakeDamage(damage);
-        }
+        
     }
 
     public override float MaxHP => 200;
@@ -29,7 +27,12 @@ public class Enemy_HP : Entity
     {
         HP -= damage;
 
-        StartCoroutine("HitAnimation");
+        if (animator != null)
+        {
+            animator.SetTrigger("Damaged");
+        }
+
+        // StartCoroutine("HitAnimation");
     }
 
     private IEnumerator HitAnimation()

@@ -28,6 +28,12 @@ public class FollowState : StateMachineBehaviour
         {
             animator.SetBool("isBack", false);
             animator.SetBool("isFollow", false);
+
+            // 쿨타임이 다 끝났으면 공격 애니메이션 트리거
+            if (enemy.atkDelay <= 0f)
+            {
+                animator.SetTrigger("Attack");
+            }
         }
         enemy.DirectionEnemy(enemy.player.position.x, enemyTransform.position.x);
     }

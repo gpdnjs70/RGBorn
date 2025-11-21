@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour
         if(atkDelay >= 0)
         {
             atkDelay -= Time.deltaTime;
+            if (atkDelay < 0) atkDelay = 0;
         }
     }
 

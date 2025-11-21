@@ -63,7 +63,10 @@ public class Player_Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (IsMovementLocked)
+        if (isDashing)
+            return;
+
+        if (isAttacking)
         {
             rigid.velocity = Vector2.zero;
             return;
