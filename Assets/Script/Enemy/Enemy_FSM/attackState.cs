@@ -9,6 +9,7 @@ public class attackState : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Debug.Log("attack");
         enemy = animator.GetComponent<Enemy>();
 
         if(enemy != null && enemy.targetHP != null)

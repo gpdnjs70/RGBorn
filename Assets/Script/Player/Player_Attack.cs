@@ -21,7 +21,7 @@ public class Player_Attack : MonoBehaviour
     [SerializeField] private Player_Movement movement;
     [SerializeField] private float attackLockTime = 0.35f;
 
-    [SerializeField] public float damage = 20f;
+    [SerializeField] public float damage = 2f;
 
     // Update is called once per frame
     void Update()
@@ -32,11 +32,6 @@ public class Player_Attack : MonoBehaviour
         {
             // 평타
             if (Input.GetMouseButtonDown(0))
-            {
-                DoAttack(damage);
-            }
-            // 스킬 공격
-            else if (Input.GetMouseButtonDown(1))
             {
                 DoAttack(damage);
             }

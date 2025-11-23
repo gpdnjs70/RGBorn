@@ -9,13 +9,14 @@ public class readyState : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Debug.Log("ready");
         enemy = animator.GetComponent<Enemy>();
         enemyTransform = animator.GetComponent<Transform>();
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(enemy.atkDelay <= 0)
+        if(Vector2.Distance(enemy.player.position, enemyTransform.position) <= 1f && enemy.atkDelay <= 0)
         {
             animator.SetTrigger("Attack");
         }

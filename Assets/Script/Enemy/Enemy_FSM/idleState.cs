@@ -7,6 +7,7 @@ public class idleState : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Debug.Log("idle");
         enemy = animator.GetComponent<Enemy>();
         enemyTransform = animator.GetComponent<Transform>();
     }

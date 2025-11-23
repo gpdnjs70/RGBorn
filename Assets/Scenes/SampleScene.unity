@@ -646,6 +646,7 @@ GameObject:
   - component: {fileID: 1390846107}
   - component: {fileID: 1390846108}
   - component: {fileID: 1390846109}
+  - component: {fileID: 1390846110}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -954,7 +955,7 @@ MonoBehaviour:
   boxSize: {x: 1.6, y: 3.2}
   movement: {fileID: 1390846105}
   attackLockTime: 0.35
-  damage: 20
+  damage: 2
 --- !u!114 &1390846108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -984,6 +985,19 @@ MonoBehaviour:
   pos: {fileID: 1419912879}
   cooltime: 0.3
   movement: {fileID: 1390846105}
+--- !u!114 &1390846110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390846099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4dffc0d25a86e14eb5f645fe2c4cfe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentWeapon: 0
 --- !u!1 &1398329689
 GameObject:
   m_ObjectHideFlags: 0

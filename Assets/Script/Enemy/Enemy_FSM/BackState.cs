@@ -9,6 +9,7 @@ public class BackState : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Debug.Log("back");
         enemy = animator.GetComponent<Enemy>();
         enemyTransform = animator.GetComponent<Transform>();
     }

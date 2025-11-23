@@ -11,10 +11,20 @@ public class Player_RangedAttack : MonoBehaviour
     private float curtime;
 
     [SerializeField] private Player_Movement movement;
+    [SerializeField] private Player_WeaponController weaponController;
+    [SerializeField] private Animator animator;
 
     void Start()
     {
         
+    }
+
+    void Awake()
+    {
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
     }
 
     void Update()
@@ -26,6 +36,11 @@ public class Player_RangedAttack : MonoBehaviour
 
         if (curtime <= 0f && Input.GetKeyDown(KeyCode.R))
         {
+            if (animator != null)
+            {
+                animator.SetTrigger("Skill");
+            }
+
             GameObject b = Instantiate(bullet, pos.position, Quaternion.identity);
 
             Bullet bulletScript = b.GetComponent<Bullet>();

@@ -10,6 +10,8 @@ public class Bullet : MonoBehaviour
     public float distance;
     public LayerMask isLayer;
 
+    [SerializeField] public float damage = 20f;
+
     void Start()
     {
         Invoke("DestroyBullet", 2);
@@ -23,6 +25,12 @@ public class Bullet : MonoBehaviour
             if(ray.collider.tag == "Enemy")
             {
                 Debug.Log("ИэСп");
+
+                Enemy_HP enemy_HP = ray.collider.GetComponent<Enemy_HP>();
+                if (enemy_HP != null)
+                {
+                    enemy_HP.TakeDamage(damage);
+                }
             }
 
             DestroyBullet();
