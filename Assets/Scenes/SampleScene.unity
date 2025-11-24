@@ -1725,8 +1725,8 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 106304143
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Time: 0.25
   m_PreviewTimeScale: 1
@@ -6269,10 +6269,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 1468606901}
   - {fileID: 1390846104}
   - {fileID: 1769130633}
   - {fileID: 1619385205}
   - {fileID: 741407047}
   - {fileID: 2082103949}
   - {fileID: 1453646676}
-  - {fileID: 1468606901}
