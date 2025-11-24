@@ -24,6 +24,10 @@ public class Player_Attack : MonoBehaviour
 
     [SerializeField] public float damage = 2f;
 
+    [SerializeField] private Player_WeaponController weaponController;
+    [SerializeField] private GameObject bowBulletPrefab;
+    [SerializeField] private Transform bowBulletPos;
+
     // Update is called once per frame
     void Update()
     {
@@ -63,7 +67,27 @@ public class Player_Attack : MonoBehaviour
             }
         }
 
+        if (weaponController != null &&
+            weaponController.currentWeapon == WeaponType.Bow)
+        {
+            SpawnBowBullet();
+        }
+
         StartCoroutine(Attack());
+    }
+
+    private void SpawnBowBullet()
+    {
+        if (bowBulletPrefab == null || bowBulletPos == null)
+            return;
+
+        GameObject b = Instantiate(bowBulletPrefab, bowBulletPos.position, Quaternion.identity);
+
+        Bullet bulletScript = b.GetComponent<Bullet>();
+        if (bulletScript != null && movement != null)
+        {
+            bulletScript.SetDirection(movement.lastDir);
+        }
     }
 
     private IEnumerator Attack()

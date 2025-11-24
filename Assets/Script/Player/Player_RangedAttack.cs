@@ -30,27 +30,32 @@ public class Player_RangedAttack : MonoBehaviour
         // R키 입력
         if (Input.GetKeyDown(KeyCode.R))
         {
-            // 쿨타임 체크
-            if (rangedSkillCooldown != null && !rangedSkillCooldown.TryUseSkill())
-            {
-                // 쿨타임 중이면 그냥 리턴
-                return;
-            }
+            TryRangedAttack();
+        }
+    }
 
-            // 여기까지 왔다는 건 스킬 사용 가능하다는 뜻
-            if (animator != null)
-            {
-                animator.SetTrigger("Skill");
-            }
+    public void TryRangedAttack()
+    {
+        // 쿨타임 체크
+        if (rangedSkillCooldown != null && !rangedSkillCooldown.TryUseSkill())
+        {
+            // 쿨타임 중이면 그냥 리턴
+            return;
+        }
 
-            GameObject b = Instantiate(bullet, pos.position, Quaternion.identity);
+        // 여기까지 왔다는 건 스킬 사용 가능하다는 뜻
+        if (animator != null)
+        {
+            animator.SetTrigger("Skill");
+        }
 
-            Bullet bulletScript = b.GetComponent<Bullet>();
+        GameObject b = Instantiate(bullet, pos.position, Quaternion.identity);
 
-            if (bulletScript != null && movement != null)
-            {
-                bulletScript.SetDirection(movement.lastDir);
-            }
+        Bullet bulletScript = b.GetComponent<Bullet>();
+
+        if (bulletScript != null && movement != null)
+        {
+            bulletScript.SetDirection(movement.lastDir);
         }
     }
 }

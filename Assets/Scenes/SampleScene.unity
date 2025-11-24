@@ -1808,6 +1808,9 @@ MonoBehaviour:
   movement: {fileID: 1390846105}
   attackLockTime: 0.35
   damage: 2
+  weaponController: {fileID: 1390846110}
+  bowBulletPrefab: {fileID: 6001305068737318086, guid: 1005cb485179ca840976679330d9bee4, type: 3}
+  bowBulletPos: {fileID: 1419912879}
 --- !u!114 &1390846108
 MonoBehaviour:
   m_ObjectHideFlags: 0
