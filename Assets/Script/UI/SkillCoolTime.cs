@@ -8,12 +8,13 @@ public class SkillCoolTime : MonoBehaviour
 {
     [SerializeField] private string skillName;
     [SerializeField] private float maxCooldownTime;
-    [SerializeField] private TextMeshProUGUI textSkillData;
     [SerializeField] private TextMeshProUGUI textCooldownTime;
     [SerializeField] private Image imageCooldownTime;
 
     private float currentCooldownTime;
     private bool isCooldown;
+
+    public bool IsCooldown => isCooldown;
 
     private void Awake()
     {
@@ -22,16 +23,27 @@ public class SkillCoolTime : MonoBehaviour
 
     public void UseSkill()
     {
-        // 이미 스킬을 사용해서 재사용 대기 시간이 남아있으면 종료
+        TryUseSkill();
+    }
+
+    // True면 스킬 사용 성공, False면 쿨타임
+    public bool TryUseSkill()
+    {
         if (isCooldown)
         {
-            textSkillData.text = $"[{skillName}] Cooldown Time : {currentCooldownTime:f1}";
-            return;
+            Debug.Log($"[{skillName}] Cooldown Time : {currentCooldownTime:f1}");
+            return false;
         }
 
-        textSkillData.text = $"Use Skill : {skillName}";
+        Debug.Log($"Use Skill : {skillName}");
+        StartCooldown();
+        return true;
+    }
 
-        StartCoroutine(nameof(OnCooldownTime), maxCooldownTime);
+    private void StartCooldown()
+    {
+        StopAllCoroutines();
+        StartCoroutine(OnCooldownTime(maxCooldownTime));
     }
 
     private IEnumerator OnCooldownTime(float maxCooldownTime)

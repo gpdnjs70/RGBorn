@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Player_Attack : MonoBehaviour
 {
@@ -26,6 +27,11 @@ public class Player_Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         UpdateAttackBoxPosition();
 
         if (curTime <= 0)

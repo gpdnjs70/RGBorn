@@ -8,8 +8,8 @@ public class Player_Movement : MonoBehaviour
     [Header("Dash")]
     [SerializeField] private float dashingPower = 24f;
     [SerializeField] private float dashingTime = 0.2f;
-    [SerializeField] private float dashingCooldown = 1f;
     [SerializeField] private TrailRenderer tr;
+    [SerializeField] private SkillCoolTime dashCooldownUI;
 
     private Rigidbody2D rigid;
     private Animator anim;
@@ -19,9 +19,7 @@ public class Player_Movement : MonoBehaviour
     private Vector2 move;              // 현재 프레임 이동 입력 (정규화)
     public Vector2 lastDir = Vector2.left; // 마지막 비영(0) 방향(대시 방향)
 
-    private bool canDash = true;
     private bool isDashing;
-
     private bool isAttacking = false;
     public bool IsMovementLocked => isDashing || isAttacking;
 
@@ -52,10 +50,16 @@ public class Player_Movement : MonoBehaviour
         anim.SetFloat("Direction", Mathf.Clamp(dirX, -1f, 1f));
 
         // 대시 입력
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && !isDashing)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing)
         {
+            if (dashCooldownUI != null && !dashCooldownUI.TryUseSkill())
+            {
+                // 쿨타임 중이면 대시 안 됨
+                return;
+            }
+
+            // 여기까지 왔으면 대시 가능
             isDashing = true;          // 로직 잠금
-            canDash = false;
             anim.SetTrigger("Dash");   // 애니메이션 점화
             StartCoroutine(Dash());
         }
@@ -86,10 +90,6 @@ public class Player_Movement : MonoBehaviour
         tr.emitting = false;
         rigid.velocity = Vector2.zero;
         isDashing = false;
-
-        // 쿨다운
-        yield return new WaitForSeconds(dashingCooldown);
-        canDash = true;
     }
 
     public void SetAttacking(bool value)

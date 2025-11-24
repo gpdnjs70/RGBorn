@@ -7,12 +7,10 @@ public class Player_RangedAttack : MonoBehaviour
     public GameObject bullet;
     public Transform pos;
 
-    public float cooltime;
-    private float curtime;
-
     [SerializeField] private Player_Movement movement;
     [SerializeField] private Player_WeaponController weaponController;
     [SerializeField] private Animator animator;
+    [SerializeField] private SkillCoolTime rangedSkillCooldown;
 
     void Start()
     {
@@ -29,13 +27,17 @@ public class Player_RangedAttack : MonoBehaviour
 
     void Update()
     {
-        if (curtime > 0)
+        // R키 입력
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            curtime -= Time.deltaTime;
-        }
+            // 쿨타임 체크
+            if (rangedSkillCooldown != null && !rangedSkillCooldown.TryUseSkill())
+            {
+                // 쿨타임 중이면 그냥 리턴
+                return;
+            }
 
-        if (curtime <= 0f && Input.GetKeyDown(KeyCode.R))
-        {
+            // 여기까지 왔다는 건 스킬 사용 가능하다는 뜻
             if (animator != null)
             {
                 animator.SetTrigger("Skill");
@@ -49,8 +51,6 @@ public class Player_RangedAttack : MonoBehaviour
             {
                 bulletScript.SetDirection(movement.lastDir);
             }
-
-            curtime = cooltime;
         }
     }
 }
