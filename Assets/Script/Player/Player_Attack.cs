@@ -67,13 +67,16 @@ public class Player_Attack : MonoBehaviour
             }
         }
 
+        StartCoroutine(Attack());
+    }
+
+    public void OnBowShoot()
+    {
         if (weaponController != null &&
             weaponController.currentWeapon == WeaponType.Bow)
         {
             SpawnBowBullet();
         }
-
-        StartCoroutine(Attack());
     }
 
     private void SpawnBowBullet()
@@ -112,13 +115,25 @@ public class Player_Attack : MonoBehaviour
 
     private void UpdateAttackBoxPosition()
     {
-        if (movement == null || pos == null) return;
+        if (movement == null) return;
 
         Vector2 dir = movement.lastDir;
         float sign = dir.x >= 0 ? 1f : -1f;
 
-        Vector3 local = pos.localPosition;
-        local.x = Mathf.Abs(local.x) * sign;
-        pos.localPosition = local;
+        // 근접 공격 박스 위치
+        if (pos != null)
+        {
+            Vector3 local = pos.localPosition;
+            local.x = Mathf.Abs(local.x) * sign;
+            pos.localPosition = local;
+        }
+
+        // 활 화살 발사 위치도 좌우 반전
+        if (bowBulletPos != null)
+        {
+            Vector3 bLocal = bowBulletPos.localPosition;
+            bLocal.x = Mathf.Abs(bLocal.x) * sign;
+            bowBulletPos.localPosition = bLocal;
+        }
     }
 }

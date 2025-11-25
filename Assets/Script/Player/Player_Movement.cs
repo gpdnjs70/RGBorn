@@ -59,8 +59,8 @@ public class Player_Movement : MonoBehaviour
             }
 
             // 여기까지 왔으면 대시 가능
-            isDashing = true;          // 로직 잠금
             anim.SetTrigger("Dash");   // 애니메이션 점화
+            isDashing = true;          // 로직 잠금
             StartCoroutine(Dash());
         }
     }
