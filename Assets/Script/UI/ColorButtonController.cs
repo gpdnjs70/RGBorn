@@ -3,16 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum ColorMode
-{
-    Red,
-    Green,
-    Blue,
-    Purple,
-    Yellow,
-    Cyan
-}
-
 public class ColorButtonController : MonoBehaviour
 {
     [SerializeField] private Button rButton;
@@ -30,10 +20,12 @@ public class ColorButtonController : MonoBehaviour
     [SerializeField] private Sprite pSprite;
     [SerializeField] private Sprite cSprite;
 
-    public ColorMode currentMode { get; private set; } = ColorMode.Red;
+    public ColorMode currentMode { get; private set; } = ColorMode.None;
     // 기준색
-    private ColorMode baseColor = ColorMode.Red;
+    private ColorMode baseColor = ColorMode.None;
     private bool hasBaseColor = false;
+
+    public System.Action<ColorMode> OnColorChanged;
 
     private void Awake()
     {
@@ -45,16 +37,17 @@ public class ColorButtonController : MonoBehaviour
         ResetColorSelection();
     }
 
+    // 버튼 리셋
     public void ResetColorSelection()
     {
         hasBaseColor = false;
+        baseColor = ColorMode.None;
+        currentMode = ColorMode.None;
+        OnColorChanged?.Invoke(currentMode);
 
-        // 버튼 아이콘을 순수 RGB로 되돌리기
         if (rIcon != null) rIcon.sprite = rSprite;
         if (gIcon != null) gIcon.sprite = gSprite;
         if (bIcon != null) bIcon.sprite = bSprite;
-
-        Debug.Log("Color selection reset (no base color)");
     }
 
     private void OnClickR()
@@ -64,10 +57,10 @@ public class ColorButtonController : MonoBehaviour
         {
             baseColor = ColorMode.Red;
             currentMode = ColorMode.Red;
+            OnColorChanged?.Invoke(currentMode);
             ApplyBaseColorR();
             hasBaseColor = true;
 
-            Debug.Log("첫 기준색: Red");
             return;
         }
 
@@ -75,7 +68,6 @@ public class ColorButtonController : MonoBehaviour
         if (baseColor == ColorMode.Red)
         {
             ResetColorSelection();
-            Debug.Log("BaseColor = Red 상태에서 R 재클릭 → Reset");
             return;
         }
 
@@ -83,12 +75,12 @@ public class ColorButtonController : MonoBehaviour
         if (baseColor == ColorMode.Green)
         {
             currentMode = ColorMode.Yellow;
-            Debug.Log($"BaseColor = Green, Red 버튼 → currentMode = Yellow");
+            OnColorChanged?.Invoke(currentMode);
         }
         else if (baseColor == ColorMode.Blue)
         {
             currentMode = ColorMode.Purple;
-            Debug.Log($"BaseColor = Blue, Red 버튼 → currentMode = Purple");
+            OnColorChanged?.Invoke(currentMode);
         }
     }
 
@@ -99,10 +91,10 @@ public class ColorButtonController : MonoBehaviour
         {
             baseColor = ColorMode.Green;
             currentMode = ColorMode.Green;
+            OnColorChanged?.Invoke(currentMode);
             ApplyBaseColorG();
             hasBaseColor = true;
 
-            Debug.Log("첫 기준색: Green");
             return;
         }
 
@@ -110,7 +102,6 @@ public class ColorButtonController : MonoBehaviour
         if (baseColor == ColorMode.Green)
         {
             ResetColorSelection();
-            Debug.Log("BaseColor = Green 상태에서 G 재클릭 → Reset");
             return;
         }
 
@@ -118,12 +109,12 @@ public class ColorButtonController : MonoBehaviour
         if (baseColor == ColorMode.Red)
         {
             currentMode = ColorMode.Yellow;
-            Debug.Log($"BaseColor = Red, Green 버튼 → currentMode = Yellow");
+            OnColorChanged?.Invoke(currentMode);
         }
         else if (baseColor == ColorMode.Blue)
         {
             currentMode = ColorMode.Cyan;
-            Debug.Log($"BaseColor = Blue, Green 버튼 → currentMode = Cyan");
+            OnColorChanged?.Invoke(currentMode);
         }
     }
 
@@ -134,10 +125,10 @@ public class ColorButtonController : MonoBehaviour
         {
             baseColor = ColorMode.Blue;
             currentMode = ColorMode.Blue;
+            OnColorChanged?.Invoke(currentMode);
             ApplyBaseColorB();
             hasBaseColor = true;
 
-            Debug.Log("첫 기준색: Blue");
             return;
         }
 
@@ -145,7 +136,6 @@ public class ColorButtonController : MonoBehaviour
         if (baseColor == ColorMode.Blue)
         {
             ResetColorSelection();
-            Debug.Log("BaseColor = Blue 상태에서 B 재클릭 → Reset");
             return;
         }
 
@@ -153,12 +143,12 @@ public class ColorButtonController : MonoBehaviour
         if (baseColor == ColorMode.Red)
         {
             currentMode = ColorMode.Purple;
-            Debug.Log($"BaseColor = Red, Blue 버튼 → currentMode = Purple");
+            OnColorChanged?.Invoke(currentMode);
         }
         else if (baseColor == ColorMode.Green)
         {
             currentMode = ColorMode.Cyan;
-            Debug.Log($"BaseColor = Green, Blue 버튼 → currentMode = Cyan");
+            OnColorChanged?.Invoke(currentMode);
         }
     }
 

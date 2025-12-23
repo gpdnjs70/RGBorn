@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Bullet : MonoBehaviour
 {
@@ -10,11 +11,18 @@ public class Bullet : MonoBehaviour
     public float distance;
     public LayerMask isLayer;
 
-    [SerializeField] public float damage = 20f;
+    public float damage = 20f;
+    
+    private ColorButtonController colorController;
 
     void Start()
     {
         Invoke("DestroyBullet", 2);
+    }
+
+    private void Awake()
+    {
+        colorController = FindFirstObjectByType<ColorButtonController>();
     }
 
     void Update()
@@ -29,6 +37,11 @@ public class Bullet : MonoBehaviour
                 Enemy_HP enemy_HP = ray.collider.GetComponent<Enemy_HP>();
                 if (enemy_HP != null)
                 {
+                    if (colorController != null)
+                    {
+                        Debug.Log($"현재 색상은 {colorController.currentMode}");
+                    }
+
                     enemy_HP.TakeDamage(damage);
                 }
             }

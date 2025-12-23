@@ -22,7 +22,7 @@ public class Player_Attack : MonoBehaviour
     [SerializeField] private Player_Movement movement;
     [SerializeField] private float attackLockTime = 0.35f;
 
-    [SerializeField] public float damage = 2f;
+    public float damage = 2f;
 
     [SerializeField] private Player_WeaponController weaponController;
     [SerializeField] private GameObject bowBulletPrefab;

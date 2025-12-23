@@ -1499,6 +1499,7 @@ GameObject:
   - component: {fileID: 1390846108}
   - component: {fileID: 1390846109}
   - component: {fileID: 1390846110}
+  - component: {fileID: 1390846111}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -1856,6 +1857,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentWeapon: 0
   animator: {fileID: 0}
+--- !u!114 &1390846111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390846099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1294fe1bcf5eb0144be08a1cabadebcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorUI: {fileID: 1453646675}
 --- !u!1 &1398329689
 GameObject:
   m_ObjectHideFlags: 0
@@ -2575,6 +2589,7 @@ GameObject:
   - component: {fileID: 1769130630}
   - component: {fileID: 1769130634}
   - component: {fileID: 1769130635}
+  - component: {fileID: 1769130637}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -2775,6 +2790,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.6}
   m_EdgeRadius: 0
+--- !u!114 &1769130637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769130629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13f6bf7bf8f51d44aa43b34f47620a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorMode: 1
+  resistanceBonus: 1
 --- !u!1 &1798469176
 GameObject:
   m_ObjectHideFlags: 0
