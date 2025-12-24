@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5c0d9c00adf14f99eb3da9b5bc4ba, type: 3}
+  m_Name: Green
+  m_EditorClassIdentifier: 
+  colorMode: 2
+  attackBonusPercent: 0.3
+  attackMinusPercent: 0.3
+  damageReductionRate: 0.3
+  strongAgainst: 03000000
+  weakAgainst: 01000000
+  debuffType: 3
+  debuffChance: 0
+  debuffDuration: 0

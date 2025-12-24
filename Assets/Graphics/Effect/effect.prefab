@@ -103,3 +103,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   damage: 20
+  attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
+  playerAttribute: {fileID: 0}
+  enemyAttribute: {fileID: 0}

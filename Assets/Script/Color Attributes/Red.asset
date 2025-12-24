@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Red
   m_EditorClassIdentifier: 
   colorMode: 1
-  attackBonusPercent: 0
-  receiveDamageMultiplier: 0
+  attackBonusPercent: 0.3
+  attackMinusPercent: 0.3
+  damageReductionRate: 0.3
+  strongAgainst: 02000000
+  weakAgainst: 03000000
   debuffType: 1
   debuffChance: 0
   debuffDuration: 0

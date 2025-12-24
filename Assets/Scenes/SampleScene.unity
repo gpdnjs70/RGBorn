@@ -815,12 +815,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.4, y: 0, z: -10}
   m_LocalScale: {x: 3.3877401, y: 3.3877401, z: 3.3877401}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1390846104}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &566200983 stripped
 RectTransform:
@@ -1665,6 +1665,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 519420032}
   - {fileID: 697714593}
   - {fileID: 1419912879}
   m_Father: {fileID: 0}
@@ -1812,6 +1813,9 @@ MonoBehaviour:
   weaponController: {fileID: 1390846110}
   bowBulletPrefab: {fileID: 6001305068737318086, guid: 13bea06e57ddedf4fa7a8d5fe06b61ea, type: 3}
   bowBulletPos: {fileID: 1419912879}
+  attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
+  playerAttribute: {fileID: 1390846111}
+  enemyAttribute: {fileID: 1769130637}
 --- !u!114 &1390846108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2745,6 +2749,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1390846108}
+  attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
+  playerAttribute: {fileID: 1390846111}
+  enemyAttribute: {fileID: 1769130637}
 --- !u!61 &1769130636
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2802,7 +2809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f6bf7bf8f51d44aa43b34f47620a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorMode: 1
+  colorMode: 3
   resistanceBonus: 1
 --- !u!1 &1798469176
 GameObject:
@@ -6297,7 +6304,6 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 519420032}
   - {fileID: 1468606901}
   - {fileID: 1390846104}
   - {fileID: 1769130633}

@@ -28,6 +28,15 @@ public class Player_Attack : MonoBehaviour
     [SerializeField] private GameObject bowBulletPrefab;
     [SerializeField] private Transform bowBulletPos;
 
+    [SerializeField] private AttributeDatabase attributeDB;
+    [SerializeField] private PlayerAttribute playerAttribute;
+    [SerializeField] private EnemyAttribute enemyAttribute;
+
+    bool IsAdvantage(ColorAttributeData attacker, ColorAttributeData defender)
+    {
+        return attacker.strongAgainst.Contains(defender.colorMode);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -60,9 +69,23 @@ public class Player_Attack : MonoBehaviour
             if (collider.tag == "Enemy")
             {
                 Enemy_HP enemy_HP = collider.GetComponent<Enemy_HP>();
-                if(enemy_HP != null)
+                ColorAttributeData atkAttr = attributeDB.Get(playerAttribute.currentMode);
+                ColorAttributeData defAttr = attributeDB.Get(enemyAttribute.colorMode);
+
+                if (atkAttr.strongAgainst.Contains(defAttr.colorMode))
+                {
+                    damage *= (1f + atkAttr.attackBonusPercent);
+                }
+
+                if (atkAttr.weakAgainst.Contains(defAttr.colorMode))
+                {
+                    damage *= (1f - atkAttr.attackMinusPercent);
+                }
+
+                if (enemy_HP != null)
                 {
                     enemy_HP.TakeDamage(damage);
+                    Debug.Log($"데미지는 {damage}");
                 }
             }
         }
@@ -90,6 +113,7 @@ public class Player_Attack : MonoBehaviour
         if (bulletScript != null && movement != null)
         {
             bulletScript.SetDirection(movement.lastDir);
+            bulletScript.Init(playerAttribute);
         }
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,9 +16,17 @@ public class Bullet : MonoBehaviour
     
     private ColorButtonController colorController;
 
+    [SerializeField] private AttributeDatabase attributeDB;
+    private PlayerAttribute playerAttribute;
+
     void Start()
     {
         Invoke("DestroyBullet", 2);
+    }
+
+    public void Init(PlayerAttribute playerAttr)
+    {
+        playerAttribute = playerAttr;
     }
 
     private void Awake()
@@ -32,17 +41,48 @@ public class Bullet : MonoBehaviour
         {
             if(ray.collider.tag == "Enemy")
             {
-                Debug.Log("명중");
-
                 Enemy_HP enemy_HP = ray.collider.GetComponent<Enemy_HP>();
+                EnemyAttribute enemyAttr = ray.collider.GetComponent<EnemyAttribute>();
+                ColorAttributeData defAttr = attributeDB.Get(enemyAttr.colorMode);
+
+                ColorAttributeData atkAttr = attributeDB.Get(playerAttribute.currentMode);
+
+                float finalDamage = damage;
+
+                int matchCount = 0;
+                float bonusSum = 0f;
+                if (atkAttr.strongAgainst.Contains(defAttr.colorMode))
+                {
+                    bonusSum += atkAttr.attackBonusPercent;
+                    matchCount++;
+                }
+                if (matchCount > 0)
+                {
+                    float avgBonus = bonusSum / matchCount; // 결국 attackBonusPercent
+                    finalDamage *= (1f + avgBonus);
+
+                    Debug.Log($"평균 보너스 +{avgBonus * 100f}% → {finalDamage}");
+                }
+
+                int weakCount = 0;
+                float penaltySum = 0f;
+                if (atkAttr.weakAgainst.Contains(defAttr.colorMode))
+                {
+                    penaltySum += atkAttr.attackMinusPercent;
+                    weakCount++;
+                }
+                if (weakCount > 0)
+                {
+                    float avgPenalty = penaltySum / weakCount;
+                    finalDamage *= (1f - avgPenalty);
+
+                    Debug.Log($"평균 마이너스 +{avgPenalty * 100f}% → {finalDamage}");
+                }
+
                 if (enemy_HP != null)
                 {
-                    if (colorController != null)
-                    {
-                        Debug.Log($"현재 색상은 {colorController.currentMode}");
-                    }
-
-                    enemy_HP.TakeDamage(damage);
+                    enemy_HP.TakeDamage(finalDamage);
+                    Debug.Log($"데미지는 {finalDamage}");
                 }
             }
 

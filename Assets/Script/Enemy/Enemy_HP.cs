@@ -7,6 +7,10 @@ public class Enemy_HP : Entity
     private SpriteRenderer spriteRenderer;
     private Animator animator;
 
+    [SerializeField] private AttributeDatabase attributeDB;
+    [SerializeField] private PlayerAttribute playerAttribute;
+    [SerializeField] private EnemyAttribute enemyAttribute;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -25,7 +29,23 @@ public class Enemy_HP : Entity
 
     public override void TakeDamage(float damage)
     {
-        HP -= damage;
+        ColorAttributeData atkAttr = attributeDB.Get(playerAttribute.currentMode);
+        ColorAttributeData defAttr = attributeDB.Get(enemyAttribute.colorMode);
+
+        float finalDamage = damage;
+        /**if (defAttr.strongAgainst.Contains(atkAttr.colorMode))
+        {
+            finalDamage *= (1f - defAttr.damageReductionRate);
+            Debug.Log($"데미지 감소 {finalDamage}");
+        }
+
+        if (defAttr.weakAgainst.Contains(atkAttr.colorMode))
+        {
+            finalDamage *= (1f + defAttr.damageReductionRate);
+            Debug.Log($"데미지 증가 {finalDamage}");
+        }**/
+
+        HP -= finalDamage;
 
         if (animator != null)
         {

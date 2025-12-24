@@ -18,10 +18,16 @@ public class ColorAttributeData : ScriptableObject
 {
     public ColorMode colorMode;
 
-    // 공격 시 추가 데미지 비율
+    // 공격 시 추가 대미지 비율
     public float attackBonusPercent;
-    // 피격 시 적용되는 데미지 배율
-    public float receiveDamageMultiplier;
+    // 공격 시 감소 대미지 배율
+    public float attackMinusPercent;
+
+    // 피격 시 감소 대미지 비율
+    public float damageReductionRate;
+
+    public List<ColorMode> strongAgainst;
+    public List<ColorMode> weakAgainst;
 
     // 디버프
     public DebuffType debuffType;
