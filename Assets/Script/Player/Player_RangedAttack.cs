@@ -12,6 +12,8 @@ public class Player_RangedAttack : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private SkillCoolTime rangedSkillCooldown;
 
+    [SerializeField] private PlayerAttribute playerAttribute;
+
     void Start()
     {
         
@@ -50,6 +52,7 @@ public class Player_RangedAttack : MonoBehaviour
             if (bulletScript != null && movement != null)
             {
                 bulletScript.SetDirection(movement.lastDir);
+                bulletScript.Init(playerAttribute);
             }
         }
     }
