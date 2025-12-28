@@ -104,7 +104,12 @@ public class Enemy_HP : Entity
         // 이동/공격 중단
         Enemy enemy = GetComponent<Enemy>();
         if (enemy != null)
+        {
             enemy.enabled = false;
+        }
+
+        if (EnemyManager.Instance != null && enemy != null)
+            EnemyManager.Instance.OnEnemyDied(enemy);
 
         // 죽는 애니메이션
         if (animator != null)

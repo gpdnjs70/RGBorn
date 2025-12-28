@@ -12,7 +12,7 @@ public class EliteAttackState : StateMachineBehaviour
         Debug.Log("attack");
         enemy = animator.GetComponent<Enemy>();
 
-        int randomIndex = Random.Range(0, attackCount);
+        int randomIndex = 2;
 
         animator.SetInteger("AttackIndex", randomIndex);
         Debug.Log($"Attack Index Selected: {randomIndex}");

@@ -15,7 +15,7 @@ MonoBehaviour:
   colorMode: 3
   attackBonusPercent: 0.3
   attackMinusPercent: 0.3
-  damageReductionRate: 0.3
+  damageReductionRate: 0.9
   strongAgainst: 01000000
   weakAgainst: 02000000
   debuffType: 2

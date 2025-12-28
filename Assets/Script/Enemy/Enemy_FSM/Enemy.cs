@@ -28,8 +28,12 @@ public class Enemy : MonoBehaviour
     private Coroutine attackTypeRoutine;
     private Coroutine burnRoutine;
 
+    public float powerBonusRate = 0.1f;
+    public float attackBonusRate { get; private set; } = 0f;
+
     void Start()
     {
+        EnemyManager.Instance.Register(this);
         animator = GetComponent<Animator>();
         GameObject p = GameObject.FindWithTag("Player");
         if (p != null) player = p.transform;
@@ -111,5 +115,17 @@ public class Enemy : MonoBehaviour
         }
 
         burnRoutine = null;
+    }
+
+    public void AddAttackBonus(float rate)
+    {
+        attackBonusRate += rate;
+        Debug.Log($"{name} 공격 배율 증가 → {attackBonusRate * 100f}%");
+    }
+
+    private void OnDestroy()
+    {
+        if (EnemyManager.Instance != null)
+            EnemyManager.Instance.Unregister(this);
     }
 }

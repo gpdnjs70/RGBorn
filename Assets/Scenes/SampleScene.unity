@@ -1688,6 +1688,7 @@ MonoBehaviour:
   tr: {fileID: 1390846106}
   dashCooldownUI: {fileID: 234472147}
   lastDir: {x: -1, y: 0}
+  isKnockBack: 0
 --- !u!96 &1390846106
 TrailRenderer:
   serializedVersion: 3
@@ -2753,6 +2754,7 @@ MonoBehaviour:
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
   playerAttribute: {fileID: 1390846111}
   enemyAttribute: {fileID: 1769130637}
+  hpUI: {fileID: 1299542208}
 --- !u!61 &1769130636
 BoxCollider2D:
   m_ObjectHideFlags: 0

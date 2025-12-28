@@ -5,6 +5,7 @@ using UnityEngine;
 public class EliteAttackEvent : MonoBehaviour
 {
     private Enemy enemy;
+    [SerializeField] private GameObject skillEffectPrefab;
 
     private void Awake()
     {
@@ -17,7 +18,7 @@ public class EliteAttackEvent : MonoBehaviour
 
         enemy.SetAttackType(EnemyAttackType.Normal);
 
-        int damage = 10;
+        float damage = 10 * (1f + enemy.attackBonusRate);
         enemy.targetHP.TakeDamage(damage);
     }
 
@@ -27,7 +28,7 @@ public class EliteAttackEvent : MonoBehaviour
 
         enemy.SetAttackType(EnemyAttackType.Skill1, 3f);
 
-        int damage = 20;
+        float damage = 20 * (1f + enemy.attackBonusRate);
         enemy.targetHP.TakeDamage(damage);
 
         KnockBack knockBack =
@@ -41,14 +42,15 @@ public class EliteAttackEvent : MonoBehaviour
 
     public void Skill2()
     {
-        // 이미 실행 중이면 무시
-        if (enemy.currentAttackType == EnemyAttackType.Skill2)
-            return;
+        // punishment Effect
+        Vector3 pos = enemy.player.transform.position;
+        pos += Vector3.up * 0.5f;
+        Instantiate(skillEffectPrefab, pos, Quaternion.identity);
 
         enemy.SetAttackType(EnemyAttackType.Skill2);
         enemy.StartBurn(10f, 2f);
 
-        if (enemy != null || enemy.targetHP != null)
+        if (enemy != null && enemy.targetHP != null)
         {
             float currentHp = enemy.targetHP.HP;
             float damage = currentHp * 0.05f;
