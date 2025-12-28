@@ -60,8 +60,6 @@ public class Bullet : MonoBehaviour
                 {
                     float avgBonus = bonusSum / matchCount; // 결국 attackBonusPercent
                     finalDamage *= (1f + avgBonus);
-
-                    Debug.Log($"평균 보너스 +{avgBonus * 100f}% → {finalDamage}");
                 }
 
                 int weakCount = 0;
@@ -75,14 +73,11 @@ public class Bullet : MonoBehaviour
                 {
                     float avgPenalty = penaltySum / weakCount;
                     finalDamage *= (1f - avgPenalty);
-
-                    Debug.Log($"평균 마이너스 +{avgPenalty * 100f}% → {finalDamage}");
                 }
 
                 if (enemy_HP != null)
                 {
                     enemy_HP.TakeDamage(finalDamage);
-                    Debug.Log($"데미지는 {finalDamage}");
                 }
             }
 

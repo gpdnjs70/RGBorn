@@ -1,6 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+public enum EnemyAttackType
+{
+    Normal,
+    Skill1,
+    Skill2
+}
 
 public class Enemy : MonoBehaviour
 {
@@ -15,6 +23,10 @@ public class Enemy : MonoBehaviour
     public Transform target;
     public Enemy_HP hp;
     public Entity targetHP;
+
+    public EnemyAttackType currentAttackType { get; private set; }
+    private Coroutine attackTypeRoutine;
+    private Coroutine burnRoutine;
 
     void Start()
     {
@@ -43,5 +55,61 @@ public class Enemy : MonoBehaviour
         {
             animator.SetFloat("Direction", 1);
         }
+    }
+
+    public void SetAttackType(EnemyAttackType type, float duration = 0f)
+    {
+        // 이전 타이머가 있으면 중단
+        if (attackTypeRoutine != null)
+        {
+            StopCoroutine(attackTypeRoutine);
+            attackTypeRoutine = null;
+        }
+
+        currentAttackType = type;
+
+        // duration > 0 이면 자동 리셋 예약
+        if (duration > 0f)
+        {
+            attackTypeRoutine = StartCoroutine(ResetAttackTypeAfter(duration));
+        }
+    }
+
+    private IEnumerator ResetAttackTypeAfter(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ResetAttackType();
+    }
+
+    public void ResetAttackType()
+    {
+        Debug.Log("type 리셋");
+        currentAttackType = EnemyAttackType.Normal;
+        attackTypeRoutine = null;
+    }
+
+    public void StartBurn(float totalDuration, float tickInterval)
+    {
+        if (burnRoutine != null)
+            StopCoroutine(burnRoutine);
+
+        burnRoutine = StartCoroutine(BurnCoroutine(totalDuration, tickInterval));
+    }
+
+    private IEnumerator BurnCoroutine(float totalDuration, float tickInterval)
+    {
+        int ticks = Mathf.FloorToInt(totalDuration / tickInterval);
+
+        for (int i = 0; i < ticks; i++)
+        {
+            Debug.Log($"Burn tick {i + 1}");
+
+            if (targetHP != null)
+                targetHP.Burn(5f);
+
+            yield return new WaitForSeconds(tickInterval);
+        }
+
+        burnRoutine = null;
     }
 }

@@ -42,4 +42,9 @@ public class Player_HP : Entity
         color.a = 1;
         spriteRenderer.color = color;
     }
+
+    public override void Burn(float damage)
+    {
+        HP -= damage;
+    }
 }

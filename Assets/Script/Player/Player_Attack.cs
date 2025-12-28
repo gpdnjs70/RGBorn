@@ -85,7 +85,6 @@ public class Player_Attack : MonoBehaviour
                 if (enemy_HP != null)
                 {
                     enemy_HP.TakeDamage(damage);
-                    Debug.Log($"데미지는 {damage}");
                 }
             }
         }

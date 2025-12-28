@@ -1434,6 +1434,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7036364609257807849, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: hp
+      value: 
+      objectReference: {fileID: 1456088055}
+    - target: {fileID: -7036364609257807849, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1390846104}
+    - target: {fileID: -7036364609257807849, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1390846104}
+    - target: {fileID: -7036364609257807849, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: targetHP
+      value: 
+      objectReference: {fileID: 1390846108}
+    - target: {fileID: -2938668755207523637, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1456088055}
+    - target: {fileID: -2938668755207523637, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: attributeDB
+      value: 
+      objectReference: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
+    - target: {fileID: -2938668755207523637, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: enemyAttribute
+      value: 
+      objectReference: {fileID: 1456088046}
+    - target: {fileID: -2938668755207523637, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: playerAttribute
+      value: 
+      objectReference: {fileID: 1390846111}
     - target: {fileID: 5221588390844245654, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: m_Size.x
       value: 2.3
@@ -1509,7 +1541,7 @@ PrefabInstance:
     - target: {fileID: 8222022868753407645, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 1456088047}
+      objectReference: {fileID: 0}
     - target: {fileID: 8222022868753407645, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: playerAttribute
       value: 
@@ -1568,7 +1600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f85add91e76080f4f9ac5770d0045e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 1456088047}
+  entity: {fileID: 1456088055}
   sliderHP: {fileID: 1909099146}
   textHP: {fileID: 1658939239}
   target: {fileID: 1456088053}
@@ -1593,6 +1625,7 @@ GameObject:
   - component: {fileID: 1390846109}
   - component: {fileID: 1390846110}
   - component: {fileID: 1390846111}
+  - component: {fileID: 1390846112}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -1781,6 +1814,7 @@ MonoBehaviour:
   tr: {fileID: 1390846106}
   dashCooldownUI: {fileID: 234472147}
   lastDir: {x: -1, y: 0}
+  isKnockBack: 0
 --- !u!96 &1390846106
 TrailRenderer:
   serializedVersion: 3
@@ -1968,6 +2002,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorUI: {fileID: 1453646675}
+--- !u!114 &1390846112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390846099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01489e02c0639942b96737bce2a8d7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb2d: {fileID: 1390846102}
+  strentgh: 16
+  delay: 0.15
+  OnBegin:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1390846105}
+        m_TargetAssemblyTypeName: Player_Movement, Assembly-CSharp
+        m_MethodName: SetKnockBack
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  OnDone:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1390846105}
+        m_TargetAssemblyTypeName: Player_Movement, Assembly-CSharp
+        m_MethodName: SetKnockBack
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1398329689
 GameObject:
   m_ObjectHideFlags: 0
@@ -2326,9 +2405,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f6bf7bf8f51d44aa43b34f47620a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1456088047 stripped
+--- !u!4 &1456088053 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7316549275401582047, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+  m_PrefabInstance: {fileID: 1246047572}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1456088055 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8222022868753407645, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+  m_CorrespondingSourceObject: {fileID: -2938668755207523637, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
   m_PrefabInstance: {fileID: 1246047572}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -2337,11 +2421,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbad03c295d274445977b24a37a18a51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1456088053 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7316549275401582047, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
-  m_PrefabInstance: {fileID: 1246047572}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1468606899
 GameObject:
   m_ObjectHideFlags: 0

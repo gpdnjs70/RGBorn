@@ -40,6 +40,12 @@ public abstract class Entity : MonoBehaviour
     // 상대방을 공격할 때 상대방의 TakeDamage() 호출
     // 매개변수 damage는 공격하는 본인 공격력
     public abstract void TakeDamage(float damage);
+
+    // 화상 디버프
+    public virtual void Burn(float damage = 5f)
+    {
+        HP -= damage;
+    }
 }
 
 [System.Serializable]

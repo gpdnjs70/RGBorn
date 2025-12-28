@@ -6,15 +6,20 @@ public class Enemy_HP : Entity
 {
     private SpriteRenderer spriteRenderer;
     private Animator animator;
+    private Enemy enemy;
 
     [SerializeField] private AttributeDatabase attributeDB;
     [SerializeField] private PlayerAttribute playerAttribute;
     [SerializeField] private EnemyAttribute enemyAttribute;
 
+    [SerializeField] private UI_HP hpUI;
+    private bool isDead = false;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        enemy = GetComponent<Enemy>();
 
         base.Setup();
     }
@@ -33,19 +38,35 @@ public class Enemy_HP : Entity
         ColorAttributeData defAttr = attributeDB.Get(enemyAttribute.colorMode);
 
         float finalDamage = damage;
-        /**if (defAttr.strongAgainst.Contains(atkAttr.colorMode))
+
+        if (enemy != null &&
+        enemy.currentAttackType == EnemyAttackType.Skill1)
         {
-            finalDamage *= (1f - defAttr.damageReductionRate);
-            Debug.Log($"데미지 감소 {finalDamage}");
+            float reduction = defAttr.damageReductionRate;
+
+            if (defAttr.strongAgainst.Contains(atkAttr.colorMode))
+            {
+                reduction += 0.1f;
+            }
+
+            if (defAttr.weakAgainst.Contains(atkAttr.colorMode))
+            {
+                reduction -= 0.1f;
+            }
+
+            finalDamage *= (1f - reduction);
+            Debug.Log("Skill1 중 → 피해 감소");
         }
 
-        if (defAttr.weakAgainst.Contains(atkAttr.colorMode))
-        {
-            finalDamage *= (1f + defAttr.damageReductionRate);
-            Debug.Log($"데미지 증가 {finalDamage}");
-        }**/
+        Debug.Log($"데미지는 {finalDamage}");
 
         HP -= finalDamage;
+
+        if (HP <= 0)
+        {
+            Die();
+            return;
+        }
 
         if (animator != null)
         {
@@ -66,5 +87,34 @@ public class Enemy_HP : Entity
 
         color.a = 1;
         spriteRenderer.color = color;
+    }
+
+    private void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        Debug.Log("Enemy Dead");
+
+        // 충돌 제거
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null)
+            col.enabled = false;
+
+        // 이동/공격 중단
+        Enemy enemy = GetComponent<Enemy>();
+        if (enemy != null)
+            enemy.enabled = false;
+
+        // 죽는 애니메이션
+        if (animator != null)
+            animator.SetTrigger("Damaged");
+
+        // HP UI 제거
+        if (hpUI != null)
+            Destroy(hpUI.gameObject, 0.5f);
+
+        // Enemy 제거
+        Destroy(gameObject, 0.5f); // 애니메이션 길이에 맞춰 조절
     }
 }

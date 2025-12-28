@@ -21,6 +21,7 @@ public class Player_Movement : MonoBehaviour
 
     private bool isDashing;
     private bool isAttacking = false;
+    public bool isKnockBack;
     public bool IsMovementLocked => isDashing || isAttacking;
 
     private void Awake()
@@ -67,7 +68,7 @@ public class Player_Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isDashing)
+        if (isDashing || isKnockBack)
             return;
 
         if (isAttacking)
@@ -99,5 +100,10 @@ public class Player_Movement : MonoBehaviour
 
         // 이동 즉시 정지 & 애니메이터 플래그(선택)
         if (value) rigid.velocity = Vector2.zero;
+    }
+
+    public void SetKnockBack(bool value)
+    {
+        isKnockBack = value;
     }
 }
