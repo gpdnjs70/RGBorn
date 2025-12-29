@@ -18,6 +18,17 @@ public class EliteAttackEvent : MonoBehaviour
 
         enemy.SetAttackType(EnemyAttackType.Normal);
 
+        Entity source = enemy.hp;
+        DebuffController debuff = enemy.targetHP.GetComponent<DebuffController>();
+
+        if (debuff != null)
+        {
+            // debuff.ApplyDebuff(DebuffType.Burn, source, 10f);
+            debuff.ApplyDebuff(DebuffType.Poison, source, 10f);
+            // debuff.ApplyDebuff(DebuffType.LifeSteal, source, 10f);
+            // debuff.ApplyDebuff(DebuffType.Corrosion, source, 10f);
+        }
+
         float damage = 10 * (1f + enemy.attackBonusRate);
         enemy.targetHP.TakeDamage(damage);
     }
@@ -47,15 +58,25 @@ public class EliteAttackEvent : MonoBehaviour
         pos += Vector3.up * 0.5f;
         Instantiate(skillEffectPrefab, pos, Quaternion.identity);
 
-        enemy.SetAttackType(EnemyAttackType.Skill2);
-        enemy.StartBurn(10f, 2f);
-
         if (enemy != null && enemy.targetHP != null)
         {
             float currentHp = enemy.targetHP.HP;
             float damage = currentHp * 0.05f;
 
             enemy.targetHP.TakeDamage(damage);
+
+            Entity source = enemy.hp;
+            DebuffController debuff = enemy.targetHP.GetComponent<DebuffController>();
+
+            if (debuff != null)
+            {
+                // debuff.ApplyDebuff(DebuffType.Burn, source, 10f);
+
+                // debuff.ApplyDebuff(DebuffType.LifeSteal, source, 10f);
+                // debuff.ApplyDebuff(DebuffType.Corrosion, source, 10f);
+            }
         }
+
+        enemy.SetAttackType(EnemyAttackType.Skill2);
     }
 }

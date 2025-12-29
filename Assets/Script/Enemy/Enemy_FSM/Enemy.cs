@@ -92,31 +92,6 @@ public class Enemy : MonoBehaviour
         attackTypeRoutine = null;
     }
 
-    public void StartBurn(float totalDuration, float tickInterval)
-    {
-        if (burnRoutine != null)
-            StopCoroutine(burnRoutine);
-
-        burnRoutine = StartCoroutine(BurnCoroutine(totalDuration, tickInterval));
-    }
-
-    private IEnumerator BurnCoroutine(float totalDuration, float tickInterval)
-    {
-        int ticks = Mathf.FloorToInt(totalDuration / tickInterval);
-
-        for (int i = 0; i < ticks; i++)
-        {
-            Debug.Log($"Burn tick {i + 1}");
-
-            if (targetHP != null)
-                targetHP.Burn(5f);
-
-            yield return new WaitForSeconds(tickInterval);
-        }
-
-        burnRoutine = null;
-    }
-
     public void AddAttackBonus(float rate)
     {
         attackBonusRate += rate;

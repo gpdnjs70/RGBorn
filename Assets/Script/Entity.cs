@@ -19,6 +19,10 @@ public abstract class Entity : MonoBehaviour
     public abstract float MaxHP         { get; }    // 최대 체력
     public abstract float HPRecovery    { get; }    // 초당 체력 회복량
 
+    private List<float> defenseModifiers = new();
+
+    private List<object> attackRedirectors = new();
+
     protected void Setup()
     {
         HP = MaxHP;
@@ -45,6 +49,52 @@ public abstract class Entity : MonoBehaviour
     public virtual void Burn(float damage = 5f)
     {
         HP -= damage;
+    }
+
+    public float DefenseMultiplier
+    {
+        get
+        {
+            float total = 1f;
+            foreach (var mod in defenseModifiers)
+                total -= mod;
+
+            return Mathf.Clamp(total, 0.1f, 2f);
+        }
+    }
+
+    public void AddDefenseModifier(float value)
+    {
+        defenseModifiers.Add(value);
+    }
+
+    public void RemoveDefenseModifier(float value)
+    {
+        defenseModifiers.Remove(value);
+    }
+
+    public virtual Entity GetAttackTarget(Entity intendedTarget)
+    {
+        return intendedTarget;
+    }
+
+    public void AddAttackRedirect(object source)
+    {
+        attackRedirectors.Add(source);
+    }
+
+    public void RemoveAttackRedirect(object source)
+    {
+        attackRedirectors.Remove(source);
+    }
+
+    public Entity ResolveAttackTarget(Entity intendedTarget)
+    {
+        // 혼란 상태면 자기 자신
+        if (attackRedirectors.Count > 0)
+            return this;
+
+        return intendedTarget;
     }
 }
 

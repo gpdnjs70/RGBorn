@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_HP : Entity
+public class Enemy_HP : Entity, IDebuffTarget
 {
+    public Entity Entity => this;
+
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private Enemy enemy;
@@ -34,29 +36,9 @@ public class Enemy_HP : Entity
 
     public override void TakeDamage(float damage)
     {
-        ColorAttributeData atkAttr = attributeDB.Get(playerAttribute.currentMode);
-        ColorAttributeData defAttr = attributeDB.Get(enemyAttribute.colorMode);
+        float skill1Multiplier = IsSkill1Active();
 
-        float finalDamage = damage;
-
-        if (enemy != null &&
-        enemy.currentAttackType == EnemyAttackType.Skill1)
-        {
-            float reduction = defAttr.damageReductionRate;
-
-            if (defAttr.strongAgainst.Contains(atkAttr.colorMode))
-            {
-                reduction += 0.1f;
-            }
-
-            if (defAttr.weakAgainst.Contains(atkAttr.colorMode))
-            {
-                reduction -= 0.1f;
-            }
-
-            finalDamage *= (1f - reduction);
-            Debug.Log("Skill1 중 → 피해 감소");
-        }
+        float finalDamage = damage * DefenseMultiplier * skill1Multiplier;
 
         Debug.Log($"데미지는 {finalDamage}");
 
@@ -74,6 +56,29 @@ public class Enemy_HP : Entity
         }
 
         // StartCoroutine("HitAnimation");
+    }
+
+    private float IsSkill1Active()
+    {
+        if (enemy == null ||
+        enemy.currentAttackType != EnemyAttackType.Skill1)
+            return 1f;
+
+        ColorAttributeData atkAttr = attributeDB.Get(playerAttribute.currentMode);
+        ColorAttributeData defAttr = attributeDB.Get(enemyAttribute.colorMode);
+
+        float reduction = defAttr.damageReductionRate;
+
+        if (defAttr.strongAgainst.Contains(atkAttr.colorMode))
+            reduction += 0.1f;
+
+        if (defAttr.weakAgainst.Contains(atkAttr.colorMode))
+            reduction -= 0.1f;
+
+        Debug.Log("Skill1 중 → 피해 감소");
+
+        // reduction 0.3 → multiplier 0.7
+        return 1f - reduction;
     }
 
     private IEnumerator HitAnimation()

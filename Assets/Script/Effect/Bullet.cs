@@ -19,14 +19,17 @@ public class Bullet : MonoBehaviour
     [SerializeField] private AttributeDatabase attributeDB;
     private PlayerAttribute playerAttribute;
 
+    private Entity source;
+
     void Start()
     {
         Invoke("DestroyBullet", 2);
     }
 
-    public void Init(PlayerAttribute playerAttr)
+    public void Init(PlayerAttribute playerAttr, Entity sourceEntity)
     {
         playerAttribute = playerAttr;
+        source = sourceEntity;
     }
 
     private void Awake()
@@ -77,7 +80,10 @@ public class Bullet : MonoBehaviour
 
                 if (enemy_HP != null)
                 {
-                    enemy_HP.TakeDamage(finalDamage);
+                    Entity intended = enemy_HP;
+                    Entity actualTarget = source.ResolveAttackTarget(intended);
+
+                    actualTarget.TakeDamage(damage);
                 }
             }
 

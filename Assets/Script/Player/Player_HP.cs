@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player_HP : Entity
+public class Player_HP : Entity, IDebuffTarget
 {
+    public Entity Entity => this;
+
     private SpriteRenderer spriteRenderer;
 
     private void Awake()
@@ -25,7 +27,11 @@ public class Player_HP : Entity
 
     public override void TakeDamage(float damage)
     {
-        HP -= damage;
+        float finalDamage = damage * DefenseMultiplier;
+
+        Debug.Log($"데미지는 {finalDamage}");
+
+        HP -= finalDamage;
 
         StartCoroutine("HitAnimation");
     }

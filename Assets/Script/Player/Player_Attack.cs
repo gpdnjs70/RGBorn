@@ -84,7 +84,10 @@ public class Player_Attack : MonoBehaviour
 
                 if (enemy_HP != null)
                 {
-                    enemy_HP.TakeDamage(damage);
+                    Entity intended = enemy_HP;
+                    Entity actualTarget = GetComponent<Entity>().ResolveAttackTarget(intended);
+
+                    actualTarget.TakeDamage(damage);
                 }
             }
         }
@@ -112,7 +115,7 @@ public class Player_Attack : MonoBehaviour
         if (bulletScript != null && movement != null)
         {
             bulletScript.SetDirection(movement.lastDir);
-            bulletScript.Init(playerAttribute);
+            bulletScript.Init(playerAttribute, GetComponent<Entity>());
         }
     }
 
