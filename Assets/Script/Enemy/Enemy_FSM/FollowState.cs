@@ -25,8 +25,9 @@ public class FollowState : StateMachineBehaviour
         }
         else if (Vector2.Distance(enemy.player.position, enemyTransform.position) > 1f)
         {
-            Debug.Log($"현재 속도는 {entity.Speed}");
-            enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, enemy.player.position, Time.deltaTime * entity.Speed);
+            float finalSpeed = entity.MoveSpeed;
+            Debug.Log($"현재 속도는 {finalSpeed}");
+            enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, enemy.player.position, Time.deltaTime * finalSpeed);
         }
         else
         {

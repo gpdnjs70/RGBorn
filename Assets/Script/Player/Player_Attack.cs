@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static Unity.VisualScripting.Member;
 
 public class Player_Attack : MonoBehaviour
 {
@@ -86,6 +87,17 @@ public class Player_Attack : MonoBehaviour
                 {
                     Entity intended = enemy_HP;
                     Entity actualTarget = GetComponent<Entity>().ResolveAttackTarget(intended);
+
+                    DebuffController debuff = actualTarget.GetComponent<DebuffController>();
+
+                    if (debuff != null)
+                    {
+                        // debuff.ApplyDebuff(DebuffType.Burn, source, 10f);
+                        debuff.ApplyDebuff(DebuffType.Slow, actualTarget, 10f);
+                        // debuff.ApplyDebuff(DebuffType.Poison, source, 10f);
+                        // debuff.ApplyDebuff(DebuffType.LifeSteal, source, 10f);
+                        // debuff.ApplyDebuff(DebuffType.Corrosion, source, 10f);
+                    }
 
                     actualTarget.TakeDamage(damage);
                 }

@@ -83,7 +83,7 @@ public class Bullet : MonoBehaviour
                     Entity intended = enemy_HP;
                     Entity actualTarget = source.ResolveAttackTarget(intended);
 
-                    actualTarget.TakeDamage(damage);
+                    actualTarget.TakeDamage(finalDamage);
                 }
             }
 

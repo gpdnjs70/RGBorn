@@ -25,8 +25,10 @@ public class BackState : StateMachineBehaviour
         else
         {
             enemy.DirectionEnemy(enemy.home.x, enemyTransform.position.x);
-            Debug.Log($"현재 속도는 {entity.Speed}");
-            enemyTransform.position = Vector2.MoveTowards(enemy.transform.position, enemy.home, Time.deltaTime * entity.Speed);
+
+            float finalSpeed = entity.MoveSpeed;
+            Debug.Log($"현재 속도는 {finalSpeed}");
+            enemyTransform.position = Vector2.MoveTowards(enemy.transform.position, enemy.home, Time.deltaTime * finalSpeed);
         }
     }
 
