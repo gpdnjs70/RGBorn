@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5417287428298853249}
   - component: {fileID: 5221588390844245654}
   - component: {fileID: 6059354638434030256}
-  - component: {fileID: -7036364609257807849}
+  - component: {fileID: 8575544512150814814}
   - component: {fileID: -2938668755207523637}
   - component: {fileID: 8379992808120932845}
   - component: {fileID: -3601175225905045916}
@@ -184,7 +184,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-7036364609257807849
+--- !u!114 &8575544512150814814
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5826945628908981569}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23d2eec5832ec9042aacc8ce2fc45097, type: 3}
+  m_Script: {fileID: 11500000, guid: 3460edee82de926499cc0604ca9d49a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
@@ -204,6 +204,7 @@ MonoBehaviour:
   target: {fileID: 0}
   hp: {fileID: 0}
   targetHP: {fileID: 0}
+  powerBonusRate: 0.1
 --- !u!114 &-2938668755207523637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,6 +221,7 @@ MonoBehaviour:
   attributeDB: {fileID: 0}
   playerAttribute: {fileID: 0}
   enemyAttribute: {fileID: 0}
+  hpUI: {fileID: 0}
 --- !u!114 &8379992808120932845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,3 +248,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2e1c039b44ef0d4395339fe5fd200e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillEffectPrefab: {fileID: 0}

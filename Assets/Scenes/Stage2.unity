@@ -627,26 +627,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -7036364609257807849, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
-      propertyPath: hp
-      value: 
-      objectReference: {fileID: 1931595710}
-    - target: {fileID: -7036364609257807849, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
-      propertyPath: speed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -7036364609257807849, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 1390846104}
-    - target: {fileID: -7036364609257807849, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 1390846104}
-    - target: {fileID: -7036364609257807849, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
-      propertyPath: targetHP
-      value: 
-      objectReference: {fileID: 1390846108}
     - target: {fileID: -3601175225905045916, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: skillEffectPrefab
       value: 
@@ -751,6 +731,26 @@ PrefabInstance:
       propertyPath: playerAttribute
       value: 
       objectReference: {fileID: 1390846111}
+    - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: hp
+      value: 
+      objectReference: {fileID: 1931595710}
+    - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1390846104}
+    - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1390846104}
+    - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: targetHP
+      value: 
+      objectReference: {fileID: 1390846108}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2033,26 +2033,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -7036364609257807849, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
-      propertyPath: hp
-      value: 
-      objectReference: {fileID: 1456088055}
-    - target: {fileID: -7036364609257807849, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
-      propertyPath: speed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -7036364609257807849, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 1390846104}
-    - target: {fileID: -7036364609257807849, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 1390846104}
-    - target: {fileID: -7036364609257807849, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
-      propertyPath: targetHP
-      value: 
-      objectReference: {fileID: 1390846108}
     - target: {fileID: -3601175225905045916, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: skillEffectPrefab
       value: 
@@ -2157,6 +2137,26 @@ PrefabInstance:
       propertyPath: playerAttribute
       value: 
       objectReference: {fileID: 1390846111}
+    - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: hp
+      value: 
+      objectReference: {fileID: 1456088055}
+    - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1390846104}
+    - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1390846104}
+    - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: targetHP
+      value: 
+      objectReference: {fileID: 1390846108}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

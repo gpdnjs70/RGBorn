@@ -32,9 +32,8 @@ public class Enemy : MonoBehaviour
     public float powerBonusRate = 0.1f;
     public float attackBonusRate { get; private set; } = 0f;
 
-    void Start()
+    protected virtual void Start()
     {
-        EnemyManager.Instance.Register(this);
         animator = GetComponent<Animator>();
         GameObject p = GameObject.FindWithTag("Player");
         if (p != null) player = p.transform;
@@ -105,11 +104,5 @@ public class Enemy : MonoBehaviour
     {
         attackBonusRate += rate;
         Debug.Log($"{name} 공격 배율 증가 → {attackBonusRate * 100f}%");
-    }
-
-    private void OnDestroy()
-    {
-        if (EnemyManager.Instance != null)
-            EnemyManager.Instance.Unregister(this);
     }
 }
