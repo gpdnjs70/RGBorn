@@ -32,6 +32,8 @@ public class DebuffController : MonoBehaviour
                 return new SlowDebuff();
             case DebuffType.LifeSteal:
                 return new LifeStealDebuff();
+            case DebuffType.Shock:
+                return new ShockDebuff();
             case DebuffType.Poison:
                 return new PoisonDebuff();
             case DebuffType.Corrosion:

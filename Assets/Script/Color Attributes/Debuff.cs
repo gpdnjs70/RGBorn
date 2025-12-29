@@ -82,6 +82,22 @@ public class LifeStealDebuff : DebuffBase
     }
 }
 
+public class ShockDebuff : DebuffBase
+{
+    public override IEnumerator Run()
+    {
+        // 행동 차단
+        target.LockAction();
+        Debug.Log("Shock 시작");
+
+        yield return new WaitForSeconds(duration);
+
+        // 행동 복구
+        target.UnlockAction();
+        Debug.Log("Shock 종료");
+    }
+}
+
 public class CorrosionDebuff : DebuffBase
 {
     private float defenseReduction = -0.3f;

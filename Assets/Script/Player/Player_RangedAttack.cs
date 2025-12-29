@@ -6,6 +6,7 @@ public class Player_RangedAttack : MonoBehaviour
 {
     public GameObject bullet;
     public Transform pos;
+    private Entity entity;
 
     [SerializeField] private Player_Movement movement;
     [SerializeField] private Player_WeaponController weaponController;
@@ -25,10 +26,15 @@ public class Player_RangedAttack : MonoBehaviour
         {
             animator = GetComponent<Animator>();
         }
+
+        entity = GetComponent<Entity>();
     }
 
     void Update()
     {
+        if (!entity.CanAct)
+            return;
+
         // RÅ° ÀÔ·Â
         if (Input.GetKeyDown(KeyCode.R))
         {

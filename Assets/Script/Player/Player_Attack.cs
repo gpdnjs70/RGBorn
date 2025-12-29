@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using static Unity.VisualScripting.Member;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Player_Attack : MonoBehaviour
 {
+    Entity entity;
     Animator animator;
     Rigidbody2D myrigidbody;
 
@@ -38,9 +40,17 @@ public class Player_Attack : MonoBehaviour
         return attacker.strongAgainst.Contains(defender.colorMode);
     }
 
+    void Awake()
+    {
+        entity = GetComponent<Entity>();
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (!entity.CanAct)
+            return;
+
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
         {
             return;
@@ -88,16 +98,19 @@ public class Player_Attack : MonoBehaviour
                     Entity intended = enemy_HP;
                     Entity actualTarget = GetComponent<Entity>().ResolveAttackTarget(intended);
 
+                    
                     DebuffController debuff = actualTarget.GetComponent<DebuffController>();
 
                     if (debuff != null)
                     {
-                        // debuff.ApplyDebuff(DebuffType.Burn, source, 10f);
-                        debuff.ApplyDebuff(DebuffType.Slow, actualTarget, 10f);
-                        // debuff.ApplyDebuff(DebuffType.Poison, source, 10f);
-                        // debuff.ApplyDebuff(DebuffType.LifeSteal, source, 10f);
-                        // debuff.ApplyDebuff(DebuffType.Corrosion, source, 10f);
+                        // debuff.ApplyDebuff(DebuffType.Burn, actualTarget, 10f);
+                        // debuff.ApplyDebuff(DebuffType.Slow, actualTarget, 10f);
+                        // debuff.ApplyDebuff(DebuffType.Poison, actualTarget, 10f);
+                        debuff.ApplyDebuff(DebuffType.Shock, actualTarget, 5f);
+                        // debuff.ApplyDebuff(DebuffType.LifeSteal, actualTarget, 10f);
+                        // debuff.ApplyDebuff(DebuffType.Corrosion, actualTarget, 10f);
                     }
+
 
                     actualTarget.TakeDamage(damage);
                 }

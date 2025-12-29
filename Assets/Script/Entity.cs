@@ -34,6 +34,9 @@ public abstract class Entity : MonoBehaviour
     private List<object> attackRedirectors = new();
     // 속도
     private List<float> moveSpeedModifiers = new();
+    // 마비
+    private int actionLockCount = 0;
+    public bool CanAct { get; private set; } = true;
 
     protected void Setup()
     {
@@ -134,6 +137,24 @@ public abstract class Entity : MonoBehaviour
             return this;
 
         return intendedTarget;
+    }
+
+    // 마비 디버프
+    public void LockAction()
+    {
+        actionLockCount++;
+        CanAct = false;
+    }
+
+    public void UnlockAction()
+    {
+        actionLockCount--;
+
+        if (actionLockCount <= 0)
+        {
+            actionLockCount = 0;
+            CanAct = true;
+        }
     }
 }
 

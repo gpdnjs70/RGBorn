@@ -24,8 +24,9 @@ public class EliteAttackEvent : MonoBehaviour
         if (debuff != null)
         {
             // debuff.ApplyDebuff(DebuffType.Burn, source, 10f);
-            debuff.ApplyDebuff(DebuffType.Slow, source, 10f);
+            // debuff.ApplyDebuff(DebuffType.Slow, source, 10f);
             // debuff.ApplyDebuff(DebuffType.Poison, source, 10f);
+            // debuff.ApplyDebuff(DebuffType.Shock, source, 3f);
             // debuff.ApplyDebuff(DebuffType.LifeSteal, source, 10f);
             // debuff.ApplyDebuff(DebuffType.Corrosion, source, 10f);
         }

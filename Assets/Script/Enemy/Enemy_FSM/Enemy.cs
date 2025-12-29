@@ -54,6 +54,8 @@ public class Enemy : MonoBehaviour
             atkDelay -= Time.deltaTime;
             if (atkDelay < 0) atkDelay = 0;
         }
+
+        animator.SetBool("Shock", !entity.CanAct);
     }
 
     public void DirectionEnemy(float target, float baseobj)
