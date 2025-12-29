@@ -43,6 +43,22 @@ public class BurnDebuff : DebuffBase
     }
 }
 
+public class SlowDebuff : DebuffBase
+{
+    private float slowRate = 0.4f; // 40% 슬로우
+
+    public override IEnumerator Run()
+    {
+        target.AddMoveSpeedModifier(slowRate);
+        Debug.Log("슬로우 시작");
+
+        yield return new WaitForSeconds(duration);
+
+        target.RemoveMoveSpeedModifier(slowRate);
+        Debug.Log("슬로우 종료");
+    }
+}
+
 public class LifeStealDebuff : DebuffBase
 {
     private float tickInterval = 2f;

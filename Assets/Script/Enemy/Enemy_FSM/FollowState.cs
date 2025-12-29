@@ -6,12 +6,14 @@ public class FollowState : StateMachineBehaviour
 {
     Transform enemyTransform;
     Enemy enemy;
+    Entity entity;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("follow");
         enemy = animator.GetComponent<Enemy>();
         enemyTransform = animator.GetComponent<Transform>();
+        entity = enemy.GetComponent<Entity>();
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -23,7 +25,8 @@ public class FollowState : StateMachineBehaviour
         }
         else if (Vector2.Distance(enemy.player.position, enemyTransform.position) > 1f)
         {
-            enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, enemy.player.position, Time.deltaTime * enemy.speed);
+            Debug.Log($"현재 속도는 {entity.Speed}");
+            enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, enemy.player.position, Time.deltaTime * entity.Speed);
         }
         else
         {

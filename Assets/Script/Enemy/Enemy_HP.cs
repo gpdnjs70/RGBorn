@@ -34,6 +34,8 @@ public class Enemy_HP : Entity, IDebuffTarget
     public override float MaxHP => 200;
     public override float HPRecovery => 15;
 
+    public override float MaxSpeed => 20;
+
     public override void TakeDamage(float damage)
     {
         float skill1Multiplier = IsSkill1Active();

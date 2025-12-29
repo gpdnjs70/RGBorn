@@ -19,9 +19,21 @@ public abstract class Entity : MonoBehaviour
     public abstract float MaxHP         { get; }    // 최대 체력
     public abstract float HPRecovery    { get; }    // 초당 체력 회복량
 
-    private List<float> defenseModifiers = new();
+    // 속도(Speed) 프로퍼티
+    public float Speed
+    {
+        set => stats.Speed = Mathf.Clamp(value, 0, MaxSpeed);
+        get => stats.Speed;
+    }
 
+    public abstract float MaxSpeed { get; }    // 최대 속도
+
+    // 방어력
+    private List<float> defenseModifiers = new();
+    // 공격 대상
     private List<object> attackRedirectors = new();
+    // 속도
+    private List<float> moveSpeedModifiers = new();
 
     protected void Setup()
     {
@@ -51,6 +63,31 @@ public abstract class Entity : MonoBehaviour
         HP -= damage;
     }
 
+    // 슬로우 디버프
+    public float MoveSpeed
+    {
+        get
+        {
+            float result = Speed;
+
+            foreach (float mod in moveSpeedModifiers)
+                result *= (1f - mod);
+
+            return Mathf.Max(0.1f, result); // 완전 정지 방지
+        }
+    }
+
+    public void AddMoveSpeedModifier(float value)
+    {
+        moveSpeedModifiers.Add(value);
+    }
+
+    public void RemoveMoveSpeedModifier(float value)
+    {
+        moveSpeedModifiers.Remove(value);
+    }
+
+    // 부식 디버프
     public float DefenseMultiplier
     {
         get
@@ -73,11 +110,13 @@ public abstract class Entity : MonoBehaviour
         defenseModifiers.Remove(value);
     }
 
+    
     public virtual Entity GetAttackTarget(Entity intendedTarget)
     {
         return intendedTarget;
     }
 
+    // 중독 디버프
     public void AddAttackRedirect(object source)
     {
         attackRedirectors.Add(source);
@@ -103,4 +142,5 @@ public struct Stats
 {
     // 이름, 레벨, 직업, 스탯(힘, 지능 등), 체력/마나, 경험치 등의 캐릭터 수치
     [HideInInspector] public float HP;
+    [HideInInspector] public float Speed;
 }

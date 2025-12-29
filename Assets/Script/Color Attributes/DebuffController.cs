@@ -28,6 +28,8 @@ public class DebuffController : MonoBehaviour
         {
             case DebuffType.Burn:
                 return new BurnDebuff();
+            case DebuffType.Slow:
+                return new SlowDebuff();
             case DebuffType.LifeSteal:
                 return new LifeStealDebuff();
             case DebuffType.Poison:

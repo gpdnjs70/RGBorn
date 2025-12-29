@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
 
     public Transform target;
     public Enemy_HP hp;
+    private Entity entity;
     public Entity targetHP;
 
     public EnemyAttackType currentAttackType { get; private set; }
@@ -38,6 +39,12 @@ public class Enemy : MonoBehaviour
         GameObject p = GameObject.FindWithTag("Player");
         if (p != null) player = p.transform;
         home = transform.position;
+    }
+
+    private void Awake()
+    {
+        entity = GetComponent<Entity>();
+        entity.Speed = speed;
     }
 
     private void Update()

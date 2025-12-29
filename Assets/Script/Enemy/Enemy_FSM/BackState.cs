@@ -6,12 +6,14 @@ public class BackState : StateMachineBehaviour
 {
     Transform enemyTransform;
     Enemy enemy;
+    Entity entity;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("back");
         enemy = animator.GetComponent<Enemy>();
         enemyTransform = animator.GetComponent<Transform>();
+        entity = enemy.GetComponent<Entity>();
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -23,7 +25,8 @@ public class BackState : StateMachineBehaviour
         else
         {
             enemy.DirectionEnemy(enemy.home.x, enemyTransform.position.x);
-            enemyTransform.position = Vector2.MoveTowards(enemy.transform.position, enemy.home, Time.deltaTime * enemy.speed);
+            Debug.Log($"현재 속도는 {entity.Speed}");
+            enemyTransform.position = Vector2.MoveTowards(enemy.transform.position, enemy.home, Time.deltaTime * entity.Speed);
         }
     }
 

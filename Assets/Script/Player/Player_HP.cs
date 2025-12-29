@@ -25,6 +25,8 @@ public class Player_HP : Entity, IDebuffTarget
 
     public override float HPRecovery => 10;
 
+    public override float MaxSpeed => 20;
+
     public override void TakeDamage(float damage)
     {
         float finalDamage = damage * DefenseMultiplier;
