@@ -21984,6 +21984,7 @@ GameObject:
   - component: {fileID: 1641778966}
   - component: {fileID: 1641778965}
   - component: {fileID: 1641778964}
+  - component: {fileID: 1641778977}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -22117,8 +22118,6 @@ MonoBehaviour:
   bowBulletPrefab: {fileID: 6001305068737318086, guid: dfca3de9e5e1bae42b1fcfe876a92bab, type: 3}
   bowBulletPos: {fileID: 1982804585}
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
-  playerAttribute: {fileID: 1641778965}
-  enemyAttribute: {fileID: 0}
 --- !u!96 &1641778970
 TrailRenderer:
   serializedVersion: 3
@@ -22235,7 +22234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9623725932a911547a9ca0fa8fcfff89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 4
+  speed: 5
   dashingPower: 20
   dashingTime: 0.2
   tr: {fileID: 1641778970}
@@ -22405,6 +22404,18 @@ Transform:
   - {fileID: 1982804585}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1641778977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641778963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f2bc65eff2fc5e469fc51d2b94805ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1738513081
 GameObject:
   m_ObjectHideFlags: 0
