@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class EnemyAttribute : MonoBehaviour
 {
-    public ColorMode colorMode;   // Enemy의 현재 속성
-    public float resistanceBonus = 1f; // 버프/디버프로 변함
+    [SerializeField] private ColorMode mode;
+    private ColorAttribute attribute;
+
+    private void Awake()
+    {
+        attribute = GetComponent<ColorAttribute>();
+        attribute.SetColor(mode);
+    }
 }

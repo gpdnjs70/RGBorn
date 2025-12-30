@@ -62,12 +62,14 @@ public class Enemy_HP : Entity, IDebuffTarget
 
     private float IsSkill1Active()
     {
-        if (enemy == null ||
-        enemy.currentAttackType != EnemyAttackType.Skill1)
+        if (enemy == null || enemy.currentAttackType != EnemyAttackType.Skill1)
             return 1f;
 
-        ColorAttributeData atkAttr = attributeDB.Get(playerAttribute.currentMode);
-        ColorAttributeData defAttr = attributeDB.Get(enemyAttribute.colorMode);
+        ColorAttribute atkAttrComp = playerAttribute.GetComponent<ColorAttribute>();
+        ColorAttribute defAttrComp = enemyAttribute.GetComponent<ColorAttribute>();
+
+        ColorAttributeData atkAttr = attributeDB.Get(atkAttrComp.colorMode);
+        ColorAttributeData defAttr = attributeDB.Get(defAttrComp.colorMode);
 
         float reduction = defAttr.damageReductionRate;
 

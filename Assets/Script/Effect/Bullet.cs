@@ -13,28 +13,18 @@ public class Bullet : MonoBehaviour
     public LayerMask isLayer;
 
     public float damage = 20f;
-    
-    private ColorButtonController colorController;
-
-    [SerializeField] private AttributeDatabase attributeDB;
-    private PlayerAttribute playerAttribute;
-
     private Entity source;
+
+    [SerializeField] private AttributeDatabase attributeDB;    
 
     void Start()
     {
         Invoke("DestroyBullet", 2);
     }
 
-    public void Init(PlayerAttribute playerAttr, Entity sourceEntity)
+    public void Init(Entity sourceEntity)
     {
-        playerAttribute = playerAttr;
         source = sourceEntity;
-    }
-
-    private void Awake()
-    {
-        colorController = FindFirstObjectByType<ColorButtonController>();
     }
 
     void Update()
@@ -42,56 +32,51 @@ public class Bullet : MonoBehaviour
         RaycastHit2D ray = Physics2D.Raycast(transform.position, transform.right, distance, isLayer);
         if(ray.collider != null)
         {
-            if(ray.collider.tag == "Enemy")
+            Entity target = ray.collider.GetComponent<Entity>();
+            if (target != null && source != null)
             {
-                Enemy_HP enemy_HP = ray.collider.GetComponent<Enemy_HP>();
-                EnemyAttribute enemyAttr = ray.collider.GetComponent<EnemyAttribute>();
-                ColorAttributeData defAttr = attributeDB.Get(enemyAttr.colorMode);
+                Entity actualTarget = source.ResolveAttackTarget(target);
 
-                ColorAttributeData atkAttr = attributeDB.Get(playerAttribute.currentMode);
-
-                float finalDamage = damage;
-
-                int matchCount = 0;
-                float bonusSum = 0f;
-                if (atkAttr.strongAgainst.Contains(defAttr.colorMode))
-                {
-                    bonusSum += atkAttr.attackBonusPercent;
-                    matchCount++;
-                }
-                if (matchCount > 0)
-                {
-                    float avgBonus = bonusSum / matchCount; // 결국 attackBonusPercent
-                    finalDamage *= (1f + avgBonus);
-                }
-
-                int weakCount = 0;
-                float penaltySum = 0f;
-                if (atkAttr.weakAgainst.Contains(defAttr.colorMode))
-                {
-                    penaltySum += atkAttr.attackMinusPercent;
-                    weakCount++;
-                }
-                if (weakCount > 0)
-                {
-                    float avgPenalty = penaltySum / weakCount;
-                    finalDamage *= (1f - avgPenalty);
-                }
-
-                if (enemy_HP != null)
-                {
-                    Entity intended = enemy_HP;
-                    Entity actualTarget = source.ResolveAttackTarget(intended);
-
-                    actualTarget.TakeDamage(finalDamage);
-                }
+                // 데미지 계산 + 디버프 전부 Entity에게 위임
+                DealDamageWithAttribute(source, actualTarget);
             }
 
             DestroyBullet();
+            return;
         }
 
         transform.Translate(dir * speed * Time.deltaTime);
     }
+
+    void DealDamageWithAttribute(Entity attacker, Entity target)
+    {
+        float finalDamage = damage;
+
+        ColorAttribute atkAttrComp = attacker.GetComponent<ColorAttribute>();
+
+        ColorAttribute defAttrComp = target.GetComponent<ColorAttribute>();
+
+        if (atkAttrComp != null && defAttrComp != null)
+        {
+            ColorAttributeData atkAttr = attributeDB.Get(atkAttrComp.colorMode);
+
+            ColorAttributeData defAttr = attributeDB.Get(defAttrComp.colorMode);
+
+            if (atkAttr.strongAgainst.Contains(defAttr.colorMode))
+                finalDamage *= (1f + atkAttr.attackBonusPercent);
+
+            if (atkAttr.weakAgainst.Contains(defAttr.colorMode))
+                finalDamage *= (1f - atkAttr.attackMinusPercent);
+        }
+
+        if (UnityEngine.Random.value < 0.3f)
+        {
+            attacker.ApplyAttributeDebuffTo(target, 3f);
+        }
+
+        target.TakeDamage(finalDamage);
+    }
+
 
     void DestroyBullet()
     {

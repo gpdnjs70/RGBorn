@@ -32,9 +32,7 @@ public class Player_Attack : MonoBehaviour
     [SerializeField] private Transform bowBulletPos;
 
     [SerializeField] private AttributeDatabase attributeDB;
-    [SerializeField] private PlayerAttribute playerAttribute;
-    [SerializeField] private EnemyAttribute enemyAttribute;
-
+    
     bool IsAdvantage(ColorAttributeData attacker, ColorAttributeData defender)
     {
         return attacker.strongAgainst.Contains(defender.colorMode);
@@ -77,44 +75,45 @@ public class Player_Attack : MonoBehaviour
         Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(pos.position, boxSize, 0);
         foreach (Collider2D collider in collider2Ds)
         {
-            if (collider.tag == "Enemy")
-            {
-                Enemy_HP enemy_HP = collider.GetComponent<Enemy_HP>();
-                ColorAttributeData atkAttr = attributeDB.Get(playerAttribute.currentMode);
-                ColorAttributeData defAttr = attributeDB.Get(enemyAttribute.colorMode);
+            if (!collider.CompareTag("Enemy")) continue;
 
+            Enemy_HP enemyHP = collider.GetComponent<Enemy_HP>();
+            if (enemyHP == null) continue;
+
+            Entity attacker = entity;
+            Entity intendedTarget = enemyHP;
+            Entity actualTarget = attacker.ResolveAttackTarget(intendedTarget);
+
+            ColorAttribute atkAttrComp = attacker.GetComponent<ColorAttribute>();
+
+            ColorAttribute defAttrComp = actualTarget.GetComponent<ColorAttribute>();
+
+            float finalDamage = damage;
+
+            if (atkAttrComp != null && defAttrComp != null)
+            {
+                ColorAttributeData atkAttr = attributeDB.Get(atkAttrComp.colorMode);
+
+                ColorAttributeData defAttr = attributeDB.Get(defAttrComp.colorMode);
+
+                // 상성 계산
                 if (atkAttr.strongAgainst.Contains(defAttr.colorMode))
                 {
-                    damage *= (1f + atkAttr.attackBonusPercent);
+                    finalDamage *= (1f + atkAttr.attackBonusPercent);
                 }
 
                 if (atkAttr.weakAgainst.Contains(defAttr.colorMode))
                 {
-                    damage *= (1f - atkAttr.attackMinusPercent);
-                }
-
-                if (enemy_HP != null)
-                {
-                    Entity intended = enemy_HP;
-                    Entity actualTarget = GetComponent<Entity>().ResolveAttackTarget(intended);
-
-                    
-                    DebuffController debuff = actualTarget.GetComponent<DebuffController>();
-
-                    if (debuff != null)
-                    {
-                        // debuff.ApplyDebuff(DebuffType.Burn, actualTarget, 10f);
-                        // debuff.ApplyDebuff(DebuffType.Slow, actualTarget, 10f);
-                        // debuff.ApplyDebuff(DebuffType.Poison, actualTarget, 10f);
-                        debuff.ApplyDebuff(DebuffType.Shock, actualTarget, 5f);
-                        // debuff.ApplyDebuff(DebuffType.LifeSteal, actualTarget, 10f);
-                        // debuff.ApplyDebuff(DebuffType.Corrosion, actualTarget, 10f);
-                    }
-
-
-                    actualTarget.TakeDamage(damage);
+                    finalDamage *= (1f - atkAttr.attackMinusPercent);
                 }
             }
+
+            if (UnityEngine.Random.value < 0.3f)
+            {
+                attacker.ApplyAttributeDebuffTo(actualTarget, 3f);
+            }
+
+            actualTarget.TakeDamage(finalDamage);
         }
 
         StartCoroutine(Attack());
@@ -140,7 +139,7 @@ public class Player_Attack : MonoBehaviour
         if (bulletScript != null && movement != null)
         {
             bulletScript.SetDirection(movement.lastDir);
-            bulletScript.Init(playerAttribute, GetComponent<Entity>());
+            bulletScript.Init(GetComponent<Entity>());
         }
     }
 

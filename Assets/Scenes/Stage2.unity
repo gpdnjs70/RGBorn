@@ -731,6 +731,10 @@ PrefabInstance:
       propertyPath: playerAttribute
       value: 
       objectReference: {fileID: 1390846111}
+    - target: {fileID: 8379992808120932845, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: mode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: hp
       value: 
@@ -2137,6 +2141,10 @@ PrefabInstance:
       propertyPath: playerAttribute
       value: 
       objectReference: {fileID: 1390846111}
+    - target: {fileID: 8379992808120932845, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: mode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: hp
       value: 
@@ -2246,6 +2254,7 @@ GameObject:
   - component: {fileID: 1390846111}
   - component: {fileID: 1390846112}
   - component: {fileID: 1390846113}
+  - component: {fileID: 1390846114}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -2561,8 +2570,6 @@ MonoBehaviour:
   bowBulletPrefab: {fileID: 6001305068737318086, guid: dfca3de9e5e1bae42b1fcfe876a92bab, type: 3}
   bowBulletPos: {fileID: 1419912879}
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
-  playerAttribute: {fileID: 1390846111}
-  enemyAttribute: {fileID: 1456088046}
 --- !u!114 &1390846108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2677,6 +2684,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2449c7aaf61ed3849a3d0e7bcc896fa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1390846114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390846099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f2bc65eff2fc5e469fc51d2b94805ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1398329689

@@ -30,6 +30,7 @@ public class BurnDebuff : DebuffBase
 
     public override IEnumerator Run()
     {
+        Debug.Log("화상 디버프 시작");
         float elapsed = 0f;
 
         yield return new WaitForSeconds(tickInterval);
@@ -40,6 +41,8 @@ public class BurnDebuff : DebuffBase
             elapsed += tickInterval;
             yield return new WaitForSeconds(tickInterval);
         }
+
+        Debug.Log("화상 디버프 종료");
     }
 }
 
@@ -66,6 +69,7 @@ public class LifeStealDebuff : DebuffBase
 
     public override IEnumerator Run()
     {
+        Debug.Log("흡혈 디버프 시작");
         float elapsed = 0f;
 
         while (elapsed < duration)
@@ -79,6 +83,8 @@ public class LifeStealDebuff : DebuffBase
             elapsed += tickInterval;
             yield return new WaitForSeconds(tickInterval);
         }
+
+        Debug.Log("흡혈 디버프 종료");
     }
 }
 
@@ -121,12 +127,12 @@ public class PoisonDebuff : DebuffBase
     public override IEnumerator Run()
     {
         target.AddAttackRedirect(this);
-        Debug.Log("혼란 디버프 시작");
+        Debug.Log("중독 디버프 시작");
 
         yield return new WaitForSeconds(duration);
 
         target.RemoveAttackRedirect(this);
-        Debug.Log("혼란 디버프 종료");
+        Debug.Log("중독 디버프 종료");
     }
 }
 

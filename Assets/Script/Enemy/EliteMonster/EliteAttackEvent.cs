@@ -18,21 +18,8 @@ public class EliteAttackEvent : MonoBehaviour
 
         enemy.SetAttackType(EnemyAttackType.Normal);
 
-        Entity source = enemy.hp;
-        DebuffController debuff = enemy.targetHP.GetComponent<DebuffController>();
-
-        if (debuff != null)
-        {
-            // debuff.ApplyDebuff(DebuffType.Burn, source, 10f);
-            // debuff.ApplyDebuff(DebuffType.Slow, source, 10f);
-            // debuff.ApplyDebuff(DebuffType.Poison, source, 10f);
-            // debuff.ApplyDebuff(DebuffType.Shock, source, 3f);
-            // debuff.ApplyDebuff(DebuffType.LifeSteal, source, 10f);
-            // debuff.ApplyDebuff(DebuffType.Corrosion, source, 10f);
-        }
-
         float damage = 10 * (1f + enemy.attackBonusRate);
-        enemy.targetHP.TakeDamage(damage);
+        enemy.DealDamageToTarget(damage, 3f);
     }
 
     public void Skill1()
@@ -42,10 +29,9 @@ public class EliteAttackEvent : MonoBehaviour
         enemy.SetAttackType(EnemyAttackType.Skill1, 3f);
 
         float damage = 20 * (1f + enemy.attackBonusRate);
-        enemy.targetHP.TakeDamage(damage);
+        enemy.DealDamageToTarget(damage, 3f);
 
-        KnockBack knockBack =
-            enemy.targetHP.GetComponent<KnockBack>();
+        KnockBack knockBack = enemy.targetHP.GetComponent<KnockBack>();
 
         if (knockBack != null)
         {
@@ -65,18 +51,7 @@ public class EliteAttackEvent : MonoBehaviour
             float currentHp = enemy.targetHP.HP;
             float damage = currentHp * 0.05f;
 
-            enemy.targetHP.TakeDamage(damage);
-
-            Entity source = enemy.hp;
-            DebuffController debuff = enemy.targetHP.GetComponent<DebuffController>();
-
-            if (debuff != null)
-            {
-                // debuff.ApplyDebuff(DebuffType.Burn, source, 10f);
-
-                // debuff.ApplyDebuff(DebuffType.LifeSteal, source, 10f);
-                // debuff.ApplyDebuff(DebuffType.Corrosion, source, 10f);
-            }
+            enemy.DealDamageToTarget(damage, 3f);
         }
 
         enemy.SetAttackType(EnemyAttackType.Skill2);

@@ -18,12 +18,12 @@ public class FollowState : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Vector2.Distance(enemy.player.position, enemyTransform.position) > 4)
+        /**if (Vector2.Distance(enemy.player.position, enemyTransform.position) > 4)
         {
             animator.SetBool("isBack", true);
             animator.SetBool("isFollow", false);
         }
-        else if (Vector2.Distance(enemy.player.position, enemyTransform.position) > 1f)
+        else**/ if (Vector2.Distance(enemy.player.position, enemyTransform.position) > 1f)
         {
             float finalSpeed = entity.MoveSpeed;
             Debug.Log($"현재 속도는 {finalSpeed}");
@@ -31,7 +31,7 @@ public class FollowState : StateMachineBehaviour
         }
         else
         {
-            animator.SetBool("isBack", false);
+            // animator.SetBool("isBack", false);
             animator.SetBool("isFollow", false);
 
             // 쿨타임이 다 끝났으면 공격 애니메이션 트리거

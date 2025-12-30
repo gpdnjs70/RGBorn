@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
 
     public Transform target;
     public Enemy_HP hp;
-    private Entity entity;
+    public Entity entity;
     public Entity targetHP;
 
     public EnemyAttackType currentAttackType { get; private set; }
@@ -104,5 +104,21 @@ public class Enemy : MonoBehaviour
     {
         attackBonusRate += rate;
         Debug.Log($"{name} 공격 배율 증가 → {attackBonusRate * 100f}%");
+    }
+
+    public void DealDamageToTarget(float damage, float debuffDuration)
+    {
+        if (targetHP == null) return;
+
+        Entity attacker = hp;
+        Entity intendedTarget = targetHP;
+        Entity actualTarget = attacker.ResolveAttackTarget(intendedTarget);
+
+        if (UnityEngine.Random.value < 0.3f)
+        {
+            attacker.ApplyAttributeDebuffTo(actualTarget, debuffDuration);
+        }
+        
+        actualTarget.TakeDamage(damage);
     }
 }

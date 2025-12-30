@@ -113,7 +113,23 @@ public abstract class Entity : MonoBehaviour
         defenseModifiers.Remove(value);
     }
 
-    
+    // 디버프 적용
+    public void ApplyAttributeDebuffTo(Entity target, float duration)
+    {
+        if (target == null) return;
+
+        ColorAttribute attackerAttr = GetComponent<ColorAttribute>();
+
+        DebuffController debuff = target.GetComponent<DebuffController>();
+
+        if (attackerAttr == null || debuff == null) return;
+
+        DebuffType type = attackerAttr.GetDebuffType();
+        if (type == DebuffType.None) return;
+
+        debuff.ApplyDebuff(type, this, duration);
+    }
+
     public virtual Entity GetAttackTarget(Entity intendedTarget)
     {
         return intendedTarget;
