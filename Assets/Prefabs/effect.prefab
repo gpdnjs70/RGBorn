@@ -102,5 +102,5 @@ MonoBehaviour:
   isLayer:
     serializedVersion: 2
     m_Bits: 64
-  damage: 20
+  damage: 10
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}

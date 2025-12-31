@@ -31,6 +31,9 @@ public class Player_Attack : MonoBehaviour
     [SerializeField] private GameObject bowBulletPrefab;
     [SerializeField] private Transform bowBulletPos;
 
+    [SerializeField] private GameObject staffBulletPrefab;
+    [SerializeField] private Transform staffBulletPos;
+
     [SerializeField] private AttributeDatabase attributeDB;
     
     bool IsAdvantage(ColorAttributeData attacker, ColorAttributeData defender)
@@ -134,6 +137,30 @@ public class Player_Attack : MonoBehaviour
             return;
 
         GameObject b = Instantiate(bowBulletPrefab, bowBulletPos.position, Quaternion.identity);
+
+        Bullet bulletScript = b.GetComponent<Bullet>();
+        if (bulletScript != null && movement != null)
+        {
+            bulletScript.SetDirection(movement.lastDir);
+            bulletScript.Init(GetComponent<Entity>());
+        }
+    }
+
+    public void OnStaffShoot()
+    {
+        if (weaponController != null &&
+            weaponController.currentWeapon == WeaponType.Staff)
+        {
+            SpawnStaffBullet();
+        }
+    }
+
+    private void SpawnStaffBullet()
+    {
+        if (staffBulletPrefab == null || staffBulletPos == null)
+            return;
+
+        GameObject b = Instantiate(staffBulletPrefab, staffBulletPos.position, Quaternion.identity);
 
         Bullet bulletScript = b.GetComponent<Bullet>();
         if (bulletScript != null && movement != null)

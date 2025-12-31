@@ -15,9 +15,10 @@ public class EnemyDataManager : MonoBehaviour
     void GetEnemyData()
     {
         print($"Name : {_enemyData.EnemyName}\n" +
-            $"HP : {_enemyData.MaxHP}\n" +
-            $"Damage : {_enemyData.Damage}\n" +
-            $"MoveSpeed : {_enemyData.MoveSpeed}\n" +
-            $"Description : {_enemyData.EnemyDescription}");
+            $"HP : {_enemyData.baseHP}\n" +
+            // $"Damage : {_enemyData.Damage}\n" +
+            $"MoveSpeed : {_enemyData.baseSpeed}\n" // +
+            // $"Description : {_enemyData.EnemyDescription}"
+            );
     }
 }

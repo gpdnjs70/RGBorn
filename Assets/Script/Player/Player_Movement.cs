@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
-    public float speed = 5f;
-
     [Header("Dash")]
     [SerializeField] private float dashingPower = 24f;
     [SerializeField] private float dashingTime = 0.2f;
@@ -30,8 +28,6 @@ public class Player_Movement : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         entity = GetComponent<Entity>();
-
-        entity.Speed = speed;
     }
 
     private void Update()
@@ -84,7 +80,7 @@ public class Player_Movement : MonoBehaviour
             return;
         }
 
-        float finalSpeed = entity.MoveSpeed;
+        float finalSpeed = entity.Speed;
         // Debug.Log($"현재 속도는 {finalSpeed}");
         rigid.velocity = move.normalized * finalSpeed; // 대각선 속도 보정
     }

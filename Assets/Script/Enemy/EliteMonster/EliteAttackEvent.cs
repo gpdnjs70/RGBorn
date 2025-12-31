@@ -18,7 +18,7 @@ public class EliteAttackEvent : MonoBehaviour
 
         enemy.SetAttackType(EnemyAttackType.Normal);
 
-        float damage = 10 * (1f + enemy.attackBonusRate);
+        float damage = 7 * (1f + enemy.attackBonusRate);
         enemy.DealDamageToTarget(damage, 3f);
     }
 
@@ -28,7 +28,7 @@ public class EliteAttackEvent : MonoBehaviour
 
         enemy.SetAttackType(EnemyAttackType.Skill1, 3f);
 
-        float damage = 20 * (1f + enemy.attackBonusRate);
+        float damage = 5 * (1f + enemy.attackBonusRate);
         enemy.DealDamageToTarget(damage, 3f);
 
         KnockBack knockBack = enemy.targetHP.GetComponent<KnockBack>();

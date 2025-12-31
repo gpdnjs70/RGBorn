@@ -4,29 +4,21 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
 {
-    private Stats stats;    // 캐릭터 정보
+    public Stats stats = new();   // 캐릭터 정보
     public Entity target;   // 공격 대상(플레이어의 경우 대상을 클릭하는 방식으로 설정)
 
-    // 체력(HP) 프로퍼티 : 0~MaxHP 사이의 값을 넘어갈 수 없도록 설정
+    // 체력(Hp) 프로퍼티
+    public float MaxHP => stats.MaxHP.Value;
+
     public float HP
     {
-        set => stats.HP = Mathf.Clamp(value, 0, MaxHP);
         get => stats.HP;
+        set => stats.HP = Mathf.Clamp(value, 0, MaxHP);
     }
-
-    // 현재 프로퍼티는 추상(abstract)으로 선언되었기 때문에
-    // 실제 작동하는 내용은 플레이어, 적과 같은 파생 클래스에서 정의
-    public abstract float MaxHP         { get; }    // 최대 체력
-    public abstract float HPRecovery    { get; }    // 초당 체력 회복량
+    // public abstract float HPRecovery    { get; }    // 초당 체력 회복량
 
     // 속도(Speed) 프로퍼티
-    public float Speed
-    {
-        set => stats.Speed = Mathf.Clamp(value, 0, MaxSpeed);
-        get => stats.Speed;
-    }
-
-    public abstract float MaxSpeed { get; }    // 최대 속도
+    public float Speed => Mathf.Max(0.1f, stats.Speed.Value);
 
     // 방어력
     private List<float> defenseModifiers = new();
@@ -46,6 +38,7 @@ public abstract class Entity : MonoBehaviour
     }
 
     // 초당 체력 회복
+    /**
     protected IEnumerator Recovery()
     {
         while (true)
@@ -55,6 +48,7 @@ public abstract class Entity : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
     }
+    **/
 
     // 상대방을 공격할 때 상대방의 TakeDamage() 호출
     // 매개변수 damage는 공격하는 본인 공격력
@@ -64,30 +58,6 @@ public abstract class Entity : MonoBehaviour
     public virtual void Burn(float damage = 5f)
     {
         HP -= damage;
-    }
-
-    // 슬로우 디버프
-    public float MoveSpeed
-    {
-        get
-        {
-            float result = Speed;
-
-            foreach (float mod in moveSpeedModifiers)
-                result *= (1f - mod);
-
-            return Mathf.Max(0.1f, result); // 완전 정지 방지
-        }
-    }
-
-    public void AddMoveSpeedModifier(float value)
-    {
-        moveSpeedModifiers.Add(value);
-    }
-
-    public void RemoveMoveSpeedModifier(float value)
-    {
-        moveSpeedModifiers.Remove(value);
     }
 
     // 부식 디버프
@@ -172,12 +142,4 @@ public abstract class Entity : MonoBehaviour
             CanAct = true;
         }
     }
-}
-
-[System.Serializable]
-public struct Stats
-{
-    // 이름, 레벨, 직업, 스탯(힘, 지능 등), 체력/마나, 경험치 등의 캐릭터 수치
-    [HideInInspector] public float HP;
-    [HideInInspector] public float Speed;
 }

@@ -14,7 +14,6 @@ public class Enemy : MonoBehaviour
 {
     Animator animator;
     public Transform player;
-    public float speed;
     public Vector2 home;
 
     public float atkCoolTime = 4;
@@ -45,7 +44,6 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         entity = GetComponent<Entity>();
-        entity.Speed = speed;
     }
 
     private void Update()

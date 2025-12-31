@@ -649,12 +649,16 @@ PrefabInstance:
       objectReference: {fileID: 1390846108}
     - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: atkCoolTime
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -3601175225905045916, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: skillEffectPrefab
       value: 
       objectReference: {fileID: 6879359026652843144, guid: 3703d62050e44fb4f8e8462fc502fe68, type: 3}
+    - target: {fileID: -2938668755207523637, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: cebd136bb00aba84cb4d5515da7e0d2d, type: 2}
     - target: {fileID: -2938668755207523637, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: hpUI
       value: 
@@ -1291,8 +1295,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: maxCooldownTime
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7282979846190798471, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c9246f5293bc9e842a601f111c082333, type: 3}
+    - target: {fileID: 9120498802220249187, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c9246f5293bc9e842a601f111c082333, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1411,7 +1423,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.4, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 3.3877401, y: 3.3877401, z: 3.3877401}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1758,10 +1770,14 @@ PrefabInstance:
       propertyPath: maxCooldownTime
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7282979846190798471, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 675b1ccd782f7a0479c7bed6bc6f4cbc, type: 3}
     - target: {fileID: 9120498802220249187, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 0c406a89a541faa43bf3840cad6e2841, type: 3}
+      objectReference: {fileID: 21300000, guid: 675b1ccd782f7a0479c7bed6bc6f4cbc, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2800,7 +2816,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &998305114
 MonoBehaviour:
@@ -2973,12 +2989,16 @@ PrefabInstance:
       objectReference: {fileID: 1390846108}
     - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: atkCoolTime
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -3601175225905045916, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: skillEffectPrefab
       value: 
       objectReference: {fileID: 6879359026652843144, guid: 3703d62050e44fb4f8e8462fc502fe68, type: 3}
+    - target: {fileID: -2938668755207523637, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: cebd136bb00aba84cb4d5515da7e0d2d, type: 2}
     - target: {fileID: -2938668755207523637, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: hpUI
       value: 
@@ -3362,7 +3382,7 @@ Transform:
   m_GameObject: {fileID: 1390846099}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.46, y: -0.51, z: 0}
+  m_LocalPosition: {x: -18, y: -0.51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3383,7 +3403,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9623725932a911547a9ca0fa8fcfff89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
   dashingPower: 20
   dashingTime: 0.2
   tr: {fileID: 1390846106}
@@ -3510,11 +3529,13 @@ MonoBehaviour:
   pos: {fileID: 697714593}
   boxSize: {x: 1.6, y: 3.2}
   movement: {fileID: 1390846105}
-  attackLockTime: 0.35
-  damage: 10
+  attackLockTime: 0.5
+  damage: 5
   weaponController: {fileID: 1390846110}
   bowBulletPrefab: {fileID: 6001305068737318086, guid: dfca3de9e5e1bae42b1fcfe876a92bab, type: 3}
   bowBulletPos: {fileID: 1419912879}
+  staffBulletPrefab: {fileID: 6001305068737318086, guid: 62a5de21376454c48bdfa120996025f7, type: 3}
+  staffBulletPos: {fileID: 1419912879}
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
 --- !u!114 &1390846108
 MonoBehaviour:
@@ -3528,7 +3549,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aef31326de9bf034d9cd64ec2aaf662f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats:
+    MaxHP:
+      baseValue: 0
+    Speed:
+      baseValue: 0
+    HP: 0
   target: {fileID: 1390846108}
+  baseHP: 50
 --- !u!114 &1390846109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12151,6 +12179,14 @@ PrefabInstance:
     - target: {fileID: 4322541625862886549, guid: 3becceff7ce0f4c449142a19e0ae76a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5672820847960496835, guid: 3becceff7ce0f4c449142a19e0ae76a2, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 5672820847960496835, guid: 3becceff7ce0f4c449142a19e0ae76a2, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 70
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -32507,7 +32543,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 590d866f6486d9045b7550eb317b8dfd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

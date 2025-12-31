@@ -10,7 +10,6 @@ public class EnemyData : ScriptableObject
     [TextArea]
     public string EnemyDescription;
 
-    public float MaxHP;
-    public float Damage;
-    public float MoveSpeed;
+    public float baseHP;
+    public float baseSpeed;
 }

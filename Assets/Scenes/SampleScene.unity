@@ -696,8 +696,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: maxCooldownTime
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7282979846190798471, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c9246f5293bc9e842a601f111c082333, type: 3}
+    - target: {fileID: 9120498802220249187, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c9246f5293bc9e842a601f111c082333, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1334,7 +1342,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.4, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 3.3877401, y: 3.3877401, z: 3.3877401}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1561,10 +1569,14 @@ PrefabInstance:
       propertyPath: maxCooldownTime
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7282979846190798471, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 675b1ccd782f7a0479c7bed6bc6f4cbc, type: 3}
     - target: {fileID: 9120498802220249187, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 0c406a89a541faa43bf3840cad6e2841, type: 3}
+      objectReference: {fileID: 21300000, guid: 675b1ccd782f7a0479c7bed6bc6f4cbc, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1946,7 +1958,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &998305114
 MonoBehaviour:
@@ -1985,7 +1997,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 590d866f6486d9045b7550eb317b8dfd, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2474,7 +2486,7 @@ SpriteRenderer:
   m_SortingLayerID: 106304143
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: af5f902b1a860bf4482ec3190115614d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9b76f8f694db6824cad090f155fdce6f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2515,7 +2527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9623725932a911547a9ca0fa8fcfff89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
   dashingPower: 20
   dashingTime: 0.2
   tr: {fileID: 1390846106}
@@ -2642,11 +2653,13 @@ MonoBehaviour:
   pos: {fileID: 697714593}
   boxSize: {x: 1.6, y: 3.2}
   movement: {fileID: 1390846105}
-  attackLockTime: 0.35
-  damage: 10
+  attackLockTime: 0.5
+  damage: 5
   weaponController: {fileID: 1390846110}
   bowBulletPrefab: {fileID: 6001305068737318086, guid: dfca3de9e5e1bae42b1fcfe876a92bab, type: 3}
   bowBulletPos: {fileID: 1419912879}
+  staffBulletPrefab: {fileID: 6001305068737318086, guid: 62a5de21376454c48bdfa120996025f7, type: 3}
+  staffBulletPos: {fileID: 1419912879}
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
 --- !u!114 &1390846108
 MonoBehaviour:
@@ -2660,7 +2673,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aef31326de9bf034d9cd64ec2aaf662f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats:
+    MaxHP:
+      baseValue: 0
+    Speed:
+      baseValue: 0
+    HP: 0
   target: {fileID: 1769130635}
+  baseHP: 50
 --- !u!114 &1390846109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3773,7 +3793,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1390846104}
-  speed: 2
   home: {x: 0, y: 0}
   atkCoolTime: 4
   atkDelay: 0
@@ -3794,11 +3813,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbad03c295d274445977b24a37a18a51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats:
+    MaxHP:
+      baseValue: 0
+    Speed:
+      baseValue: 0
+    HP: 0
   target: {fileID: 1390846108}
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
   playerAttribute: {fileID: 1390846111}
   enemyAttribute: {fileID: 1769130637}
   hpUI: {fileID: 1299542208}
+  data: {fileID: 11400000, guid: 78a2437660a3e6841ba7617aff72d6dd, type: 2}
 --- !u!61 &1769130636
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -18137,6 +18163,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2054239899}
     m_Modifications:
+    - target: {fileID: 142296248765108433, guid: 3becceff7ce0f4c449142a19e0ae76a2, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 83a297944d1d0b847acebedf9f9b6440, type: 3}
     - target: {fileID: 2928212562358803379, guid: 3becceff7ce0f4c449142a19e0ae76a2, type: 3}
       propertyPath: m_Name
       value: RedButton

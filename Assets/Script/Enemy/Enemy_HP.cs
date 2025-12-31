@@ -17,24 +17,20 @@ public class Enemy_HP : Entity, IDebuffTarget
     [SerializeField] private UI_HP hpUI;
     private bool isDead = false;
 
+    [SerializeField] private EnemyData data;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         enemy = GetComponent<Enemy>();
 
+        stats = new Stats();
+        stats.MaxHP.BaseValue = data.baseHP;
+        stats.Speed.BaseValue = data.baseSpeed;
+
         base.Setup();
     }
-
-    private void Update()
-    {
-        
-    }
-
-    public override float MaxHP => 200;
-    public override float HPRecovery => 15;
-
-    public override float MaxSpeed => 20;
 
     public override void TakeDamage(float damage)
     {

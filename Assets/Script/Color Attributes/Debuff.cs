@@ -49,15 +49,20 @@ public class BurnDebuff : DebuffBase
 public class SlowDebuff : DebuffBase
 {
     private float slowRate = 0.4f; // 40% 슬로우
+    private float appliedModifier;
 
     public override IEnumerator Run()
     {
-        target.AddMoveSpeedModifier(slowRate);
+        // baseSpeed 기준으로 감소량 계산
+        float baseSpeed = target.stats.Speed.BaseValue;
+        appliedModifier = -baseSpeed * slowRate;
+
+        target.stats.Speed.AddModifier(appliedModifier);
         Debug.Log("슬로우 시작");
 
         yield return new WaitForSeconds(duration);
 
-        target.RemoveMoveSpeedModifier(slowRate);
+        target.stats.Speed.RemoveModifier(appliedModifier);
         Debug.Log("슬로우 종료");
     }
 }

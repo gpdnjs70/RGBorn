@@ -36,7 +36,7 @@ public class EnemyManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("PortalTrigger가 EnemyManager에 연결되지 않음");
+                Debug.Log("PortalTrigger가 EnemyManager에 연결되지 않음");
             }
         }
     }

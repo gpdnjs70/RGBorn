@@ -14,7 +14,13 @@ public class attackState : StateMachineBehaviour
 
         if(enemy != null && enemy.targetHP != null)
         {
-            int damage = Random.Range(1, 20);
+            int damage = 2;
+
+            if (UnityEngine.Random.value < 0.1f)
+            {
+                damage = 5;
+            }
+
             enemy.DealDamageToTarget(damage, 3f);
         }
     }
