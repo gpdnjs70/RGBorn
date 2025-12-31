@@ -50,7 +50,7 @@ public class Bullet : MonoBehaviour
 
     void DealDamageWithAttribute(Entity attacker, Entity target)
     {
-        float finalDamage = damage;
+        float finalDamage = damage * attacker.GetDamageMultiplier();
 
         ColorAttribute atkAttrComp = attacker.GetComponent<ColorAttribute>();
 

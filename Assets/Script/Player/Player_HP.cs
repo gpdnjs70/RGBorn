@@ -8,14 +8,14 @@ public class Player_HP : Entity, IDebuffTarget
 
     private SpriteRenderer spriteRenderer;
 
-    [SerializeField] private float baseHP = 50f;
+    [SerializeField] public PlayerData playerData;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         stats = new Stats();
-        stats.MaxHP.BaseValue = baseHP;
+        stats.MaxHP.BaseValue = playerData.baseHP;
         stats.Speed.BaseValue = 5f;
 
         base.Setup();
@@ -48,5 +48,10 @@ public class Player_HP : Entity, IDebuffTarget
     public override void Burn(float damage)
     {
         HP -= damage;
+    }
+
+    public override float GetDamageMultiplier()
+    {
+        return playerData.damageMultiplier;
     }
 }

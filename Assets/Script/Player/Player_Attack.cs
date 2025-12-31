@@ -35,7 +35,8 @@ public class Player_Attack : MonoBehaviour
     [SerializeField] private Transform staffBulletPos;
 
     [SerializeField] private AttributeDatabase attributeDB;
-    
+    [SerializeField] private PlayerData playerData;
+
     bool IsAdvantage(ColorAttributeData attacker, ColorAttributeData defender)
     {
         return attacker.strongAgainst.Contains(defender.colorMode);
@@ -91,7 +92,7 @@ public class Player_Attack : MonoBehaviour
 
             ColorAttribute defAttrComp = actualTarget.GetComponent<ColorAttribute>();
 
-            float finalDamage = damage;
+            float finalDamage = damage * playerData.damageMultiplier;
 
             if (atkAttrComp != null && defAttrComp != null)
             {

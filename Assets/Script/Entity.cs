@@ -142,4 +142,9 @@ public abstract class Entity : MonoBehaviour
             CanAct = true;
         }
     }
+
+    public virtual float GetDamageMultiplier()
+    {
+        return 1f;
+    }
 }

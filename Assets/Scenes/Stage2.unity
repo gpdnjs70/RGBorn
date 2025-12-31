@@ -4531,6 +4531,7 @@ MonoBehaviour:
   staffBulletPrefab: {fileID: 6001305068737318086, guid: 62a5de21376454c48bdfa120996025f7, type: 3}
   staffBulletPos: {fileID: 1419912879}
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
+  playerData: {fileID: 11400000, guid: 8c9eb8bf27f93474e8f99d06fa7e7a3b, type: 2}
 --- !u!114 &1390846108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4550,7 +4551,7 @@ MonoBehaviour:
       baseValue: 0
     HP: 0
   target: {fileID: 1390846108}
-  baseHP: 50
+  playerData: {fileID: 11400000, guid: 8c9eb8bf27f93474e8f99d06fa7e7a3b, type: 2}
 --- !u!114 &1390846109
 MonoBehaviour:
   m_ObjectHideFlags: 0
