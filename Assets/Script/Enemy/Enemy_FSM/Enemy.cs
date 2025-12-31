@@ -34,6 +34,8 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Start()
     {
+        EnemyManager.Instance.Register(this);
+
         animator = GetComponent<Animator>();
         GameObject p = GameObject.FindWithTag("Player");
         if (p != null) player = p.transform;
@@ -120,5 +122,11 @@ public class Enemy : MonoBehaviour
         }
         
         actualTarget.TakeDamage(damage);
+    }
+
+    private void OnDestroy()
+    {
+        if (EnemyManager.Instance != null)
+            EnemyManager.Instance.Unregister(this);
     }
 }

@@ -627,6 +627,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: hp
+      value: 
+      objectReference: {fileID: 1931595710}
+    - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: entity
+      value: 
+      objectReference: {fileID: 1931595710}
+    - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1390846104}
+    - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1390846104}
+    - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: targetHP
+      value: 
+      objectReference: {fileID: 1390846108}
+    - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: atkCoolTime
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: -3601175225905045916, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: skillEffectPrefab
       value: 
@@ -741,8 +765,12 @@ PrefabInstance:
       objectReference: {fileID: 1931595710}
     - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: speed
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: entity
+      value: 
+      objectReference: {fileID: 1931595710}
     - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: player
       value: 
@@ -755,6 +783,10 @@ PrefabInstance:
       propertyPath: targetHP
       value: 
       objectReference: {fileID: 1390846108}
+    - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: atkCoolTime
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1505,6 +1537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e661ce3de5f2b24d8751e983e2eb99e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  portal: {fileID: 0}
 --- !u!4 &571006332
 Transform:
   m_ObjectHideFlags: 0
@@ -2918,6 +2951,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: hp
+      value: 
+      objectReference: {fileID: 1456088055}
+    - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: entity
+      value: 
+      objectReference: {fileID: 1456088055}
+    - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1390846104}
+    - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1390846104}
+    - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: targetHP
+      value: 
+      objectReference: {fileID: 1390846108}
+    - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: atkCoolTime
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: -3601175225905045916, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: skillEffectPrefab
       value: 
@@ -3032,8 +3089,12 @@ PrefabInstance:
       objectReference: {fileID: 1456088055}
     - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: speed
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: entity
+      value: 
+      objectReference: {fileID: 1456088055}
     - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: player
       value: 
@@ -3046,6 +3107,10 @@ PrefabInstance:
       propertyPath: targetHP
       value: 
       objectReference: {fileID: 1390846108}
+    - target: {fileID: 8575544512150814814, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: atkCoolTime
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

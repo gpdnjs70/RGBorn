@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+    [SerializeField] private PortalTrigger portal;
+
     public static EnemyManager Instance { get; private set; }
 
     private List<Enemy> enemies = new List<Enemy>();
@@ -22,6 +25,20 @@ public class EnemyManager : MonoBehaviour
     public void Unregister(Enemy enemy)
     {
         enemies.Remove(enemy);
+
+        if (enemies.Count == 0)
+        {
+            Debug.Log("모든 몬스터 처치!");
+
+            if (portal != null)
+            {
+                portal.UnlockPortal();
+            }
+            else
+            {
+                Debug.LogWarning("PortalTrigger가 EnemyManager에 연결되지 않음");
+            }
+        }
     }
 
     // Enemy 사망 시 호출

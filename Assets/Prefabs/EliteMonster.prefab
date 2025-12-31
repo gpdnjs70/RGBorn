@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5417287428298853249}
   - component: {fileID: 5221588390844245654}
   - component: {fileID: 6059354638434030256}
-  - component: {fileID: 8575544512150814814}
+  - component: {fileID: -4345724371595621193}
   - component: {fileID: -2938668755207523637}
   - component: {fileID: 8379992808120932845}
   - component: {fileID: -3601175225905045916}
@@ -185,7 +185,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8575544512150814814
+--- !u!114 &-4345724371595621193
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -204,7 +204,9 @@ MonoBehaviour:
   atkDelay: 0
   target: {fileID: 0}
   hp: {fileID: 0}
+  entity: {fileID: 0}
   targetHP: {fileID: 0}
+  isElite: 0
   powerBonusRate: 0.1
 --- !u!114 &-2938668755207523637
 MonoBehaviour:

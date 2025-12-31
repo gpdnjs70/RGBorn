@@ -117,7 +117,7 @@ public class Enemy_HP : Entity, IDebuffTarget
             enemy.enabled = false;
         }
 
-        if (EnemyManager.Instance != null && enemy != null)
+        if (EnemyManager.Instance != null && enemy != null && enemy is EliteMonster)
             EnemyManager.Instance.OnEnemyDied(enemy);
 
         // 죽는 애니메이션
