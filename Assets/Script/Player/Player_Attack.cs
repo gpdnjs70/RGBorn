@@ -18,12 +18,12 @@ public class Player_Attack : MonoBehaviour
     }
 
     private float curTime = 0;
-    public float coolTime = 0.5f;
+    public float coolTime = 1.0f;
     public Transform pos;
     public Vector2 boxSize;
 
     [SerializeField] private Player_Movement movement;
-    [SerializeField] private float attackLockTime = 0.35f;
+    [SerializeField] private float attackLockTime = 0.5f;
 
     public float damage = 2f;
 
@@ -35,7 +35,11 @@ public class Player_Attack : MonoBehaviour
     [SerializeField] private Transform staffBulletPos;
 
     [SerializeField] private AttributeDatabase attributeDB;
-    
+
+    [SerializeField] private List<WeaponType> lockTimeWeaponTypes = new List<WeaponType>();
+
+    [SerializeField] private List<float> lockTimes = new List<float>();
+
     bool IsAdvantage(ColorAttributeData attacker, ColorAttributeData defender)
     {
         return attacker.strongAgainst.Contains(defender.colorMode);
@@ -111,10 +115,7 @@ public class Player_Attack : MonoBehaviour
                 }
             }
 
-            if (UnityEngine.Random.value < 0.3f)
-            {
-                attacker.ApplyAttributeDebuffTo(actualTarget, 3f);
-            }
+            attacker.ApplyAttributeDebuffTo(actualTarget, 10f);
 
             actualTarget.TakeDamage(finalDamage);
         }
@@ -179,7 +180,7 @@ public class Player_Attack : MonoBehaviour
 
         myrigidbody.velocity = Vector2.zero;
 
-        yield return new WaitForSeconds(attackLockTime);
+        yield return new WaitForSeconds(GetAttackLockTime());
 
         movement.SetAttacking(false);
     }
@@ -212,5 +213,21 @@ public class Player_Attack : MonoBehaviour
             bLocal.x = Mathf.Abs(bLocal.x) * sign;
             bowBulletPos.localPosition = bLocal;
         }
+    }
+
+    float GetAttackLockTime()
+    {
+        if (weaponController == null)
+            return attackLockTime; // fallback
+
+        for (int i = 0; i < lockTimeWeaponTypes.Count; i++)
+        {
+            if (lockTimeWeaponTypes[i] == weaponController.currentWeapon)
+            {
+                return lockTimes[i];
+            }
+        }
+
+        return attackLockTime; // 못 찾았을 때 기본값
     }
 }

@@ -15,6 +15,9 @@ public class Player_WeaponController : MonoBehaviour
 
     [SerializeField] private Animator animator;
 
+    float wheelCooldown = 0.15f;
+    float lastWheelTime = 0f;
+
     void Awake()
     {
         if (animator == null)
@@ -28,30 +31,40 @@ public class Player_WeaponController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 1번 키 → Sword
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            currentWeapon = WeaponType.Sword;
-            SetWeaponAnimation(currentWeapon);
-            Debug.Log("Weapon changed: Sword");
-        }
+        if (Time.time - lastWheelTime < wheelCooldown) return;
 
-        // 2번 키 → Bow
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            currentWeapon = WeaponType.Bow;
-            SetWeaponAnimation(currentWeapon);
-            Debug.Log("Weapon changed: Bow");
-        }
+        float wheel = Input.GetAxis("Mouse ScrollWheel");
 
-        // 3번 키 → Staff
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (wheel > 0f)
         {
-            currentWeapon = WeaponType.Staff;
-            SetWeaponAnimation(currentWeapon);
-            Debug.Log("Weapon changed: Staff");
+            ChangeWeapon(1);
+            lastWheelTime = Time.time;
+        }
+        else if (wheel < 0f)
+        {
+            ChangeWeapon(-1);
+            lastWheelTime = Time.time;
         }
     }
+
+    void ChangeWeapon(int direction)
+    {
+        int weaponCount = System.Enum.GetValues(typeof(WeaponType)).Length;
+
+        int nextIndex = (int)currentWeapon + direction;
+
+        // 순환 처리
+        if (nextIndex >= weaponCount)
+            nextIndex = 0;
+        else if (nextIndex < 0)
+            nextIndex = weaponCount - 1;
+
+        currentWeapon = (WeaponType)nextIndex;
+
+        SetWeaponAnimation(currentWeapon);
+        Debug.Log($"Weapon changed: {currentWeapon}");
+    }
+
 
     private void SetWeaponAnimation(WeaponType wt)
     {
