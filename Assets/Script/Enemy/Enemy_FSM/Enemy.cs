@@ -124,6 +124,12 @@ public class Enemy : MonoBehaviour
 
     private void OnDestroy()
     {
+        DebuffController[] debuffs = FindObjectsOfType<DebuffController>();
+        foreach (var d in debuffs)
+        {
+            d.RemoveDebuffsFromSource(entity);
+        }
+
         if (EnemyManager.Instance != null)
             EnemyManager.Instance.Unregister(this);
     }

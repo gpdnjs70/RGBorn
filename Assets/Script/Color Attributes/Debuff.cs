@@ -7,6 +7,13 @@ public interface IDebuffTarget
     Entity Entity { get; }
 }
 
+public class DebuffInstance
+{
+    public DebuffBase debuff;
+    public Entity source;
+    public Coroutine coroutine;
+}
+
 public abstract class DebuffBase
 {
     protected Entity target;    // 디버프를 당하는 쪽
@@ -19,6 +26,8 @@ public abstract class DebuffBase
         this.target = target;
         this.duration = duration;
     }
+
+    public virtual void OnForceRemove() { }
 
     public abstract IEnumerator Run();
 }
@@ -65,6 +74,11 @@ public class SlowDebuff : DebuffBase
         target.stats.Speed.RemoveModifier(appliedModifier);
         Debug.Log("슬로우 종료");
     }
+
+    public override void OnForceRemove()
+    {
+        target.stats.Speed.RemoveModifier(appliedModifier);
+    }
 }
 
 public class LifeStealDebuff : DebuffBase
@@ -107,6 +121,11 @@ public class ShockDebuff : DebuffBase
         target.UnlockAction();
         Debug.Log("Shock 종료");
     }
+
+    public override void OnForceRemove()
+    {
+        target.UnlockAction();
+    }
 }
 
 public class CorrosionDebuff : DebuffBase
@@ -125,6 +144,11 @@ public class CorrosionDebuff : DebuffBase
         target.RemoveDefenseModifier(defenseReduction);
         Debug.Log("부식 디버프 종료");
     }
+
+    public override void OnForceRemove()
+    {
+        target.RemoveDefenseModifier(defenseReduction);
+    }
 }
 
 public class PoisonDebuff : DebuffBase
@@ -138,6 +162,11 @@ public class PoisonDebuff : DebuffBase
 
         target.RemoveAttackRedirect(this);
         Debug.Log("중독 디버프 종료");
+    }
+
+    public override void OnForceRemove()
+    {
+        target.RemoveAttackRedirect(this);
     }
 }
 

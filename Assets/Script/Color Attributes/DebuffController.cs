@@ -5,7 +5,7 @@ using UnityEngine;
 public class DebuffController : MonoBehaviour
 {
     private Entity target;
-    private Coroutine currentDebuff;
+    private List<DebuffInstance> activeDebuffs = new();
 
     private void Awake()
     {
@@ -19,7 +19,27 @@ public class DebuffController : MonoBehaviour
         if (debuff == null) return;
 
         debuff.Init(source, target, duration);
-        StartCoroutine(debuff.Run());
+        Coroutine c = StartCoroutine(debuff.Run());
+
+        activeDebuffs.Add(new DebuffInstance
+        {
+            debuff = debuff,
+            source = source,
+            coroutine = c
+        });
+    }
+
+    public void RemoveDebuffsFromSource(Entity source)
+    {
+        for (int i = activeDebuffs.Count - 1; i >= 0; i--)
+        {
+            if (activeDebuffs[i].source == source)
+            {
+                activeDebuffs[i].debuff.OnForceRemove();
+                StopCoroutine(activeDebuffs[i].coroutine);
+                activeDebuffs.RemoveAt(i);
+            }
+        }
     }
 
     private DebuffBase CreateDebuff(DebuffType type)
