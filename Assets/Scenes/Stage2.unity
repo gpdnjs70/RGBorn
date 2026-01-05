@@ -4531,6 +4531,8 @@ MonoBehaviour:
   staffBulletPrefab: {fileID: 6001305068737318086, guid: 62a5de21376454c48bdfa120996025f7, type: 3}
   staffBulletPos: {fileID: 1419912879}
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
+  lockTimeWeaponTypes: 
+  lockTimes: []
 --- !u!114 &1390846108
 MonoBehaviour:
   m_ObjectHideFlags: 0
