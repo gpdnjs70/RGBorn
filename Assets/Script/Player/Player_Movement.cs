@@ -15,6 +15,7 @@ public class Player_Movement : MonoBehaviour
 
     private float h;
     private float v;
+    private float dirX;
     private Vector2 move;              // 현재 프레임 이동 입력 (정규화)
     public Vector2 lastDir = Vector2.left; // 마지막 비영(0) 방향(대시 방향)
 
@@ -22,6 +23,9 @@ public class Player_Movement : MonoBehaviour
     private bool isAttacking = false;
     public bool isKnockBack;
     public bool IsMovementLocked => isDashing || isAttacking;
+
+    public TutorialDialogue dialogue;
+    GameObject scanObject;
 
     private void Awake()
     {
@@ -38,8 +42,8 @@ public class Player_Movement : MonoBehaviour
         if (IsMovementLocked) return;
 
         // 입력
-        h = Input.GetAxisRaw("Horizontal");
-        v = Input.GetAxisRaw("Vertical");
+        h = dialogue.isAction? 0 : Input.GetAxisRaw("Horizontal");
+        v = dialogue.isAction ? 0 : Input.GetAxisRaw("Vertical");
 
         move = new Vector2(h, v);
         if (move.sqrMagnitude > 0.0001f)
@@ -49,8 +53,8 @@ public class Player_Movement : MonoBehaviour
         bool isMove = (h != 0 || v != 0);
         anim.SetBool("isMove", isMove);
 
-        // 방향 파라미터 (필요시 유지)
-        float dirX = (isMove ? lastDir.x : lastDir.x);   // 정지 시에도 마지막 방향 유지
+        // 방향 파라미터
+        dirX = (isMove ? lastDir.x : lastDir.x);   // 정지 시에도 마지막 방향 유지
         anim.SetFloat("Direction", Mathf.Clamp(dirX, -1f, 1f));
 
         // 대시 입력
@@ -66,6 +70,11 @@ public class Player_Movement : MonoBehaviour
             anim.SetTrigger("Dash");   // 애니메이션 점화
             isDashing = true;          // 로직 잠금
             StartCoroutine(Dash());
+        }
+
+        if(Input.GetButtonDown("Jump") && scanObject != null)
+        {
+            dialogue.Action(scanObject);
         }
     }
 
@@ -83,6 +92,19 @@ public class Player_Movement : MonoBehaviour
         float finalSpeed = entity.Speed;
         // Debug.Log($"현재 속도는 {finalSpeed}");
         rigid.velocity = move.normalized * finalSpeed; // 대각선 속도 보정
+
+        // Ray
+        Debug.DrawRay(rigid.position, new Vector3(dirX, 0f, 0f) * 0.7f, new Color(0, 1, 0));
+        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, new Vector3(dirX, 0f, 0f), 0.7f, LayerMask.GetMask("NPC"));
+
+        if(rayHit.collider != null)
+        {
+            scanObject = rayHit.collider.gameObject;
+        }
+        else
+        {
+            scanObject = null;
+        }
     }
 
     private IEnumerator Dash()
