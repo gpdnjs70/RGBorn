@@ -22362,12 +22362,9 @@ GameObject:
   - component: {fileID: 1641778974}
   - component: {fileID: 1641778973}
   - component: {fileID: 1641778972}
-  - component: {fileID: 1641778971}
+  - component: {fileID: 1641778978}
   - component: {fileID: 1641778970}
-  - component: {fileID: 1641778969}
   - component: {fileID: 1641778968}
-  - component: {fileID: 1641778967}
-  - component: {fileID: 1641778966}
   - component: {fileID: 1641778965}
   - component: {fileID: 1641778964}
   - component: {fileID: 1641778977}
@@ -22396,7 +22393,7 @@ MonoBehaviour:
   OnBegin:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1641778971}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Player_Movement, Assembly-CSharp
         m_MethodName: SetKnockBack
         m_Mode: 6
@@ -22411,7 +22408,7 @@ MonoBehaviour:
   OnDone:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1641778971}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Player_Movement, Assembly-CSharp
         m_MethodName: SetKnockBack
         m_Mode: 6
@@ -22436,39 +22433,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorUI: {fileID: 159708341}
---- !u!114 &1641778966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1641778963}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4dffc0d25a86e14eb5f645fe2c4cfe0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentWeapon: 0
-  animator: {fileID: 0}
---- !u!114 &1641778967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1641778963}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a33311615086a8f479e0f043aeedf595, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet: {fileID: 6001305068737318086, guid: 9601e993872574043b4da290ca5b1db5, type: 3}
-  pos: {fileID: 1982804585}
-  movement: {fileID: 1641778971}
-  weaponController: {fileID: 1641778966}
-  animator: {fileID: 1641778972}
-  rangedSkillCooldown: {fileID: 0}
-  playerAttribute: {fileID: 1641778965}
 --- !u!114 &1641778968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22489,32 +22453,6 @@ MonoBehaviour:
     HP: 0
   target: {fileID: 1641778968}
   baseHP: 50
---- !u!114 &1641778969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1641778963}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77ea7831ebd8f6e40a8e9a3d3fd0726b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coolTime: 0.5
-  pos: {fileID: 1847660115}
-  boxSize: {x: 1.6, y: 3.2}
-  movement: {fileID: 1641778971}
-  attackLockTime: 0.35
-  damage: 2
-  weaponController: {fileID: 1641778966}
-  bowBulletPrefab: {fileID: 6001305068737318086, guid: dfca3de9e5e1bae42b1fcfe876a92bab, type: 3}
-  bowBulletPos: {fileID: 1982804585}
-  staffBulletPrefab: {fileID: 6001305068737318086, guid: 62a5de21376454c48bdfa120996025f7, type: 3}
-  staffBulletPos: {fileID: 1982804585}
-  attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
-  lockTimeWeaponTypes: 
-  lockTimes: []
 --- !u!96 &1641778970
 TrailRenderer:
   serializedVersion: 3
@@ -22619,25 +22557,6 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &1641778971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1641778963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9623725932a911547a9ca0fa8fcfff89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dashingPower: 20
-  dashingTime: 0.2
-  tr: {fileID: 1641778970}
-  dashCooldownUI: {fileID: 0}
-  lastDir: {x: -1, y: 0}
-  isKnockBack: 0
-  dialogue: {fileID: 569116487}
 --- !u!95 &1641778972
 Animator:
   serializedVersion: 5
@@ -22813,6 +22732,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f2bc65eff2fc5e469fc51d2b94805ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1641778978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641778963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0f95aa0b18d9b47b477e51fdb707f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashingPower: 20
+  dashingTime: 0.2
+  tr: {fileID: 1641778970}
+  dashCooldownUI: {fileID: 0}
+  lastDir: {x: 1, y: 0}
+  dialogue: {fileID: 569116487}
 --- !u!1 &1738513081
 GameObject:
   m_ObjectHideFlags: 0

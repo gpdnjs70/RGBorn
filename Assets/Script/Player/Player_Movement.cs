@@ -24,9 +24,6 @@ public class Player_Movement : MonoBehaviour
     public bool isKnockBack;
     public bool IsMovementLocked => isDashing || isAttacking;
 
-    public TutorialDialogue dialogue;
-    GameObject scanObject;
-
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -42,8 +39,8 @@ public class Player_Movement : MonoBehaviour
         if (IsMovementLocked) return;
 
         // 입력
-        h = dialogue.isAction? 0 : Input.GetAxisRaw("Horizontal");
-        v = dialogue.isAction ? 0 : Input.GetAxisRaw("Vertical");
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
 
         move = new Vector2(h, v);
         if (move.sqrMagnitude > 0.0001f)
@@ -71,11 +68,6 @@ public class Player_Movement : MonoBehaviour
             isDashing = true;          // 로직 잠금
             StartCoroutine(Dash());
         }
-
-        if(Input.GetButtonDown("Jump") && scanObject != null)
-        {
-            dialogue.Action(scanObject);
-        }
     }
 
     private void FixedUpdate()
@@ -92,19 +84,6 @@ public class Player_Movement : MonoBehaviour
         float finalSpeed = entity.Speed;
         // Debug.Log($"현재 속도는 {finalSpeed}");
         rigid.velocity = move.normalized * finalSpeed; // 대각선 속도 보정
-
-        // Ray
-        Debug.DrawRay(rigid.position, new Vector3(dirX, 0f, 0f) * 0.7f, new Color(0, 1, 0));
-        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, new Vector3(dirX, 0f, 0f), 0.7f, LayerMask.GetMask("NPC"));
-
-        if(rayHit.collider != null)
-        {
-            scanObject = rayHit.collider.gameObject;
-        }
-        else
-        {
-            scanObject = null;
-        }
     }
 
     private IEnumerator Dash()
