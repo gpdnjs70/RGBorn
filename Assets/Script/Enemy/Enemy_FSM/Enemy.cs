@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour
         entity = GetComponent<Entity>();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if(atkDelay >= 0)
         {
