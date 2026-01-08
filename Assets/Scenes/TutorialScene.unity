@@ -21323,7 +21323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bcf666cc4011d84f846218c6f52f4de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: SampleScene
+  nextSceneName: Stage1
   isUnlocked: 1
 --- !u!212 &768340292
 SpriteRenderer:
@@ -22003,7 +22003,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aef31326de9bf034d9cd64ec2aaf662f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats:
+    MaxHP:
+      baseValue: 0
+    Speed:
+      baseValue: 0
+    HP: 0
   target: {fileID: 1641778968}
+  baseHP: 50
 --- !u!114 &1641778969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22028,6 +22035,8 @@ MonoBehaviour:
   staffBulletPrefab: {fileID: 6001305068737318086, guid: 62a5de21376454c48bdfa120996025f7, type: 3}
   staffBulletPos: {fileID: 1982804585}
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
+  lockTimeWeaponTypes: 
+  lockTimes: []
 --- !u!96 &1641778970
 TrailRenderer:
   serializedVersion: 3
@@ -22144,12 +22153,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9623725932a911547a9ca0fa8fcfff89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
   dashingPower: 20
   dashingTime: 0.2
   tr: {fileID: 1641778970}
   dashCooldownUI: {fileID: 0}
-  lastDir: {x: -1, y: 0}
+  lastDir: {x: 1, y: 0}
   isKnockBack: 0
 --- !u!95 &1641778972
 Animator:

@@ -16,7 +16,7 @@ public class Player_Movement : MonoBehaviour
     private float h;
     private float v;
     private Vector2 move;              // 현재 프레임 이동 입력 (정규화)
-    public Vector2 lastDir = Vector2.left; // 마지막 비영(0) 방향(대시 방향)
+    public Vector2 lastDir = Vector2.right; // 마지막 비영(0) 방향(대시 방향)
 
     private bool isDashing;
     private bool isAttacking = false;
