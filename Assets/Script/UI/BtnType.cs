@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static UnityEditor.Timeline.TimelinePlaybackControls;
+using UnityEngine.SceneManagement;
 
 public enum BTNType
 {
@@ -36,6 +37,7 @@ public class BtnType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             case BTNType.New:
                 Debug.Log("새게임");
+                SceneManager.LoadScene("TutorialScene");
                 break;
             case BTNType.Continue:
                 Debug.Log("이어하기");
