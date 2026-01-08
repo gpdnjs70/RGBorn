@@ -6,12 +6,14 @@ public class EliteReadyState : StateMachineBehaviour
 {
     Transform enemyTransform;
     EliteMonster enemy;
+    int selectedIndex = 1;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("ready");
         enemy = animator.GetComponent<EliteMonster>();
         enemyTransform = animator.GetComponent<Transform>();
+        animator.ResetTrigger("Attack");
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -31,27 +33,16 @@ public class EliteReadyState : StateMachineBehaviour
 
     private void DetermineNextAttack(Animator animator)
     {
-        List<int> possibleAttacks = new List<int>();
-
-        // 0번: 기본 공격 (항상 가능)
-        possibleAttacks.Add(0);
-
-        // 1번: 스킬1 (쿨타임 체크)
-        if (enemy.skill1Delay <= 0) possibleAttacks.Add(1);
-
-        // 랜덤 선택
-        int selectedIndex = possibleAttacks[Random.Range(0, possibleAttacks.Count)];
-
-        // 개별 스킬 쿨타임 적용
-        if (selectedIndex == 1)
+        if (selectedIndex == 0 && enemy.skill1Delay <= 0)
         {
-            enemy.skill1Delay = enemy.skill1CoolTime;
+            selectedIndex = 1;
+        }
+        else
+        {
+            selectedIndex = 0;
         }
 
-        // 전체 공격 쿨타임(공통) 초기화
         enemy.atkDelay = enemy.atkCoolTime;
-
-        // 애니메이터 실행
         animator.SetInteger("AttackIndex", selectedIndex);
         animator.SetTrigger("Attack");
     }

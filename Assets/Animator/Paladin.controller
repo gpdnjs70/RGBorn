@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df41c71342c22d74e8db7c9fdd0d5a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCount: 2
 --- !u!1101 &-7899059446782127880
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -373,7 +372,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 1.2
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 0
   m_InterruptionSource: 0

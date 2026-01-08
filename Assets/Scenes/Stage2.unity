@@ -651,6 +651,10 @@ PrefabInstance:
       propertyPath: atkCoolTime
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: -4345724371595621193, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
+      propertyPath: skill1Delay
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -3601175225905045916, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: skillEffectPrefab
       value: 
