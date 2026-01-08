@@ -4493,7 +4493,7 @@ MonoBehaviour:
   dashingTime: 0.2
   tr: {fileID: 1390846106}
   dashCooldownUI: {fileID: 234472147}
-  lastDir: {x: -1, y: 0}
+  lastDir: {x: 1, y: 0}
   isKnockBack: 0
 --- !u!96 &1390846106
 TrailRenderer:
