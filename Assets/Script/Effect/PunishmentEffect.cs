@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PunishmentEffect : MonoBehaviour
 {
-    public float lifeTime = 0.7f;
+    public float lifeTime;
 
     private void Start()
     {
