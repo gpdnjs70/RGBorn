@@ -4101,7 +4101,7 @@ PrefabInstance:
     - target: {fileID: 2762107748334740306, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: fdabad3896da20445bbc5375356434eb, type: 3}
+      objectReference: {fileID: 21300000, guid: cdb9d8736bc711746b91d3f5bc7826d3, type: 3}
     - target: {fileID: 5221588390844245654, guid: 143d44f54b3753443a1c3fd84917a7b7, type: 3}
       propertyPath: m_Size.x
       value: 2.3
@@ -4611,11 +4611,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ea7831ebd8f6e40a8e9a3d3fd0726b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coolTime: 0.5
+  coolTime: 1
   pos: {fileID: 697714593}
   boxSize: {x: 1.6, y: 3.2}
   movement: {fileID: 1390846105}
-  attackLockTime: 0.5
+  attackLockTime: 0.65
   damage: 5
   weaponController: {fileID: 1390846110}
   bowBulletPrefab: {fileID: 6001305068737318086, guid: dfca3de9e5e1bae42b1fcfe876a92bab, type: 3}
@@ -4623,8 +4623,11 @@ MonoBehaviour:
   staffBulletPrefab: {fileID: 6001305068737318086, guid: 62a5de21376454c48bdfa120996025f7, type: 3}
   staffBulletPos: {fileID: 1419912879}
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
-  lockTimeWeaponTypes: 
-  lockTimes: []
+  lockTimeWeaponTypes: 000000000100000002000000
+  lockTimes:
+  - 0.5
+  - 0.65
+  - 0.7
 --- !u!114 &1390846108
 MonoBehaviour:
   m_ObjectHideFlags: 0
