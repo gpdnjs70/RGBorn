@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class EliteAttackEvent : MonoBehaviour
 {
     private Enemy enemy;
     [SerializeField] private GameObject skillEffectPrefab;
+
+    [SerializeField] private Vector2 normalAttackSize;
+    [SerializeField] private Vector2 Skill1AttackSize;
 
     private void Awake()
     {
@@ -16,44 +20,51 @@ public class EliteAttackEvent : MonoBehaviour
     {
         if (enemy == null || enemy.targetHP == null) return;
 
-        enemy.SetAttackType(EnemyAttackType.Normal);
+        Collider2D hit = Physics2D.OverlapBox(enemy.pos.position, normalAttackSize, 0, LayerMask.GetMask("Player"));
 
-        float damage = 7 * (1f + enemy.attackBonusRate);
-        enemy.DealDamageToTarget(damage, 3f);
+        if (hit != null)
+        {
+            enemy.SetAttackType(EnemyAttackType.Normal);
+
+            float damage = 7 * (1f + enemy.attackBonusRate);
+            enemy.DealDamageToTarget(damage, 3f);
+        }
     }
 
     public void Skill1()
     {
         if (enemy == null || enemy.targetHP == null) return;
 
-        enemy.SetAttackType(EnemyAttackType.Skill1, 3f);
+        Collider2D hit = Physics2D.OverlapBox(enemy.pos.position, Skill1AttackSize, 0, LayerMask.GetMask("Player"));
 
-        float damage = 5 * (1f + enemy.attackBonusRate);
-        enemy.DealDamageToTarget(damage, 3f);
-
-        KnockBack knockBack = enemy.targetHP.GetComponent<KnockBack>();
-
-        if (knockBack != null)
+        if (hit != null)
         {
-            knockBack.PlayFeedBack(enemy.gameObject);
-        }
+            enemy.SetAttackType(EnemyAttackType.Skill1, 3f);
+
+            float damage = 5 * (1f + enemy.attackBonusRate);
+            enemy.DealDamageToTarget(damage, 3f);
+
+            KnockBack knockBack = enemy.targetHP.GetComponent<KnockBack>();
+
+            if (knockBack != null)
+            {
+                knockBack.PlayFeedBack(enemy.gameObject);
+            }
+        }        
     }
 
     public void Skill2()
     {
+        Debug.Log("Skill2");
         // punishment Effect
         Vector3 pos = enemy.player.transform.position;
         pos += Vector3.up * 0.5f;
-        Instantiate(skillEffectPrefab, pos, Quaternion.identity);
+        GameObject effectObj = Instantiate(skillEffectPrefab, pos, Quaternion.identity);
 
-        if (enemy != null && enemy.targetHP != null)
+        PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
+        if (effectScript != null)
         {
-            float currentHp = enemy.targetHP.HP;
-            float damage = currentHp * 0.05f;
-
-            enemy.DealDamageToTarget(damage, 3f);
+            effectScript.Setup(enemy);
         }
-
-        enemy.SetAttackType(EnemyAttackType.Skill2);
     }
 }

@@ -62,7 +62,7 @@ public class Player_WeaponController : MonoBehaviour
         currentWeapon = (WeaponType)nextIndex;
 
         SetWeaponAnimation(currentWeapon);
-        Debug.Log($"Weapon changed: {currentWeapon}");
+        //Debug.Log($"Weapon changed: {currentWeapon}");
     }
 
 
@@ -71,6 +71,6 @@ public class Player_WeaponController : MonoBehaviour
         if (animator == null) return;
 
         animator.SetInteger("Weapon", (int)wt);
-        Debug.Log($"Weapon changed: {wt}");
+        //Debug.Log($"Weapon changed: {wt}");
     }
 }
