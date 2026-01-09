@@ -31,6 +31,9 @@ public class Enemy : MonoBehaviour
     public float powerBonusRate = 0.1f;
     public float attackBonusRate { get; private set; } = 0f;
 
+    public Transform pos;
+    public Vector2 boxSize;
+
     protected virtual void Start()
     {
         EnemyManager.Instance.Register(this);
@@ -132,5 +135,40 @@ public class Enemy : MonoBehaviour
 
         if (EnemyManager.Instance != null)
             EnemyManager.Instance.Unregister(this);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(pos.position, boxSize);
+    }
+
+    public void UpdateAttackBoxPosition()
+    {
+        // 이동 방향 계산 (플레이어가 오른쪽에 있으면 1, 왼쪽에 있으면 -1)
+        float sign = (player.position.x - transform.position.x) >= 0 ? 1f : -1f;
+
+        if (pos != null)
+        {
+            Vector3 local = pos.localPosition;
+            local.x = Mathf.Abs(local.x) * sign; // 원래 위치의 절대값에 방향 곱하기
+            pos.localPosition = local;
+        }
+    }
+
+    public void OnAttackEvent() // 애니메이션 이벤트에서 호출
+    {
+        Collider2D hit = Physics2D.OverlapBox(pos.position, boxSize, 0, LayerMask.GetMask("Player"));
+
+        if (hit != null)
+        {
+            int damage = 2;
+            if (UnityEngine.Random.value < 0.1f)
+            {
+                damage = 5;
+            }
+
+            DealDamageToTarget(damage, 3f);
+        }
     }
 }
