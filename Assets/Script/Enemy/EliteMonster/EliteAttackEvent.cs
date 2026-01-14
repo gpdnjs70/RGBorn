@@ -48,6 +48,7 @@ public class EliteAttackEvent : MonoBehaviour
 
             if (knockBack != null)
             {
+                Debug.Log("≥ÀπÈ¿Ã »£√‚µ ");
                 knockBack.PlayFeedBack(enemy.gameObject);
             }
         }        
