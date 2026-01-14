@@ -15,6 +15,7 @@ public class Player_Movement : MonoBehaviour
 
     private float h;
     private float v;
+    private float dirX;
     private Vector2 move;              // 현재 프레임 이동 입력 (정규화)
     public Vector2 lastDir = Vector2.right; // 마지막 비영(0) 방향(대시 방향)
 
@@ -49,8 +50,8 @@ public class Player_Movement : MonoBehaviour
         bool isMove = (h != 0 || v != 0);
         anim.SetBool("isMove", isMove);
 
-        // 방향 파라미터 (필요시 유지)
-        float dirX = (isMove ? lastDir.x : lastDir.x);   // 정지 시에도 마지막 방향 유지
+        // 방향 파라미터
+        dirX = (isMove ? lastDir.x : lastDir.x);   // 정지 시에도 마지막 방향 유지
         anim.SetFloat("Direction", Mathf.Clamp(dirX, -1f, 1f));
 
         // 대시 입력
