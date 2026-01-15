@@ -33,17 +33,20 @@ public class MidBossAttackEvent : MonoBehaviour
     {
         Debug.Log("Inferno");
 
-        // inferno Effect
+        // 위치 계산
         Vector3 pos = enemy.pos.transform.position;
-
-        // 이동 방향 계산 (플레이어가 오른쪽에 있으면 1, 왼쪽에 있으면 -1)
         float sign = (enemy.player.position.x - transform.position.x) >= 0 ? 1f : -1f;
         pos += new Vector3(sign * 0.5f, 0, 0);
 
-        pos -= Vector3.right * 2.5f;
-        pos += Vector3.up * 0.3f;
+        // 이펙트 생성
         GameObject effectObj = Instantiate(infernoEffectPrefab, pos, Quaternion.identity);
 
+        // Flip 처리 (방향 전환)
+        Vector3 localScale = effectObj.transform.localScale;
+        localScale.x = Mathf.Abs(localScale.x) * (sign * -1); // sign이 -1이면 왼쪽, 1이면 오른쪽
+        effectObj.transform.localScale = localScale;
+
+        // 스크립트 설정
         PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
         if (effectScript != null)
         {
