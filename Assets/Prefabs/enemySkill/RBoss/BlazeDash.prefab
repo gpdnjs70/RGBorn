@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7742396419811685423}
   - component: {fileID: 2309850241364031533}
   - component: {fileID: 410856648357678844}
-  - component: {fileID: -5288661962043942555}
+  - component: {fileID: 2675205714635198348}
   m_Layer: 0
   m_Name: BlazeDash
   m_TagString: Untagged
@@ -142,7 +142,7 @@ Animator:
   m_GameObject: {fileID: 6879359026652843144}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8eccc04932d070947b46411b8fca2994, type: 2}
+  m_Controller: {fileID: 9100000, guid: a9eba719685c51041ba8b096b1fcf305, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -153,7 +153,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-5288661962043942555
+--- !u!114 &2675205714635198348
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,8 +162,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6879359026652843144}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 236fa02c53f379349b7a1ec13a8d36dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 7578f601ef7a42546b443dc434d49137, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 10
-  moveSpeed: 2
+  lifeTime: 1

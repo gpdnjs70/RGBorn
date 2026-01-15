@@ -41,27 +41,26 @@ public class BlazeTempestEffect : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // 이미 데미지를 줬거나, 주인 정보가 없거나, 플레이어가 아니면 리턴
         if (hasDealtDamage || enemy == null || !collision.CompareTag("Player")) return;
 
-        // 플레이어와 부딪히는 순간 즉시 이동 멈춤
-        isStopped = true;
-
+        // 플레이어의 HP 컴포넌트 가져오기
         Player_HP playerHP = collision.GetComponent<Player_HP>();
 
         if (playerHP != null)
         {
+            // 공격 타입 설정
             enemy.SetAttackType(EnemyAttackType.Skill2);
 
+            // 기존 데미지 로직: 현재 체력의 5%
             float currentHp = playerHP.HP;
             float damage = currentHp * 0.05f;
 
+            // 데미지 적용
             enemy.DealDamageToTarget(damage, 3f);
 
-            hasDealtDamage = true;
-            Debug.Log($"Blaze Tempest 타격 성공! 데미지: {damage}");
-
-            // 부딪힌 위치에서 0.4초 동안 이펙트를 보여준 뒤 삭제
-            Destroy(gameObject, 0.4f);
+            hasDealtDamage = true; // 타격 성공 시 플래그 세우기
+            Debug.Log($"Punishment 타격 성공! 데미지: {damage}");
         }
     }
 }

@@ -42,7 +42,7 @@ public class MidBossReadyState : StateMachineBehaviour
             selectedIndex = 0;
         }**/
 
-        selectedIndex = 1;
+        selectedIndex = 4;
 
         enemy.atkDelay = enemy.atkCoolTime;
         animator.SetInteger("AttackIndex", selectedIndex);

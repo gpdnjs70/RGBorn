@@ -5,13 +5,23 @@ using UnityEngine;
 public class MidBossAttackEvent : MonoBehaviour
 {
     private Enemy enemy;
+    private Rigidbody2D rigid;
+
     [SerializeField] private GameObject fireFieldEffectPrefab;
     [SerializeField] private GameObject infernoEffectPrefab;
     [SerializeField] private GameObject BlazeTempestEffectPrefab;
 
+    // Blaze Dash
+    [SerializeField] private GameObject BlazeDashEffectPrefab; // 지나간 길에 남길 프리팹
+    public float distanceInterval = 0.5f;
+    public float dashingPower = 20f;
+    public float dashingTime = 0.2f;
+    private bool isDashing = false;
+
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
+        rigid = GetComponent<Rigidbody2D>();
     }
 
     public void fireField()
@@ -49,6 +59,64 @@ public class MidBossAttackEvent : MonoBehaviour
 
         // 스크립트 설정
         PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
+        if (effectScript != null)
+        {
+            effectScript.Setup(enemy);
+        }
+    }
+
+    public void BlazeDash()
+    {
+        Debug.Log("Blaze Dash");
+
+        if (isDashing) return;
+        StartCoroutine(Dash());
+    }
+
+    private IEnumerator Dash()
+    {
+        isDashing = true;
+
+        // 대시 시작 시점의 플레이어 위치를 향한 방향 계산
+        Vector2 dashDir = Vector2.right; // 기본값
+        if (enemy.player != null)
+        {
+            dashDir = (enemy.player.position - transform.position).normalized;
+            dashDir = new Vector2(dashDir.x, 0f);
+        }
+
+        Vector3 lastSpawnPos = transform.position; // 마지막 생성 위치 저장
+        rigid.velocity = dashDir * dashingPower;
+
+        float elapsed = 0f;
+        while (elapsed < dashingTime)
+        {
+            // 마지막 생성 지점으로부터 현재까지의 거리 계산
+            float dist = Vector2.Distance(lastSpawnPos, transform.position);
+
+            if (dist >= distanceInterval)
+            {
+                SpawnPathEffect();
+                lastSpawnPos = transform.position; // 생성한 현재 위치를 마지막 위치로 갱신
+            }
+
+            yield return null; // 거리 체크를 위해 매 프레임 대기
+            elapsed += Time.deltaTime;
+        }
+
+        // 대시 종료
+        rigid.velocity = Vector2.zero;
+        isDashing = false;
+    }
+
+    private void SpawnPathEffect()
+    {
+        if (BlazeDashEffectPrefab == null) return;
+
+        // 현재 위치에 생성
+        GameObject pathObj = Instantiate(BlazeDashEffectPrefab, transform.position, Quaternion.identity);
+        
+        var effectScript = pathObj.GetComponent<BlazeDash>();
         if (effectScript != null)
         {
             effectScript.Setup(enemy);
