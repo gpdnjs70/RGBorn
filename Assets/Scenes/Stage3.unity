@@ -32733,6 +32733,10 @@ PrefabInstance:
       propertyPath: playerAttribute
       value: 
       objectReference: {fileID: 1390846111}
+    - target: {fileID: 1226422606045811336, guid: 6ac6472cc4926564d8729219decabb80, type: 3}
+      propertyPath: mode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2426029835761908099, guid: 6ac6472cc4926564d8729219decabb80, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.16
@@ -32777,6 +32781,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ColorBoss
       objectReference: {fileID: 0}
+    - target: {fileID: 2834499336539775957, guid: 6ac6472cc4926564d8729219decabb80, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6086113803120647189, guid: 6ac6472cc4926564d8729219decabb80, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6480747843959247711, guid: 6ac6472cc4926564d8729219decabb80, type: 3}
       propertyPath: player
       value: 
@@ -32793,6 +32805,10 @@ PrefabInstance:
       propertyPath: infernoEffectPrefab
       value: 
       objectReference: {fileID: 6879359026652843144, guid: 95f21c5d549eab54b9db318a12b49102, type: 3}
+    - target: {fileID: 8587600720229765678, guid: 6ac6472cc4926564d8729219decabb80, type: 3}
+      propertyPath: BlazeTempestEffectPrefab
+      value: 
+      objectReference: {fileID: 6879359026652843144, guid: f9e2c77b1ef7330438c02313827bf06a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

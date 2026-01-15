@@ -7,6 +7,7 @@ public class MidBossAttackEvent : MonoBehaviour
     private Enemy enemy;
     [SerializeField] private GameObject fireFieldEffectPrefab;
     [SerializeField] private GameObject infernoEffectPrefab;
+    [SerializeField] private GameObject BlazeTempestEffectPrefab;
 
     private void Awake()
     {
@@ -52,5 +53,22 @@ public class MidBossAttackEvent : MonoBehaviour
         {
             effectScript.Setup(enemy);
         }
+    }
+
+    public void BlazeTempest()
+    {
+        Debug.Log("Blaze Tempest");
+
+        Vector3 pos = enemy.pos.transform.position;
+        float sign = (enemy.player.position.x - transform.position.x) >= 0 ? 1f : -1f;
+        pos += new Vector3(sign * 0.5f, 0, 0);
+
+        // 이펙트 생성
+        GameObject effectObj = Instantiate(infernoEffectPrefab, pos, Quaternion.identity);
+
+        // Flip 처리 (방향 전환)
+        Vector3 localScale = effectObj.transform.localScale;
+        localScale.x = Mathf.Abs(localScale.x) * (sign * -1); // sign이 -1이면 왼쪽, 1이면 오른쪽
+        effectObj.transform.localScale = localScale;
     }
 }

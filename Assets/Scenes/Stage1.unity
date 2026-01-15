@@ -19401,6 +19401,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 624884812431140457, guid: 9fd5a20b671f0fd4aa1ea3e743daae73, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1431332158208999419, guid: 9fd5a20b671f0fd4aa1ea3e743daae73, type: 3}
       propertyPath: player
       value: 
@@ -19464,6 +19468,10 @@ PrefabInstance:
     - target: {fileID: 4508989231470066687, guid: 9fd5a20b671f0fd4aa1ea3e743daae73, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643499947189065135, guid: 9fd5a20b671f0fd4aa1ea3e743daae73, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

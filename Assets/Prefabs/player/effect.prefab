@@ -101,6 +101,6 @@ MonoBehaviour:
   distance: 0.5
   isLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   damage: 10
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
