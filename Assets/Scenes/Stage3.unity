@@ -1270,7 +1270,7 @@ Transform:
   m_GameObject: {fileID: 697714592}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.82, y: 0, z: 0}
+  m_LocalPosition: {x: -0.78, y: -0.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3495,7 +3495,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.1, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -3506,7 +3506,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7, y: 3.2}
+  m_Size: {x: 1.5, y: 2.8}
   m_EdgeRadius: 0
 --- !u!50 &1390846102
 Rigidbody2D:
@@ -3576,7 +3576,7 @@ SpriteRenderer:
   m_SortingLayerID: 106304143
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: af5f902b1a860bf4482ec3190115614d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b0be3f255c3ffb741a4eb44d18b76834, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3741,7 +3741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coolTime: 1
   pos: {fileID: 697714593}
-  boxSize: {x: 1.6, y: 3.2}
+  boxSize: {x: 1.6, y: 2.8}
   movement: {fileID: 1390846105}
   attackLockTime: 0.65
   damage: 5
