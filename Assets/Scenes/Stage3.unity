@@ -3492,7 +3492,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.1, y: 0}
@@ -32806,6 +32806,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6879359026652843144, guid: 95f21c5d549eab54b9db318a12b49102, type: 3}
     - target: {fileID: 8587600720229765678, guid: 6ac6472cc4926564d8729219decabb80, type: 3}
+      propertyPath: fireRainEffectPrefab
+      value: 
+      objectReference: {fileID: 6879359026652843144, guid: cf181bde5152d5640af4e393d5c15797, type: 3}
+    - target: {fileID: 8587600720229765678, guid: 6ac6472cc4926564d8729219decabb80, type: 3}
       propertyPath: BlazeDashEffectPrefab
       value: 
       objectReference: {fileID: 6879359026652843144, guid: f3329548462b48945ab94440d2d1ecc0, type: 3}
@@ -32813,6 +32817,10 @@ PrefabInstance:
       propertyPath: BlazeTempestEffectPrefab
       value: 
       objectReference: {fileID: 6879359026652843144, guid: f9e2c77b1ef7330438c02313827bf06a, type: 3}
+    - target: {fileID: 8587600720229765678, guid: 6ac6472cc4926564d8729219decabb80, type: 3}
+      propertyPath: meteorShowerEffectPrefab
+      value: 
+      objectReference: {fileID: 6879359026652843144, guid: d4bf76cab5d297240aceb8c6bca6687f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

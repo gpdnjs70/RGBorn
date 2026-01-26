@@ -61,6 +61,8 @@ public class BlazeTempestEffect : MonoBehaviour
 
             hasDealtDamage = true; // 타격 성공 시 플래그 세우기
             Debug.Log($"Punishment 타격 성공! 데미지: {damage}");
+
+            Destroy(gameObject, 0.5f);
         }
     }
 }

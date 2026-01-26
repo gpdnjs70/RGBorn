@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 8587600720229765678}
   - component: {fileID: 1915390451568565887}
   - component: {fileID: 3643901694354749270}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: ColorBoss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -263,6 +263,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireFieldEffectPrefab: {fileID: 6879359026652843144, guid: d49dc46e8fc41724cbb0a1dd31b11b04, type: 3}
   infernoEffectPrefab: {fileID: 6879359026652843144, guid: 95f21c5d549eab54b9db318a12b49102, type: 3}
+  BlazeTempestEffectPrefab: {fileID: 0}
+  BlazeDashEffectPrefab: {fileID: 0}
+  distanceInterval: 0.5
+  dashingPower: 20
+  dashingTime: 0.2
 --- !u!114 &1915390451568565887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,7 +301,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2224530359219066329}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: melee
   m_TagString: Untagged
   m_Icon: {fileID: 0}

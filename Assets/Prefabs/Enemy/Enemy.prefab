@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 8652346343584246774}
   - component: {fileID: 2335874725288690976}
   - component: {fileID: 3075176874493351211}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1584743172960423799}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: melee
   m_TagString: Untagged
   m_Icon: {fileID: 0}

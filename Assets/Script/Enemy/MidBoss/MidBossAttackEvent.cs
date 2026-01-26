@@ -9,7 +9,9 @@ public class MidBossAttackEvent : MonoBehaviour
 
     [SerializeField] private GameObject fireFieldEffectPrefab;
     [SerializeField] private GameObject infernoEffectPrefab;
+    [SerializeField] private GameObject fireRainEffectPrefab;
     [SerializeField] private GameObject BlazeTempestEffectPrefab;
+    [SerializeField] private GameObject meteorShowerEffectPrefab;
 
     // Blaze Dash
     [SerializeField] private GameObject BlazeDashEffectPrefab; // 지나간 길에 남길 프리팹
@@ -22,6 +24,11 @@ public class MidBossAttackEvent : MonoBehaviour
     {
         enemy = GetComponent<Enemy>();
         rigid = GetComponent<Rigidbody2D>();
+    }
+
+    public void PassiveSkill()
+    {
+        Debug.Log("PassiveSkill");
     }
 
     public void fireField()
@@ -58,6 +65,22 @@ public class MidBossAttackEvent : MonoBehaviour
         effectObj.transform.localScale = localScale;
 
         // 스크립트 설정
+        PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
+        if (effectScript != null)
+        {
+            effectScript.Setup(enemy);
+        }
+    }
+
+    public void fireRain()
+    {
+        Debug.Log("fireRain");
+
+        // fireRain Effect
+        Vector3 pos = enemy.player.transform.position;
+        pos += new Vector3(0, 1.5f, 0);
+        GameObject effectObj = Instantiate(fireRainEffectPrefab, pos, Quaternion.identity);
+
         PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
         if (effectScript != null)
         {
@@ -141,6 +164,22 @@ public class MidBossAttackEvent : MonoBehaviour
 
         // 스크립트 설정
         BlazeTempestEffect effectScript = effectObj.GetComponent<BlazeTempestEffect>();
+        if (effectScript != null)
+        {
+            effectScript.Setup(enemy);
+        }
+    }
+
+    public void meteorShower()
+    {
+        Debug.Log("meteorShower");
+
+        // meteorShower Effect
+        Vector3 pos = enemy.player.transform.position;
+        //pos += new Vector3(0, 1.5f, 0);
+        GameObject effectObj = Instantiate(meteorShowerEffectPrefab, pos, Quaternion.identity);
+
+        PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
         if (effectScript != null)
         {
             effectScript.Setup(enemy);
