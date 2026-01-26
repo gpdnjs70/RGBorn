@@ -176,7 +176,7 @@ public class MidBossAttackEvent : MonoBehaviour
 
         // meteorShower Effect
         Vector3 pos = enemy.player.transform.position;
-        //pos += new Vector3(0, 1.5f, 0);
+        pos += new Vector3(0, 0.8f, 0);
         GameObject effectObj = Instantiate(meteorShowerEffectPrefab, pos, Quaternion.identity);
 
         PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
