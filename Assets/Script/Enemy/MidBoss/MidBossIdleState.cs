@@ -19,7 +19,7 @@ public class MidBossIdleState : StateMachineBehaviour
         enemy.DirectionEnemy(enemy.player.position.x, enemyTransform.position.x);
         enemy.UpdateAttackBoxPosition();
 
-        animator.SetBool("isFollow", false);
+        animator.SetBool("isReady", true);
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

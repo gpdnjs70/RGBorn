@@ -5,27 +5,22 @@ using UnityEngine;
 public class MidBossReadyState : StateMachineBehaviour
 {
     Transform enemyTransform;
-    EliteMonster enemy;
+    MidBoss enemy;
     int selectedIndex = 0;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("ready");
-        enemy = animator.GetComponent<EliteMonster>();
+        enemy = animator.GetComponent<MidBoss>();
         enemyTransform = animator.GetComponent<Transform>();
         animator.ResetTrigger("Attack");
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Vector2.Distance(enemy.player.position, enemyTransform.position) <= 3f && enemy.atkDelay <= 0)
+        if (Vector2.Distance(enemy.player.position, enemyTransform.position) <= 10f && enemy.atkDelay <= 0)
         {
             DetermineNextAttack(animator);
-        }
-
-        if (Vector2.Distance(enemy.player.position, enemyTransform.position) > 3f)
-        {
-            animator.SetBool("isFollow", true);
         }
 
         enemy.DirectionEnemy(enemy.player.position.x, enemyTransform.position.x);
@@ -33,16 +28,25 @@ public class MidBossReadyState : StateMachineBehaviour
 
     private void DetermineNextAttack(Animator animator)
     {
-        /**if (selectedIndex == 0 && enemy.skill1Delay <= 0)
+        if (enemy.skill1Delay <= 0)
         {
-            selectedIndex = 1;
+            if (enemy.phase == 1)
+            {
+                selectedIndex = Random.Range(1, 4);
+            }
+            else if (enemy.phase == 2)
+            {
+                selectedIndex = Random.Range(4, 7);
+            }
+
+            enemy.skill1Delay = enemy.skill1CoolTime;
         }
-        else
+        else if (enemy.phase == 1)
         {
             selectedIndex = 0;
-        }**/
+        }
 
-        selectedIndex = 0;
+        Debug.Log($"attackState È£Ãâ, selectedIndex: {selectedIndex}");
 
         enemy.atkDelay = enemy.atkCoolTime;
         animator.SetInteger("AttackIndex", selectedIndex);
@@ -51,6 +55,6 @@ public class MidBossReadyState : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        animator.SetBool("isReady", false);
     }
 }
