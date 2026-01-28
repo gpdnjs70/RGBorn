@@ -15,4 +15,4 @@ MonoBehaviour:
   EnemyName: EliteMonster
   EnemyDescription: 
   baseHP: 70
-  baseSpeed: 2
+  baseSpeed: 2.5
