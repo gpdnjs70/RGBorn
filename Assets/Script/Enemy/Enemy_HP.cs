@@ -14,7 +14,7 @@ public class Enemy_HP : Entity, IDebuffTarget
     [SerializeField] public PlayerAttribute playerAttribute;
     [SerializeField] private EnemyAttribute enemyAttribute;
 
-    [SerializeField] private UI_HP hpUI;
+    [SerializeField] public UI_HP hpUI;
     private bool isDead = false;
 
     [SerializeField] private EnemyData data;
@@ -120,11 +120,28 @@ public class Enemy_HP : Entity, IDebuffTarget
         if (animator != null)
             animator.SetTrigger("Damaged");
 
-        // HP UI 제거
-        if (hpUI != null)
-            Destroy(hpUI.gameObject, 0.5f);
+        bool isMinion = gameObject.name.Contains("Minion");
 
-        // Enemy 제거
-        Destroy(gameObject, 0.5f); // 애니메이션 길이에 맞춰 조절
+        if (isMinion)
+        {
+            // 따까리는 파괴하지 않고 비활성화만!
+            StartCoroutine(DeactivateMinion(0.5f));
+        }
+        else
+        {
+            // 일반 몬스터는 원래대로 파괴
+            if (hpUI != null) Destroy(hpUI.gameObject, 0.5f);
+            Destroy(gameObject, 0.5f);
+        }
+    }
+
+    private IEnumerator DeactivateMinion(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // HP UI 파괴하지 말고 비활성화
+        if (hpUI != null) hpUI.gameObject.SetActive(false);
+
+        gameObject.SetActive(false);
     }
 }

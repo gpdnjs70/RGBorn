@@ -66,21 +66,21 @@ public class MidBossAttackEvent : MonoBehaviour
         // 풀에서 꺼내기
         GameObject minionObj = GetMinionFromPool();
 
-        // 위치 설정
+        // 위치 설정 후 활성화
         minionObj.transform.position = summonPoints[index].position;
         minionObj.SetActive(true);
 
-        // 관리 배열에 등록 (나중에 죽었는지 확인하기 위해)
-        activeMinions[index] = minionObj;
-
-        // 정보 전달
-        Enemy minionScript = minionObj.GetComponent<Enemy>();
-        if (minionScript != null)
+        // Minion 스크립트를 가져와서 리셋 및 정보 주입
+        Minion minionComponent = minionObj.GetComponent<Minion>();
+        if (minionComponent != null)
         {
-            minionScript.CopySettingsFrom(this.enemy);
+            minionComponent.Setup(this.enemy);
         }
 
-        Debug.Log($"{index}번 위치에 enemy가 새로 소환됨.");
+        // 관리 배열에 등록
+        activeMinions[index] = minionObj;
+
+        Debug.Log($"{index}번 위치에 enemy 리셋 및 소환 완료");
     }
 
     private GameObject GetMinionFromPool()
