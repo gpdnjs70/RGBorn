@@ -103,7 +103,7 @@ public class MidBossAttackEvent : MonoBehaviour
 
         // fireField Effect
         Vector3 pos = enemy.player.transform.position;
-        pos -= Vector3.up * 0.3f;
+        pos += Vector3.up * 0.5f;
         GameObject effectObj = Instantiate(fireFieldEffectPrefab, pos, Quaternion.identity);
 
         PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
