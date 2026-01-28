@@ -28,7 +28,14 @@ public class MidBossReadyState : StateMachineBehaviour
 
     private void DetermineNextAttack(Animator animator)
     {
-        if (enemy.skill1Delay <= 0)
+        if (enemy.phase == 1 && enemy.passiveSkillDelay <= 0 && enemy.passiveSkillCount < enemy.maxPassiveCount)
+        {
+            selectedIndex = 0;
+
+            enemy.passiveSkillDelay = enemy.passiveSkillCoolTime;
+            enemy.passiveSkillCount++; // 사용 횟수 증가
+        }
+        else if (enemy.skill1Delay <= 0)
         {
             if (enemy.phase == 1)
             {
@@ -40,10 +47,6 @@ public class MidBossReadyState : StateMachineBehaviour
             }
 
             enemy.skill1Delay = enemy.skill1CoolTime;
-        }
-        else if (enemy.phase == 1)
-        {
-            selectedIndex = 0;
         }
 
         Debug.Log($"attackState 호출, selectedIndex: {selectedIndex}");
