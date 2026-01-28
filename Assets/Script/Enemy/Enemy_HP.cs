@@ -11,7 +11,7 @@ public class Enemy_HP : Entity, IDebuffTarget
     private Enemy enemy;
 
     [SerializeField] private AttributeDatabase attributeDB;
-    [SerializeField] private PlayerAttribute playerAttribute;
+    [SerializeField] public PlayerAttribute playerAttribute;
     [SerializeField] private EnemyAttribute enemyAttribute;
 
     [SerializeField] private UI_HP hpUI;

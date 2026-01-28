@@ -7,11 +7,14 @@ public class MidBossAttackEvent : MonoBehaviour
     private Enemy enemy;
     private Rigidbody2D rigid;
 
+    [SerializeField] private GameObject minionPrefab;
+    private List<GameObject> minionPool = new List<GameObject>(); // 리스트로 풀 관리
+    [SerializeField] private Transform[] summonPoints; // 소환할 위치
+    private GameObject[] activeMinions; // 각 위치별로 소환된 미니언을 기억할 배열
+
     [SerializeField] private GameObject fireFieldEffectPrefab;
     [SerializeField] private GameObject infernoEffectPrefab;
     [SerializeField] private GameObject fireRainEffectPrefab;
-    [SerializeField] private GameObject BlazeTempestEffectPrefab;
-    [SerializeField] private GameObject meteorShowerEffectPrefab;
 
     // Blaze Dash
     [SerializeField] private GameObject BlazeDashEffectPrefab; // 지나간 길에 남길 프리팹
@@ -19,6 +22,18 @@ public class MidBossAttackEvent : MonoBehaviour
     public float dashingPower = 20f;
     public float dashingTime = 0.2f;
     private bool isDashing = false;
+
+    [SerializeField] private GameObject BlazeTempestEffectPrefab;
+    [SerializeField] private GameObject meteorShowerEffectPrefab;
+
+    private void Start()
+    {
+        // 소환 지점 개수만큼 관리용 배열 크기 설정
+        if (summonPoints != null && summonPoints.Length > 0)
+        {
+            activeMinions = new GameObject[summonPoints.Length];
+        }
+    }
 
     private void Awake()
     {
@@ -29,6 +44,57 @@ public class MidBossAttackEvent : MonoBehaviour
     public void PassiveSkill()
     {
         Debug.Log("PassiveSkill");
+
+        for (int i = 0; i < summonPoints.Length; i++)
+        {
+            // 해당 위치의 미니언이 없거나(null), 비활성화(죽음) 상태인지 체크
+            if (activeMinions[i] == null || !activeMinions[i].activeSelf)
+            {
+                // 죽었거나 없는 경우에만 새로 소환
+                SpawnMinionAt(i);
+            }
+            else
+            {
+                // 살아있다면 아무것도 하지 않고 넘어감
+                Debug.Log($"{i}번 위치의 enemy는 아직 살아있음.");
+            }
+        }
+    }
+
+    private void SpawnMinionAt(int index)
+    {
+        // 풀에서 꺼내기
+        GameObject minionObj = GetMinionFromPool();
+
+        // 위치 설정
+        minionObj.transform.position = summonPoints[index].position;
+        minionObj.SetActive(true);
+
+        // 관리 배열에 등록 (나중에 죽었는지 확인하기 위해)
+        activeMinions[index] = minionObj;
+
+        // 정보 전달
+        Enemy minionScript = minionObj.GetComponent<Enemy>();
+        if (minionScript != null)
+        {
+            minionScript.CopySettingsFrom(this.enemy);
+        }
+
+        Debug.Log($"{index}번 위치에 enemy가 새로 소환됨.");
+    }
+
+    private GameObject GetMinionFromPool()
+    {
+        // 비활성화된 객체가 있다면 반환
+        foreach (var obj in minionPool)
+        {
+            if (!obj.activeSelf) return obj;
+        }
+
+        // 없다면 새로 생성해서 풀에 추가
+        GameObject newObj = Instantiate(minionPrefab);
+        minionPool.Add(newObj);
+        return newObj;
     }
 
     public void fireField()

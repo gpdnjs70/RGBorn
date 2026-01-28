@@ -172,4 +172,19 @@ public class Enemy : MonoBehaviour
             DealDamageToTarget(damage, 3f);
         }
     }
+
+    public void CopySettingsFrom(Enemy boss)
+    {
+        // 1. 보스가 보고 있는 플레이어 정보를 내 정보에 대입
+        this.player = boss.player;
+        this.target = boss.player;
+
+        // 2. 내 HP 스크립트에도 보스가 가진 타겟 정보를 대입
+        Enemy_HP myHP = GetComponent<Enemy_HP>();
+        if (myHP != null)
+        {
+            myHP.target = boss.hp.target; // 보스가 때리던 대상의 HP 정보
+            myHP.playerAttribute = boss.hp.playerAttribute; // 플레이어 속성 정보
+        }
+    }
 }
