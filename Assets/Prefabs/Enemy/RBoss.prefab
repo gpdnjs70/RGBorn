@@ -214,6 +214,10 @@ MonoBehaviour:
   skill1CoolTime: 8
   skill1Delay: 0
   phase: 1
+  passiveSkillCoolTime: 30
+  passiveSkillDelay: 0
+  passiveSkillCount: 0
+  maxPassiveCount: 3
 --- !u!114 &3733913083434242579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,7 +397,7 @@ Transform:
   m_GameObject: {fileID: 5411585688791512815}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 3, z: 0}
+  m_LocalPosition: {x: 5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -455,7 +459,7 @@ Transform:
   m_GameObject: {fileID: 7324539665092968260}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 3, z: 0}
+  m_LocalPosition: {x: -5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -486,7 +490,7 @@ Transform:
   m_GameObject: {fileID: 8199361686747519215}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 3, z: 0}
+  m_LocalPosition: {x: 3, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
