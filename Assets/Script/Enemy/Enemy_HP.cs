@@ -17,7 +17,7 @@ public class Enemy_HP : Entity, IDebuffTarget
     [SerializeField] public UI_HP hpUI;
     private bool isDead = false;
 
-    [SerializeField] private EnemyData data;
+    [SerializeField] public EnemyData data;
 
     private void Awake()
     {

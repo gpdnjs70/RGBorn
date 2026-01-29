@@ -26,10 +26,10 @@ public class BlazeDash : MonoBehaviour
 
         if (playerHP != null)
         {
-            enemy.SetAttackType(EnemyAttackType.Skill2);
+            enemy.SetAttackType(EnemyAttackType.Skill4);
 
             float currentHp = playerHP.HP;
-            float damage = currentHp * 0.05f;
+            float damage = 10f;
 
             enemy.DealDamageToTarget(damage, 3f);
 

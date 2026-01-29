@@ -8,7 +8,10 @@ public enum EnemyAttackType
     Normal,
     Skill1,
     Skill2,
-    Skill3
+    Skill3,
+    Skill4,
+    Skill5,
+    Skill6,
 }
 
 public class Enemy : MonoBehaviour

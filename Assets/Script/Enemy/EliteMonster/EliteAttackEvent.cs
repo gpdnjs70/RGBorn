@@ -65,7 +65,8 @@ public class EliteAttackEvent : MonoBehaviour
         PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
         if (effectScript != null)
         {
-            effectScript.Setup(enemy);
+            float damage = enemy.player.GetComponent<Player_HP>().HP * 0.05f;
+            effectScript.Setup(enemy, EnemyAttackType.Skill3, damage);
         }
     }
 }

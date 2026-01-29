@@ -42,6 +42,23 @@ public class DebuffController : MonoBehaviour
         }
     }
 
+    // 모든 디버프 삭제
+    public void ClearAllDebuffs()
+    {
+        for (int i = activeDebuffs.Count - 1; i >= 0; i--)
+        {
+            CleanUpDebuff(i);
+        }
+    }
+
+    private void CleanUpDebuff(int index)
+    {
+        activeDebuffs[index].debuff.OnForceRemove();
+        if (activeDebuffs[index].coroutine != null)
+            StopCoroutine(activeDebuffs[index].coroutine);
+        activeDebuffs.RemoveAt(index);
+    }
+
     private DebuffBase CreateDebuff(DebuffType type)
     {
         switch (type)

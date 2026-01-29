@@ -6,6 +6,9 @@ public class PunishmentEffect : MonoBehaviour
 {
     public float lifeTime;
     private Enemy enemy;
+    private EnemyAttackType attackType = EnemyAttackType.Skill2;
+    private float damageValue = 5f;
+
     private bool hasDealtDamage = false; // 중복 데미지 방지
     private Collider2D effectCollider;
 
@@ -23,9 +26,11 @@ public class PunishmentEffect : MonoBehaviour
         Destroy(gameObject, lifeTime);
     }
 
-    public void Setup(Enemy owner)
+    public void Setup(Enemy owner, EnemyAttackType type, float damage)
     {
         enemy = owner;
+        attackType = type;
+        damageValue = damage;
     }
 
     public void EnableCollider()
@@ -47,11 +52,11 @@ public class PunishmentEffect : MonoBehaviour
         if (playerHP != null)
         {
             // 공격 타입 설정
-            enemy.SetAttackType(EnemyAttackType.Skill2);
+            enemy.SetAttackType(attackType);
 
             // 기존 데미지 로직: 현재 체력의 5%
             float currentHp = playerHP.HP;
-            float damage = currentHp * 0.05f;
+            float damage = damageValue;
 
             // 데미지 적용
             enemy.DealDamageToTarget(damage, 3f);

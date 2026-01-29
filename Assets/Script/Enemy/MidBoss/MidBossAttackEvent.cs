@@ -109,7 +109,8 @@ public class MidBossAttackEvent : MonoBehaviour
         PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
         if (effectScript != null)
         {
-            effectScript.Setup(enemy);
+            float damage = 8f;
+            effectScript.Setup(enemy, EnemyAttackType.Skill1, damage);
         }
     }
 
@@ -134,7 +135,8 @@ public class MidBossAttackEvent : MonoBehaviour
         PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
         if (effectScript != null)
         {
-            effectScript.Setup(enemy);
+            float damage = 10f;
+            effectScript.Setup(enemy, EnemyAttackType.Skill2, damage);
         }
     }
 
@@ -150,7 +152,8 @@ public class MidBossAttackEvent : MonoBehaviour
         PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
         if (effectScript != null)
         {
-            effectScript.Setup(enemy);
+            float damage = enemy.player.GetComponent<Player_HP>().HP * 0.05f;
+            effectScript.Setup(enemy, EnemyAttackType.Skill3, damage);
         }
     }
 
@@ -248,7 +251,8 @@ public class MidBossAttackEvent : MonoBehaviour
         PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
         if (effectScript != null)
         {
-            effectScript.Setup(enemy);
+            float damage = enemy.player.GetComponent<Player_HP>().HP * 0.07f;
+            effectScript.Setup(enemy, EnemyAttackType.Skill6, damage);
         }
     }
 }

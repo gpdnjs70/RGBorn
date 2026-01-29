@@ -50,11 +50,11 @@ public class BlazeTempestEffect : MonoBehaviour
         if (playerHP != null)
         {
             // 공격 타입 설정
-            enemy.SetAttackType(EnemyAttackType.Skill2);
+            enemy.SetAttackType(EnemyAttackType.Skill5);
 
             // 기존 데미지 로직: 현재 체력의 5%
             float currentHp = playerHP.HP;
-            float damage = currentHp * 0.05f;
+            float damage = 12f;
 
             // 데미지 적용
             enemy.DealDamageToTarget(damage, 3f);

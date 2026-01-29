@@ -38,6 +38,12 @@ public class Minion : MonoBehaviour
 
     private void ResetMinion()
     {
+        DebuffController debuffController = GetComponent<DebuffController>();
+        if (debuffController != null)
+        {
+            debuffController.ClearAllDebuffs();
+        }
+
         if (hpScript != null)
         {
             // 체력 및 스크립트 활성화
