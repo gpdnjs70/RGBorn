@@ -6,7 +6,7 @@ public class BlazeDash : MonoBehaviour
 {
     public float lifeTime;
     private Enemy enemy;
-    private bool hasDealtDamage = false; // 중복 데미지 방지
+    private MidBossAttackEvent bossScript;
 
     private void Start()
     {
@@ -16,25 +16,30 @@ public class BlazeDash : MonoBehaviour
     public void Setup(Enemy owner)
     {
         enemy = owner;
+        bossScript = owner.GetComponent<MidBossAttackEvent>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (hasDealtDamage || enemy == null || !collision.CompareTag("Player")) return;
+        if (enemy == null || bossScript == null || bossScript.dashHitRegistered) return;
 
-        Player_HP playerHP = collision.GetComponent<Player_HP>();
-
-        if (playerHP != null)
+        if (collision.CompareTag("Player"))
         {
-            enemy.SetAttackType(EnemyAttackType.Skill4);
+            Player_HP playerHP = collision.GetComponent<Player_HP>();
 
-            float currentHp = playerHP.HP;
-            float damage = 10f;
+            if (playerHP != null)
+            {
+                bossScript.RegisterDashHit();
 
-            enemy.DealDamageToTarget(damage, 3f);
+                enemy.SetAttackType(EnemyAttackType.Skill4);
 
-            hasDealtDamage = true;
-            Debug.Log($"Blaze Dash 타격 성공! 데미지: {damage}");
+                float currentHp = playerHP.HP;
+                float damage = 10f;
+
+                enemy.DealDamageToTarget(damage, 3f);
+
+                Debug.Log($"Blaze Dash 타격 성공! 데미지: {damage}");
+            }
         }
     }
 }

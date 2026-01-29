@@ -35,21 +35,26 @@ public class MidBossReadyState : StateMachineBehaviour
             enemy.passiveSkillDelay = enemy.passiveSkillCoolTime;
             enemy.passiveSkillCount++; // 사용 횟수 증가
         }
-        else if (enemy.skill1Delay <= 0)
+        else
         {
             if (enemy.phase == 1)
             {
-                selectedIndex = Random.Range(1, 4);
+                // selectedIndex = Random.Range(1, 4);
+                if(selectedIndex == 0 || selectedIndex == 3) { selectedIndex = 1; }
+                else if (selectedIndex == 1) { selectedIndex = 2; }
+                else if (selectedIndex == 2) { selectedIndex = 3; }
             }
             else if (enemy.phase == 2)
             {
-                selectedIndex = Random.Range(4, 7);
+                if (selectedIndex == 0 || selectedIndex == 3 || selectedIndex == 6) { selectedIndex = 4; }
+                else if (selectedIndex == 4) { selectedIndex = 5; }
+                else if (selectedIndex == 5) { selectedIndex = 6; }
             }
 
             enemy.skill1Delay = enemy.skill1CoolTime;
         }
 
-        selectedIndex = 6;
+        // selectedIndex = 4;
 
         Debug.Log($"attackState 호출, selectedIndex: {selectedIndex}");
 

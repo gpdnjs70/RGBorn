@@ -22,6 +22,7 @@ public class MidBossAttackEvent : MonoBehaviour
     public float dashingPower = 20f;
     public float dashingTime = 0.2f;
     private bool isDashing = false;
+    public bool dashHitRegistered { get; private set; }
 
     [SerializeField] private GameObject BlazeTempestEffectPrefab;
     [SerializeField] private GameObject meteorShowerEffectPrefab;
@@ -168,6 +169,7 @@ public class MidBossAttackEvent : MonoBehaviour
     private IEnumerator Dash()
     {
         isDashing = true;
+        dashHitRegistered = false;
 
         // 대시 시작 시점의 플레이어 위치를 향한 방향 계산
         Vector2 dashDir = Vector2.right; // 기본값
@@ -199,6 +201,12 @@ public class MidBossAttackEvent : MonoBehaviour
         // 대시 종료
         rigid.velocity = Vector2.zero;
         isDashing = false;
+    }
+
+    // 이펙트에서 호출할 함수
+    public void RegisterDashHit()
+    {
+        dashHitRegistered = true;
     }
 
     private void SpawnPathEffect()
