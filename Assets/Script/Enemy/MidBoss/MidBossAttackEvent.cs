@@ -206,7 +206,10 @@ public class MidBossAttackEvent : MonoBehaviour
         if (BlazeDashEffectPrefab == null) return;
 
         // 현재 위치에 생성
-        GameObject pathObj = Instantiate(BlazeDashEffectPrefab, transform.position, Quaternion.identity);
+        Vector3 pos = transform.position;
+        pos -= new Vector3(0, 1.5f, 0);
+
+        GameObject pathObj = Instantiate(BlazeDashEffectPrefab, pos, Quaternion.identity);
         
         var effectScript = pathObj.GetComponent<BlazeDash>();
         if (effectScript != null)

@@ -20277,6 +20277,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6898816493198629986, guid: 661f55e3e5e3ebd4187e2627037a0eb3, type: 3}
+      propertyPath: dashingTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6898816493198629986, guid: 661f55e3e5e3ebd4187e2627037a0eb3, type: 3}
       propertyPath: summonPoints.Array.size
       value: 4
       objectReference: {fileID: 0}
