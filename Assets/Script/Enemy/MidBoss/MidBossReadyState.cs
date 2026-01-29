@@ -40,15 +40,15 @@ public class MidBossReadyState : StateMachineBehaviour
             if (enemy.phase == 1)
             {
                 // selectedIndex = Random.Range(1, 4);
-                if(selectedIndex == 0 || selectedIndex == 3) { selectedIndex = 1; }
-                else if (selectedIndex == 1) { selectedIndex = 2; }
+                if (selectedIndex == 1) { selectedIndex = 2; }
                 else if (selectedIndex == 2) { selectedIndex = 3; }
+                else { selectedIndex = 1; }
             }
             else if (enemy.phase == 2)
             {
-                if (selectedIndex == 0 || selectedIndex == 3 || selectedIndex == 6) { selectedIndex = 4; }
-                else if (selectedIndex == 4) { selectedIndex = 5; }
+                if (selectedIndex == 4) { selectedIndex = 5; }
                 else if (selectedIndex == 5) { selectedIndex = 6; }
+                else { selectedIndex = 4; }
             }
 
             enemy.skill1Delay = enemy.skill1CoolTime;

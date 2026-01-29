@@ -1,7 +1,9 @@
+using System.Buffers.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using static Unity.VisualScripting.Member;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -94,6 +96,23 @@ public class Player_Attack : MonoBehaviour
             ColorAttribute atkAttrComp = attacker.GetComponent<ColorAttribute>();
 
             ColorAttribute defAttrComp = actualTarget.GetComponent<ColorAttribute>();
+
+            string sceneName = SceneManager.GetActiveScene().name;
+
+            switch (sceneName)
+            {
+                case "Stage1":
+                    damage *= 1.2f;
+                    break;
+                case "Stage2":
+                    damage *= 1.44f;
+                    break;
+                case "Stage3":
+                    damage *= 1.728f;
+                    break;
+                default:
+                    break;
+            }
 
             float finalDamage = damage;
 

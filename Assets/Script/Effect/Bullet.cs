@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Bullet : MonoBehaviour
@@ -50,6 +51,23 @@ public class Bullet : MonoBehaviour
 
     void DealDamageWithAttribute(Entity attacker, Entity target)
     {
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        switch (sceneName)
+        {
+            case "Stage1":
+                damage *= 1.2f;
+                break;
+            case "Stage2":
+                damage *= 1.44f;
+                break;
+            case "Stage3":
+                damage *= 1.728f;
+                break;
+            default:
+                break;
+        }
+
         float finalDamage = damage;
 
         ColorAttribute atkAttrComp = attacker.GetComponent<ColorAttribute>();

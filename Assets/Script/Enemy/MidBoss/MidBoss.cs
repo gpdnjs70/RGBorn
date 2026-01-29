@@ -32,10 +32,12 @@ public class MidBoss : EliteMonster
             if (hpRatio <= 0.5f)
             {
                 phase = 2;
+                Debug.Log("phase change 2");
             }
             else
             {
                 phase = 1;
+                Debug.Log("phase change 1");
             }
         }
     }

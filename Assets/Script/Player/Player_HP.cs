@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player_HP : Entity, IDebuffTarget
 {
@@ -15,8 +16,28 @@ public class Player_HP : Entity, IDebuffTarget
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         stats = new Stats();
-        stats.MaxHP.BaseValue = baseHP;
         stats.Speed.BaseValue = 5f;
+
+        string sceneName = SceneManager.GetActiveScene().name;
+        float hpByScene = baseHP;
+
+        switch (sceneName)
+        {
+            case "Stage1":
+                hpByScene = 50f;
+                break;
+            case "Stage2":
+                hpByScene = 100f;
+                break;
+            case "Stage3":
+                hpByScene = 200f;
+                break;
+            default:
+                hpByScene = baseHP; // 예외 상황 대비
+                break;
+        }
+
+        stats.MaxHP.BaseValue = hpByScene;
 
         base.Setup();
     }
