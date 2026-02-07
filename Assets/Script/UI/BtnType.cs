@@ -37,7 +37,7 @@ public class BtnType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             case BTNType.New:
                 Debug.Log("새게임");
-                SceneManager.LoadScene("TutorialScene");
+                SceneManager.LoadScene("TutorialScene_Video");
                 break;
             case BTNType.Continue:
                 Debug.Log("이어하기");
