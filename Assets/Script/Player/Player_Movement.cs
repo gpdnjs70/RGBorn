@@ -15,7 +15,7 @@ public class Player_Movement : MonoBehaviour
 
     private float h;
     private float v;
-    private float dirX;
+    public float dirX;
     private Vector2 move;              // 현재 프레임 이동 입력 (정규화)
     public Vector2 lastDir = Vector2.right; // 마지막 비영(0) 방향(대시 방향)
 
@@ -43,16 +43,20 @@ public class Player_Movement : MonoBehaviour
         v = Input.GetAxisRaw("Vertical");
 
         move = new Vector2(h, v);
-        if (move.sqrMagnitude > 0.0001f)
-            lastDir = move.normalized; // 0이 아닐 때만 갱신
+        if (Mathf.Abs(h) > 0.0001f)
+        {
+            dirX = h;
+        }// 좌우 방향 이동이 0이 아닐 때만 갱신
 
         // 이동 여부 -> 애니메이터
-        bool isMove = (h != 0 || v != 0);
+        bool isMove = (move.sqrMagnitude > 0);
         anim.SetBool("isMove", isMove);
 
         // 방향 파라미터
-        dirX = (isMove ? lastDir.x : lastDir.x);   // 정지 시에도 마지막 방향 유지
-        anim.SetFloat("Direction", Mathf.Clamp(dirX, -1f, 1f));
+        anim.SetFloat("Direction", dirX);
+
+        if (move.sqrMagnitude > 0.0001f)
+            lastDir = move.normalized;
 
         // 대시 입력
         if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing)

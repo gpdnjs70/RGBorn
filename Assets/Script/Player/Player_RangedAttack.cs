@@ -57,7 +57,7 @@ public class Player_RangedAttack : MonoBehaviour
 
             if (bulletScript != null && movement != null)
             {
-                bulletScript.SetDirection(movement.lastDir);
+                bulletScript.SetDirection(movement.dirX);
                 bulletScript.Init(GetComponent<Entity>());
             }
         }

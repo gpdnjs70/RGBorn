@@ -161,7 +161,7 @@ public class Player_Attack : MonoBehaviour
         Bullet bulletScript = b.GetComponent<Bullet>();
         if (bulletScript != null && movement != null)
         {
-            bulletScript.SetDirection(movement.lastDir);
+            bulletScript.SetDirection(movement.dirX);
             bulletScript.Init(GetComponent<Entity>());
         }
     }
@@ -185,7 +185,7 @@ public class Player_Attack : MonoBehaviour
         Bullet bulletScript = b.GetComponent<Bullet>();
         if (bulletScript != null && movement != null)
         {
-            bulletScript.SetDirection(movement.lastDir);
+            bulletScript.SetDirection(movement.dirX);
             bulletScript.Init(GetComponent<Entity>());
         }
     }
@@ -213,9 +213,8 @@ public class Player_Attack : MonoBehaviour
     private void UpdateAttackBoxPosition()
     {
         if (movement == null) return;
-
-        Vector2 dir = movement.lastDir;
-        float sign = dir.x >= 0 ? 1f : -1f;
+        
+        float sign = movement.dirX >= 0 ? 1f : -1f;
 
         // 근접 공격 박스 위치
         if (pos != null)

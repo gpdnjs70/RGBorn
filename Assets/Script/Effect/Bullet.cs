@@ -101,9 +101,9 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void SetDirection(Vector2 direction)
+    public void SetDirection(float direction)
     {
-        float sign = direction.x >= 0 ? 1f : -1f;
+        float sign = direction >= 0 ? 1f : -1f;
         dir = new Vector2(sign, 0f);
 
         if (dir.x != 0)
