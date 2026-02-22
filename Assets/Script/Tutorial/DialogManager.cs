@@ -19,7 +19,7 @@ public class DialogManager : MonoBehaviour
     void GenerateData()
     {
         talkData.Add(1000, new string[] { "안녕?:0", "이 곳에 처음 왔구나?:1" });
-        talkData.Add(2000, new string[] { "안녕하세요. 저는 엘리트 몬스터입니다. 앞으로 잘 부탁드려요.:1" });
+        talkData.Add(2000, new string[] { "어머, 처음 보는 얼굴이네?:0", "길 잃은 건 아니지? 뭐 필요한 거 있으면 말해:1" });
 
         portraitData.Add(1000 + 0, portraitArr[0]);
         portraitData.Add(1000 + 1, portraitArr[1]);
