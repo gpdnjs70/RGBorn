@@ -2546,6 +2546,7 @@ MonoBehaviour:
   dashingTime: 0.2
   tr: {fileID: 1390846106}
   dashCooldownUI: {fileID: 234472147}
+  dirX: 0
   lastDir: {x: 1, y: 0}
   isKnockBack: 0
 --- !u!96 &1390846106
@@ -19417,6 +19418,14 @@ PrefabInstance:
       propertyPath: targetHP
       value: 
       objectReference: {fileID: 1390846108}
+    - target: {fileID: 1574608720782197621, guid: 9fd5a20b671f0fd4aa1ea3e743daae73, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6c31b0d6ec8de21428702ec32d6dda30, type: 3}
+    - target: {fileID: 1574608720782197621, guid: 9fd5a20b671f0fd4aa1ea3e743daae73, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1985575509993291605, guid: 9fd5a20b671f0fd4aa1ea3e743daae73, type: 3}
       propertyPath: hpUI
       value: 

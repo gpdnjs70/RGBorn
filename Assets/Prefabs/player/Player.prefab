@@ -363,6 +363,7 @@ MonoBehaviour:
   dashingTime: 0.2
   tr: {fileID: 7124809571883222870}
   dashCooldownUI: {fileID: 0}
+  dirX: 0
   lastDir: {x: 1, y: 0}
   isKnockBack: 0
 --- !u!96 &7124809571883222870
