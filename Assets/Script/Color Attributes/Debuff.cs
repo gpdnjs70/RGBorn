@@ -7,6 +7,11 @@ public interface IDebuffTarget
     Entity Entity { get; }
 }
 
+public interface IDebuffTarget2
+{
+    character character { get; }
+}
+
 public class DebuffInstance
 {
     public DebuffBase debuff;

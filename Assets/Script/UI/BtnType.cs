@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 using UnityEngine.SceneManagement;
 
 public enum BTNType
