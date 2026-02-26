@@ -26,7 +26,7 @@ public class BattleHandler : MonoBehaviour
 
     [SerializeField] private GameObject selectionUI;
 
-    private enum State
+    public enum State
     {
         start, 
         playerTurn, 
@@ -58,7 +58,12 @@ public class BattleHandler : MonoBehaviour
         allCharacterList.AddRange(enemyTeamList);
 
         SetActiveCharacterBattle(allCharacterList[0]);
+
         state = State.playerTurn;
+        if (Pointer.SelectedTarget == null)
+        {
+            RestoreOrSetDefaultTarget();
+        }
     }
 
     private void Update()
@@ -113,6 +118,11 @@ public class BattleHandler : MonoBehaviour
         if (activeCharacterBattle.IsPlayerTeam())
         {
             state = State.playerTurn;
+
+            if (Pointer.SelectedTarget == null)
+            {
+                RestoreOrSetDefaultTarget();
+            }
         }
         else
         {
@@ -125,6 +135,19 @@ public class BattleHandler : MonoBehaviour
         }
     }
 
+    private void RestoreOrSetDefaultTarget()
+    {
+        // 마지막으로 기억된 타겟이 있는지 확인
+        Pointer.RestoreLastSelection();
+
+        // 만약 기억된 게 없거나 그 적이 죽었다면(null이라면) 첫 번째 적
+        if (Pointer.SelectedTarget == null && enemyTeamList.Count > 0)
+        {
+            Pointer p = enemyTeamList[0].GetComponent<Pointer>();
+            if (p != null) p.SelectThis();
+        }
+    }
+
     public void OnAttackButtonClicked()
     {
         // 현재 상태가 플레이어 턴인지 확인
@@ -134,8 +157,14 @@ public class BattleHandler : MonoBehaviour
             return;
         }
 
+        if (Pointer.SelectedTarget == null)
+        {
+            Debug.Log("공격할 대상을 먼저 선택하세요!");
+            return;
+        }
+
         // 공격 대상을 정함
-        CharacterBattle targetEnemy = enemyTeamList[0];
+        CharacterBattle targetEnemy = Pointer.SelectedTarget.GetComponent<CharacterBattle>();
 
         if (targetEnemy != null)
         {
@@ -145,8 +174,14 @@ public class BattleHandler : MonoBehaviour
             {
                 ChooseNextActiveCharacter();
             });
+            Pointer.ClearSelection();
         }
 
         if (selectionUI != null) selectionUI.SetActive(false);
+    }
+
+    public State GetState()
+    {
+        return state;
     }
 }

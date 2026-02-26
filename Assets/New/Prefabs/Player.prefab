@@ -573,8 +573,8 @@ GameObject:
   - component: {fileID: 930387491623827920}
   - component: {fileID: 3389435725862758914}
   - component: {fileID: 7641539053351910688}
-  - component: {fileID: 3329614119372457176}
   - component: {fileID: 1216169201791183398}
+  - component: {fileID: 3329614119372457176}
   - component: {fileID: 1499003743001295513}
   - component: {fileID: 7173566083799544877}
   - component: {fileID: -8805887618176119496}
@@ -747,20 +747,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3329614119372457176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5324084233802655955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 498827fcbf22bc6419cbcf4090c2fa31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectionUI: {fileID: 0}
-  uiOffset: {x: 160, y: 60, z: 0}
 --- !u!114 &1216169201791183398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -777,6 +763,20 @@ MonoBehaviour:
   currentHP: 0
   MaxHP: 100
   baseHP: 50
+--- !u!114 &3329614119372457176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5324084233802655955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 498827fcbf22bc6419cbcf4090c2fa31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectionUI: {fileID: 0}
+  uiOffset: {x: 160, y: 60, z: 0}
 --- !u!114 &1499003743001295513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,7 +801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8152a69134547e458197d04b6cda97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 10
+  attackDamage: 50
   hitEffectPrefab: {fileID: 0}
   attributeDB: {fileID: 0}
 --- !u!114 &-8805887618176119496
