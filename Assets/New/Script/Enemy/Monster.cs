@@ -36,6 +36,8 @@ public class Monster : character, IDebuffTarget2
 
         if (HP <= 0)
         {
+            HP = 0;
+            Die();
             return;
         }
 
@@ -58,5 +60,26 @@ public class Monster : character, IDebuffTarget2
 
         color.a = 1;
         spriteRenderer.color = color;
+    }
+
+    private void Die()
+    {
+        Debug.Log($"{gameObject.name} 사망");
+
+        // 죽는 애니메이션 실행
+        if (animator != null)
+        {
+            // animator.SetTrigger("Die"); 
+        }
+
+        // 전투 핸들러에게 이 캐릭터가 죽었음을 알림
+        BattleHandler battleHandler = FindObjectOfType<BattleHandler>();
+        if (battleHandler != null)
+        {
+            battleHandler.OnCharacterDeath(GetComponent<CharacterBattle>());
+        }
+
+        // 삭제
+        Destroy(gameObject);
     }
 }

@@ -49,11 +49,25 @@ public class Pointer : MonoBehaviour, IPointerClickHandler
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             BattleHandler battleHandler = FindObjectOfType<BattleHandler>();
-            if (battleHandler.GetState() != BattleHandler.State.playerTurn) return;
 
-            SelectThis();
-
-            Debug.Log($"{target.name} 선택됨 (포인터 고정)");
+            // 타겟 선택 모드일 때만 작동
+            if (battleHandler.GetState() == BattleHandler.State.playerTurn && battleHandler.IsSelectingTarget())
+            {
+                // 한 번 클릭: 대상만 변경 (포인터 이동)
+                if (eventData.clickCount == 1)
+                {
+                    SelectThis();
+                    Debug.Log($"{target.name} 선택됨 (공격하려면 한 번 더 클릭)");
+                }
+                // 두 번 클릭 (더블 클릭): 즉시 공격 실행
+                else if (eventData.clickCount == 2)
+                {
+                    // 현재 타겟을 이 오브젝트로 확정하고 공격
+                    SelectThis();
+                    Debug.Log($"{target.name}에게 더블 클릭 공격 시작!");
+                    battleHandler.ExecuteAttack();
+                }
+            }
         }
     }
 

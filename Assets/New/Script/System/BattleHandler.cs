@@ -23,6 +23,7 @@ public class BattleHandler : MonoBehaviour
 
     private CharacterBattle activeCharacterBattle;
     private State state;
+    private bool isSelectingTarget = false; // 타겟 선택 모드인지 확인
 
     [SerializeField] private GameObject selectionUI;
 
@@ -60,10 +61,7 @@ public class BattleHandler : MonoBehaviour
         SetActiveCharacterBattle(allCharacterList[0]);
 
         state = State.playerTurn;
-        if (Pointer.SelectedTarget == null)
-        {
-            RestoreOrSetDefaultTarget();
-        }
+        ShowPlayerUI();
     }
 
     private void Update()
@@ -118,11 +116,7 @@ public class BattleHandler : MonoBehaviour
         if (activeCharacterBattle.IsPlayerTeam())
         {
             state = State.playerTurn;
-
-            if (Pointer.SelectedTarget == null)
-            {
-                RestoreOrSetDefaultTarget();
-            }
+            ShowPlayerUI();
         }
         else
         {
@@ -132,6 +126,21 @@ public class BattleHandler : MonoBehaviour
             {
                 ChooseNextActiveCharacter();
             });
+        }
+    }
+
+    private void ShowPlayerUI()
+    {
+        if (selectionUI != null && activeCharacterBattle != null)
+        {
+            selectionUI.SetActive(true);
+
+            // activeCharacterBattle이 붙어있는 오브젝트의 playerInteraction 컴포넌트를 가져와 위치 업데이트
+            var interaction = activeCharacterBattle.GetComponent<playerInteraction>();
+            if (interaction != null)
+            {
+                interaction.UpdateUIPosition();
+            }
         }
     }
 
@@ -150,38 +159,88 @@ public class BattleHandler : MonoBehaviour
 
     public void OnAttackButtonClicked()
     {
-        // 현재 상태가 플레이어 턴인지 확인
-        if (state != State.playerTurn)
-        {
-            Debug.Log("지금은 공격할 수 있는 타이밍이 아닙니다.");
-            return;
-        }
+        // 플레이어 턴인지 확인
+        if (state != State.playerTurn) return;
 
-        if (Pointer.SelectedTarget == null)
-        {
-            Debug.Log("공격할 대상을 먼저 선택하세요!");
-            return;
-        }
+        // 타겟 선택 모드 활성화
+        isSelectingTarget = true;
+        Debug.Log("공격 대상을 선택하세요!");
+        RestoreOrSetDefaultTarget();
+    }
 
-        // 공격 대상을 정함
+    // 실제 공격을 수행
+    public void ExecuteAttack()
+    {
+        if (!isSelectingTarget || Pointer.SelectedTarget == null) return;
+
         CharacterBattle targetEnemy = Pointer.SelectedTarget.GetComponent<CharacterBattle>();
 
         if (targetEnemy != null)
         {
-            state = State.enemyTurn; // 공격 중에는 다시 버튼이 안 눌리게 상태 변경
+            isSelectingTarget = false;
+            state = State.enemyTurn; // 상태 전환으로 중복 클릭 방지
 
             activeCharacterBattle.Attack(targetEnemy, () =>
             {
                 ChooseNextActiveCharacter();
             });
-            Pointer.ClearSelection();
-        }
 
-        if (selectionUI != null) selectionUI.SetActive(false);
+            // 공격 후 포인터 숨기기
+            Pointer.ClearSelection();
+            selectionUI.SetActive(false);
+        }
     }
 
     public State GetState()
     {
         return state;
+    }
+
+    public bool IsSelectingTarget()
+    {
+        return isSelectingTarget;
+    }
+
+    // 캐릭터 사망 시 리스트에서 제거하는 메서드
+    public void OnCharacterDeath(CharacterBattle deadCharacter)
+    {
+        if (playerTeamList.Contains(deadCharacter))
+        {
+            playerTeamList.Remove(deadCharacter);
+        }
+        else if (enemyTeamList.Contains(deadCharacter))
+        {
+            enemyTeamList.Remove(deadCharacter);
+        }
+
+        // 전체 리스트에서도 제거
+        if (allCharacterList.Contains(deadCharacter))
+        {
+            // 만약 죽은 캐릭터가 현재 턴을 진행 중이던 캐릭터였다면 인덱스 조절이 필요할 수 있습니다.
+            int deadIndex = allCharacterList.IndexOf(deadCharacter);
+            allCharacterList.RemoveAt(deadIndex);
+
+            // 죽은 캐릭터 뒤의 캐릭터들이 당겨지므로 인덱스 보정
+            if (deadIndex <= activeCharacterIndex)
+            {
+                activeCharacterIndex--;
+            }
+        }
+
+        // 승리/패배 조건 체크
+        CheckBattleOver();
+    }
+
+    private void CheckBattleOver()
+    {
+        if (enemyTeamList.Count == 0)
+        {
+            state = State.win;
+            Debug.Log("전투 승리!");
+        }
+        else if (playerTeamList.Count == 0)
+        {
+            Debug.Log("전투 패배...");
+        }
     }
 }
