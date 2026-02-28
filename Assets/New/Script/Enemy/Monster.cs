@@ -16,6 +16,10 @@ public class Monster : character, IDebuffTarget2
     [SerializeField] private EnemyAttribute enemyAttribute;
 
     [SerializeField] public HP hpUI;
+    [SerializeField] private TurnUI turnUI;
+
+    [SerializeField] private int attackInterval = 3; // 몇 턴마다 공격할지 (예: 3턴마다)
+    private int currentTurnWait = 0; // 현재 쌓인 턴 카운트
 
     private void Awake()
     {
@@ -24,6 +28,8 @@ public class Monster : character, IDebuffTarget2
 
         HP = 50f;
         base.Setup();
+
+        UpdateMonsterTurnUI();
     }
 
     public override void TakeDamage(float damage)
@@ -88,5 +94,32 @@ public class Monster : character, IDebuffTarget2
 
         // 삭제
         Destroy(gameObject);
+    }
+
+    public bool CheckTurnAndPrepareAttack()
+    {
+        currentTurnWait++;
+
+        UpdateMonsterTurnUI();
+
+        if (currentTurnWait >= attackInterval)
+        {
+            currentTurnWait = 0; // 카운트 초기화
+            // 여기서 애니메이션이나 UI 연출을 미리 실행할 수 있음
+            return true; // 공격
+        }
+
+        // 공격 안 할 때는 UI 숫자만 갱신하거나 기 모으는 연출
+        return false; // 공격 아님
+    }
+
+    private void UpdateMonsterTurnUI()
+    {
+        if (turnUI != null)
+        {
+            // 남은 턴 계산
+            int remainingTurn = attackInterval - currentTurnWait - 1;
+            turnUI.UpdateTurnText(remainingTurn);
+        }
     }
 }

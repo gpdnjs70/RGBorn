@@ -131,12 +131,34 @@ public class BattleHandler : MonoBehaviour
         }
         else
         {
-            // 적의 턴일 경우 AI 공격 (플레이어 팀의 첫 번째 캐릭터 공격)
+            // 적의 턴일 경우
             state = State.enemyTurn;
-            activeCharacterBattle.Attack(playerTeamList[0], () =>
+
+            Monster currentMonster = activeCharacterBattle.GetComponent<Monster>();
+
+            if (currentMonster != null)
             {
-                ChooseNextActiveCharacter();
-            });
+                // 카운트 체크
+                if (currentMonster.CheckTurnAndPrepareAttack())
+                {
+                    // 공격 대상 결정
+                    CharacterBattle targetPlayer = playerTeamList[0];
+
+                    // 대상의 PlayerAttribute를 가져와서 몬스터에게 전달]
+                    currentMonster.playerAttribute = targetPlayer.GetComponent<PlayerAttribute>();
+
+                    // 공격 실행
+                    activeCharacterBattle.Attack(targetPlayer, () =>
+                    {
+                        ChooseNextActiveCharacter();
+                    });
+                }
+                else
+                {
+                    // 공격 안 하는 턴
+                    ChooseNextActiveCharacter();
+                }
+            }
         }
     }
 

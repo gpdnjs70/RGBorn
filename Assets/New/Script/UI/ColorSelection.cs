@@ -7,9 +7,9 @@ public class ColorSelection : MonoBehaviour
     public System.Action<ColorMode> OnColorChanged;
 
     // R, G, B 버튼에 각각 연결할 함수들
-    public void OnClickRed() => SelectColor(ColorMode.Yellow);
-    public void OnClickGreen() => SelectColor(ColorMode.Purple);
-    public void OnClickBlue() => SelectColor(ColorMode.Cyan);
+    public void OnClickRed() => SelectColor(ColorMode.Red);
+    public void OnClickGreen() => SelectColor(ColorMode.Green);
+    public void OnClickBlue() => SelectColor(ColorMode.Blue);
 
     private void SelectColor(ColorMode mode)
     {
