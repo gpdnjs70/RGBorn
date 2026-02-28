@@ -29,6 +29,13 @@ public class Player : character, IDebuffTarget2
 
         Debug.Log($"데미지는 {finalDamage}");
 
+        Vector3 spawnPos = transform.position + new Vector3(Random.Range(-0.5f, 0.5f), 1f, 0);
+
+        // 30% 확률로 크리티컬 연출 (예시)
+        bool isCritical = Random.Range(0, 100) < 30;
+
+        DamagePopup.Create(spawnPos, (int)finalDamage, isCritical);
+
         HP -= finalDamage;
 
         StartCoroutine("HitAnimation");

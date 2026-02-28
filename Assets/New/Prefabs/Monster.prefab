@@ -901,7 +901,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 10
   hitEffectPrefab: {fileID: 0}
-  attributeDB: {fileID: 0}
+  attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
 --- !u!114 &945967776828415229
 MonoBehaviour:
   m_ObjectHideFlags: 0

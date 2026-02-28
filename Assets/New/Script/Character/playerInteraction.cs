@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class playerInteraction : MonoBehaviour
 {
     public GameObject selectionUI; // 연결할 UI 오브젝트
+    public GameObject colorSelectionUI;
     public Vector3 uiOffset;
 
     private CharacterBattle characterBattle;
@@ -17,6 +18,7 @@ public class playerInteraction : MonoBehaviour
 
     void Start()
     {
+        /*
         if (selectionUI == null)
         {
             selectionUI = GameObject.Find("PlayerSelection");
@@ -24,69 +26,27 @@ public class playerInteraction : MonoBehaviour
             // 찾은 직후에는 일단 꺼둠
             if (selectionUI != null) selectionUI.SetActive(false);
         }
+        */
+    }
+
+    // 특정 UI 하나를 업데이트하는 범용 메서드
+    private void SetUIPosition(GameObject ui)
+    {
+        if (ui == null) return;
+
+        Vector2 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
+        RectTransform canvasRect = ui.transform.parent.GetComponent<RectTransform>();
+
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPoint, null, out Vector2 localPos))
+        {
+            ui.GetComponent<RectTransform>().anchoredPosition = localPos + (Vector2)uiOffset;
+        }
     }
 
     public void UpdateUIPosition()
     {
-        if (selectionUI == null) return;
-
-        // 플레이어의 월드 좌표를 스크린 좌표로 변환
-        Vector2 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
-
-        // 스크린 좌표를 캔버스(UI) 좌표로 변환
-        RectTransform canvasRect = selectionUI.transform.parent.GetComponent<RectTransform>();
-        Vector2 localPos;
-
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            canvasRect,
-            screenPoint,
-            null,
-            out localPos
-        );
-
-        // 변환된 좌표에 오프셋 적용
-        selectionUI.GetComponent<RectTransform>().anchoredPosition = localPos + (Vector2)uiOffset;
+        // 필요할 때마다 호출
+        SetUIPosition(selectionUI);
+        SetUIPosition(colorSelectionUI);
     }
-
-    /*
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            if (characterBattle != null && !characterBattle.IsIdle())
-            {
-                return;
-            }
-
-            bool isActive = !selectionUI.activeSelf;
-            selectionUI.SetActive(isActive);
-
-            if (isActive)
-            {
-                // 플레이어의 월드 좌표를 스크린 좌표로 변환
-                Vector2 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
-
-                // 스크린 좌표를 캔버스(UI) 좌표로 변환
-                RectTransform canvasRect = selectionUI.transform.parent.GetComponent<RectTransform>();
-                Vector2 localPos;
-
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                    canvasRect,
-                    screenPoint,
-                    null,
-                    out localPos
-                );
-
-                // 변환된 좌표에 오프셋 적용
-                selectionUI.GetComponent<RectTransform>().anchoredPosition = localPos + (Vector2)uiOffset;
-
-                Debug.Log("플레이어 우클릭: UI 켜짐");
-            }
-            else
-            {
-                Debug.Log("플레이어 우클릭: UI 꺼짐");
-            }
-        }
-    }
-    */
 }

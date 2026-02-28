@@ -75,7 +75,7 @@ public abstract class character : MonoBehaviour
         DebuffType type = attackerAttr.GetDebuffType();
         if (type == DebuffType.None) return;
 
-        // debuff.ApplyDebuff(type, this, duration);
+        debuff.ApplyDebuff(type, this, duration);
     }
 
     public virtual Entity GetAttackTarget(Entity intendedTarget)

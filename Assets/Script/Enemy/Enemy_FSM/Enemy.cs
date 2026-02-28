@@ -134,7 +134,7 @@ public class Enemy : MonoBehaviour
         DebuffController[] debuffs = FindObjectsOfType<DebuffController>();
         foreach (var d in debuffs)
         {
-            d.RemoveDebuffsFromSource(entity);
+            // d.RemoveDebuffsFromSource(entity);
         }
 
         if (EnemyManager.Instance != null)

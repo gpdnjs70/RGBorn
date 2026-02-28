@@ -26,6 +26,7 @@ public class BattleHandler : MonoBehaviour
     private bool isSelectingTarget = false; // 타겟 선택 모드인지 확인
 
     [SerializeField] private GameObject selectionUI;
+    [SerializeField] private GameObject colorSelectionUI;
 
     public enum State
     {
@@ -88,7 +89,17 @@ public class BattleHandler : MonoBehaviour
         if (isPlayerTeam)
         {
             var interaction = characterTransform.GetComponent<playerInteraction>();
-            if (interaction != null) interaction.selectionUI = selectionUI;
+            if (interaction != null)
+            {
+                interaction.selectionUI = selectionUI;
+                interaction.colorSelectionUI = colorSelectionUI;
+            }
+
+            var colorAttr = characterTransform.GetComponent<PlayerColorAttribute>();
+            if (colorAttr != null)
+            {
+                colorAttr.colorSelectionUI = colorSelectionUI.GetComponent<ColorSelection>();
+            }
         }
 
         characterBattle.Setup(isPlayerTeam);
@@ -189,6 +200,34 @@ public class BattleHandler : MonoBehaviour
             Pointer.ClearSelection();
             selectionUI.SetActive(false);
         }
+    }
+
+    public void OnColorButtonClicked()
+    {
+        // 플레이어 턴인지 확인
+        if (state != State.playerTurn) return;
+
+        // 색상 선택 UI 활성화
+        selectionUI.SetActive(false);
+
+        var colorAttr = activeCharacterBattle.GetComponent<PlayerColorAttribute>();
+        if (colorAttr != null)
+        {
+            colorAttr.ActivateColorSelection();
+        }
+    }
+
+    public void EndTurn()
+    {
+        // 중복 호출 방지 및 상태 전환
+        state = State.enemyTurn;
+
+        // UI들 숨기기
+        selectionUI.SetActive(false);
+        colorSelectionUI.SetActive(false);
+
+        // 다음 캐릭터로 턴 넘기기
+        ChooseNextActiveCharacter();
     }
 
     public State GetState()

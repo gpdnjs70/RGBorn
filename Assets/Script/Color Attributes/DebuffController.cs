@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class DebuffController : MonoBehaviour
 {
-    private Entity target;
+    private character target;
     private List<DebuffInstance> activeDebuffs = new();
 
     private void Awake()
     {
-        target = GetComponent<Entity>();
+        target = GetComponent<character>();
     }
 
-    public void ApplyDebuff(DebuffType type, Entity source, float duration)
+    public void ApplyDebuff(DebuffType type, character source, float duration)
     {
         DebuffBase debuff = CreateDebuff(type);
 
@@ -29,7 +29,7 @@ public class DebuffController : MonoBehaviour
         });
     }
 
-    public void RemoveDebuffsFromSource(Entity source)
+    public void RemoveDebuffsFromSource(character source)
     {
         for (int i = activeDebuffs.Count - 1; i >= 0; i--)
         {
