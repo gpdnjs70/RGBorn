@@ -10,6 +10,8 @@ public class CharacterAttack : MonoBehaviour
     [SerializeField] private GameObject hitEffectPrefab;
     [SerializeField] private AttributeDatabase attributeDB; // 상성 데이터베이스 연결 필요
 
+    private float calculatedDamage;
+
     public void ExecuteAttack(character attacker, character target, Action onComplete = null)
     {
         if (attacker == null || target == null) return;
@@ -25,7 +27,7 @@ public class CharacterAttack : MonoBehaviour
         */
 
         //데미지 계산
-        float calculatedDamage = attackDamage;
+        calculatedDamage = attackDamage;
 
         // 속성 상성 계산
         ColorAttribute atkAttrComp = attacker.GetComponent<ColorAttribute>();
@@ -70,5 +72,10 @@ public class CharacterAttack : MonoBehaviour
         }
 
         onComplete?.Invoke();
+    }
+
+    public float GetAttackDamage()
+    {
+        return calculatedDamage;
     }
 }

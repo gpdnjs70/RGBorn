@@ -21,7 +21,8 @@ public class PlayerColorAttribute : MonoBehaviour
         colorSelectionUI.OnColorChanged -= SetColor;
         colorSelectionUI.OnColorChanged += SetColor;
 
-        colorSelectionUI.gameObject.SetActive(true);
+        colorSelectionUI.Open(this.GetComponent<character>());
+
         interaction.UpdateUIPosition();
     }
 

@@ -5,17 +5,42 @@ using UnityEngine;
 public class ColorSelection : MonoBehaviour
 {
     public System.Action<ColorMode> OnColorChanged;
+    private character currentOwner; // 누가 이 UI를 열었는지 저장할 변수
 
-    // R, G, B 버튼에 각각 연결할 함수들
-    public void OnClickRed() => SelectColor(ColorMode.Red);
-    public void OnClickGreen() => SelectColor(ColorMode.Green);
-    public void OnClickBlue() => SelectColor(ColorMode.Blue);
+    // [중요] UI를 열 때 이 함수를 사용하세요
+    public void Open(character owner)
+    {
+        currentOwner = owner;
+        this.gameObject.SetActive(true);
+        Debug.Log($"[ColorSelection] {owner.name}이 UI를 열었습니다.");
+    }
 
     private void SelectColor(ColorMode mode)
     {
-        Debug.Log($"[ColorSelection] 선택된 색상 모드: {mode}");
+        // 1. 이벤트 먼저 날리기
+        OnColorChanged?.Invoke(mode);
 
-        OnColorChanged?.Invoke(mode); // 구독 중인 플레이어에게 색상 전달
-        gameObject.SetActive(false); // 선택 후 UI 닫기
+        // 2. 미리 저장해둔 주인(currentOwner)으로 정산하기
+        if (currentOwner != null)
+        {
+            BattleHandler bh = Object.FindObjectOfType<BattleHandler>();
+            if (bh != null)
+            {
+                Debug.Log($"[정산 시작] 주인: {currentOwner.name}");
+                bh.ProcessMyAppliedDebuffs(currentOwner);
+            }
+        }
+        else
+        {
+            Debug.LogError("UI의 주인이 설정되지 않았습니다! Open(character)을 사용했나요?");
+        }
+
+        gameObject.SetActive(false);
+        currentOwner = null; // 초기화
     }
+
+    // 버튼 연결용
+    public void OnClickRed() => SelectColor(ColorMode.Red);
+    public void OnClickGreen() => SelectColor(ColorMode.Green);
+    public void OnClickBlue() => SelectColor(ColorMode.Blue);
 }

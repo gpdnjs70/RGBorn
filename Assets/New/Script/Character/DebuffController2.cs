@@ -12,18 +12,17 @@ public class DebuffController2 : MonoBehaviour
         target = GetComponent<character>();
     }
 
-    // [핵심] 현재 턴인 캐릭터(source)가 과거에 걸어둔 디버프들을 찾아 실행
+    // 현재 턴인 캐릭터(source)가 과거에 걸어둔 디버프들을 찾아 실행
     public void ProcessEffectsBySource(character sourceCharacter)
     {
         for (int i = activeDebuffs.Count - 1; i >= 0; i--)
         {
             var d = activeDebuffs[i];
 
-            // 이 디버프를 건 사람(Source)이 지금 턴 주인이라면?
             if (d.GetSource() == sourceCharacter)
             {
                 // R, G 같은 대미지형 디버프는 여기서 실행
-                if (d is RDebuff || d is GDebuff)
+                if (d is RDebuff || d is GDebuff || d is CDebuff)
                 {
                     d.OnTurnStart();
                     if (d.IsExpired) CleanUpDebuff(i);
@@ -32,7 +31,7 @@ public class DebuffController2 : MonoBehaviour
         }
     }
 
-    // [제어형] 마비(Y), 지연(B)은 기존처럼 자기 차례에 처리
+    // 마비(Y), 지연(B)은 자기 차례에 처리
     public void ProcessTurnControl()
     {
         for (int i = activeDebuffs.Count - 1; i >= 0; i--)
@@ -46,18 +45,40 @@ public class DebuffController2 : MonoBehaviour
         }
     }
 
-    // ApplyDebuff 로직 (기존과 동일하지만 YDebuff는 신규 시 LockAction 유지)
+    public void ExecutePDebuff()
+    {
+        for (int i = activeDebuffs.Count - 1; i >= 0; i--)
+        {
+            if (activeDebuffs[i] is PDebuff)
+            {
+                activeDebuffs[i].OnTurnStart(); // 여기서 반사 피해 발생
+                if (activeDebuffs[i].IsExpired) CleanUpDebuff(i);
+            }
+        }
+    }
+
+    // ApplyDebuff 로직
     public void ApplyDebuff(DebuffType2 type, character source, int duration)
     {
+        // 이미 있는 디버프인지 확인
         DebuffBase2 existing = activeDebuffs.Find(d => GetDebuffType(d) == type);
-        if (existing != null) { existing.Init(source, target, duration); return; }
 
-        DebuffBase2 debuff = CreateDebuff(type);
-        if (debuff == null) return;
-        debuff.Init(source, target, duration);
+        if (existing != null)
+        {
+            existing.RefreshDuration(duration);
+            existing.OnApply();
+            Debug.Log($"{type} 디버프 갱신 및 효과 재발동!");
+        }
+        else
+        {
+            // 새 디버프 생성
+            DebuffBase2 debuff = CreateDebuff(type);
+            debuff.Init(source, target, duration);
+            activeDebuffs.Add(debuff);
 
-        if (type == DebuffType2.YDebuff) target.LockAction();
-        activeDebuffs.Add(debuff);
+            // 즉시 실행
+            debuff.OnApply();
+        }
     }
 
     private void CleanUpDebuff(int index)

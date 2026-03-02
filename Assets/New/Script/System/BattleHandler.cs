@@ -165,22 +165,33 @@ public class BattleHandler : MonoBehaviour
 
         if (currentMonster != null && monsterStats != null)
         {
-            // --- ★ [핵심 추가] 마비 상태라면 공격하지 않고 대기 후 종료 ---
+            // 마비 상태라면 공격하지 않고 대기 후 종료
             if (!monsterStats.CanAct)
             {
-                Debug.Log($"{activeCharacterBattle.name}은(는) 마비 상태라 공격을 건너뜁니다.");
-                // 참고: R, G 정산은 이미 SetActiveCharacterBattle에서 수행되었으므로
-                // 여기서는 단순히 시간만 끌고 다음 캐릭터로 넘깁니다.
+                // Debug.Log($"{activeCharacterBattle.name}은 마비 상태라 공격을 건너뜀");
                 currentMonster.CheckTurnAndPrepareAttack();
                 yield return new WaitForSeconds(1.0f);
                 ChooseNextActiveCharacter();
                 yield break; // 루틴 종료
             }
-            // -------------------------------------------------------
 
             // 기존 공격 로직
             if (currentMonster.CheckTurnAndPrepareAttack())
             {
+                // 공격 확정 시점에 P디버프(반사) 실행
+                var dc = currentMonster.GetComponent<DebuffController2>();
+                if (dc != null)
+                {
+                    dc.ExecutePDebuff();
+                }
+
+                // 만약 반사 피해로 몬스터가 죽었다면 공격을 진행하지 않아야 함
+                if (currentMonster.HP <= 0)
+                {
+                    ChooseNextActiveCharacter();
+                    yield break;
+                }
+
                 CharacterBattle targetPlayer = playerTeamList[0];
                 currentMonster.playerAttribute = targetPlayer.GetComponent<PlayerAttribute>();
 
@@ -197,7 +208,7 @@ public class BattleHandler : MonoBehaviour
         }
     }
 
-    // 전장의 모든 캐릭터를 뒤져서 '내가 건 디버프'를 터뜨리는 메서드
+    // 전장의 모든 캐릭터를 뒤져서 내가 건 디버프 실행
     public void ProcessMyAppliedDebuffs(character currentTurnSource)
     {
         Debug.Log($"=== {currentTurnSource.name}의 턴: 디버프 정산 시작 ===");
@@ -270,6 +281,24 @@ public class BattleHandler : MonoBehaviour
         {
             isSelectingTarget = false;
             state = State.enemyTurn; // 상태 전환으로 중복 클릭 방지
+
+            // --- ★ [추가] 플레이어가 공격하기 직전에 자신(activeCharacterBattle)의 P디버프 확인 ---
+            var dc = activeCharacterBattle.GetComponent<DebuffController2>();
+            if (dc != null)
+            {
+                // 플레이어가 P디버프(반사)에 걸려있다면 여기서 대미지를 입음
+                dc.ExecutePDebuff();
+            }
+
+            // 반사 대미지로 플레이어가 죽었는지 체크 (선택 사항)
+            character playerStats = activeCharacterBattle.GetComponent<character>();
+            if (playerStats != null && playerStats.HP <= 0)
+            {
+                Pointer.ClearSelection();
+                selectionUI.SetActive(false);
+                ChooseNextActiveCharacter();
+                return;
+            }
 
             activeCharacterBattle.Attack(targetEnemy, () =>
             {
