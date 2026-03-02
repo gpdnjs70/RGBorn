@@ -224,6 +224,12 @@ public class BattleHandler : MonoBehaviour
 
     private void ChooseNextActiveCharacter()
     {
+        if (activeCharacterBattle != null)
+        {
+            var pca = activeCharacterBattle.GetComponent<PlayerColorAttribute>();
+            if (pca != null) pca.DecayTurn();
+        }
+
         selectionUI.SetActive(false);
 
         // 다음 인덱스로 이동 (리스트 끝이면 다시 0으로)

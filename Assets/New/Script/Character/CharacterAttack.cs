@@ -76,6 +76,6 @@ public class CharacterAttack : MonoBehaviour
 
     public float GetAttackDamage()
     {
-        return calculatedDamage;
+        return calculatedDamage > 0 ? calculatedDamage : attackDamage;
     }
 }

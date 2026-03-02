@@ -63,7 +63,7 @@ public class SlowDebuff : DebuffBase
     public override IEnumerator Run()
     {
         // baseSpeed 기준으로 감소량 계산
-        /*float baseSpeed = target.stats.Speed.BaseValue;
+        float baseSpeed = target.stats.Speed.BaseValue;
         appliedModifier = -baseSpeed * slowRate;
 
         target.stats.Speed.AddModifier(appliedModifier);
@@ -72,9 +72,6 @@ public class SlowDebuff : DebuffBase
         yield return new WaitForSeconds(duration);
 
         target.stats.Speed.RemoveModifier(appliedModifier);
-        Debug.Log("슬로우 종료");*/
-        Debug.Log("슬로우 시작"); 
-        yield return new WaitForSeconds(duration);
         Debug.Log("슬로우 종료");
     }
 
