@@ -578,6 +578,7 @@ GameObject:
   - component: {fileID: 1499003743001295513}
   - component: {fileID: 7173566083799544877}
   - component: {fileID: -8805887618176119496}
+  - component: {fileID: 2432387438280762514}
   - component: {fileID: 2248659750129805952}
   m_Layer: 12
   m_Name: Player
@@ -803,7 +804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8152a69134547e458197d04b6cda97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 50
+  attackDamage: 30
   hitEffectPrefab: {fileID: 0}
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
 --- !u!114 &-8805887618176119496
@@ -816,6 +817,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f2bc65eff2fc5e469fc51d2b94805ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2432387438280762514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5324084233802655955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e904f4887ee0b4f8a7d32d2ce563d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2248659750129805952

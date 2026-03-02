@@ -7,25 +7,20 @@ public interface IDebuffTarget
     Entity Entity { get; }
 }
 
-public interface IDebuffTarget2
-{
-    character character { get; }
-}
-
 public class DebuffInstance
 {
     public DebuffBase debuff;
-    public character source;
+    public Entity source;
     public Coroutine coroutine;
 }
 
 public abstract class DebuffBase
 {
-    protected character target;    // 디버프를 당하는 쪽
-    protected character source;   // 디버프를 건 쪽
+    protected Entity target;    // 디버프를 당하는 쪽
+    protected Entity source;   // 디버프를 건 쪽
     protected float duration;
 
-    public void Init(character source, character target, float duration)
+    public void Init(Entity source, Entity target, float duration)
     {
         this.source = source;
         this.target = target;

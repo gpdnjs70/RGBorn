@@ -14,9 +14,7 @@ public class CharacterAttack : MonoBehaviour
     {
         if (attacker == null || target == null) return;
 
-        // 상태 이상에 따른 타겟 재설정 (혼란 등)
-        character finalTarget = attacker.ResolveAttackTarget(target);
-
+        /*
         // 공격 가능 상태인지 확인 (마비 등)
         if (!attacker.CanAct)
         {
@@ -24,13 +22,14 @@ public class CharacterAttack : MonoBehaviour
             onComplete?.Invoke();
             return;
         }
+        */
 
         //데미지 계산
         float calculatedDamage = attackDamage;
 
         // 속성 상성 계산
         ColorAttribute atkAttrComp = attacker.GetComponent<ColorAttribute>();
-        ColorAttribute defAttrComp = finalTarget.GetComponent<ColorAttribute>();
+        ColorAttribute defAttrComp = target.GetComponent<ColorAttribute>();
 
         if (atkAttrComp != null && defAttrComp != null && attributeDB != null)
         {
@@ -41,25 +40,33 @@ public class CharacterAttack : MonoBehaviour
             {
                 calculatedDamage *= (1f + atkAttr.attackBonusPercent);
             }
+            /*
             // 상성 불리 (데미지 감소)
             if (atkAttr.weakAgainst.Contains(defAttrComp.colorMode))
             {
                 calculatedDamage *= (1f - atkAttr.attackMinusPercent);
             }
+            */
         }
 
-        Debug.Log($"{attacker.name}이(가) {finalTarget.name}에게 {calculatedDamage} 데미지 공격!");
+        Debug.Log($"{attacker.name}이(가) {target.name}에게 {calculatedDamage} 데미지 공격!");
 
         // 데미지 입히기
-        finalTarget.TakeDamage(calculatedDamage);
+        target.TakeDamage(calculatedDamage);
 
-        // 속성 디버프 적용 (10초로 적용)
-        attacker.ApplyAttributeDebuffTo(finalTarget, 10f);
+        // 속성 디버프 적용 (3턴 적용)
+        attacker.ApplyAttributeDebuffTo(target, 2);
+
+        var targetDebuff = target.GetComponent<DebuffController2>();
+        if (targetDebuff != null)
+        {
+            targetDebuff.ProcessEffectsBySource(attacker);
+        }
 
         // 이펙트 생성
         if (hitEffectPrefab != null)
         {
-            Instantiate(hitEffectPrefab, finalTarget.transform.position, Quaternion.identity);
+            Instantiate(hitEffectPrefab, target.transform.position, Quaternion.identity);
         }
 
         onComplete?.Invoke();

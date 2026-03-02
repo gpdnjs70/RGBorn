@@ -94,8 +94,8 @@ public abstract class Entity : MonoBehaviour
 
         if (attackerAttr == null || debuff == null) return;
 
-        DebuffType type = attackerAttr.GetDebuffType();
-        if (type == DebuffType.None) return;
+        //DebuffType type = attackerAttr.GetDebuffType();
+        //if (type == DebuffType.None) return;
 
         // debuff.ApplyDebuff(type, this, duration);
     }

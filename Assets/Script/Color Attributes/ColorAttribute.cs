@@ -13,30 +13,30 @@ public class ColorAttribute : MonoBehaviour
         Debug.Log($"{name} attribute set to {mode}");
     }
 
-    public DebuffType GetDebuffType()
+    public DebuffType2 GetDebuffType()
     {
         switch (colorMode)
         {
             case ColorMode.Red:
-                return DebuffType.Burn;
+                return DebuffType2.RDebuff;
 
             case ColorMode.Blue:
-                return DebuffType.Slow;
+                return DebuffType2.BDebuff;
 
             case ColorMode.Green:
-                return DebuffType.LifeSteal;
+                return DebuffType2.GDebuff;
 
             case ColorMode.Yellow:
-                return DebuffType.Shock;
+                return DebuffType2.YDebuff;
 
             case ColorMode.Purple:
-                return DebuffType.Poison;
+                return DebuffType2.PDebuff;
 
             case ColorMode.Cyan:
-                return DebuffType.Corrosion;
+                return DebuffType2.CDebuff;
 
             default:
-                return DebuffType.None;
+                return DebuffType2.None;
         }
     }
 }

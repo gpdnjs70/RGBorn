@@ -17,8 +17,6 @@ public abstract class character : MonoBehaviour
 
     // 방어력
     private List<float> defenseModifiers = new();
-    // 공격 대상
-    private List<object> attackRedirectors = new();
     // 속도
     private List<float> moveSpeedModifiers = new();
     // 마비
@@ -35,7 +33,7 @@ public abstract class character : MonoBehaviour
     // 화상 디버프
     public virtual void Burn(float damage = 5f)
     {
-        HP -= damage;
+        TakeDamage(damage);
     }
 
     // 부식 디버프
@@ -62,44 +60,24 @@ public abstract class character : MonoBehaviour
     }
 
     // 디버프 적용
-    public void ApplyAttributeDebuffTo(character target, float duration)
+    public void ApplyAttributeDebuffTo(character target, int duration)
     {
         if (target == null) return;
 
         ColorAttribute attackerAttr = GetComponent<ColorAttribute>();
 
-        DebuffController debuff = target.GetComponent<DebuffController>();
+        DebuffController2 debuff = target.GetComponent<DebuffController2>();
 
         if (attackerAttr == null || debuff == null) return;
 
-        DebuffType type = attackerAttr.GetDebuffType();
-        if (type == DebuffType.None) return;
+        DebuffType2 type = attackerAttr.GetDebuffType();
+        if (type == DebuffType2.None) return;
 
         debuff.ApplyDebuff(type, this, duration);
     }
 
-    public virtual Entity GetAttackTarget(Entity intendedTarget)
+    public virtual character GetAttackTarget(character intendedTarget)
     {
-        return intendedTarget;
-    }
-
-    // 중독 디버프
-    public void AddAttackRedirect(object source)
-    {
-        attackRedirectors.Add(source);
-    }
-
-    public void RemoveAttackRedirect(object source)
-    {
-        attackRedirectors.Remove(source);
-    }
-
-    public character ResolveAttackTarget(character intendedTarget)
-    {
-        // 혼란 상태면 자기 자신
-        if (attackRedirectors.Count > 0)
-            return this;
-
         return intendedTarget;
     }
 
@@ -108,16 +86,17 @@ public abstract class character : MonoBehaviour
     {
         actionLockCount++;
         CanAct = false;
+        Debug.Log($"[LOCK] {gameObject.name} 현재 카운트: {actionLockCount}");
     }
 
     public void UnlockAction()
     {
         actionLockCount--;
-
         if (actionLockCount <= 0)
         {
             actionLockCount = 0;
             CanAct = true;
         }
+        Debug.Log($"[UNLOCK] {gameObject.name} 현재 카운트: {actionLockCount}, CanAct: {CanAct}");
     }
 }

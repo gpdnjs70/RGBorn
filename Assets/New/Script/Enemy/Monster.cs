@@ -105,6 +105,14 @@ public class Monster : character, IDebuffTarget2
         if (currentTurnWait >= attackInterval)
         {
             currentTurnWait = 0; // 카운트 초기화
+
+            if (!CanAct) // 마비 상태
+            {
+                Debug.Log($"{gameObject.name}이 공격할 차례지만 마비되어 공격을 씹었습니다!");
+                UpdateMonsterTurnUI();
+                return false; // 공격 안 함
+            }
+           
             // 여기서 애니메이션이나 UI 연출을 미리 실행할 수 있음
             return true; // 공격
         }
@@ -113,7 +121,7 @@ public class Monster : character, IDebuffTarget2
         return false; // 공격 아님
     }
 
-    private void UpdateMonsterTurnUI()
+    public void UpdateMonsterTurnUI()
     {
         if (turnUI != null)
         {
@@ -121,5 +129,14 @@ public class Monster : character, IDebuffTarget2
             int remainingTurn = attackInterval - currentTurnWait - 1;
             turnUI.UpdateTurnText(remainingTurn);
         }
+    }
+
+    public void DelayAttack(int amount)
+    {
+        // currentTurnWait이 작아질수록 남은 턴(attackInterval - currentTurnWait)은 늘어납니다.
+        currentTurnWait -= amount;
+
+        // UI 업데이트 (남은 턴 숫자가 즉시 늘어남)
+        UpdateMonsterTurnUI();
     }
 }

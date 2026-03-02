@@ -820,7 +820,7 @@ GameObject:
   - component: {fileID: 2071783856096597612}
   - component: {fileID: 945967776828415229}
   - component: {fileID: 6722294282648115941}
-  - component: {fileID: -2019027939244190935}
+  - component: {fileID: 130174669572769741}
   - component: {fileID: 2232681003316857282}
   m_Layer: 10
   m_Name: Monster
@@ -1051,7 +1051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f6bf7bf8f51d44aa43b34f47620a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 1
+  mode: 3
 --- !u!114 &6722294282648115941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1064,7 +1064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f2bc65eff2fc5e469fc51d2b94805ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-2019027939244190935
+--- !u!114 &130174669572769741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1073,7 +1073,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5324084233802655955}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2449c7aaf61ed3849a3d0e7bcc896fa3, type: 3}
+  m_Script: {fileID: 11500000, guid: 60e904f4887ee0b4f8a7d32d2ce563d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2232681003316857282

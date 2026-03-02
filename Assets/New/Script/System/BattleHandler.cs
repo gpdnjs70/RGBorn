@@ -115,15 +115,35 @@ public class BattleHandler : MonoBehaviour
 
         activeCharacterBattle = characterBattle;
         activeCharacterBattle.ShowSelectionCircle();
-    }
 
-    private void ChooseNextActiveCharacter()
-    {
-        // 다음 인덱스로 이동 (리스트 끝이면 다시 0으로)
-        activeCharacterIndex = (activeCharacterIndex + 1) % allCharacterList.Count;
-        SetActiveCharacterBattle(allCharacterList[activeCharacterIndex]);
+        character activeStats = activeCharacterBattle.GetComponent<character>();
 
-        // 현재 캐릭터가 플레이어 팀인지 확인
+        // [제어형 처리] 마비(Y), 지연(B) 턴 소모 (행동 불가 여부를 여기서 결정)
+        DebuffController2 myDC = activeCharacterBattle.GetComponent<DebuffController2>();
+        if (myDC != null) myDC.ProcessTurnControl();
+
+        // --- ★ [유저님 요구사항: 조건부 R, G 발동] ---
+        if (activeStats != null && !activeStats.CanAct)
+        {
+            // 1. 플레이어 팀이면 UI 안 띄우고 바로 넘김 (기존 유지)
+            if (activeCharacterBattle.IsPlayerTeam())
+            {
+                Debug.Log($"{activeCharacterBattle.name} 마비! 턴 넘김");
+                ProcessMyAppliedDebuffs(activeStats);
+                Invoke(nameof(ChooseNextActiveCharacter), 1.0f);
+                return;
+            }
+            // 2. 적 팀이면 'return'하지 않고 아래로 내려가서 EnemyTurnRoutine을 실행하게 둡니다!
+            else
+            {
+                Debug.Log($"{activeCharacterBattle.name} 마비지만 숫자를 깎기 위해 루틴으로 진입합니다.");
+            }
+        }
+        // -------------------------------------------
+
+        // 케이스 1: 정상 상태임 -> 여기서 ProcessMyAppliedDebuffs를 부르지 않음! 
+        // (나중에 공격 버튼 눌렀을 때 CharacterAttack에서 터질 거니까)
+
         if (activeCharacterBattle.IsPlayerTeam())
         {
             state = State.playerTurn;
@@ -131,35 +151,73 @@ public class BattleHandler : MonoBehaviour
         }
         else
         {
-            // 적의 턴일 경우
             state = State.enemyTurn;
+            StartCoroutine(EnemyTurnRoutine());
+        }
+    }
 
-            Monster currentMonster = activeCharacterBattle.GetComponent<Monster>();
+    private IEnumerator EnemyTurnRoutine()
+    {
+        yield return new WaitForSeconds(0.5f);
 
-            if (currentMonster != null)
+        Monster currentMonster = activeCharacterBattle.GetComponent<Monster>();
+        character monsterStats = activeCharacterBattle.GetComponent<character>();
+
+        if (currentMonster != null && monsterStats != null)
+        {
+            // --- ★ [핵심 추가] 마비 상태라면 공격하지 않고 대기 후 종료 ---
+            if (!monsterStats.CanAct)
             {
-                // 카운트 체크
-                if (currentMonster.CheckTurnAndPrepareAttack())
-                {
-                    // 공격 대상 결정
-                    CharacterBattle targetPlayer = playerTeamList[0];
+                Debug.Log($"{activeCharacterBattle.name}은(는) 마비 상태라 공격을 건너뜁니다.");
+                // 참고: R, G 정산은 이미 SetActiveCharacterBattle에서 수행되었으므로
+                // 여기서는 단순히 시간만 끌고 다음 캐릭터로 넘깁니다.
+                currentMonster.CheckTurnAndPrepareAttack();
+                yield return new WaitForSeconds(1.0f);
+                ChooseNextActiveCharacter();
+                yield break; // 루틴 종료
+            }
+            // -------------------------------------------------------
 
-                    // 대상의 PlayerAttribute를 가져와서 몬스터에게 전달]
-                    currentMonster.playerAttribute = targetPlayer.GetComponent<PlayerAttribute>();
+            // 기존 공격 로직
+            if (currentMonster.CheckTurnAndPrepareAttack())
+            {
+                CharacterBattle targetPlayer = playerTeamList[0];
+                currentMonster.playerAttribute = targetPlayer.GetComponent<PlayerAttribute>();
 
-                    // 공격 실행
-                    activeCharacterBattle.Attack(targetPlayer, () =>
-                    {
-                        ChooseNextActiveCharacter();
-                    });
-                }
-                else
+                activeCharacterBattle.Attack(targetPlayer, () =>
                 {
-                    // 공격 안 하는 턴
                     ChooseNextActiveCharacter();
-                }
+                });
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.5f);
+                ChooseNextActiveCharacter();
             }
         }
+    }
+
+    // 전장의 모든 캐릭터를 뒤져서 '내가 건 디버프'를 터뜨리는 메서드
+    public void ProcessMyAppliedDebuffs(character currentTurnSource)
+    {
+        Debug.Log($"=== {currentTurnSource.name}의 턴: 디버프 정산 시작 ===");
+        foreach (var cb in allCharacterList) // BattleHandler가 관리하는 전체 리스트
+        {
+            var dc = cb.GetComponent<DebuffController2>();
+            if (dc != null)
+            {
+                dc.ProcessEffectsBySource(currentTurnSource);
+            }
+        }
+    }
+
+    private void ChooseNextActiveCharacter()
+    {
+        selectionUI.SetActive(false);
+
+        // 다음 인덱스로 이동 (리스트 끝이면 다시 0으로)
+        activeCharacterIndex = (activeCharacterIndex + 1) % allCharacterList.Count;
+        SetActiveCharacterBattle(allCharacterList[activeCharacterIndex]);
     }
 
     private void ShowPlayerUI()
@@ -255,6 +313,11 @@ public class BattleHandler : MonoBehaviour
     public State GetState()
     {
         return state;
+    }
+
+    public CharacterBattle GetActiveCharacter()
+    {
+        return activeCharacterBattle;
     }
 
     public bool IsSelectingTarget()
