@@ -322,14 +322,28 @@ public class BattleHandler : MonoBehaviour
         // 플레이어 턴인지 확인
         if (state != State.playerTurn) return;
 
-        // 색상 선택 UI 활성화
         selectionUI.SetActive(false);
+        Pointer.ClearSelection();
 
         var colorAttr = activeCharacterBattle.GetComponent<PlayerColorAttribute>();
         if (colorAttr != null)
         {
             colorAttr.ActivateColorSelection();
         }
+    }
+
+    public void OnCancelButtonClicked()
+    {
+        // 플레이어 턴인지 확인
+        if (state != State.playerTurn) return;
+
+        var colorAttr = activeCharacterBattle.GetComponent<PlayerColorAttribute>();
+        if (colorAttr != null)
+        {
+            colorAttr.DeactivateColorSelection();
+        }
+
+        selectionUI.SetActive(true);
     }
 
     public void EndTurn()

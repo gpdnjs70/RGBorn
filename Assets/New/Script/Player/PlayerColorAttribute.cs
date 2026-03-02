@@ -30,6 +30,20 @@ public class PlayerColorAttribute : MonoBehaviour
         interaction.UpdateUIPosition();
     }
 
+    public void DeactivateColorSelection()
+    {
+        if (colorSelectionUI != null)
+        {
+            // 이벤트 구독 해제 (중복 호출 방지)
+            colorSelectionUI.OnColorChanged -= SetColor;
+
+            // UI 오브젝트 비활성화
+            colorSelectionUI.gameObject.SetActive(false);
+
+            // Debug.Log("[ColorUI] 색상 선택 창을 강제로 닫았습니다.");
+        }
+    }
+
     private void SetColor(ColorMode newMode)
     {
         Debug.Log($"선택된 색상: {newMode}");

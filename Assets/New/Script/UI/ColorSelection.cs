@@ -7,12 +7,10 @@ public class ColorSelection : MonoBehaviour
     public System.Action<ColorMode> OnColorChanged;
     private character currentOwner; // 누가 이 UI를 열었는지 저장할 변수
 
-    // [중요] UI를 열 때 이 함수를 사용하세요
     public void Open(character owner)
     {
         currentOwner = owner;
         this.gameObject.SetActive(true);
-        Debug.Log($"[ColorSelection] {owner.name}이 UI를 열었습니다.");
     }
 
     private void SelectColor(ColorMode mode)
@@ -30,10 +28,12 @@ public class ColorSelection : MonoBehaviour
                 bh.ProcessMyAppliedDebuffs(currentOwner);
             }
         }
+        /*
         else
         {
             Debug.LogError("UI의 주인이 설정되지 않았습니다! Open(character)을 사용했나요?");
         }
+        */
 
         gameObject.SetActive(false);
         currentOwner = null; // 초기화
