@@ -2064,11 +2064,11 @@ MonoBehaviour:
   playerTeamSetup:
   - prefab: {fileID: 354811372326294121, guid: e62229f464a5add45b050d8d4a700b23, type: 3}
     spawnPosition: {x: -5, y: 0, z: 0}
+  - prefab: {fileID: 354811372326294121, guid: 9e6226be415931a438361935737bcc6f, type: 3}
+    spawnPosition: {x: -5, y: -5, z: 0}
   enemyTeamSetup:
   - prefab: {fileID: 354811372326294121, guid: ebe9a3abaf26fbb4696a3af9ea9db655, type: 3}
     spawnPosition: {x: 2, y: 0, z: 0}
-  - prefab: {fileID: 354811372326294121, guid: 4798545a161e1db488acab25b8b38d09, type: 3}
-    spawnPosition: {x: 5, y: 5, z: 0}
   selectionUI: {fileID: 1366129097}
   colorSelectionUI: {fileID: 1368721380}
 --- !u!4 &1701450184
