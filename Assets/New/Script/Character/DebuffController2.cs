@@ -12,7 +12,6 @@ public class DebuffController2 : MonoBehaviour
         target = GetComponent<character>();
     }
 
-    // 현재 턴인 캐릭터(source)가 과거에 걸어둔 디버프들을 찾아 실행
     public void ProcessEffectsBySource(character sourceCharacter)
     {
         for (int i = activeDebuffs.Count - 1; i >= 0; i--)
@@ -21,12 +20,27 @@ public class DebuffController2 : MonoBehaviour
 
             if (d.GetSource() == sourceCharacter)
             {
-                // R, G 같은 대미지형 디버프는 여기서 실행
-                if (d is RDebuff || d is GDebuff || d is CDebuff)
+                if (d is CDebuff)
                 {
                     d.OnTurnStart();
                     if (d.IsExpired) CleanUpDebuff(i);
                 }
+            }
+        }
+    }
+
+    // 현재 턴인 캐릭터(source)가 과거에 걸어둔 디버프들을 찾아 실행
+    public void ProcessTickDebuffs()
+    {
+        for (int i = activeDebuffs.Count - 1; i >= 0; i--)
+        {
+            var d = activeDebuffs[i];
+
+            // R, G 같은 대미지형 디버프는 여기서 실행
+            if (d is RDebuff || d is GDebuff)
+            {
+                d.OnTurnStart();
+                if (d.IsExpired) CleanUpDebuff(i);
             }
         }
     }
@@ -41,6 +55,19 @@ public class DebuffController2 : MonoBehaviour
             {
                 d.OnTurnStart();
                 if (d.IsExpired) CleanUpDebuff(i);
+            }
+        }
+    }
+
+    public void ExecuteCDebuff()
+    {
+        for (int i = activeDebuffs.Count - 1; i >= 0; i--)
+        {
+            // C(Cyan) 디버프인 경우에만 발동
+            if (activeDebuffs[i] is CDebuff)
+            {
+                activeDebuffs[i].OnTurnStart(); // 대미지 발생
+                if (activeDebuffs[i].IsExpired) CleanUpDebuff(i);
             }
         }
     }

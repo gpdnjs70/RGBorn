@@ -6,13 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class CharacterAttack : MonoBehaviour
 {
-    [SerializeField] private float attackDamage = 10f;
+    [SerializeField] protected float attackDamage = 10f;
     [SerializeField] private GameObject hitEffectPrefab;
-    [SerializeField] private AttributeDatabase attributeDB; // 상성 데이터베이스 연결 필요
+    [SerializeField] protected AttributeDatabase attributeDB; // 상성 데이터베이스 연결 필요
 
     private float calculatedDamage;
 
-    public void ExecuteAttack(character attacker, character target, Action onComplete = null)
+    public virtual void ExecuteAttack(character attacker, character target, Action onComplete = null)
     {
         if (attacker == null || target == null) return;
 

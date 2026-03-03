@@ -28,6 +28,9 @@ public class BattleHandler : MonoBehaviour
     [SerializeField] private GameObject selectionUI;
     [SerializeField] private GameObject colorSelectionUI;
 
+    [SerializeField] private Transform uiStatusParent;
+    [SerializeField] private GameObject playerStatusPrefab;
+
     public enum State
     {
         start, 
@@ -100,6 +103,10 @@ public class BattleHandler : MonoBehaviour
             {
                 colorAttr.colorSelectionUI = colorSelectionUI.GetComponent<ColorSelection>();
             }
+
+            GameObject uiSlot = Instantiate(playerStatusPrefab, uiStatusParent);
+            var slotScript = uiSlot.GetComponent<PlayerStatusSlot>();
+            slotScript.Bind(characterBattle.GetComponent<character>());
         }
 
         characterBattle.Setup(isPlayerTeam);
@@ -120,9 +127,23 @@ public class BattleHandler : MonoBehaviour
 
         // [제어형 처리] 마비(Y), 지연(B) 턴 소모 (행동 불가 여부를 여기서 결정)
         DebuffController2 myDC = activeCharacterBattle.GetComponent<DebuffController2>();
-        if (myDC != null) myDC.ProcessTurnControl();
+        if (myDC != null)
+        {
+            // 제어 상태(Y, B) 먼저 확인
+            myDC.ProcessTurnControl();
 
-        // --- ★ [유저님 요구사항: 조건부 R, G 발동] ---
+            // R, G 디버프 대미지 정산
+            myDC.ProcessTickDebuffs();
+        }
+
+        // 디버프 정산 후 사망 여부 체크
+        if (activeStats != null && activeStats.HP <= 0)
+        {
+            Debug.Log($"{activeCharacterBattle.name}이(가) 디버프 대미지로 인해 사망.");
+            Invoke(nameof(ChooseNextActiveCharacter), 1.0f);
+            return;
+        }
+
         if (activeStats != null && !activeStats.CanAct)
         {
             // 1. 플레이어 팀이면 UI 안 띄우고 바로 넘김 (기존 유지)
@@ -168,6 +189,7 @@ public class BattleHandler : MonoBehaviour
             // 마비 상태라면 공격하지 않고 대기 후 종료
             if (!monsterStats.CanAct)
             {
+                ProcessMyAppliedDebuffs(monsterStats);
                 // Debug.Log($"{activeCharacterBattle.name}은 마비 상태라 공격을 건너뜀");
                 currentMonster.CheckTurnAndPrepareAttack();
                 yield return new WaitForSeconds(1.0f);
@@ -197,6 +219,9 @@ public class BattleHandler : MonoBehaviour
 
                 activeCharacterBattle.Attack(targetPlayer, () =>
                 {
+                    var targetDC = targetPlayer.GetComponent<DebuffController2>();
+                    if (targetDC != null) targetDC.ExecuteCDebuff();
+
                     ChooseNextActiveCharacter();
                 });
             }
@@ -308,6 +333,12 @@ public class BattleHandler : MonoBehaviour
 
             activeCharacterBattle.Attack(targetEnemy, () =>
             {
+                var targetDC = targetEnemy.GetComponent<DebuffController2>();
+                if (targetDC != null)
+                {
+                    targetDC.ExecuteCDebuff();
+                }
+
                 ChooseNextActiveCharacter();
             });
 
