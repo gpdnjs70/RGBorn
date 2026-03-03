@@ -5,6 +5,10 @@ using UnityEngine;
 
 public abstract class character : MonoBehaviour
 {
+    // Player UI 관련 변수들
+    [SerializeField] private Sprite characterPortrait;
+    public Sprite CharacterPortrait => characterPortrait;
+
     public character target;
 
     [SerializeField] private float currentHP;

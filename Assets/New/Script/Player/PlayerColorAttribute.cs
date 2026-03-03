@@ -13,6 +13,10 @@ public class PlayerColorAttribute : MonoBehaviour
     private int greenTurns = 0;
     private int blueTurns = 0;
 
+    public int RedTurns => redTurns;
+    public int GreenTurns => greenTurns;
+    public int BlueTurns => blueTurns;
+
     private void Awake()
     {
         attribute = GetComponent<ColorAttribute>();

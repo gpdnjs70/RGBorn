@@ -23,6 +23,12 @@ public class PlayerStatusSlot : MonoBehaviour
     public void Bind(character target)
     {
         targetCharacter = target;
+        if (playerImage != null && targetCharacter.CharacterPortrait != null)
+        {
+            playerImage.sprite = targetCharacter.CharacterPortrait;
+            playerImage.preserveAspect = true;
+        }
+
         // 초기 UI 세팅
         UpdateUI();
     }
@@ -37,8 +43,40 @@ public class PlayerStatusSlot : MonoBehaviour
 
     private void UpdateUI()
     {
-        hpBar.value = targetCharacter.HP / targetCharacter.MaxHP;
-        hpText.text = $"{(int)targetCharacter.HP} / {(int)targetCharacter.MaxHP}";
-        // 사망 시 흐리게 처리하는 등의 추가 로직
+        if (targetCharacter == null) return;
+
+        // HP 처리
+        if (hpBar != null)
+        {
+            hpBar.value = targetCharacter.HP / targetCharacter.MaxHP;
+        }
+        if (hpText != null)
+        {
+            hpText.text = $"{Mathf.Max(0, targetCharacter.HP):F0} / {targetCharacter.MaxHP:F0}";
+        }
+        /*
+        // 사망 시 처리
+        if (playerImage != null)
+        {
+            playerImage.color = targetCharacter.HP <= 0 ? new Color(0.5f, 0.5f, 0.5f, 0.8f) : Color.white;
+        }
+        */
+
+        // 색상 선택 UI 처리
+        PlayerColorAttribute colorAttr = targetCharacter.GetComponent<PlayerColorAttribute>();
+        if (colorAttr != null)
+        {
+            bool isRedActive = colorAttr.RedTurns > 0;
+            RImage.gameObject.SetActive(isRedActive);
+            RImage_de.gameObject.SetActive(!isRedActive);
+
+            bool isGreenActive = colorAttr.GreenTurns > 0;
+            GImage.gameObject.SetActive(isGreenActive);
+            GImage_de.gameObject.SetActive(!isGreenActive);
+
+            bool isBlueActive = colorAttr.BlueTurns > 0;
+            BImage.gameObject.SetActive(isBlueActive);
+            BImage_de.gameObject.SetActive(!isBlueActive);
+        }
     }
 }
