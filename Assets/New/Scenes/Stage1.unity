@@ -374,7 +374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4844654248342001802, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_Name
-      value: SkillICoolTime
+      value: SkillI1_CoolTime
       objectReference: {fileID: 0}
     - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: skillName
@@ -1214,7 +1214,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4844654248342001802, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_Name
-      value: SkillICoolTime (2)
+      value: SkillI3_CoolTime
       objectReference: {fileID: 0}
     - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: skillName
@@ -2723,7 +2723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4844654248342001802, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_Name
-      value: SkillICoolTime (1)
+      value: SkillI2_CoolTime
       objectReference: {fileID: 0}
     - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: skillName
@@ -3021,7 +3021,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4844654248342001802, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_Name
-      value: SkillICoolTime (3)
+      value: SkillI4_CoolTime
       objectReference: {fileID: 0}
     - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: skillName
