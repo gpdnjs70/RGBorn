@@ -22,7 +22,7 @@ public class UI_HP : MonoBehaviour
         mainCam = Camera.main;
     }
 
-    void Update()
+    public virtual void Update()
     {
         // HP 값, 텍스트 업데이트
         if(sliderHP != null)

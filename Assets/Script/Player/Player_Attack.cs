@@ -25,22 +25,10 @@ public class Player_Attack : MonoBehaviour
     public Vector2 boxSize;
 
     [SerializeField] private Player_Movement movement;
-    [SerializeField] private float attackLockTime = 0.5f;
 
     public float damage = 2f;
 
-    [SerializeField] private Player_WeaponController weaponController;
-    [SerializeField] private GameObject bowBulletPrefab;
-    [SerializeField] private Transform bowBulletPos;
-
-    [SerializeField] private GameObject staffBulletPrefab;
-    [SerializeField] private Transform staffBulletPos;
-
     [SerializeField] private AttributeDatabase attributeDB;
-
-    [SerializeField] private List<WeaponType> lockTimeWeaponTypes = new List<WeaponType>();
-
-    [SerializeField] private List<float> lockTimes = new List<float>();
 
     bool IsAdvantage(ColorAttributeData attacker, ColorAttributeData defender)
     {
@@ -142,54 +130,6 @@ public class Player_Attack : MonoBehaviour
         StartCoroutine(Attack());
     }
 
-    public void OnBowShoot()
-    {
-        if (weaponController != null &&
-            weaponController.currentWeapon == WeaponType.Bow)
-        {
-            SpawnBowBullet();
-        }
-    }
-
-    private void SpawnBowBullet()
-    {
-        if (bowBulletPrefab == null || bowBulletPos == null)
-            return;
-
-        GameObject b = Instantiate(bowBulletPrefab, bowBulletPos.position, Quaternion.identity);
-
-        Bullet bulletScript = b.GetComponent<Bullet>();
-        if (bulletScript != null && movement != null)
-        {
-            bulletScript.SetDirection(movement.dirX);
-            bulletScript.Init(GetComponent<Entity>());
-        }
-    }
-
-    public void OnStaffShoot()
-    {
-        if (weaponController != null &&
-            weaponController.currentWeapon == WeaponType.Staff)
-        {
-            SpawnStaffBullet();
-        }
-    }
-
-    private void SpawnStaffBullet()
-    {
-        if (staffBulletPrefab == null || staffBulletPos == null)
-            return;
-
-        GameObject b = Instantiate(staffBulletPrefab, staffBulletPos.position, Quaternion.identity);
-
-        Bullet bulletScript = b.GetComponent<Bullet>();
-        if (bulletScript != null && movement != null)
-        {
-            bulletScript.SetDirection(movement.dirX);
-            bulletScript.Init(GetComponent<Entity>());
-        }
-    }
-
     private IEnumerator Attack()
     {
         movement.SetAttacking(true);
@@ -199,7 +139,7 @@ public class Player_Attack : MonoBehaviour
 
         myrigidbody.velocity = Vector2.zero;
 
-        yield return new WaitForSeconds(GetAttackLockTime());
+        yield return new WaitForSeconds(0.5f);
 
         movement.SetAttacking(false);
     }
@@ -223,29 +163,5 @@ public class Player_Attack : MonoBehaviour
             local.x = Mathf.Abs(local.x) * sign;
             pos.localPosition = local;
         }
-
-        // 활 화살 발사 위치도 좌우 반전
-        if (bowBulletPos != null)
-        {
-            Vector3 bLocal = bowBulletPos.localPosition;
-            bLocal.x = Mathf.Abs(bLocal.x) * sign;
-            bowBulletPos.localPosition = bLocal;
-        }
-    }
-
-    float GetAttackLockTime()
-    {
-        if (weaponController == null)
-            return attackLockTime; // fallback
-
-        for (int i = 0; i < lockTimeWeaponTypes.Count; i++)
-        {
-            if (lockTimeWeaponTypes[i] == weaponController.currentWeapon)
-            {
-                return lockTimes[i];
-            }
-        }
-
-        return attackLockTime; // 못 찾았을 때 기본값
     }
 }

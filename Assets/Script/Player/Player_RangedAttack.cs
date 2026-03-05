@@ -9,7 +9,6 @@ public class Player_RangedAttack : MonoBehaviour
     private Entity entity;
 
     [SerializeField] private Player_Movement movement;
-    [SerializeField] private Player_WeaponController weaponController;
     [SerializeField] private Animator animator;
     [SerializeField] private SkillCoolTime rangedSkillCooldown;
 
@@ -35,8 +34,10 @@ public class Player_RangedAttack : MonoBehaviour
         if (!entity.CanAct)
             return;
 
+        UpdateAttackBoxPosition();
+
         // R키 입력
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             // 쿨타임 체크
             if (rangedSkillCooldown != null && !rangedSkillCooldown.TryUseSkill())
@@ -60,6 +61,21 @@ public class Player_RangedAttack : MonoBehaviour
                 bulletScript.SetDirection(movement.dirX);
                 bulletScript.Init(GetComponent<Entity>());
             }
+        }
+    }
+
+    private void UpdateAttackBoxPosition()
+    {
+        if (movement == null) return;
+
+        float sign = movement.dirX >= 0 ? 1f : -1f;
+
+        // 근접 공격 박스 위치
+        if (pos != null)
+        {
+            Vector3 local = pos.localPosition;
+            local.x = Mathf.Abs(local.x) * sign;
+            pos.localPosition = local;
         }
     }
 }
