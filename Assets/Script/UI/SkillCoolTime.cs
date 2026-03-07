@@ -7,10 +7,10 @@ using TMPro;
 public class SkillCoolTime : MonoBehaviour
 {
     [SerializeField] private string skillName;
-    [SerializeField] private float maxCooldownTime;
     [SerializeField] private TextMeshProUGUI textCooldownTime;
     [SerializeField] private Image imageCooldownTime;
 
+    public float maxCooldownTime;
     private float currentCooldownTime;
     private bool isCooldown;
 
@@ -73,5 +73,10 @@ public class SkillCoolTime : MonoBehaviour
         isCooldown = boolean;
         textCooldownTime.enabled = boolean;
         imageCooldownTime.enabled = boolean;
+    }
+
+    public void SetMaxCooldown(float time)
+    {
+        maxCooldownTime = time;
     }
 }

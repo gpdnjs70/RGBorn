@@ -5,7 +5,7 @@ using UnityEngine;
 public class Fireball : ISkill
 {
     public string SkillName => "Fireball";
-    public float Cooldown => 1.5f;
+    public float Cooldown => 3.0f;
 
     private GameObject bulletPrefab;
     private Transform firePos;

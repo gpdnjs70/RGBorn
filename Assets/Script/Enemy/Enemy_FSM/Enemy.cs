@@ -38,6 +38,8 @@ public class Enemy : MonoBehaviour
     public Transform pos;
     public Vector2 boxSize;
 
+    [SerializeField] private SkillActivateUI IdentifySkillUI;
+
     protected virtual void Start()
     {
         EnemyManager.Instance.Register(this);
@@ -188,6 +190,15 @@ public class Enemy : MonoBehaviour
         {
             myHP.target = boss.hp.target; // 보스가 때리던 대상의 HP 정보
             myHP.playerAttribute = boss.hp.playerAttribute; // 플레이어 속성 정보
+        }
+    }
+
+    public void ActivateSkillUI()
+    {
+        EnemyAttribute myAttribute = GetComponent<EnemyAttribute>();
+        if (myAttribute != null)
+        {
+            myAttribute.ActivateSkill();
         }
     }
 }

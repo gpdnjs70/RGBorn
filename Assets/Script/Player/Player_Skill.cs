@@ -15,6 +15,8 @@ public class Player_Skill : MonoBehaviour
     [SerializeField] private Transform skill1_Pos;
     [SerializeField] private SkillCoolTime skill1_UI;
 
+    [SerializeField] private SkillCoolTime skill2_UI;
+
     private List<ISkill> skills = new List<ISkill>();
     private List<SkillCoolTime> skillUIs = new List<SkillCoolTime>();
 
@@ -24,8 +26,18 @@ public class Player_Skill : MonoBehaviour
     {
         if (skill1_Prefab != null)
         {
+            Fireball fb = new Fireball(this.gameObject, skill1_Prefab, skill1_Pos);
             skills.Add(new Fireball(this.gameObject, skill1_Prefab, skill1_Pos));
             skillUIs.Add(skill1_UI);
+            skill1_UI.SetMaxCooldown(fb.Cooldown);
+        }
+
+        if (skill2_UI != null)
+        {
+            IdentifySkill idSkill = new IdentifySkill();
+            skills.Add(new IdentifySkill()); // 매개변수 없는 생성자 사용
+            skillUIs.Add(skill2_UI);
+            skill2_UI.SetMaxCooldown(idSkill.Cooldown);
         }
     }
 
@@ -33,6 +45,7 @@ public class Player_Skill : MonoBehaviour
     {
         if (entity != null && !entity.CanAct) return;
         if (Input.GetKeyDown(KeyCode.Alpha1)) UseSkill(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) UseSkill(1);
     }
 
     void UseSkill(int index)
