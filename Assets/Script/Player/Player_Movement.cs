@@ -12,11 +12,9 @@ public class Player_Movement : MonoBehaviour
     private Animator anim;
     private Entity entity;
 
-    private float h;
-    private float v;
+    private Vector2 moveInput;              // 현재 프레임 이동 입력 (정규화)
+    public Vector2 lastDir = Vector2.down; // 마지막 비영(0) 방향(대시 방향)
     public float dirX;
-    private Vector2 move;              // 현재 프레임 이동 입력 (정규화)
-    public Vector2 lastDir = Vector2.right; // 마지막 비영(0) 방향(대시 방향)
 
     private bool isDashing;
     private bool isAttacking = false;
@@ -32,44 +30,48 @@ public class Player_Movement : MonoBehaviour
 
     private void Update()
     {
-        if (!entity.CanAct)
-            return;
+        if (!entity.CanAct) return;
 
         if (IsMovementLocked) return;
 
         // 입력
-        h = Input.GetAxisRaw("Horizontal");
-        v = Input.GetAxisRaw("Vertical");
+        moveInput.x = Input.GetAxisRaw("Horizontal");
+        moveInput.y = Input.GetAxisRaw("Vertical");
 
-        move = new Vector2(h, v);
-        if (Mathf.Abs(h) > 0.0001f)
+        if (!IsMovementLocked)
         {
-            dirX = h;
-        }// 좌우 방향 이동이 0이 아닐 때만 갱신
+            if (moveInput != Vector2.zero)
+            {
+                // dirX를 위한 코드
+                if (Mathf.Abs(moveInput.x) > 0.0001f)
+                {
+                    dirX = moveInput.x; // 좌우 방향 갱신
+                }
+                anim.SetFloat("Direction", dirX);
+                //---------------------------
 
-        // 이동 여부 -> 애니메이터
-        bool isMove = (move.sqrMagnitude > 0);
-        anim.SetBool("isMove", isMove);
+                // 8방향 파라미터 업데이트
+                anim.SetFloat("DirX", moveInput.x);
+                anim.SetFloat("DirY", moveInput.y);
+                anim.SetBool("isMove", true);
 
-        // 방향 파라미터
-        anim.SetFloat("Direction", dirX);
-
-        if (move.sqrMagnitude > 0.0001f)
-            lastDir = move.normalized;
+                moveInput.Normalize();
+                lastDir = moveInput; // 마지막 방향 저장 (대시용)
+            }
+            else
+            {
+                anim.SetBool("isMove", false);
+            }
+        }
 
         // 대시 입력
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && !isAttacking)
         {
-            if (dashCooldownUI != null && !dashCooldownUI.TryUseSkill())
+            // 대시 쿨타임 확인
+            if (dashCooldownUI == null || dashCooldownUI.TryUseSkill())
             {
-                // 쿨타임 중이면 대시 안 됨
-                return;
+                StartCoroutine(Dash());
             }
-
-            // 여기까지 왔으면 대시 가능
-            anim.SetTrigger("Dash");   // 애니메이션 점화
-            isDashing = true;          // 로직 잠금
-            StartCoroutine(Dash());
         }
     }
 
@@ -86,16 +88,18 @@ public class Player_Movement : MonoBehaviour
 
         float finalSpeed = entity.Speed;
         // Debug.Log($"현재 속도는 {finalSpeed}");
-        rigid.velocity = move.normalized * finalSpeed; // 대각선 속도 보정
+        rigid.velocity = moveInput * finalSpeed; // 대각선 속도 보정
     }
 
     private IEnumerator Dash()
     {
+        isDashing = true;
+        anim.SetTrigger("Dash");
+
         rigid.velocity = lastDir * dashingPower;
 
         yield return new WaitForSeconds(dashingTime);
 
-        // 종료
         rigid.velocity = Vector2.zero;
         isDashing = false;
     }

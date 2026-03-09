@@ -1976,7 +1976,7 @@ Animator:
   m_GameObject: {fileID: 1390846099}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 823bfe9ecfa643f4893fdb020faccdc9, type: 2}
+  m_Controller: {fileID: 9100000, guid: c0f72288210fb4248bf47c66b777ae32, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2144,8 +2144,8 @@ MonoBehaviour:
   dashingPower: 20
   dashingTime: 0.2
   dashCooldownUI: {fileID: 234472147}
-  dirX: 0
   lastDir: {x: 1, y: 0}
+  dirX: 0
   isKnockBack: 0
 --- !u!114 &1390846107
 MonoBehaviour:
