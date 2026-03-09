@@ -18,22 +18,26 @@ public class FollowState : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        /**if (Vector2.Distance(enemy.player.position, enemyTransform.position) > 4)
+        float distance = Vector2.Distance(enemy.player.position, enemyTransform.position);
+
+        // 추적 중지 조건
+        if (distance > 10f) // 너무 멀어졌을때
         {
-            animator.SetBool("isBack", true);
             animator.SetBool("isFollow", false);
+            return;
         }
-        else**/ if (Vector2.Distance(enemy.player.position, enemyTransform.position) > 1f)
+
+        if (distance <= 1f) // 플레이어와 가까워졌을때
         {
-            float finalSpeed = entity.Speed;
-            Debug.Log($"현재 속도는 {finalSpeed}");
-            enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, enemy.player.position, Time.deltaTime * finalSpeed);
-        }
-        else
-        {
-            // animator.SetBool("isBack", false);
             animator.SetBool("isFollow", false);
+            return; // 이후 이동 로직 스킵
         }
+
+        // 이동 로직
+        float finalSpeed = entity.Speed;
+        enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, enemy.player.position, Time.deltaTime * finalSpeed);
+
+        // 방향 및 공격박스 업데이트
         enemy.DirectionEnemy(enemy.player.position.x, enemyTransform.position.x);
         enemy.UpdateAttackBoxPosition();
     }

@@ -25,8 +25,6 @@ public class readyState : StateMachineBehaviour
         {
             animator.SetBool("isFollow", true);
         }
-
-        enemy.DirectionEnemy(enemy.player.position.x, enemyTransform.position.x);
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

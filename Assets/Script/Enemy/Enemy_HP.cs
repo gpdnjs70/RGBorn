@@ -41,6 +41,7 @@ public class Enemy_HP : Entity, IDebuffTarget
         float finalDamage = damage * DefenseMultiplier * skill1Multiplier;
 
         Debug.Log($"데미지는 {finalDamage}");
+        DamagePopup.Create(transform.position + Vector3.up, (int)finalDamage, false);
 
         HP -= finalDamage;
 
@@ -52,7 +53,7 @@ public class Enemy_HP : Entity, IDebuffTarget
 
         if (animator != null)
         {
-            animator.SetTrigger("Damaged");
+            // animator.SetTrigger("Damaged");
         }
 
         // StartCoroutine("HitAnimation");
