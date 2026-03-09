@@ -6,7 +6,6 @@ public class Player_Movement : MonoBehaviour
     [Header("Dash")]
     [SerializeField] private float dashingPower = 24f;
     [SerializeField] private float dashingTime = 0.2f;
-    [SerializeField] private TrailRenderer tr;
     [SerializeField] private SkillCoolTime dashCooldownUI;
 
     private Rigidbody2D rigid;
@@ -92,13 +91,11 @@ public class Player_Movement : MonoBehaviour
 
     private IEnumerator Dash()
     {
-        tr.emitting = true;
         rigid.velocity = lastDir * dashingPower;
 
         yield return new WaitForSeconds(dashingTime);
 
         // Á¾·á
-        tr.emitting = false;
         rigid.velocity = Vector2.zero;
         isDashing = false;
     }

@@ -19,6 +19,8 @@ public class Enemy_HP : Entity, IDebuffTarget
 
     [SerializeField] public EnemyData data;
 
+    public float detectionRange = 10f;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -132,6 +134,23 @@ public class Enemy_HP : Entity, IDebuffTarget
             // 일반 몬스터는 원래대로 파괴
             if (hpUI != null) Destroy(hpUI.gameObject, 0.5f);
             Destroy(gameObject, 0.5f);
+        }
+    }
+
+    protected override void FindTarget()
+    {
+        // 이미 유효한 타겟이 있다면 새로 찾지 않음
+        if (IsTargetValid()) return;
+
+        // 주변의 'Player' 레이어를 가진 객체 검색
+        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRange);
+        foreach (var col in colliders)
+        {
+            if (col.CompareTag("Player"))
+            {
+                target = col.GetComponent<Entity>();
+                break;
+            }
         }
     }
 

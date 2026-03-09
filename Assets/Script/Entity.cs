@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     public Stats stats = new();   // 캐릭터 정보
-    public Entity target;   // 공격 대상(플레이어의 경우 대상을 클릭하는 방식으로 설정)
+    public Entity target;
 
     // 체력(Hp) 프로퍼티
     public float MaxHP => stats.MaxHP.Value;
@@ -35,6 +35,18 @@ public abstract class Entity : MonoBehaviour
         HP = MaxHP;
 
         // StartCoroutine("Recovery");
+    }
+
+    protected virtual void Update()
+    {
+        FindTarget();
+    }
+
+    protected abstract void FindTarget();
+
+    protected bool IsTargetValid()
+    {
+        return target != null && target.HP > 0;
     }
 
     // 초당 체력 회복
