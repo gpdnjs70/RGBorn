@@ -35,7 +35,7 @@ public class EliteFollowState : StateMachineBehaviour
             // animator.SetBool("isBack", false);
             animator.SetBool("isFollow", false);
         }
-        enemy.DirectionEnemy(enemy.player.position.x, enemyTransform.position.x);
+        enemy.DirectionEnemy(enemy.player.position);
         enemy.UpdateAttackBoxPosition();
     }
 

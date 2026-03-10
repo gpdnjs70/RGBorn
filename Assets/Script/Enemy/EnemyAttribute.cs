@@ -5,68 +5,101 @@ using UnityEngine;
 public class EnemyAttribute : MonoBehaviour
 {
     [SerializeField] private ColorMode mode;
-    private ColorAttribute attribute;
-
     [SerializeField] private Sprite[] randomSprites;
 
+    private ColorAttribute attribute;
     private SkillActivateUI skillUI;
-    private Coroutine skillRoutine;
+
+    private Coroutine changeAttributeRoutine;
+    private bool isSkillUIActive = false;
+    private int remainingChangeCount = 0;
+    private int currentChildIdx = 0;
 
     private void Awake()
     {
         attribute = GetComponent<ColorAttribute>();
-        attribute.SetColor(mode);
-
         skillUI = GetComponentInChildren<SkillActivateUI>(true);
+
+        attribute.SetColor(mode);
+    }
+
+    private void Start()
+    {
+        // 첫 루프 시작
+        changeAttributeRoutine = StartCoroutine(AttributeChangeLoop());
+    }
+
+    private IEnumerator AttributeChangeLoop()
+    {
+        while (true)
+        {
+            // 랜덤 대기 (2f ~ 4.1f)
+            yield return new WaitForSeconds(Random.Range(2f, 4.1f));
+
+            ChangeAttribute();
+        }
+    }
+
+    private void ChangeAttribute()
+    {
+        int randomIndex = Random.Range(1, 4);
+        ColorMode newMode = (ColorMode)randomIndex;
+
+        this.mode = newMode;
+        attribute.SetColor(newMode);
+
+        // 스킬 연출 중일 때만 UI 업데이트
+        if (isSkillUIActive)
+        {
+            UpdateSkillUI(randomIndex);
+        }
     }
 
     public void ActivateSkill()
     {
-        if (skillRoutine != null) StopCoroutine(skillRoutine);
-        skillRoutine = StartCoroutine(SkillSequenceRoutine());
-    }
+        if (skillUI == null || randomSprites.Length == 0) return;
 
-    private IEnumerator SkillSequenceRoutine()
-    {
-        if (skillUI == null || randomSprites.Length == 0) yield break;
+        // 기존 루프 중단
+        if (changeAttributeRoutine != null) StopCoroutine(changeAttributeRoutine);
 
+        // UI 초기화 및 상태 설정
+        isSkillUIActive = true;
+        remainingChangeCount = 6;
+        currentChildIdx = 0;
         skillUI.Show(true);
 
+        // 초기 UI 세팅
         for (int i = 0; i < skillUI.ChildCount; i++)
         {
             skillUI.SetChildSprite(i, randomSprites[0]);
         }
 
-        float initialWait = Random.Range(2f, 4.1f);
-        yield return new WaitForSeconds(initialWait);
+        changeAttributeRoutine = StartCoroutine(AttributeChangeLoop());
+    }
 
-        int changeCount = 6;
-        int currentChildIdx = 0;
-
-        for (int i = 0; i < changeCount; i++)
+    private void UpdateSkillUI(int spriteIndex)
+    {
+        if (spriteIndex < randomSprites.Length)
         {
-            int randomIndex = Random.Range(1, 4);
-            ColorMode newMode = (ColorMode)randomIndex;
-
-            this.mode = newMode;
-            attribute.SetColor(newMode);
-
-            if (randomIndex < randomSprites.Length)
-            {
-                skillUI.SetChildSprite(currentChildIdx, randomSprites[randomIndex]);
-            }
-
-            currentChildIdx = (currentChildIdx + 1) % skillUI.ChildCount;
-
-            if (i < changeCount - 1)
-            {
-                yield return new WaitForSeconds(Random.Range(2f, 4.1f));
-            }
+            skillUI.SetChildSprite(currentChildIdx, randomSprites[spriteIndex]);
         }
 
-        yield return new WaitForSeconds(1.0f);
+        currentChildIdx = (currentChildIdx + 1) % skillUI.ChildCount;
+        remainingChangeCount--;
 
-        skillUI.Show(false);
-        skillRoutine = null;
+        if (remainingChangeCount <= 0)
+        {
+            isSkillUIActive = false;
+            StartCoroutine(HideSkillUIAfterDelay());
+        }
+    }
+
+    private IEnumerator HideSkillUIAfterDelay()
+    {
+        yield return new WaitForSeconds(1.0f);
+        if (!isSkillUIActive)
+        {
+            skillUI.Show(false);
+        }
     }
 }

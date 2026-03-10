@@ -34,7 +34,7 @@ public class patrolState : StateMachineBehaviour
 
         // 목표 지점까지 이동
         enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, targetPos, Time.deltaTime * (enemy.GetComponent<Entity>().Speed * 0.5f));
-        enemy.DirectionEnemy(targetPos.x, enemyTransform.position.x);
+        enemy.DirectionEnemy(targetPos);
 
         // 도착하면 다시 Idle로
         if (Vector2.Distance(enemyTransform.position, targetPos) < 0.1f)

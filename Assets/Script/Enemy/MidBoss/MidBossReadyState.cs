@@ -23,7 +23,7 @@ public class MidBossReadyState : StateMachineBehaviour
             DetermineNextAttack(animator);
         }
 
-        enemy.DirectionEnemy(enemy.player.position.x, enemyTransform.position.x);
+        enemy.DirectionEnemy(enemy.player.position);
     }
 
     private void DetermineNextAttack(Animator animator)

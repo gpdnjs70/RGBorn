@@ -38,7 +38,7 @@ public class FollowState : StateMachineBehaviour
         enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, enemy.player.position, Time.deltaTime * finalSpeed);
 
         // 방향 및 공격박스 업데이트
-        enemy.DirectionEnemy(enemy.player.position.x, enemyTransform.position.x);
+        enemy.DirectionEnemy(enemy.player.position);
         enemy.UpdateAttackBoxPosition();
     }
 

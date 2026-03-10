@@ -66,16 +66,12 @@ public class Enemy : MonoBehaviour
         animator.SetBool("Shock", !entity.CanAct);
     }
 
-    public void DirectionEnemy(float target, float baseobj)
+    public void DirectionEnemy(Vector3 targetPos)
     {
-        if(target < baseobj)
-        {
-            animator.SetFloat("Direction", -1);
-        }
-        else
-        {
-            animator.SetFloat("Direction", 1);
-        }
+        Vector2 direction = (targetPos - transform.position).normalized;
+
+        animator.SetFloat("DirX", direction.x);
+        animator.SetFloat("DirY", direction.y);
     }
 
     public void SetAttackType(EnemyAttackType type, float duration = 0f)
