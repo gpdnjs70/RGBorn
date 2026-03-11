@@ -6,7 +6,9 @@ public class EnemyAttribute : MonoBehaviour
 {
     [SerializeField] private ColorMode mode;
     [SerializeField] private Sprite[] randomSprites;
+    [SerializeField] private AnimatorOverrideController[] colorOverrides;
 
+    private Animator animator;
     private ColorAttribute attribute;
     private SkillActivateUI skillUI;
 
@@ -17,6 +19,7 @@ public class EnemyAttribute : MonoBehaviour
 
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         attribute = GetComponent<ColorAttribute>();
         skillUI = GetComponentInChildren<SkillActivateUI>(true);
 
@@ -47,6 +50,11 @@ public class EnemyAttribute : MonoBehaviour
 
         this.mode = newMode;
         attribute.SetColor(newMode);
+
+        if (animator != null && colorOverrides.Length >= 3)
+        {
+            animator.runtimeAnimatorController = colorOverrides[randomIndex - 1];
+        }
 
         // 스킬 연출 중일 때만 UI 업데이트
         if (isSkillUIActive)
