@@ -20,7 +20,7 @@ public class EliteAttackEvent : MonoBehaviour
     {
         if (enemy == null || enemy.targetHP == null) return;
 
-        Collider2D hit = Physics2D.OverlapBox(enemy.pos.position, normalAttackSize, 0, LayerMask.GetMask("Player"));
+        Collider2D hit = Physics2D.OverlapBox(enemy.transform.position, normalAttackSize, 0, LayerMask.GetMask("Player"));
 
         if (hit != null)
         {
@@ -35,7 +35,7 @@ public class EliteAttackEvent : MonoBehaviour
     {
         if (enemy == null || enemy.targetHP == null) return;
 
-        Collider2D hit = Physics2D.OverlapBox(enemy.pos.position, Skill1AttackSize, 0, LayerMask.GetMask("Player"));
+        Collider2D hit = Physics2D.OverlapBox(enemy.transform.position, Skill1AttackSize, 0, LayerMask.GetMask("Player"));
 
         if (hit != null)
         {

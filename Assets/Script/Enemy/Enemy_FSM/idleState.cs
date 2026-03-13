@@ -21,6 +21,9 @@ public class idleState : StateMachineBehaviour
         // 공격 조건 (사거리 안 + 쿨타임 완료)
         if (dist <= 1f && enemy.atkDelay <= 0)
         {
+            enemy.atkDelay = enemy.atkCoolTime;
+            enemy.DirectionEnemy(enemy.player.position);
+
             animator.SetTrigger("Attack");
             return; // 공격 시작하면 아래 로직 무시
         }

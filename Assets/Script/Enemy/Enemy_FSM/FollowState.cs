@@ -29,6 +29,13 @@ public class FollowState : StateMachineBehaviour
 
         if (distance <= 1f) // 플레이어와 가까워졌을때
         {
+            if (enemy.atkDelay <= 0)
+            {
+                enemy.atkDelay = enemy.atkCoolTime; // 쿨타임 선적용
+                enemy.DirectionEnemy(enemy.player.position);
+                animator.SetTrigger("Attack"); // Ready로 바로 보냄
+            }
+
             animator.SetBool("isFollow", false);
             return; // 이후 이동 로직 스킵
         }
@@ -39,7 +46,6 @@ public class FollowState : StateMachineBehaviour
 
         // 방향 및 공격박스 업데이트
         enemy.DirectionEnemy(enemy.player.position);
-        enemy.UpdateAttackBoxPosition();
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

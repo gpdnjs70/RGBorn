@@ -36,7 +36,6 @@ public class EliteFollowState : StateMachineBehaviour
             animator.SetBool("isFollow", false);
         }
         enemy.DirectionEnemy(enemy.player.position);
-        enemy.UpdateAttackBoxPosition();
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

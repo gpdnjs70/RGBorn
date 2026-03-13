@@ -18,6 +18,7 @@ public class BackState : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        /**
         if(Vector2.Distance(enemy.home, enemyTransform.position) < 0.1f || Vector2.Distance(enemyTransform.position, enemy.player.position) < 4)
         {
             animator.SetBool("isBack", false);
@@ -30,6 +31,7 @@ public class BackState : StateMachineBehaviour
             Debug.Log($"현재 속도는 {finalSpeed}");
             enemyTransform.position = Vector2.MoveTowards(enemy.transform.position, enemy.home, Time.deltaTime * finalSpeed);
         }
+        **/
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -18,16 +18,13 @@ public class Enemy : MonoBehaviour
 {
     Animator animator;
     public Transform player;
-    public Vector2 home;
-
-    public float atkCoolTime = 4;
-    public float atkDelay;
-
     public Transform target;
     public Enemy_HP hp;
     public Entity entity;
     public Entity targetHP;
 
+    public float atkCoolTime = 4;
+    public float atkDelay;
     public EnemyAttackType currentAttackType { get; private set; }
     private Coroutine attackTypeRoutine;
     private Coroutine burnRoutine;
@@ -35,8 +32,9 @@ public class Enemy : MonoBehaviour
     public float powerBonusRate = 0.1f;
     public float attackBonusRate { get; private set; } = 0f;
 
-    public Transform pos;
+    public Transform[] attackPoints;
     public Vector2 boxSize;
+    private int currentDirIndex = 0;
 
     [SerializeField] private SkillActivateUI IdentifySkillUI;
 
@@ -47,7 +45,6 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
         GameObject p = GameObject.FindWithTag("Player");
         if (p != null) player = p.transform;
-        home = transform.position;
     }
 
     private void Awake()
@@ -72,6 +69,24 @@ public class Enemy : MonoBehaviour
 
         animator.SetFloat("DirX", direction.x);
         animator.SetFloat("DirY", direction.y);
+
+        currentDirIndex = Get8DirectionIndex(direction);
+    }
+
+    private int Get8DirectionIndex(Vector2 dir)
+    {
+        if (dir.sqrMagnitude < 0.001f) return currentDirIndex;
+
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        if (angle < 0) angle += 360f;
+
+        // 45도 단위로 나누어 인덱스화
+        int baseIndex = Mathf.RoundToInt(angle / 45f) % 8;
+
+        // 변환표: Right(0)->2, UpRight(1)->1, Up(2)->0, UpLeft(3)->7, Left(4)->6, DownLeft(5)->5, Down(6)->4, DownRight(7)->3
+        int[] conversionTable = { 2, 1, 0, 7, 6, 5, 4, 3 };
+
+        return conversionTable[baseIndex];
     }
 
     public void SetAttackType(EnemyAttackType type, float duration = 0f)
@@ -141,26 +156,24 @@ public class Enemy : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(pos.position, boxSize);
-    }
+        if (attackPoints == null || attackPoints.Length == 0) return;
 
-    public void UpdateAttackBoxPosition()
-    {
-        // 이동 방향 계산 (플레이어가 오른쪽에 있으면 1, 왼쪽에 있으면 -1)
-        float sign = (player.position.x - transform.position.x) >= 0 ? 1f : -1f;
-
-        if (pos != null)
+        for (int i = 0; i < attackPoints.Length; i++)
         {
-            Vector3 local = pos.localPosition;
-            local.x = Mathf.Abs(local.x) * sign; // 원래 위치의 절대값에 방향 곱하기
-            pos.localPosition = local;
+            if (attackPoints[i] == null) continue;
+
+            // 현재 활성화된 공격 범위는 빨간색, 나머지는 노란색
+            Gizmos.color = (i == currentDirIndex && Application.isPlaying) ? Color.red : Color.yellow;
+            Gizmos.DrawWireCube(attackPoints[i].position, boxSize);
         }
     }
 
     public void OnAttackEvent() // 애니메이션 이벤트에서 호출
     {
-        Collider2D hit = Physics2D.OverlapBox(pos.position, boxSize, 0, LayerMask.GetMask("Player"));
+        if (attackPoints == null || attackPoints.Length <= currentDirIndex) return;
+
+        Transform currentPos = attackPoints[currentDirIndex];
+        Collider2D hit = Physics2D.OverlapBox(currentPos.position, boxSize, 0, LayerMask.GetMask("Player"));
 
         if (hit != null)
         {

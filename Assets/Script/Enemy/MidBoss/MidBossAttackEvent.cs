@@ -120,7 +120,7 @@ public class MidBossAttackEvent : MonoBehaviour
         Debug.Log("Inferno");
 
         // 위치 계산
-        Vector3 pos = enemy.pos.transform.position;
+        Vector3 pos = enemy.transform.position;
         float sign = (enemy.player.position.x - transform.position.x) >= 0 ? 1f : -1f;
         pos += new Vector3(sign * 1.0f, 0.5f, 0);
 
@@ -230,7 +230,7 @@ public class MidBossAttackEvent : MonoBehaviour
     {
         Debug.Log("Blaze Tempest");
 
-        Vector3 pos = enemy.pos.transform.position;
+        Vector3 pos = enemy.transform.position;
         float sign = (enemy.player.position.x - transform.position.x) >= 0 ? 1f : -1f;
         pos += new Vector3(sign * 0.5f, 0, 0);
 

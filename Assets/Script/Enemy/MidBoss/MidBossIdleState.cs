@@ -17,7 +17,6 @@ public class MidBossIdleState : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         enemy.DirectionEnemy(enemy.player.position);
-        enemy.UpdateAttackBoxPosition();
 
         animator.SetBool("isReady", true);
     }
