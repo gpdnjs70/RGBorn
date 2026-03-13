@@ -21,5 +21,6 @@ public class attackState : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         enemy.atkDelay = enemy.atkCoolTime;
+        animator.ResetTrigger("Attack");
     }
 }

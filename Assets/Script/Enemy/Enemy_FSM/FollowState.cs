@@ -27,7 +27,7 @@ public class FollowState : StateMachineBehaviour
             return;
         }
 
-        if (distance <= 1f) // 플레이어와 가까워졌을때
+        if (distance <= 1.4f) // 플레이어와 가까워졌을때
         {
             if (enemy.atkDelay <= 0)
             {

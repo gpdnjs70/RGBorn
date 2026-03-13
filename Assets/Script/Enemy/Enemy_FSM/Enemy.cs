@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     public Entity entity;
     public Entity targetHP;
 
+    private bool isAttacking = false;
     public float atkCoolTime = 4;
     public float atkDelay;
     public EnemyAttackType currentAttackType { get; private set; }
@@ -136,7 +137,7 @@ public class Enemy : MonoBehaviour
 
         if (UnityEngine.Random.value < 0.3f)
         {
-            attacker.ApplyAttributeDebuffTo(actualTarget, debuffDuration);
+            // attacker.ApplyAttributeDebuffTo(actualTarget, debuffDuration);
         }
         
         actualTarget.TakeDamage(damage);
@@ -170,6 +171,9 @@ public class Enemy : MonoBehaviour
 
     public void OnAttackEvent() // 애니메이션 이벤트에서 호출
     {
+        if (isAttacking) return;
+        StartCoroutine(ResetAttackFlag());
+
         if (attackPoints == null || attackPoints.Length <= currentDirIndex) return;
 
         Transform currentPos = attackPoints[currentDirIndex];
@@ -185,6 +189,13 @@ public class Enemy : MonoBehaviour
 
             DealDamageToTarget(damage, 3f);
         }
+    }
+
+    private IEnumerator ResetAttackFlag()
+    {
+        isAttacking = true;
+        yield return new WaitForSeconds(0.1f); // 0.1초 동안은 추가 판정 무시
+        isAttacking = false;
     }
 
     public void CopySettingsFrom(Enemy boss)

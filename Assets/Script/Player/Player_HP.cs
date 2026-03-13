@@ -88,8 +88,8 @@ public class Player_HP : Entity, IDebuffTarget
         LayerMask enemyLayer = LayerMask.GetMask("Enemy"); // 적 레이어만 검출
 
         // 1. 주변의 모든 적 콜라이더 가져오기
-        Collider[] targets = Physics.OverlapSphere(transform.position, detectionRange, enemyLayer);
-
+        Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, detectionRange, enemyLayer);
+        
         Entity closestEnemy = null;
         float minDistance = Mathf.Infinity;
 

@@ -144,14 +144,10 @@ public class Enemy_HP : Entity, IDebuffTarget
         if (IsTargetValid()) return;
 
         // 주변의 'Player' 레이어를 가진 객체 검색
-        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRange);
-        foreach (var col in colliders)
+        Collider2D col = Physics2D.OverlapCircle(transform.position, detectionRange, LayerMask.GetMask("Player"));
+        if (col != null)
         {
-            if (col.CompareTag("Player"))
-            {
-                target = col.GetComponent<Entity>();
-                break;
-            }
+            target = col.GetComponent<Entity>();
         }
     }
 
