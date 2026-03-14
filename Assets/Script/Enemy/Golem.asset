@@ -15,4 +15,4 @@ MonoBehaviour:
   EnemyName: Golem
   EnemyDescription: 
   baseHP: 30
-  baseSpeed: 3
+  baseSpeed: 5

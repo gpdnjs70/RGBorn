@@ -10,6 +10,7 @@ public class Golem_attackState : StateMachineBehaviour
     {
         Debug.Log("attack");
         enemy = animator.GetComponent<Enemy>();
+        animator.SetBool("isAttack", false);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -20,7 +21,6 @@ public class Golem_attackState : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         enemy.atkDelay = enemy.atkCoolTime;
-        animator.ResetTrigger("Attack");
     }
 }
 

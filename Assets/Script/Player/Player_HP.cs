@@ -12,9 +12,12 @@ public class Player_HP : Entity, IDebuffTarget
 
     [SerializeField] private float baseHP = 50f;
 
+    private KnockBack knockback;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        knockback = GetComponent<KnockBack>();
 
         stats = new Stats();
         stats.Speed.BaseValue = 5f;
@@ -115,7 +118,7 @@ public class Player_HP : Entity, IDebuffTarget
         target = closestEnemy;
     }
 
-    public override void TakeDamage(float damage)
+    public void TakeDamage(float damage, GameObject sender)
     {
         float finalDamage = damage * DefenseMultiplier;
 
@@ -124,7 +127,18 @@ public class Player_HP : Entity, IDebuffTarget
 
         HP -= finalDamage;
 
+        if (knockback != null && sender != null)
+        {
+            knockback.PlayFeedBack(sender);
+        }
+
         StartCoroutine("HitAnimation");
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        // 공격자 정보를 모를 때는 그냥 제자리 넉백이나 생략
+        TakeDamage(damage, null);
     }
 
     private IEnumerator HitAnimation()
