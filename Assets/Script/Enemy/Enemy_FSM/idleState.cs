@@ -29,7 +29,7 @@ public class idleState : StateMachineBehaviour
         }
 
         // 추적 조건 (공격 사거리는 아니지만 인식 범위 안)
-        if (dist > 1.2f && dist <= 9f)
+        if (dist > 1.4f && dist <= 9f)
         {
             animator.SetBool("isWander", false);
             animator.SetBool("isFollow", true);

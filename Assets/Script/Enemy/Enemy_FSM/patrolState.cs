@@ -15,9 +15,11 @@ public class patrolState : StateMachineBehaviour
         enemy = animator.GetComponent<Enemy>();
         enemyTransform = animator.transform;
 
-        // 현재 위치 기준으로 랜덤한 X 목표 설정
-        float randomX = Random.Range(enemyTransform.position.x - wanderRange, enemyTransform.position.x + wanderRange);
-        targetPos = new Vector2(randomX, enemyTransform.position.y);
+        float moveDistance = Random.Range(1.0f, wanderRange);
+
+        if (Random.value > 0.5f) moveDistance *= -1;
+
+        targetPos = new Vector2(enemyTransform.position.x + moveDistance, enemyTransform.position.y);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -121,7 +121,7 @@ public class Enemy_HP : Entity, IDebuffTarget
 
         // 죽는 애니메이션
         if (animator != null)
-            animator.SetTrigger("Damaged");
+            animator.SetTrigger("Death");
 
         bool isMinion = gameObject.name.Contains("Minion");
 
@@ -133,8 +133,8 @@ public class Enemy_HP : Entity, IDebuffTarget
         else
         {
             // 일반 몬스터는 원래대로 파괴
-            if (hpUI != null) Destroy(hpUI.gameObject, 0.5f);
-            Destroy(gameObject, 0.5f);
+            if (hpUI != null) Destroy(hpUI.gameObject);
+            Destroy(gameObject, 1.5f);
         }
     }
 

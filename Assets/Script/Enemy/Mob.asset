@@ -15,4 +15,4 @@ MonoBehaviour:
   EnemyName: Mob
   EnemyDescription: 
   baseHP: 20
-  baseSpeed: 2
+  baseSpeed: 1
