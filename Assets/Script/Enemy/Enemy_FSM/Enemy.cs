@@ -39,6 +39,10 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private SkillActivateUI IdentifySkillUI;
 
+    // 원거리 공격 몬스터 관련 변수
+    public GameObject bullet;
+    private Vector2 lockedAttackDir;
+
     protected virtual void Start()
     {
         EnemyManager.Instance.Register(this);
@@ -55,7 +59,7 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Update()
     {
-        if(atkDelay >= 0)
+        if (atkDelay >= 0)
         {
             atkDelay -= Time.deltaTime;
             if (atkDelay < 0) atkDelay = 0;
@@ -139,7 +143,7 @@ public class Enemy : MonoBehaviour
         {
             // attacker.ApplyAttributeDebuffTo(actualTarget, debuffDuration);
         }
-        
+
         actualTarget.TakeDamage(damage);
     }
 
@@ -219,6 +223,33 @@ public class Enemy : MonoBehaviour
         if (myAttribute != null)
         {
             myAttribute.ActivateSkill();
+        }
+    }
+
+    public void SetLockedDirection(Vector3 targetPos)
+    {
+        lockedAttackDir = (targetPos - transform.position).normalized;
+    }
+
+    public void Shoot()
+    {
+        if (bullet == null) return;
+        
+        Transform spawnPoint = (attackPoints != null && attackPoints.Length > currentDirIndex)
+                               ? attackPoints[currentDirIndex]
+                               : transform;
+
+        GameObject b = Instantiate(bullet, spawnPoint.position, Quaternion.identity);
+
+        arrow arrowScript = b.GetComponent<arrow>();
+        if (arrowScript != null)
+        {
+            arrowScript.SetDirection(lockedAttackDir);
+
+            if (entity != null)
+            {
+                arrowScript.Init(entity);
+            }
         }
     }
 }
