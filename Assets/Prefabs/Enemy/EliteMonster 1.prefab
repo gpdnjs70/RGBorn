@@ -114,7 +114,7 @@ SpriteRenderer:
   m_SortingLayerID: 1883998863
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 07c27c511dcf47b4ba468038ca8a0c5a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 49b314291bff8ca4db22394f51dc6773, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -188,7 +188,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.7, y: 5.7}
+    oldSize: {x: 4.8, y: 4.8}
     newSize: {x: 2.4, y: 2.4}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -231,16 +231,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  home: {x: 0, y: 0}
-  atkCoolTime: 5
-  atkDelay: 0
   target: {fileID: 0}
   hp: {fileID: 7794831233095560514}
   entity: {fileID: 7794831233095560514}
   targetHP: {fileID: 0}
+  atkCoolTime: 5
+  atkDelay: 0
   powerBonusRate: 0.1
-  pos: {fileID: 542068693144491389}
+  attackPoints: []
   boxSize: {x: 2, y: 5.5}
+  IdentifySkillUI: {fileID: 0}
+  bullet: {fileID: 0}
   skill1CoolTime: 8
   skill1Delay: 0
 --- !u!114 &7794831233095560514
@@ -267,6 +268,7 @@ MonoBehaviour:
   enemyAttribute: {fileID: 1217283078580740391}
   hpUI: {fileID: 0}
   data: {fileID: 11400000, guid: cebd136bb00aba84cb4d5515da7e0d2d, type: 2}
+  detectionRange: 10
 --- !u!114 &1217283078580740391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +282,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 3
+  randomSprites: []
+  colorOverrides: []
 --- !u!114 &4264086185469756433
 MonoBehaviour:
   m_ObjectHideFlags: 0

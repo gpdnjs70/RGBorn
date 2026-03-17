@@ -29,34 +29,43 @@ public class Golem_followState : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // 고정된 목적지로 이동
         float finalSpeed = entity.Speed;
-        enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, targetPosition, Time.deltaTime * finalSpeed);
 
-        // 도착 체크
+        Vector2 currentPos = enemyTransform.position;
+        Vector2 moveDir = (targetPosition - currentPos).normalized;
+
+        Vector2 separation = Vector2.zero;
+        float detectionRadius = 1.2f;
+
+        Collider2D[] neighbors = Physics2D.OverlapCircleAll(currentPos, detectionRadius);
+
+        foreach (var neighbor in neighbors)
+        {
+            if (neighbor.gameObject != animator.gameObject && neighbor.CompareTag("Enemy"))
+            {
+                Vector2 diff = currentPos - (Vector2)neighbor.transform.position;
+                separation += diff.normalized / Mathf.Max(diff.magnitude, 0.1f);
+            }
+        }
+
+        Vector2 finalDir = (moveDir + separation * 0.3f).normalized;
+
+        enemyTransform.position += (Vector3)finalDir * finalSpeed * Time.deltaTime;
+
         float distToTarget = Vector2.Distance(enemyTransform.position, targetPosition);
         float distToPlayer = Vector2.Distance(enemyTransform.position, enemy.player.position);
 
-        // 돌진 도중 플레이어를 만났는지 확인
         if (distToPlayer <= 1.4f)
         {
-            Debug.Log("돌진 중 플레이어 접촉! 공격 시작");
             enemy.DirectionEnemy(enemy.player.position);
-
-            animator.SetBool("isAttack", true);  // 공격 상태 전환
-            animator.SetBool("isFollow", false); // 이동 중단
-
-            enemy.atkDelay = enemy.atkCoolTime;
+            animator.SetBool("isAttack", true);
+            animator.SetBool("isFollow", false);
             return;
         }
 
-        // 플레이어를 못 만났는데 목적지(Max 거리)에 도착
         if (distToTarget < 0.1f)
         {
-            Debug.Log("플레이어를 못 만나고 최대 거리 도달");
-            animator.SetBool("isFollow", false); // Idle 복귀
-
-            enemy.atkDelay = enemy.atkCoolTime;
+            animator.SetBool("isFollow", false);
         }
     }
 

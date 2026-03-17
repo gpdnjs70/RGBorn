@@ -18,33 +18,55 @@ public class Long_followState : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        float distance = Vector2.Distance(enemy.player.position, enemyTransform.position);
+        Vector2 currentPos = enemyTransform.position;
+        float distance = Vector2.Distance(enemy.player.position, currentPos);
 
-        // 추적 중지 조건
-        if (distance > 15f) // 너무 멀어졌을때
+        if (distance > 15f)
         {
             animator.SetBool("isFollow", false);
             return;
         }
 
-        if (distance <= 6f) // 플레이어와 가까워졌을때
+        if (distance <= 6f)
         {
             if (enemy.atkDelay <= 0)
             {
-                enemy.atkDelay = enemy.atkCoolTime; // 쿨타임 선적용
+                enemy.atkDelay = enemy.atkCoolTime;
                 enemy.DirectionEnemy(enemy.player.position);
-                animator.SetTrigger("Attack"); // Ready로 바로 보냄
+                animator.SetTrigger("Attack");
             }
 
             animator.SetBool("isFollow", false);
-            return; // 이후 이동 로직 스킵
+            return;
         }
 
-        // 이동 로직
         float finalSpeed = entity.Speed;
-        enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, enemy.player.position, Time.deltaTime * finalSpeed);
 
-        // 방향 및 공격박스 업데이트
+        // 플레이어를 향한 기본 방향
+        Vector2 moveDir = ((Vector2)enemy.player.position - currentPos).normalized;
+
+        // 분리 계산
+        Vector2 separation = Vector2.zero;
+        float detectionRadius = 1.5f; // 원거리 몬스터는 조금 더 넉넉하게 간격 유지
+        Collider2D[] neighbors = Physics2D.OverlapCircleAll(currentPos, detectionRadius);
+
+        foreach (var neighbor in neighbors)
+        {
+            if (neighbor.gameObject != animator.gameObject && neighbor.CompareTag("Enemy"))
+            {
+                Vector2 diff = currentPos - (Vector2)neighbor.transform.position;
+                // 너무 가까우면 강하게 밀어냄
+                separation += diff.normalized / Mathf.Max(diff.magnitude, 0.1f);
+            }
+        }
+
+        // 최종 이동 벡터
+        Vector2 finalDir = (moveDir + separation * 0.5f).normalized;
+
+        // 이동 적용
+        enemyTransform.position += (Vector3)finalDir * finalSpeed * Time.deltaTime;
+
+        // 플레이어 바라보기
         enemy.DirectionEnemy(enemy.player.position);
     }
 
