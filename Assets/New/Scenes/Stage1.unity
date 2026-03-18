@@ -2362,6 +2362,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1294fe1bcf5eb0144be08a1cabadebcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerAttributeImage: {fileID: 830995033}
+  modeSprites:
+  - {fileID: 21300000, guid: 2cfa100891316ab458fd1a0214191ca3, type: 3}
+  - {fileID: 21300000, guid: a0adc81d71829534da0ed6497b7f9c12, type: 3}
+  - {fileID: 21300000, guid: 7e025a9d357baa6448164f4b426d7629, type: 3}
+  - {fileID: 21300000, guid: e5914da08a7dec64ea0a1aac005f4700, type: 3}
 --- !u!114 &1390846112
 MonoBehaviour:
   m_ObjectHideFlags: 0
