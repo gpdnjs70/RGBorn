@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20bdf63e76a8fc4f8e40d14f0fcc1a1, type: 3}
+  m_Name: 2
+  m_EditorClassIdentifier: 
+  id: 0
+  lines:
+  - talkerName: npc2
+    context: "\uC9D1 \uAC00\uB294 \uAE38 \uAE30\uC5B5 \uB098?"
+    portrait: {fileID: 21300000, guid: bd697c9fe28576e4e8f3edf14762a753, type: 3}
+  - talkerName: player
+    context: "\uC544\uB2C8\uC694.."
+    portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
+  - talkerName: npc2
+    context: "\uBC14\uBCF4\uB124"
+    portrait: {fileID: 21300000, guid: 43f05b255d64fa1458207ae91759299f, type: 3}
+  - talkerName: player
+    context: "\uADF8\uB807\uAC8C \uC2EC\uD55C \uB9D0\uC744.."
+    portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
