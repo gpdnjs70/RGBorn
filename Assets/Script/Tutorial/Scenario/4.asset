@@ -15,5 +15,8 @@ MonoBehaviour:
   id: 0
   lines:
   - talkerName: npc1
-    context: "\uD558\uC544.. \uC0B4\uC558\uB2E4.. \uAC10\uC0AC\uD569\uB2C8\uB2E4!"
+    context: "\uD558\uC544.. \uC0B4\uC558\uB2E4.."
+    portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}
+  - talkerName: npc1
+    context: "\uAC10\uC0AC\uD569\uB2C8\uB2E4!"
     portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}

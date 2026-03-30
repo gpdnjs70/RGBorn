@@ -22,6 +22,7 @@ public class Player_Movement : MonoBehaviour
     public bool isKnockBack;
     public bool IsMovementLocked => isDashing || isAttacking;
 
+    /**
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -48,6 +49,7 @@ public class Player_Movement : MonoBehaviour
             GameData.hasSpawnPoint = false;
         }
     }
+    **/
 
     private void Awake()
     {

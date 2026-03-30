@@ -44,6 +44,8 @@ public class TutorialManager : MonoBehaviour
     private Enemy_HP enemyHPScript2;
     private SlimeAI slimeAI2;
 
+    [SerializeField] private GameObject SceneChange;
+
     private void Awake()
     {
         playerMoveScript = player.GetComponent<Player_Movement>();
@@ -305,9 +307,10 @@ public class TutorialManager : MonoBehaviour
 
         // NPC 대사 리스트의 3번 SO 재생
         yield return StartCoroutine(PlayDialogue(3));
+        yield return new WaitForSeconds(0.5f);
 
         // Debug.Log("조작법 및 구출 튜토리얼 완전 종료!");
-
+        SceneChange.SetActive(true);
         SetPlayerControllable(TutorialStep.All);
     }
 
