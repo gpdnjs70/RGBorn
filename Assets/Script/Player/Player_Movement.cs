@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player_Movement : MonoBehaviour
 {
@@ -20,6 +21,33 @@ public class Player_Movement : MonoBehaviour
     private bool isAttacking = false;
     public bool isKnockBack;
     public bool IsMovementLocked => isDashing || isAttacking;
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"[Player] {scene.name} 씬 로드 완료! 이동해야 할 좌표가 있나? : {GameData.hasSpawnPoint}");
+
+        if (GameData.hasSpawnPoint)
+        {
+            // transform과 물리 엔진(rigid) 위치를 동시에 강제 이동
+            transform.position = GameData.nextSpawnPoint;
+            if (rigid != null) rigid.position = GameData.nextSpawnPoint;
+
+            Debug.Log($"[Player] 위치 이동 완료! 적용된 위치: {GameData.nextSpawnPoint}");
+
+            // 이동 완료 후 플래그 초기화
+            GameData.hasSpawnPoint = false;
+        }
+    }
 
     private void Awake()
     {

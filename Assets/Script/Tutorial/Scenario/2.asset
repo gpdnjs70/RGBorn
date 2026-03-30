@@ -14,15 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   lines:
-  - talkerName: npc2
-    context: "\uC9D1 \uAC00\uB294 \uAE38 \uAE30\uC5B5 \uB098?"
-    portrait: {fileID: 21300000, guid: bd697c9fe28576e4e8f3edf14762a753, type: 3}
-  - talkerName: player
-    context: "\uC544\uB2C8\uC694.."
-    portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
-  - talkerName: npc2
-    context: "\uBC14\uBCF4\uB124"
-    portrait: {fileID: 21300000, guid: 43f05b255d64fa1458207ae91759299f, type: 3}
-  - talkerName: player
-    context: "\uADF8\uB807\uAC8C \uC2EC\uD55C \uB9D0\uC744.."
-    portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
+  - talkerName: npc1
+    context: "\uC548 \uD1B5\uD574\uC694! \uADF8\uB0E5 \uCE58\uBA74 \uC548 \uB3FC\uC694!"
+    portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}
+  - talkerName: npc1
+    context: "\uBB34\uAE30\uC758 \uC0C9\uC744 \uBC14\uAFD4\uBCF4\uC138\uC694, \uC81C\uBC1C!"
+    portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}

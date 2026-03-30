@@ -43,8 +43,7 @@ public class Player_Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!entity.CanAct)
-            return;
+        if (!entity.CanAct) return;
 
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
         {

@@ -15,17 +15,8 @@ MonoBehaviour:
   id: 0
   lines:
   - talkerName: npc1
-    context: "\uC548\uB155\uD558\uC138\uC694!"
+    context: "\uC73C\uC544\uC544\uC545!!"
     portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}
-  - talkerName: npc
-    context: "\uBC18\uAC00\uC6CC\uC694!"
-    portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}
-  - talkerName: player
-    context: "\uC548\uB155\uD558\uC138\uC694..."
-    portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
   - talkerName: npc1
-    context: "\uC5B4\uB514 \uAC00\uB294 \uAE38\uC774\uC138\uC694?"
+    context: "\uC0B4\uB824\uC8FC\uC138\uC694!"
     portrait: {fileID: 21300000, guid: 3f3c7f35a186b41498edc6d1f47191ad, type: 3}
-  - talkerName: player
-    context: "\uACE0\uBBFC \uC911\uC774\uC5D0\uC694..."
-    portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
