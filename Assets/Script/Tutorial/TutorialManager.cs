@@ -44,6 +44,8 @@ public class TutorialManager : MonoBehaviour
     private Enemy_HP enemyHPScript2;
     private SlimeAI slimeAI2;
 
+    private GameObject hittedSlime = null;
+
     [SerializeField] private GameObject SceneChange;
 
     private void Awake()
@@ -59,6 +61,16 @@ public class TutorialManager : MonoBehaviour
 
         enemyHPScript2 = tutorialSlime2.GetComponent<Enemy_HP>();
         slimeAI2 = tutorialSlime2.GetComponent<SlimeAI>();
+
+        if (slimeAI1 != null)
+        {
+            slimeAI1.OnHit += (obj) => hittedSlime = obj;
+        }
+
+        if (slimeAI2 != null)
+        {
+            slimeAI2.OnHit += (obj) => hittedSlime = obj;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -228,6 +240,7 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log("조작법 튜토리얼 시작!");
 
+        StartCoroutine(SlimeActivationObserver());
         StartCoroutine(ControlTutorialSequence());
     }
 
@@ -242,14 +255,12 @@ public class TutorialManager : MonoBehaviour
 
             SetPlayerControllable(TutorialStep.Attack);
 
-            // 유저가 실제로 공격(좌클릭)할 때까지 대기
-            yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
-            if (slimeAI1 != null && SlimeController1 != null)
-            {
-                slimeAI1.ChangeSlimeAnimator(SlimeController1);
-            }
+            bool hasAttacked = false;
+            yield return new WaitUntil(() => {
+                if (Input.GetMouseButtonDown(0)) hasAttacked = true;
+                return hasAttacked && (slimeAI1.enabled == false || slimeAI2.enabled == false);
+            });
 
-            Debug.Log("평타 공격 확인 완료!");
             yield return new WaitForSeconds(0.5f);
             if (tutorialPanel != null) tutorialPanel.SetActive(false);
         }
@@ -354,5 +365,44 @@ public class TutorialManager : MonoBehaviour
         if (tutorialPanel != null) tutorialPanel.SetActive(true);
         tutorialImage.sprite = tutorialSprites[index];
         if (tutorialMessages.Count > index) tutorialText.text = tutorialMessages[index];
+    }
+
+    // 계속해서 실행되며 활성화되는 slime을 찾음
+    private IEnumerator SlimeActivationObserver()
+    {
+        while (true)
+        {
+            // 1. 플레이어가 마우스를 누를 때까지 기다림 (공격 시작)
+            yield return new WaitUntil(() => Input.GetMouseButton(0));
+
+            // 2. 공격 중인 짧은 시간(예: 0.3초) 동안 hittedSlime이 들어오는지 감시
+            float timer = 0.3f;
+            while (timer > 0)
+            {
+                if (hittedSlime != null)
+                {
+                    // 맞은 녀석 활성화
+                    if (hittedSlime == tutorialSlime1)
+                    {
+                        slimeAI1.ChangeSlimeAnimator(SlimeController1);
+                        slimeAI1.OnHit -= (obj) => hittedSlime = obj;
+                    }
+                    else if (hittedSlime == tutorialSlime2)
+                    {
+                        slimeAI2.ChangeSlimeAnimator(SlimeController2);
+                        slimeAI2.OnHit -= (obj) => hittedSlime = obj;
+                    }
+
+                    hittedSlime = null;
+                    timer = 0; // 루프 탈출
+                }
+
+                timer -= Time.deltaTime;
+                yield return null;
+            }
+
+            hittedSlime = null; // 시간 지났으면 초기화
+            yield return null;
+        }
     }
 }

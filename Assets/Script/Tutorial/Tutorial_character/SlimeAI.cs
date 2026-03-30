@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class SlimeAI : MonoBehaviour
     public float StartedDirection;
 
     public NPCController targetNPC;
+
+    public event Action<GameObject> OnHit;
 
     private void Awake()
     {
@@ -85,5 +88,13 @@ public class SlimeAI : MonoBehaviour
         if (enemyAttributeMonoScript) enemyAttributeMonoScript.enabled = true;
 
         if (slimeAIScript) slimeAIScript.enabled = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            OnHit?.Invoke(gameObject);
+        }
     }
 }

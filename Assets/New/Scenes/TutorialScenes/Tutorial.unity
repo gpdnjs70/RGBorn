@@ -191501,8 +191501,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1539750042}
-  - component: {fileID: 1539750044}
   - component: {fileID: 1539750045}
+  - component: {fileID: 1539750044}
   m_Layer: 0
   m_Name: TutorialManager
   m_TagString: Untagged
@@ -206669,7 +206669,7 @@ GameObject:
   - component: {fileID: 2068454853}
   m_Layer: 12
   m_Name: melee
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
