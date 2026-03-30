@@ -66,12 +66,6 @@ public abstract class Entity : MonoBehaviour
     // 매개변수 damage는 공격하는 본인 공격력
     public abstract void TakeDamage(float damage);
 
-    // 화상 디버프
-    public virtual void Burn(float damage = 5f)
-    {
-        HP -= damage;
-    }
-
     // 부식 디버프
     public float DefenseMultiplier
     {

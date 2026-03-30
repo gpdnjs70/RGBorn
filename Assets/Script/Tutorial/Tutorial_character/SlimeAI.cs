@@ -6,11 +6,26 @@ public class SlimeAI : MonoBehaviour
 {
     public Animator animator;
 
+    private SlimeAI slimeAIScript;
+    private Enemy enemyScript;
+    private Enemy_HP enemyHPScript;
+    private EnemyAttributeMono enemyAttributeMonoScript;
+    private Canvas enemyCanvas;
+
     public float idleDuration = 2.0f;
     public float attackRecoveryTime = 1.0f;
+    public float StartedDirection;
 
     public NPCController targetNPC;
 
+    private void Awake()
+    {
+        slimeAIScript = GetComponent<SlimeAI>();
+        enemyScript = GetComponent<Enemy>();
+        enemyHPScript = GetComponent<Enemy_HP>();
+        enemyAttributeMonoScript = GetComponent<EnemyAttributeMono>();
+        enemyCanvas = GetComponentInChildren<Canvas>(true);
+    }
 
     void Start()
     {
@@ -18,6 +33,13 @@ public class SlimeAI : MonoBehaviour
         {
             animator = GetComponent<Animator>();
         }
+
+        if (enemyScript) enemyScript.enabled = false;
+        if (enemyHPScript) enemyHPScript.enabled = false;
+        if (enemyAttributeMonoScript) enemyAttributeMonoScript.enabled = false;
+        if (enemyCanvas) enemyCanvas.gameObject.SetActive(false);
+
+        animator.SetFloat("DirX", StartedDirection);
 
         StartCoroutine(SlimeBehaviorLoop());
     }
@@ -38,7 +60,30 @@ public class SlimeAI : MonoBehaviour
     {
         if (targetNPC != null)
         {
-            targetNPC.PlayDamagedAnimation(); // NPC에게 맞았다고 알려줌
+            // NPC 위치에서 슬라임 위치를 뺀 '상대적 방향'을 구합니다.
+            Vector2 direction = (transform.position - targetNPC.transform.position).normalized;
+
+            // NPC에게 방향 전달
+            targetNPC.PlayDamagedAnimation(direction.x);
         }
+    }
+
+    public void ChangeSlimeAnimator(RuntimeAnimatorController newController)
+    {
+        if (animator != null && newController != null)
+        {
+            animator.runtimeAnimatorController = newController;
+            animator.SetFloat("DirX", StartedDirection);
+            // Debug.Log($"{gameObject.name}의 애니메이터가 성공적으로 전환되었습니다.");
+        }
+
+        StopAllCoroutines();
+
+        if (enemyCanvas) enemyCanvas.gameObject.SetActive(true);
+        if (enemyScript) enemyScript.enabled = true;
+        if (enemyHPScript) enemyHPScript.enabled = true;
+        if (enemyAttributeMonoScript) enemyAttributeMonoScript.enabled = true;
+
+        if (slimeAIScript) slimeAIScript.enabled = false;
     }
 }

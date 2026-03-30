@@ -46,7 +46,7 @@ public class BurnDebuff : DebuffBase
 
         while (elapsed < duration)
         {
-            target.Burn(damage);
+            target.TakeDamage(damage);
             elapsed += tickInterval;
             yield return new WaitForSeconds(tickInterval);
         }

@@ -43,6 +43,8 @@ public class Enemy : MonoBehaviour
     public GameObject bullet;
     private Vector2 lockedAttackDir;
 
+    private bool lastShockState = false;
+
     protected virtual void Start()
     {
         EnemyManager.Instance.Register(this);
@@ -65,7 +67,12 @@ public class Enemy : MonoBehaviour
             if (atkDelay < 0) atkDelay = 0;
         }
 
-        animator.SetBool("Shock", !entity.CanAct);
+        bool currentShock = !entity.CanAct;
+        if (currentShock != lastShockState)
+        {
+            animator.SetBool("Shock", currentShock);
+            lastShockState = currentShock;
+        }
     }
 
     public void DirectionEnemy(Vector3 targetPos)

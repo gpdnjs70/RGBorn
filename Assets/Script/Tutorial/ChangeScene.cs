@@ -11,8 +11,11 @@ public class ChangeScene : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            GameData.SetSpawnPoint(collision.transform.position);
-            Debug.Log($"[ChangeScene] 이전 씬 마지막 위치 저장 완료: {collision.transform.position}");
+            if (sceneName == "Tutorial")
+            {
+                GameData.SetSpawnPoint(collision.transform.position);
+                Debug.Log($"[ChangeScene] 이전 씬 마지막 위치 저장 완료: {collision.transform.position}");
+            }
 
             SceneManager.LoadScene(sceneName);
         }

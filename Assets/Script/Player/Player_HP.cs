@@ -153,9 +153,4 @@ public class Player_HP : Entity, IDebuffTarget
         color.a = 1;
         spriteRenderer.color = color;
     }
-
-    public override void Burn(float damage)
-    {
-        HP -= damage;
-    }
 }

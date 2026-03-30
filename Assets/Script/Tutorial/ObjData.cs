@@ -17,7 +17,7 @@ public class ObjData : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"{gameObject.name}: 해당 인덱스의 대사가 리스트에 없습니다!");
+            // Debug.LogWarning($"{gameObject.name}: 해당 인덱스의 대사가 리스트에 없습니다!");
         }
     }
 }

@@ -1,13 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
+    public enum TutorialStep { None, Attack, Attribute, All }
+
     [Header("References")]
-    [SerializeField] private Player_Movement player;
+    [SerializeField] private GameObject player;
+    private Player_Movement playerMoveScript;
+    private Player_Attack attackScript;
+    private PlayerAttribute playerAttributeScript;
+    private Player_Skill playerSkillScript;
+    private Rigidbody2D rigid;
+
     [SerializeField] private TutorialDialogue tutorialDialogue;
     [SerializeField] private GameObject npcObject;
 
@@ -25,39 +34,102 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private Image tutorialImage;      // 스프라이트가 바뀔 이미지 컴포넌트
     [SerializeField] private List<Sprite> tutorialSprites = new List<Sprite>(); // 무한정 추가 가능한 리스트
 
-    private void Start()
+    [SerializeField] private GameObject tutorialSlime1;
+    [SerializeField] private RuntimeAnimatorController SlimeController1;
+    private Enemy_HP enemyHPScript1;
+    private SlimeAI slimeAI1;
+
+    [SerializeField] private GameObject tutorialSlime2;
+    [SerializeField] private RuntimeAnimatorController SlimeController2;
+    private Enemy_HP enemyHPScript2;
+    private SlimeAI slimeAI2;
+
+    private void Awake()
     {
-        // 처음 시작 시 방향만 설정 (아직 걷기 애니메이션은 켜지 않음)
-        if (player != null)
+        playerMoveScript = player.GetComponent<Player_Movement>();
+        attackScript = player.GetComponent<Player_Attack>();
+        playerAttributeScript = player.GetComponent<PlayerAttribute>();
+        playerSkillScript = player.GetComponent<Player_Skill>();
+        rigid = player.GetComponent<Rigidbody2D>();
+
+        enemyHPScript1 = tutorialSlime1.GetComponent<Enemy_HP>();
+        slimeAI1 = tutorialSlime1.GetComponent<SlimeAI>();
+
+        enemyHPScript2 = tutorialSlime2.GetComponent<Enemy_HP>();
+        slimeAI2 = tutorialSlime2.GetComponent<SlimeAI>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // 플레이어와 충돌했는지 확인
+        if (collision.CompareTag("Player"))
         {
-            player.enabled = false;
-            Player_Attack attackScript = player.GetComponent<Player_Attack>();
-            if (attackScript != null) attackScript.enabled = false;
-            PlayerAttribute playerAttributeScript = player.GetComponent<PlayerAttribute>();
-            if (playerAttributeScript != null) playerAttributeScript.enabled = false;
-            Player_Skill playerSkillScript = player.GetComponent<Player_Skill>();
-            if (playerSkillScript != null) playerSkillScript.enabled = false;
+            GetComponent<Collider2D>().enabled = false;
 
-            Rigidbody2D rigid = player.GetComponent<Rigidbody2D>();
-            if (rigid != null)
+            // 플레이어 초기 설정
+            if (player != null)
             {
-                rigid.velocity = Vector2.zero;
+                SetPlayerControllable(TutorialStep.None);
+
+                Rigidbody2D rigid = player.GetComponent<Rigidbody2D>();
+                if (rigid != null)
+                {
+                    rigid.velocity = Vector2.zero;
+                }
+
+                playerMoveScript.dirX = 1f;
+                playerMoveScript.lastDir = Vector2.right;
+
+                Animator anim = player.GetComponent<Animator>();
+                if (anim != null)
+                {
+                    anim.SetFloat("DirX", 1f);
+                    anim.SetFloat("DirY", -1f);
+                    anim.SetFloat("Direction", 1f);
+                    anim.SetBool("isMove", false);
+                }
             }
 
-            player.dirX = 1f;
-            player.lastDir = Vector2.right;
-
-            Animator anim = player.GetComponent<Animator>();
-            if (anim != null)
-            {
-                anim.SetFloat("DirX", 1f);
-                anim.SetFloat("DirY", -1f);
-                anim.SetFloat("Direction", 1f);
-                anim.SetBool("isMove", false);
-            }
+            StartCoroutine(TutorialOpeningSequence());
         }
+    }
 
-        StartCoroutine(TutorialOpeningSequence());
+    private void SetPlayerControllable(TutorialStep step)
+    {
+        // 일단 모두 끄기 (초기화)
+        if (playerMoveScript) playerMoveScript.enabled = false;
+        if (attackScript) attackScript.enabled = false;
+        if (playerAttributeScript) playerAttributeScript.enabled = false;
+        if (playerSkillScript) playerSkillScript.enabled = false;
+
+        if (rigid) rigid.velocity = Vector2.zero;
+
+        // 단계별로 필요한 것만 켜기
+        switch (step)
+        {
+            case TutorialStep.Attack:
+                playerMoveScript.enabled = true;
+                attackScript.enabled = true;
+                break;
+
+            case TutorialStep.Attribute:
+                playerMoveScript.enabled = true;
+                attackScript.enabled = true;
+                playerAttributeScript.enabled = true;
+                break;
+
+            case TutorialStep.All:
+                playerMoveScript.enabled = true;
+                attackScript.enabled = true;
+                playerAttributeScript.enabled = true;
+                playerSkillScript.enabled = true;
+                break;
+
+            case TutorialStep.None:
+            default:
+                // 대사 중에는 모두 꺼진 상태 유지
+                break;
+        }
     }
 
     private IEnumerator TutorialOpeningSequence()
@@ -154,12 +226,6 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log("조작법 튜토리얼 시작!");
 
-        player.enabled = true;
-        
-        
-        //Player_Skill playerSkillScript = player.GetComponent<Player_Skill>();
-        //if (playerSkillScript != null) playerSkillScript.enabled = true;        
-
         StartCoroutine(ControlTutorialSequence());
     }
 
@@ -169,17 +235,17 @@ public class TutorialManager : MonoBehaviour
         // --- 1단계: 평타 공격 ---
         if (tutorialSprites.Count > 0)
         {
-            // 조작 가이드 UI 설정
-            if (tutorialPanel != null) tutorialPanel.SetActive(true);
-            tutorialImage.sprite = tutorialSprites[0];
+            SetupGuideUI(0);
             yield return new WaitForSeconds(0.5f);
 
-            // 공격 스크립트 활성화
-            Player_Attack attackScript = player.GetComponent<Player_Attack>();
-            if (attackScript != null) attackScript.enabled = true;
+            SetPlayerControllable(TutorialStep.Attack);
 
             // 유저가 실제로 공격(좌클릭)할 때까지 대기
             yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+            if (slimeAI1 != null && SlimeController1 != null)
+            {
+                slimeAI1.ChangeSlimeAnimator(SlimeController1);
+            }
 
             Debug.Log("평타 공격 확인 완료!");
             yield return new WaitForSeconds(0.5f);
@@ -189,19 +255,17 @@ public class TutorialManager : MonoBehaviour
         // --- 2단계: 속성 전환 ---
         if (tutorialSprites.Count > 1)
         {
+            if (enemyHPScript1 != null) enemyHPScript1.LockAction();
             // NPC 대사 리스트의 1번 SO 재생
             yield return StartCoroutine(PlayDialogue(1));
+            if (enemyHPScript1 != null) enemyHPScript1.UnlockAction();
 
-            // 조작 가이드 UI 교체
-            if (tutorialPanel != null) tutorialPanel.SetActive(true);
-            tutorialImage.sprite = tutorialSprites[1];
-
-            // 속성 스크립트 활성화
-            PlayerAttribute playerAttributeScript = player.GetComponent<PlayerAttribute>();
-            if (playerAttributeScript != null) playerAttributeScript.enabled = true;
+            SetupGuideUI(1);
+            SetPlayerControllable(TutorialStep.Attribute);
 
             // 유저가 속성 전환(Space)할 때까지 대기
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+            yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
 
             Debug.Log("속성 전환 확인 완료!");
             yield return new WaitForSeconds(0.5f);
@@ -211,44 +275,57 @@ public class TutorialManager : MonoBehaviour
         // --- 3단계: 속성 상성 설명 ---
         if (tutorialSprites.Count > 2)
         {
-            // NPC 대사 리스트의 2번 SO 재생
-            yield return StartCoroutine(PlayDialogue(2));
+            SetupGuideUI(2);
+            SetPlayerControllable(TutorialStep.All);
 
-            // 상성표 이미지나 텍스트 띄우기
-            if (tutorialPanel != null) tutorialPanel.SetActive(true);
-            if (tutorialMessages.Count > 2) tutorialText.text = tutorialMessages[2];
-            tutorialImage.sprite = tutorialSprites[2];
-
-            // 유저가 내용을 확인(좌클릭/엔터)할 때까지 대기
-            yield return new WaitUntil(() => Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return));
-
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(3f);
+            if (tutorialPanel != null) tutorialPanel.SetActive(false);
         }
 
-        // 모든 조작법 가이드 UI 종료
-        if (tutorialPanel != null) tutorialPanel.SetActive(false);
+        yield return new WaitUntil(() => tutorialSlime1 == null || enemyHPScript1.HP <= 0);
+
+        yield return new WaitForSeconds(1.0f);
+
+        // 마지막 대화 방향 설정
+        Vector2 dirToNPC = (npcObject.transform.position - player.transform.position).normalized;
+
+        Animator playerAnim = player.GetComponent<Animator>();
+        if (playerAnim != null)
+        {
+            playerAnim.SetFloat("DirX", dirToNPC.x);
+            playerAnim.SetFloat("DirY", dirToNPC.y);
+        }
+
+        NPCController npcCtrl = npcObject.GetComponent<NPCController>();
+        if (npcCtrl != null)
+        {
+            // 플레이어의 반대 방향을 바라보게 함
+            npcCtrl.PlayIdleAnimation(-dirToNPC);
+        }
 
         // NPC 대사 리스트의 3번 SO 재생
         yield return StartCoroutine(PlayDialogue(3));
 
-        Debug.Log("조작법 및 구출 튜토리얼 완전 종료!");
+        // Debug.Log("조작법 및 구출 튜토리얼 완전 종료!");
+
+        SetPlayerControllable(TutorialStep.All);
     }
 
     // NPC의 dialogueList 중 하나를 끝까지 재생하고 창을 닫는 공용 함수
     private IEnumerator PlayDialogue(int index)
     {
-        player.enabled = false;
-        Player_Attack attackScript = player.GetComponent<Player_Attack>();
-        if (attackScript != null) attackScript.enabled = false;
-        PlayerAttribute playerAttributeScript = player.GetComponent<PlayerAttribute>();
-        if (playerAttributeScript != null) playerAttributeScript.enabled = false;
-        Player_Skill playerSkillScript = player.GetComponent<Player_Skill>();
-        if (playerSkillScript != null) playerSkillScript.enabled = false;
+        SetPlayerControllable(TutorialStep.None);
 
-        Rigidbody2D rigid = player.GetComponent<Rigidbody2D>();
         if (rigid != null)
         {
             rigid.velocity = Vector2.zero;
+            rigid.angularVelocity = 0f; // 회전이 있다면 회전도 정지
+        }
+
+        Animator anim = player.GetComponent<Animator>();
+        if (anim != null)
+        {
+            anim.SetBool("isMove", false);
         }
 
         ObjData npcData = npcObject.GetComponent<ObjData>();
@@ -267,12 +344,12 @@ public class TutorialManager : MonoBehaviour
                 yield return StartCoroutine(WaitForUserInput());
             }
         }
+    }
 
-        /**
-        player.enabled = true;
-        if (attackScript != null) attackScript.enabled = true;
-        if (playerAttributeScript != null) playerAttributeScript.enabled = true;
-        if (playerSkillScript != null) playerSkillScript.enabled = true;
-        **/
+    private void SetupGuideUI(int index)
+    {
+        if (tutorialPanel != null) tutorialPanel.SetActive(true);
+        tutorialImage.sprite = tutorialSprites[index];
+        if (tutorialMessages.Count > index) tutorialText.text = tutorialMessages[index];
     }
 }
