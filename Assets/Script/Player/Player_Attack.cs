@@ -73,6 +73,13 @@ public class Player_Attack : MonoBehaviour
         {
             if (!collider.CompareTag("Enemy")) continue;
 
+            // 튜토리얼 씬을 위한 코드
+            SlimeAI slimeAI = collider.GetComponent<SlimeAI>();
+            if (slimeAI != null)
+            {
+                slimeAI.InvokeOnHit();
+            }
+
             Enemy_HP enemyHP = collider.GetComponent<Enemy_HP>();
             if (enemyHP == null) continue;
 
