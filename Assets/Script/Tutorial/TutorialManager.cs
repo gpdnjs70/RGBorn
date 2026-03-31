@@ -46,6 +46,9 @@ public class TutorialManager : MonoBehaviour
 
     private GameObject hittedSlime = null;
 
+    [SerializeField] private float fadeDuration = 0.5f;
+    private CanvasGroup panelCanvasGroup;
+
     [SerializeField] private GameObject SceneChange;
 
     private void Awake()
@@ -70,6 +73,13 @@ public class TutorialManager : MonoBehaviour
         if (slimeAI2 != null)
         {
             slimeAI2.OnHit += (obj) => hittedSlime = obj;
+        }
+
+        if (tutorialPanel != null)
+        {
+            panelCanvasGroup = tutorialPanel.GetComponent<CanvasGroup>();
+            if (panelCanvasGroup == null)
+                panelCanvasGroup = tutorialPanel.AddComponent<CanvasGroup>();
         }
     }
 
@@ -148,14 +158,14 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator TutorialOpeningSequence()
     {
+        StartCoroutine(CameraShake(shakeDuration, shakeMagnitude));
+        yield return StartCoroutine(PlayDialogue(0));
+
         yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(MovePlayerToTarget());
         yield return new WaitForSeconds(0.2f);
 
-        StartCoroutine(CameraShake(shakeDuration, shakeMagnitude));
-
-        // 4~6번 과정을 이 한 줄로 대체 (0번 SO 재생: "으아악!", "살려주세요!")
-        yield return StartCoroutine(PlayDialogue(0));
+        yield return StartCoroutine(PlayDialogue(1));
 
         // 7. 조작법 설명 진입
         StartControlTutorial();
@@ -262,7 +272,7 @@ public class TutorialManager : MonoBehaviour
             });
 
             yield return new WaitForSeconds(0.5f);
-            if (tutorialPanel != null) tutorialPanel.SetActive(false);
+            yield return StartCoroutine(FadeOutPanel());
         }
 
         // --- 2단계: 속성 전환 ---
@@ -270,7 +280,7 @@ public class TutorialManager : MonoBehaviour
         {
             if (enemyHPScript1 != null) enemyHPScript1.LockAction();
             // NPC 대사 리스트의 1번 SO 재생
-            yield return StartCoroutine(PlayDialogue(1));
+            yield return StartCoroutine(PlayDialogue(2));
             if (enemyHPScript1 != null) enemyHPScript1.UnlockAction();
 
             SetupGuideUI(1);
@@ -282,7 +292,7 @@ public class TutorialManager : MonoBehaviour
 
             Debug.Log("속성 전환 확인 완료!");
             yield return new WaitForSeconds(0.5f);
-            if (tutorialPanel != null) tutorialPanel.SetActive(false);
+            yield return StartCoroutine(FadeOutPanel());
         }
 
         // --- 3단계: 속성 상성 설명 ---
@@ -292,10 +302,13 @@ public class TutorialManager : MonoBehaviour
             SetPlayerControllable(TutorialStep.All);
 
             yield return new WaitForSeconds(3f);
-            if (tutorialPanel != null) tutorialPanel.SetActive(false);
+            yield return StartCoroutine(FadeOutPanel());
         }
 
-        yield return new WaitUntil(() => tutorialSlime1 == null || enemyHPScript1.HP <= 0);
+        yield return new WaitUntil(() =>
+            (tutorialSlime1 == null || enemyHPScript1.HP <= 0) &&
+            (tutorialSlime2 == null || enemyHPScript2.HP <= 0)
+        );
 
         yield return new WaitForSeconds(1.0f);
 
@@ -376,33 +389,64 @@ public class TutorialManager : MonoBehaviour
             yield return new WaitUntil(() => Input.GetMouseButton(0));
 
             // 2. 공격 중인 짧은 시간(예: 0.3초) 동안 hittedSlime이 들어오는지 감시
-            float timer = 0.3f;
-            while (timer > 0)
+            float timeout = 1.0f;
+            float timer = 0f;
+
+            while (timer < timeout)
             {
                 if (hittedSlime != null)
                 {
-                    // 맞은 녀석 활성화
-                    if (hittedSlime == tutorialSlime1)
-                    {
-                        slimeAI1.ChangeSlimeAnimator(SlimeController1);
-                        slimeAI1.OnHit -= (obj) => hittedSlime = obj;
-                    }
-                    else if (hittedSlime == tutorialSlime2)
-                    {
-                        slimeAI2.ChangeSlimeAnimator(SlimeController2);
-                        slimeAI2.OnHit -= (obj) => hittedSlime = obj;
-                    }
-
+                    // 맞은 슬라임 처리
+                    ActivateSlimeUI(hittedSlime);
                     hittedSlime = null;
-                    timer = 0; // 루프 탈출
+                    break; // 타격 성공 시 즉시 루프 탈출
                 }
 
-                timer -= Time.deltaTime;
+                timer += Time.deltaTime;
                 yield return null;
             }
 
             hittedSlime = null; // 시간 지났으면 초기화
             yield return null;
         }
+    }
+
+    private void ActivateSlimeUI(GameObject target)
+    {
+        if (target == tutorialSlime1)
+        {
+            slimeAI1.ChangeSlimeAnimator(SlimeController1);
+            slimeAI1.OnHit -= (obj) => hittedSlime = obj;
+        }
+        else if (target == tutorialSlime2)
+        {
+            slimeAI2.ChangeSlimeAnimator(SlimeController2);
+            slimeAI2.OnHit -= (obj) => hittedSlime = obj;
+        }
+    }
+
+    private IEnumerator FadeOutPanel()
+    {
+        if (panelCanvasGroup == null)
+        {
+            tutorialPanel.SetActive(false);
+            yield break;
+        }
+
+        float currentTime = 0;
+        float startAlpha = panelCanvasGroup.alpha;
+
+        while (currentTime < fadeDuration)
+        {
+            currentTime += Time.deltaTime;
+            panelCanvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, currentTime / fadeDuration);
+            yield return null;
+        }
+
+        panelCanvasGroup.alpha = 0f;
+        tutorialPanel.SetActive(false);
+
+        // 다음 가이드를 위해 알파값 초기화 (필요시)
+        panelCanvasGroup.alpha = 1f;
     }
 }

@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   lines:
-  - talkerName: npc1
-    context: "\uC548 \uD1B5\uD574\uC694! \uADF8\uB0E5 \uCE58\uBA74 \uC548 \uB3FC\uC694!"
+  - talkerType: 0
+    talkerName: npc1
+    context: "\uB3C4..\uB3C4\uC640\uC8FC\uC138\uC694! \uC0B4\uB824\uC8FC\uC138\uC694!"
     portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}
-  - talkerName: npc1
-    context: "\uBB34\uAE30\uC758 \uC0C9\uC744 \uBC14\uAFD4\uBCF4\uC138\uC694, \uC81C\uBC1C!"
-    portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}
-  - talkerName: npc1
-    context: "\uC800\uB188\uC740 \uCD08\uB85D\uC0C9\uC774\uB2C8 \uBE68\uAC04\uC0C9\uC73C\uB85C!"
-    portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}
+    customOffset: {x: 0, y: 4, z: 0}
+  - talkerType: 1
+    talkerName: player
+    context: '!!'
+    portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
+    customOffset: {x: 0, y: 4, z: 0}
