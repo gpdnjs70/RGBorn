@@ -10,6 +10,7 @@ public class SlimeAI : MonoBehaviour
     private SlimeAI slimeAIScript;
     private Enemy enemyScript;
     private Enemy_HP enemyHPScript;
+    private EnemyAttribute enemyAttributeScript;
     private EnemyAttributeMono enemyAttributeMonoScript;
     private Canvas enemyCanvas;
 
@@ -26,6 +27,7 @@ public class SlimeAI : MonoBehaviour
         slimeAIScript = GetComponent<SlimeAI>();
         enemyScript = GetComponent<Enemy>();
         enemyHPScript = GetComponent<Enemy_HP>();
+        enemyAttributeScript = GetComponent<EnemyAttribute>();
         enemyAttributeMonoScript = GetComponent<EnemyAttributeMono>();
         enemyCanvas = GetComponentInChildren<Canvas>(true);
     }
@@ -39,6 +41,7 @@ public class SlimeAI : MonoBehaviour
 
         if (enemyScript) enemyScript.enabled = false;
         if (enemyHPScript) enemyHPScript.enabled = false;
+        if (enemyAttributeScript) enemyAttributeScript.enabled = false;
         if (enemyAttributeMonoScript) enemyAttributeMonoScript.enabled = false;
         if (enemyCanvas) enemyCanvas.gameObject.SetActive(false);
 
@@ -85,6 +88,7 @@ public class SlimeAI : MonoBehaviour
         if (enemyCanvas) enemyCanvas.gameObject.SetActive(true);
         if (enemyScript) enemyScript.enabled = true;
         if (enemyHPScript) enemyHPScript.enabled = true;
+        if (enemyAttributeScript) enemyAttributeScript.enabled = true;
         if (enemyAttributeMonoScript) enemyAttributeMonoScript.enabled = true;
 
         if (slimeAIScript) slimeAIScript.enabled = false;
@@ -104,5 +108,16 @@ public class SlimeAI : MonoBehaviour
     {
         // 구독자(TutorialManager 등)가 있을 때만 이벤트를 실행
         OnHit?.Invoke(this.gameObject);
+    }
+
+    public void UpdateAppearance(RuntimeAnimatorController newController)
+    {
+        if (animator != null && newController != null)
+        {
+            animator.runtimeAnimatorController = newController;
+            animator.SetFloat("DirX", StartedDirection);
+        }
+
+        StopAllCoroutines();
     }
 }

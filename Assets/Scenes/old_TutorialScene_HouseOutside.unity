@@ -21011,11 +21011,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb2f1e2106892c247aaca71069e6aa3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogManager: {fileID: 1537137750}
   talkPanel: {fileID: 1864163667}
+  talkPanelRect: {fileID: 0}
+  playerTransform: {fileID: 0}
+  offset: {x: 0, y: 2, z: 0}
   portraitImg: {fileID: 201489994}
   talkText: {fileID: 1917074001}
-  scanObject: {fileID: 569116485}
   isAction: 0
   talkIndex: 0
 --- !u!1 &612842320
@@ -21763,7 +21764,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3db10e104838e47999851b98c44c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 2000
+  dialogueList: []
+  dialogue: {fileID: 0}
   isNPC: 1
 --- !u!95 &874267736
 Animator:
@@ -22217,15 +22219,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a120588a9c92bd4dab115ad124e9f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portraitArr:
-  - {fileID: 21300008, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
-  - {fileID: 21300010, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
-  - {fileID: 21300012, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
-  - {fileID: 21300014, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
-  - {fileID: 21300000, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
-  - {fileID: 21300002, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
-  - {fileID: 21300004, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
-  - {fileID: 21300006, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
 --- !u!4 &1537137751
 Transform:
   m_ObjectHideFlags: 0
@@ -22810,7 +22803,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dashingPower: 20
   dashingTime: 0.2
-  tr: {fileID: 1641778970}
   dashCooldownUI: {fileID: 0}
   lastDir: {x: 1, y: 0}
   dialogue: {fileID: 569116487}
@@ -22886,8 +22878,8 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 106304143
-  m_SortingLayer: 0
+  m_SortingLayerID: 1883998863
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 1.9000001, y: 3.1, z: 0}
@@ -24205,7 +24197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3db10e104838e47999851b98c44c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 1000
+  dialogueList: []
+  dialogue: {fileID: 0}
   isNPC: 1
 --- !u!95 &1907403843
 Animator:

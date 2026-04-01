@@ -81,7 +81,7 @@ public class Player_Attack : MonoBehaviour
             }
 
             Enemy_HP enemyHP = collider.GetComponent<Enemy_HP>();
-            if (enemyHP == null) continue;
+            if (enemyHP == null || !enemyHP.enabled) continue;
 
             Entity attacker = entity;
             Entity intendedTarget = enemyHP;

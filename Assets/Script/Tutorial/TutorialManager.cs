@@ -25,14 +25,21 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private float shakeMagnitude = 0.1f;
 
     [Header("Player Opening Move Settings")]
-    [SerializeField] private Transform targetPosition; // 플레이어가 걸어갈 목표 위치
+    [SerializeField] private List<Transform> targetPositions = new List<Transform>(); // 플레이어가 걸어갈 목표 위치
     [SerializeField] private float moveSpeed = 3f;     // 컷신 중 플레이어 이동 속도
 
+    [Header("퀘스트 창")]
     [SerializeField] private GameObject tutorialPanel; // UI 전체를 켜고 끌 부모 객체
     [SerializeField] private Text tutorialText;
+    [TextArea(2, 10)]
     [SerializeField] private List<string> tutorialMessages = new List<string>();
     [SerializeField] private Image tutorialImage;      // 스프라이트가 바뀔 이미지 컴포넌트
     [SerializeField] private List<Sprite> tutorialSprites = new List<Sprite>(); // 무한정 추가 가능한 리스트
+
+    [Header("조작법")]
+    [SerializeField] private GameObject controlPanel; // UI 전체를 켜고 끌 부모 객체
+    [SerializeField] private Image controlImage;      // 스프라이트가 바뀔 이미지 컴포넌트
+    [SerializeField] private List<Sprite> controlSprites = new List<Sprite>(); // 무한정 추가 가능한 리스트
 
     [SerializeField] private GameObject tutorialSlime1;
     [SerializeField] private RuntimeAnimatorController SlimeController1;
@@ -41,6 +48,7 @@ public class TutorialManager : MonoBehaviour
 
     [SerializeField] private GameObject tutorialSlime2;
     [SerializeField] private RuntimeAnimatorController SlimeController2;
+    [SerializeField] private RuntimeAnimatorController SlimeController3;
     private Enemy_HP enemyHPScript2;
     private SlimeAI slimeAI2;
 
@@ -162,7 +170,7 @@ public class TutorialManager : MonoBehaviour
         yield return StartCoroutine(PlayDialogue(0));
 
         yield return new WaitForSeconds(0.5f);
-        yield return StartCoroutine(MovePlayerToTarget());
+        yield return StartCoroutine(MovePlayerToTarget(targetPositions[0]));
         yield return new WaitForSeconds(0.2f);
 
         yield return StartCoroutine(PlayDialogue(1));
@@ -172,9 +180,9 @@ public class TutorialManager : MonoBehaviour
     }
 
     // 플레이어를 목표 위치로 자연스럽게 걷게 만드는 코루틴
-    private IEnumerator MovePlayerToTarget()
+    private IEnumerator MovePlayerToTarget(Transform target)
     {
-        if (targetPosition == null)
+        if (target == null)
         {
             Debug.LogWarning("목표 위치(targetPosition)가 설정되지 않았습니다!");
             yield break;
@@ -186,7 +194,7 @@ public class TutorialManager : MonoBehaviour
         if (anim != null) anim.SetBool("isMove", true);
 
         // 목표 위치를 향한 방향 벡터 계산 (애니메이션 방향 설정용)
-        Vector3 direction = (targetPosition.position - player.transform.position).normalized;
+        Vector3 direction = (target.position - player.transform.position).normalized;
         if (anim != null)
         {
             anim.SetFloat("DirX", direction.x);
@@ -194,18 +202,18 @@ public class TutorialManager : MonoBehaviour
         }
 
         // 플레이어의 현재 위치와 목표 위치의 거리가 0.05f보다 클 때까지 계속 이동
-        while (Vector3.Distance(player.transform.position, targetPosition.position) > 0.05f)
+        while (Vector3.Distance(player.transform.position, target.position) > 0.05f)
         {
             player.transform.position = Vector3.MoveTowards(
                 player.transform.position,
-                targetPosition.position,
+                target.position,
                 moveSpeed * Time.deltaTime
             );
             yield return null; // 다음 프레임까지 대기
         }
 
         // 목표 위치에 정확히 안착시키고 걷기 애니메이션 끄기
-        player.transform.position = targetPosition.position;
+        player.transform.position = target.position;
         if (anim != null)
         {
             anim.SetFloat("DirX", 1f);
@@ -268,9 +276,10 @@ public class TutorialManager : MonoBehaviour
             bool hasAttacked = false;
             yield return new WaitUntil(() => {
                 if (Input.GetMouseButtonDown(0)) hasAttacked = true;
-                return hasAttacked && (slimeAI1.enabled == false || slimeAI2.enabled == false);
+                return hasAttacked && (slimeAI1.enabled == false);
             });
 
+            if (enemyHPScript1 != null) enemyHPScript1.LockAction();
             yield return new WaitForSeconds(0.5f);
             yield return StartCoroutine(FadeOutPanel());
         }
@@ -278,7 +287,6 @@ public class TutorialManager : MonoBehaviour
         // --- 2단계: 속성 전환 ---
         if (tutorialSprites.Count > 1)
         {
-            if (enemyHPScript1 != null) enemyHPScript1.LockAction();
             // NPC 대사 리스트의 1번 SO 재생
             yield return StartCoroutine(PlayDialogue(2));
             if (enemyHPScript1 != null) enemyHPScript1.UnlockAction();
@@ -287,8 +295,10 @@ public class TutorialManager : MonoBehaviour
             SetPlayerControllable(TutorialStep.Attribute);
 
             // 유저가 속성 전환(Space)할 때까지 대기
-            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-            yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+            yield return new WaitUntil(() =>
+                (int)playerAttributeScript.GetComponent<ColorAttribute>().colorMode == 1 &&
+                Input.GetMouseButtonDown(0)
+            );
 
             Debug.Log("속성 전환 확인 완료!");
             yield return new WaitForSeconds(0.5f);
@@ -299,18 +309,56 @@ public class TutorialManager : MonoBehaviour
         if (tutorialSprites.Count > 2)
         {
             SetupGuideUI(2);
-            SetPlayerControllable(TutorialStep.All);
+            SetPlayerControllable(TutorialStep.Attribute);
 
             yield return new WaitForSeconds(3f);
             yield return StartCoroutine(FadeOutPanel());
         }
 
         yield return new WaitUntil(() =>
-            (tutorialSlime1 == null || enemyHPScript1.HP <= 0) &&
-            (tutorialSlime2 == null || enemyHPScript2.HP <= 0)
+            (tutorialSlime1 == null || enemyHPScript1.HP <= 0)
         );
+        SetPlayerControllable(TutorialStep.None);
+        yield return new WaitForSeconds(0.5f);
 
+        // --- 4단계: 불안정한 속성에 대한 설명 ---
+        if (slimeAI2 != null && SlimeController3 != null)
+        {
+            // 새로 만든 함수 호출
+            slimeAI2.UpdateAppearance(SlimeController3);
+        }
+
+        yield return StartCoroutine(PlayDialogue(3));
+        yield return new WaitForSeconds(0.5f);
+
+        SetupGuideUI(3);
+        SetPlayerControllable(TutorialStep.All);
+
+        if (slimeAI2 != null && slimeAI2.enabled)
+        {
+            slimeAI2.ChangeSlimeAnimator(SlimeController2);
+            slimeAI2.OnHit -= (obj) => hittedSlime = obj;
+        }
+
+        yield return new WaitUntil(() =>
+            (tutorialSlime2 == null || enemyHPScript2.HP <= 0)
+        ); 
+        yield return StartCoroutine(FadeOutPanel());
+        yield return new WaitForSeconds(0.5f);
+
+        // --- 마무리 단계: NPC에게 이동 및 최종 대화 ---
         yield return new WaitForSeconds(1.0f);
+
+        SetPlayerControllable(TutorialStep.None);
+
+        // npc idle 상태로 전환
+        NPCController npcCtrl = npcObject.GetComponent<NPCController>();
+        if (npcCtrl != null)
+        {
+            npcCtrl.PlayIdleAnimation(Vector2.left);
+        }
+
+        yield return StartCoroutine(MovePlayerToTarget(targetPositions[1]));
 
         // 마지막 대화 방향 설정
         Vector2 dirToNPC = (npcObject.transform.position - player.transform.position).normalized;
@@ -322,7 +370,6 @@ public class TutorialManager : MonoBehaviour
             playerAnim.SetFloat("DirY", dirToNPC.y);
         }
 
-        NPCController npcCtrl = npcObject.GetComponent<NPCController>();
         if (npcCtrl != null)
         {
             // 플레이어의 반대 방향을 바라보게 함
@@ -330,7 +377,7 @@ public class TutorialManager : MonoBehaviour
         }
 
         // NPC 대사 리스트의 3번 SO 재생
-        yield return StartCoroutine(PlayDialogue(3));
+        yield return StartCoroutine(PlayDialogue(4));
         yield return new WaitForSeconds(0.5f);
 
         // Debug.Log("조작법 및 구출 튜토리얼 완전 종료!");
@@ -378,6 +425,9 @@ public class TutorialManager : MonoBehaviour
         if (tutorialPanel != null) tutorialPanel.SetActive(true);
         tutorialImage.sprite = tutorialSprites[index];
         if (tutorialMessages.Count > index) tutorialText.text = tutorialMessages[index];
+
+        if (controlPanel != null) controlPanel.SetActive(true);
+        controlImage.sprite = controlSprites[index];
     }
 
     // 계속해서 실행되며 활성화되는 slime을 찾음
@@ -385,43 +435,33 @@ public class TutorialManager : MonoBehaviour
     {
         while (true)
         {
-            // 1. 플레이어가 마우스를 누를 때까지 기다림 (공격 시작)
-            yield return new WaitUntil(() => Input.GetMouseButton(0));
+            yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
 
-            // 2. 공격 중인 짧은 시간(예: 0.3초) 동안 hittedSlime이 들어오는지 감시
-            float timeout = 1.0f;
+            float timeout = 0.5f; // 타격 판정 시간을 조금 더 타이트하게 잡음
             float timer = 0f;
 
             while (timer < timeout)
             {
                 if (hittedSlime != null)
                 {
-                    // 맞은 슬라임 처리
+                    // 여기서 현재 튜토리얼 단계에 맞는 놈인지 한 번 더 체크 가능
                     ActivateSlimeUI(hittedSlime);
-                    hittedSlime = null;
-                    break; // 타격 성공 시 즉시 루프 탈출
+                    hittedSlime = null; // 처리 후 즉시 비움
+                    break;
                 }
-
                 timer += Time.deltaTime;
                 yield return null;
             }
-
-            hittedSlime = null; // 시간 지났으면 초기화
-            yield return null;
+            hittedSlime = null; // 타임아웃 시 비움
         }
     }
 
     private void ActivateSlimeUI(GameObject target)
     {
-        if (target == tutorialSlime1)
+        if (target == tutorialSlime1 && slimeAI1.enabled)
         {
             slimeAI1.ChangeSlimeAnimator(SlimeController1);
             slimeAI1.OnHit -= (obj) => hittedSlime = obj;
-        }
-        else if (target == tutorialSlime2)
-        {
-            slimeAI2.ChangeSlimeAnimator(SlimeController2);
-            slimeAI2.OnHit -= (obj) => hittedSlime = obj;
         }
     }
 
@@ -445,6 +485,8 @@ public class TutorialManager : MonoBehaviour
 
         panelCanvasGroup.alpha = 0f;
         tutorialPanel.SetActive(false);
+
+        controlPanel.SetActive(false);
 
         // 다음 가이드를 위해 알파값 초기화 (필요시)
         panelCanvasGroup.alpha = 1f;
