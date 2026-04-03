@@ -58,7 +58,9 @@ public class Golem_followState : StateMachineBehaviour
         if (distToPlayer <= 1.4f)
         {
             enemy.DirectionEnemy(enemy.player.position);
-            animator.SetBool("isAttack", true);
+            enemy.OnAttackEvent();
+
+            animator.SetTrigger("isFall");
             animator.SetBool("isFollow", false);
             return;
         }

@@ -30,7 +30,7 @@ EditorBuildSettings:
     path: Assets/New/Scenes/TutorialScenes/HouseOutside.unity
     guid: 6a169d9e9668e6e489d102d12f2bbde2
   - enabled: 1
-    path: Assets/New/Scenes/TutorialScenes/Tutorial.unity
+    path: Assets/New/Scenes/TutorialScenes/Tutorial_Outside.unity
     guid: 11f3bb910d8c2d0478cb654185710eb0
   - enabled: 1
     path: Assets/New/Scenes/Stage1_slime.unity

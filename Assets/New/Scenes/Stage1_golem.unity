@@ -634,8 +634,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 000/000
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 928ec4670e23d7443888de74d6e91c22, type: 2}
+  m_sharedMaterial: {fileID: -4044364338963185970, guid: 928ec4670e23d7443888de74d6e91c22, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -35715,6 +35715,22 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1731469859004664498, guid: 23e413b393ff90e4c8bc1aeef66341b4, type: 3}
+      propertyPath: colorOverrides.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731469859004664498, guid: 23e413b393ff90e4c8bc1aeef66341b4, type: 3}
+      propertyPath: colorOverrides.Array.data[0]
+      value: 
+      objectReference: {fileID: 22100000, guid: 6a7c9166b3043f8488a3bf7623a6cf8e, type: 2}
+    - target: {fileID: 1731469859004664498, guid: 23e413b393ff90e4c8bc1aeef66341b4, type: 3}
+      propertyPath: colorOverrides.Array.data[1]
+      value: 
+      objectReference: {fileID: 22100000, guid: 34b364e1bfdf65f41a6413d4691f0c45, type: 2}
+    - target: {fileID: 1731469859004664498, guid: 23e413b393ff90e4c8bc1aeef66341b4, type: 3}
+      propertyPath: colorOverrides.Array.data[2]
+      value: 
+      objectReference: {fileID: 22100000, guid: adb284d10c27a314a96a4b45246c4c1f, type: 2}
     - target: {fileID: 4473089826948060630, guid: 23e413b393ff90e4c8bc1aeef66341b4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9

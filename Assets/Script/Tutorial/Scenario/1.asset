@@ -15,9 +15,9 @@ MonoBehaviour:
   id: 0
   lines:
   - talkerType: 0
-    talkerName: npc1
+    talkerName: ???
     context: "\uC73C\uC544\uC544\uC545!!"
-    portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}
+    portrait: {fileID: 21300000, guid: dbaecc47272f78746be0f82f98d5cc29, type: 3}
     customOffset: {x: 0, y: 4, z: 0}
   - talkerType: 1
     talkerName: player

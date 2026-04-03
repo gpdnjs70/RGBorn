@@ -16,6 +16,7 @@ public class TutorialDialogue : MonoBehaviour
     private Vector3 currentLineOffset;
 
     public Image portraitImg;
+    public Text talkerName;
     public Text talkText;
 
     public bool isAction;
@@ -70,6 +71,7 @@ public class TutorialDialogue : MonoBehaviour
 
         // 텍스트 및 초상화 설정
         talkText.text = currentLine.context;
+        talkerName.text = currentLine.talkerName;
         portraitImg.sprite = currentLine.portrait;
         portraitImg.color = new Color(1, 1, 1, currentLine.portrait != null ? 1 : 0);
 
