@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] private PortalTrigger portal;
+    [SerializeField] private GameObject SceneChange;
 
     public static EnemyManager Instance { get; private set; }
 
@@ -29,9 +29,9 @@ public class EnemyManager : MonoBehaviour
         {
             Debug.Log("모든 몬스터 처치!");
 
-            if (portal != null)
+            if (SceneChange != null)
             {
-                portal.UnlockPortal();
+                SceneChange.SetActive(true);
             }
             else
             {
