@@ -44,4 +44,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/New/Scenes/StoryScenes/Town.unity
     guid: 8ef8ab92a5f53c7439ffbdc7ba7525be
+  - enabled: 1
+    path: Assets/New/Scenes/Stage1_golem.unity
+    guid: 3971a447eda3f45499ffff3562adfde3
   m_configObjects: {}
