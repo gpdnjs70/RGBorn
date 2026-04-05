@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum EnemyAttackType
 {
@@ -44,6 +45,7 @@ public class Enemy : MonoBehaviour
     private Vector2 lockedAttackDir;
 
     private bool lastShockState = false;
+    NavMeshAgent agent;
 
     protected virtual void Start()
     {
@@ -57,6 +59,11 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         entity = GetComponent<Entity>();
+
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+
     }
 
     protected virtual void Update()

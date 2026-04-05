@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -60,7 +61,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject SceneChange;
 
     private void Awake()
-    {
+    { 
         playerMoveScript = player.GetComponent<Player_Movement>();
         attackScript = player.GetComponent<Player_Attack>();
         playerAttributeScript = player.GetComponent<PlayerAttribute>();
