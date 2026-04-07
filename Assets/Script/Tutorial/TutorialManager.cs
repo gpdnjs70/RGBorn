@@ -42,6 +42,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private Image controlImage;      // 스프라이트가 바뀔 이미지 컴포넌트
     [SerializeField] private List<Sprite> controlSprites = new List<Sprite>(); // 무한정 추가 가능한 리스트
 
+    [SerializeField] private GameObject statePanel;
+
     [SerializeField] private GameObject tutorialSlime1;
     [SerializeField] private RuntimeAnimatorController SlimeController1;
     private Enemy_HP enemyHPScript1;
@@ -258,6 +260,7 @@ public class TutorialManager : MonoBehaviour
     private void StartControlTutorial()
     {
         Debug.Log("조작법 튜토리얼 시작!");
+        statePanel.SetActive(true);
 
         StartCoroutine(SlimeActivationObserver());
         StartCoroutine(ControlTutorialSequence());

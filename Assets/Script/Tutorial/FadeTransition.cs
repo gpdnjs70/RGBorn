@@ -9,98 +9,40 @@ public class FadeTransition : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private Image fadeImage;   // 검은 이미지
-    [SerializeField] private Image tutorialImage;   // 게임 조작법 안내 이미지
 
-    [Header("Tutorial")]
-    [SerializeField] private bool showTutorialOnStart = true;
-    [SerializeField] private bool hideTutorialOnAnyInput = true;
-
-    [Header("Fade")]
-    [SerializeField] private float fadeOutTime = 0.4f;  // 까매지는 속도
-    [SerializeField] private float fadeInTime = 0.4f;   // 밝아지는 속도
-    [SerializeField] private float blackHoldTime = 0.05f; // 완전 까만 상태 유지(짧게)
+    [Header("Fade Settings")]
+    [SerializeField] private float fadeOutTime = 0.4f;   // 어두워지는 시간
+    [SerializeField] private float fadeInTime = 0.4f;    // 밝아지는 시간
+    [SerializeField] private float blackHoldTime = 0.05f; // 검은 화면 유지 시간
 
     private bool isTransitioning = false;
-    private bool tutorialShown = false;
-    private bool tutorialClosed = false;
 
     private void Awake()
     {
+        // 싱글톤 설정 및 파괴 방지
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
-
         DontDestroyOnLoad(gameObject);
-
-        // 씬 로드될 때마다 튜토리얼이 다시 뜨지 않도록 처리(원하면 바꿀 수 있음)
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDestroy()
-    {
-        if (Instance == this)
-            SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Start()
     {
-        // 시작 시 페이드 이미지가 투명하도록 보정
         if (fadeImage != null)
         {
-            var c = fadeImage.color;
+            Color c = fadeImage.color;
             c.a = 0f;
             fadeImage.color = c;
-        }
 
-        // 시작 시 튜토리얼 띄우기
-        if (showTutorialOnStart)
-            ShowTutorial();
-        else
-            HideTutorial();
-    }
-
-    private void Update()
-    {
-        // 튜토리얼이 떠 있고, "아무 입력으로 닫기" 옵션이면 닫기
-        if (hideTutorialOnAnyInput && tutorialShown && !tutorialClosed)
-        {
-            if (Input.anyKeyDown || Input.GetMouseButtonDown(0))
-            {
-                HideTutorial();
-            }
+            // 시작할 때는 클릭이 가능해야 하므로 false
+            fadeImage.raycastTarget = false;
         }
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // 씬 넘어가면 튜토리얼은 기본적으로 숨김
-        // (튜토리얼 씬에서만 띄우고 싶다는 전제)
-        HideTutorial();
-    }
-
-    private void ShowTutorial()
-    {
-        if (tutorialImage == null) return;
-
-        tutorialImage.gameObject.SetActive(true);
-        tutorialShown = true;
-        tutorialClosed = false;
-    }
-    private void HideTutorial()
-    {
-        if (tutorialImage == null) return;
-
-        tutorialImage.gameObject.SetActive(false);
-        tutorialClosed = true;
-    }
-    public bool IsTutorialClosed()
-    {
-        return tutorialClosed;
-    }
-
+    // 외부에서 씬 전환을 호출할 때 쓰는 함수
     public void FadeToScene(string sceneName)
     {
         if (isTransitioning) return;
@@ -111,18 +53,22 @@ public class FadeTransition : MonoBehaviour
     {
         isTransitioning = true;
 
-        // Fade Out (검게)
-        yield return Fade(0f, 1f, fadeOutTime);
+        // 페이드 시작할 때 클릭 차단 활성화
+        if (fadeImage != null) fadeImage.raycastTarget = true;
 
-        // 완전 검정 잠깐 유지
+        // Fade Out (검게)
+        yield return StartCoroutine(Fade(0f, 1f, fadeOutTime));
+
         if (blackHoldTime > 0f)
             yield return new WaitForSeconds(blackHoldTime);
 
-        // 씬 로드
         yield return SceneManager.LoadSceneAsync(sceneName);
 
-        // 로드 직후 Fade In (밝게)
-        yield return Fade(1f, 0f, fadeInTime);
+        // Fade In (밝게)
+        yield return StartCoroutine(Fade(1f, 0f, fadeInTime));
+
+        // 페이드 완전히 끝났으므로 클릭 차단 해제!
+        if (fadeImage != null) fadeImage.raycastTarget = false;
 
         isTransitioning = false;
     }
@@ -136,9 +82,8 @@ public class FadeTransition : MonoBehaviour
 
         while (t < duration)
         {
-            t += Time.unscaledDeltaTime;
-            float a = Mathf.Lerp(from, to, t / duration);
-            c.a = a;
+            t += Time.unscaledDeltaTime; // 일시정지 영향을 받지 않도록 unscaled 사용
+            c.a = Mathf.Lerp(from, to, t / duration);
             fadeImage.color = c;
             yield return null;
         }

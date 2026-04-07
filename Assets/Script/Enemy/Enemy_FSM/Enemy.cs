@@ -61,9 +61,11 @@ public class Enemy : MonoBehaviour
         entity = GetComponent<Entity>();
 
         agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
-
+        if (agent != null)
+        {
+            agent.updateRotation = false;
+            agent.updateUpAxis = false;
+        }
     }
 
     protected virtual void Update()
