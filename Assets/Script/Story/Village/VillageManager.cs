@@ -23,6 +23,8 @@ public class VillageManager : MonoBehaviour
     [SerializeField] private Image controlImage;
     [SerializeField] private List<Sprite> controlSprites = new List<Sprite>(); // 0: E키 등
 
+    [SerializeField] private GameObject SceneChange;
+
     private void Awake()
     {
         rigid = player.GetComponent<Rigidbody2D>();
@@ -37,10 +39,18 @@ public class VillageManager : MonoBehaviour
 
     private IEnumerator VillageStorySequence()
     {
+        if (SceneChange != null) SceneChange.SetActive(false);
+
         yield return new WaitUntil(() => talkedToNPC1 && talkedToNPC3);
-        Debug.Log("모든 조건 충족! NPC 2와 대화 가능");
+        Debug.Log("모든 조건 충족! 이제 NPC 2와 대화하면 다음 씬으로 넘어갑니다.");
+
         yield return new WaitUntil(() => talkedToNPC2);
-        // 이후 엔딩이나 씬 전환 로직
+
+        Debug.Log("모든 대화 완료! 씬 전환 오브젝트를 활성화합니다.");
+        if (SceneChange != null)
+        {
+            SceneChange.SetActive(true);
+        }
     }
 
     public void SetPlayerControllable(bool canControl)

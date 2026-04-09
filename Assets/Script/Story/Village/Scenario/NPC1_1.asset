@@ -27,7 +27,7 @@ MonoBehaviour:
   - talkerType: 1
     talkerName: player
     context: "\uB124. \uC7A0\uAE50 \uB4E4\uB800\uC5B4\uC694."
-    portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
+    portrait: {fileID: 21300000, guid: a34b477634cf616498ee38019259667b, type: 3}
     customOffset: {x: 0, y: 5, z: 0}
   - talkerType: 0
     talkerName: "\uC544\uC8FC\uBA38\uB2C8"

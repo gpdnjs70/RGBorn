@@ -13,9 +13,12 @@ public class boxTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("어떤 물체가 들어옴: " + collision.name);
+
         if (collision.CompareTag("Player"))
         {
             manager.PlayerReachedBox(); // 매니저에게 플레이어 왔다고 알림
+            // Debug.Log("Hit Box");
         }
     }
 

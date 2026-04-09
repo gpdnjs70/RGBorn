@@ -45,6 +45,9 @@ public class TutorialManager_0 : MonoBehaviour
     [Header("Animation State")]
     [SerializeField] private AnimatorOverrideController colorController;
 
+    private int bookContactCount = 0;
+    public bool isNearBook => bookContactCount > 0;
+
     private int boxContactCount = 0;
     public bool isNearBox => boxContactCount > 0;// 플레이어가 상자 근처에 있는지
     private bool isNearDoor = false; // 문 근처에 있는지 확인
@@ -141,26 +144,87 @@ public class TutorialManager_0 : MonoBehaviour
         yield return StartCoroutine(PlayDialogue(3));
         SetPlayerControllable(TutorialStep.All);
 
+        yield return new WaitUntil(() => isNearBook);
+
+        bool isBookGuiActive = false;
+        while (true)
+        {
+            if (isNearBook)
+            {
+                if (!isBookGuiActive)
+                {
+                    // 책 근처에 오면 UI 표시 (index 3이 책 가이드라고 가정)
+                    SetupGuideUI(3);
+                    isBookGuiActive = true;
+                    // Debug.Log("Book UI Activated");
+                }
+
+                // 책 근처에서 E키를 누르면 다음 단계로 진행
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    break;
+                }
+            }
+            else
+            {
+                if (isBookGuiActive)
+                {
+                    // 책에서 멀어지면 UI 숨기기
+                    tutorialPanel.SetActive(false);
+                    if (controlPanel != null) controlPanel.SetActive(false);
+                    isBookGuiActive = false;
+                    // Debug.Log("Book UI Deactivated");
+                }
+            }
+            yield return null;
+        }
+
+        yield return StartCoroutine(FadeOutPanel());
+
+        // 동화책 관련 이야기
+        yield return StartCoroutine(PlayDialogue(4));
+
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(PlayDialogue(10));
+        yield return new WaitForSeconds(1f);
+
+        yield return StartCoroutine(PlayDialogue(5));
+        yield return new WaitForSeconds(1f);
+
+        yield return StartCoroutine(PlayDialogue(6));
+        SetPlayerControllable(TutorialStep.All);
+
         yield return new WaitUntil(() => isNearBox);
         bool isGuiActive = false; // 현재 UI가 켜져 있는지 체크하는 플래그
 
         while (true)
         {
-            if (isNearBox && !isGuiActive)
+            if (isNearBox)
             {
-                SetupGuideUI(3);
-                isGuiActive = true;
-            }
-            else if (!isNearBox && isGuiActive)
-            {
-                tutorialPanel.SetActive(false);
-                if (controlPanel != null) controlPanel.SetActive(false);
-                isGuiActive = false;
-            }
+                if (!isGuiActive)
+                {
+                    // 박스에 닿았을 때 UI 활성화
+                    SetupGuideUI(3);
+                    isGuiActive = true;
+                    // Debug.Log("Box UI Activated"); // 디버깅용
+                }
 
-            if (isNearBox && Input.GetKeyDown(KeyCode.E))
+                // 박스 근처에서 E키를 누르면 탈출
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    break;
+                }
+            }
+            else
             {
-                break;
+                if (isGuiActive)
+                {
+                    // 박스에서 멀어지면 UI 비활성화
+                    tutorialPanel.SetActive(false);
+                    if (controlPanel != null) controlPanel.SetActive(false);
+                    isGuiActive = false;
+                    Debug.Log("Box UI Deactivated"); // 디버깅용
+                }
             }
 
             yield return null;
@@ -170,12 +234,17 @@ public class TutorialManager_0 : MonoBehaviour
         SetPlayerControllable(TutorialStep.None);
 
         // --- 4단계: 팔찌 발견 ---
-        yield return StartCoroutine(PlayDialogue(4));
+        Animator anim = player.GetComponent<Animator>();
+
+        anim.SetFloat("DirX", -1);
+        anim.SetFloat("DirY", 0);
+        
+        yield return StartCoroutine(PlayDialogue(7));
 
         // --- 5단계: 팔찌 장착 ---
         if (colorController != null)
         {
-            Animator anim = player.GetComponent<Animator>();
+            anim = player.GetComponent<Animator>();
 
             // 1. 교체 전 현재 방향(DirX, DirY) 값을 미리 저장
             float lastDirX = anim.GetFloat("DirX");
@@ -195,12 +264,12 @@ public class TutorialManager_0 : MonoBehaviour
         }
 
         StartCoroutine(CameraShake(shakeDuration, shakeMagnitude));
-        yield return StartCoroutine(PlayDialogue(5));
+        yield return StartCoroutine(PlayDialogue(8));
        
         isNearDoor = false;
         SetPlayerControllable(TutorialStep.All);
         yield return new WaitUntil(() => isNearDoor);
-        yield return StartCoroutine(PlayDialogue(6));
+        yield return StartCoroutine(PlayDialogue(9));
 
         if (targetPositions.Count > 0)
         {
@@ -339,6 +408,18 @@ public class TutorialManager_0 : MonoBehaviour
         tutorialPanel.SetActive(false);
         
         panelCanvasGroup.alpha = 1f; // 다음 사용을 위해 리셋
+    }
+
+    // 책에 닿았을 때 호출
+    public void PlayerReachedBook()
+    {
+        bookContactCount++;
+    }
+
+    // 책에서 멀어졌을 때 호출
+    public void PlayerLeftBook()
+    {
+        bookContactCount = Mathf.Max(0, bookContactCount - 1);
     }
 
     // 상자(RelicBox)에 닿았을 때 외부에서 호출해줄 함수

@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20bdf63e76a8fc4f8e40d14f0fcc1a1, type: 3}
+  m_Name: book
+  m_EditorClassIdentifier: 
+  id: 10
+  lines:
+  - talkerType: 1
+    talkerName: book
+    context: "\uD0DC\uCD08\uC5D0\uB294 \uC138\uC0C1\uC5D0 \uC0C9\uC774 \uC874\uC7AC\uD558\uB294
+      \uAC83\uC774 \uB2F9\uC5F0\uD55C \uC77C\uC774\uC5C8\uB2E4."
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uBD89\uC74C\uC740 \uC5F4\uC815\uC744,\n\uCD08\uB85D\uC740 \uC0DD\uBA85\uC744,\n\uD30C\uB791\uC740
+      \uD3C9\uC628\uC744\u2026"
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uADF8\uB7EC\uB098\u2014"
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uC9C0\uD558 \uAE4A\uC740 \uACF3\uC5D0\uC11C"
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uACF5\uD5C8\uC758 \uAC10\uC2DC\uC790\uAC00 \uAE68\uC5B4\uB0AC\uB2E4."
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uADF8\uB294 \uC0C9\uC744 \uBCF4\uBA70\n\uC544\uB984\uB2E4\uC6C0\uC774
+      \uC544\uB2CC \u2018\uC9C8\uD22C\u2019\uB97C \uB290\uAF08\uB2E4."
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\u2026\uADF8\uB9AC\uACE0 \uADF8\uB294 \uACB0\uC2EC\uD588\uB2E4."
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uC138\uC0C1\uC758 \uC0C9\uC744"
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uBAA8\uB450 \uC0BC\uCF1C\uBC84\uB9AC\uAE30\uB85C."
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uADF8\uB294 \uC790\uC2E0\uC758 \uD798\uC744\n\uB124 \uAC1C\uC758 \uC131\uBB3C\uB85C
+      \uB098\uB204\uC5C8\uB2E4."
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uBD89\uC74C,\n\uCD08\uB85D,\n\uD478\uB984\u2026"
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uADF8\uB9AC\uACE0\u2014"
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uC0C9\uC744 \uD558\uB098\uB85C \uC5EE\uB294 \uB9C8\uC9C0\uB9C9 \uC131\uBB3C."
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\u2026\uD558\uC9C0\uB9CC \uADF8 \uC21C\uAC04,"
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uB204\uAD70\uAC00\uAC00 \uADF8\uAC83\uC744 \uB4E4\uACE0\n\uB3C4\uB9DD\uCCE4\uB2E4."
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uADF8 \uBD09\uC778\uC740 \uC644\uC804\uD558\uC9C0 \uC54A\uC558\uACE0"
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uADF8 \uBD09\uC778\uC740 \uC644\uC804\uD558\uC9C0 \uC54A\uC558\uACE0"
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uC131\uBB3C\uB4E4\uC740 \uC138\uC0C1\uC5D0 \uD769\uC5B4\uC84C\uB2E4."
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\u2026\uB124 \uAC1C\uC758 \uC131\uBB3C\uC774 \uB2E4\uC2DC \uBAA8\uC774\uBA74"
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
+  - talkerType: 1
+    talkerName: book
+    context: "\uC138\uC0C1\uC740\u2014"
+    portrait: {fileID: 0}
+    customOffset: {x: 0, y: 5.5, z: 0}
