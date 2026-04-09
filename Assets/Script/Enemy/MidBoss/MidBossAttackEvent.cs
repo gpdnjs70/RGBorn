@@ -13,7 +13,7 @@ public class MidBossAttackEvent : MonoBehaviour
     private GameObject[] activeMinions; // 각 위치별로 소환된 미니언을 기억할 배열
 
     [SerializeField] private GameObject fireFieldEffectPrefab;
-    [SerializeField] private GameObject infernoEffectPrefab;
+    [SerializeField] private GameObject p1s2EffectPrefab;
     [SerializeField] private GameObject fireRainEffectPrefab;
 
     // Blaze Dash
@@ -115,29 +115,36 @@ public class MidBossAttackEvent : MonoBehaviour
         }
     }
 
-    public void Inferno()
+    public void phase1Skill2()
     {
-        Debug.Log("Inferno");
+        Debug.Log("phase1Skill2 - Radial Shot");
 
-        // 위치 계산
-        Vector3 pos = enemy.transform.position;
-        float sign = (enemy.player.position.x - transform.position.x) >= 0 ? 1f : -1f;
-        pos += new Vector3(sign * 1.0f, 0.5f, 0);
+        if (enemy == null || enemy.attackPoints == null) return;
 
-        // 이펙트 생성
-        GameObject effectObj = Instantiate(infernoEffectPrefab, pos, Quaternion.identity);
+        Entity attackerEntity = enemy.GetComponent<Enemy_HP>();
+        if (attackerEntity == null) return;
 
-        // Flip 처리 (방향 전환)
-        Vector3 localScale = effectObj.transform.localScale;
-        localScale.x = Mathf.Abs(localScale.x) * (sign * -1); // sign이 -1이면 왼쪽, 1이면 오른쪽
-        effectObj.transform.localScale = localScale;
+        // 보스의 중심 위치 (발사 원점)
+        Vector3 centerPos = transform.position;
 
-        // 스크립트 설정
-        PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
-        if (effectScript != null)
+        for (int i = 0; i < enemy.attackPoints.Length; i++)
         {
-            float damage = 10f;
-            effectScript.Setup(enemy, EnemyAttackType.Skill2, damage);
+            Transform spawnPoint = enemy.attackPoints[i];
+            GameObject arrowObj = Instantiate(p1s2EffectPrefab, spawnPoint.position, spawnPoint.rotation);
+
+            arrow arrowScript = arrowObj.GetComponent<arrow>();
+            if (arrowScript != null)
+            {
+                arrowScript.Init(attackerEntity);
+
+                // 핵심: (생성 지점 - 보스 중심) = 중심에서 바깥으로 뻗어나가는 방향
+                Vector2 radialDir = (spawnPoint.position - centerPos).normalized;
+
+                // 만약 위치가 너무 겹쳐서 방향이 0이 나올 경우를 대비한 안전장치
+                if (radialDir == Vector2.zero) radialDir = spawnPoint.right;
+
+                arrowScript.SetDirection(radialDir);
+            }
         }
     }
 

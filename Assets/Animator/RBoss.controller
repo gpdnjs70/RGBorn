@@ -495,7 +495,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   m_BlendParameter: Direction
-  m_BlendParameterY: Blend
+  m_BlendParameterY: DirY
   m_MinThreshold: -1
   m_MaxThreshold: 1
   m_UseAutomaticThresholds: 0

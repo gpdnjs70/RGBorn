@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 6860918559648641259}
   - component: {fileID: 4050318323903623695}
   - component: {fileID: 3733913083434242579}
-  - component: {fileID: 329082712979845100}
   - component: {fileID: 6898816493198629986}
+  - component: {fileID: 1592418839189394598}
   - component: {fileID: 161761892142347249}
   - component: {fileID: 4931597666334740434}
   m_Layer: 10
@@ -92,7 +92,7 @@ SpriteRenderer:
   m_Size: {x: 2.4, y: 2.4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &4645400239606876683
@@ -201,16 +201,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  home: {x: 0, y: 0}
-  atkCoolTime: 5
-  atkDelay: 0
   target: {fileID: 0}
   hp: {fileID: 3733913083434242579}
   entity: {fileID: 3733913083434242579}
   targetHP: {fileID: 0}
+  atkCoolTime: 5
+  atkDelay: 0
   powerBonusRate: 0.1
-  pos: {fileID: 1338713246322979973}
+  attackPoints: []
   boxSize: {x: 2, y: 4.3}
+  IdentifySkillUI: {fileID: 0}
+  bullet: {fileID: 0}
   skill1CoolTime: 8
   skill1Delay: 0
   phase: 1
@@ -239,22 +240,10 @@ MonoBehaviour:
   target: {fileID: 3733913083434242579}
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
   playerAttribute: {fileID: 0}
-  enemyAttribute: {fileID: 329082712979845100}
+  enemyAttribute: {fileID: 0}
   hpUI: {fileID: 0}
   data: {fileID: 11400000, guid: cebd136bb00aba84cb4d5515da7e0d2d, type: 2}
---- !u!114 &329082712979845100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 403762574323824828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13f6bf7bf8f51d44aa43b34f47620a6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mode: 1
+  detectionRange: 10
 --- !u!114 &6898816493198629986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,6 +271,20 @@ MonoBehaviour:
   dashingTime: 0.2
   BlazeTempestEffectPrefab: {fileID: 6879359026652843144, guid: f9e2c77b1ef7330438c02313827bf06a, type: 3}
   meteorShowerEffectPrefab: {fileID: 6879359026652843144, guid: d4bf76cab5d297240aceb8c6bca6687f, type: 3}
+--- !u!114 &1592418839189394598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 403762574323824828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b79ef4c4c2c704095595000cd06477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 1
+  colorOverride: {fileID: 0}
 --- !u!114 &161761892142347249
 MonoBehaviour:
   m_ObjectHideFlags: 0
