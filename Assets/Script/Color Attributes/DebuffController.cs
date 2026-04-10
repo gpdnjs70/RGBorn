@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class DebuffController : MonoBehaviour
 {
@@ -14,6 +15,15 @@ public class DebuffController : MonoBehaviour
 
     public void ApplyDebuff(DebuffType type, Entity source, float duration)
     {
+        var existing = activeDebuffs.Find(instance => GetDebuffTypeFromInstance(instance.debuff) == type);
+
+        if (existing != null)
+        {
+            existing.debuff.Renew(duration);
+            Debug.Log($"{type} 디버프 갱신됨 (남은 시간 초기화)");
+            return;
+        }
+
         DebuffBase debuff = CreateDebuff(type);
 
         if (debuff == null) return;
@@ -27,6 +37,20 @@ public class DebuffController : MonoBehaviour
             source = source,
             coroutine = c
         });
+    }
+
+    private DebuffType GetDebuffTypeFromInstance(DebuffBase debuff)
+    {
+        return debuff switch
+        {
+            BurnDebuff => DebuffType.Burn,
+            SlowDebuff => DebuffType.Slow,
+            LifeStealDebuff => DebuffType.LifeSteal,
+            ShockDebuff => DebuffType.Shock,
+            PoisonDebuff => DebuffType.Poison,
+            CorrosionDebuff => DebuffType.Corrosion,
+            _ => DebuffType.None
+        };
     }
 
     public void RemoveDebuffsFromSource(Entity source)
@@ -78,5 +102,10 @@ public class DebuffController : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void OnDebuffFinished(DebuffBase debuff)
+    {
+        activeDebuffs.RemoveAll(d => d.debuff == debuff);
     }
 }

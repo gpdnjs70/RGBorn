@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 316805951250082408}
   - component: {fileID: 2231544325971662424}
+  - component: {fileID: -3566210713358593779}
   - component: {fileID: 5736596497625437882}
-  - component: {fileID: -3293949884378945586}
-  m_Layer: 7
-  m_Name: RBoss_Effect_phase1_skill2
+  - component: {fileID: -5848435202434315785}
+  m_Layer: 15
+  m_Name: firMine
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 1883998863
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6ff543ecbc09d744fab03b5775c0a288, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 93100b6367751734b9cac67730a0b4f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,6 +87,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &-3566210713358593779
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6001305068737318086}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.023, y: 0.05}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.6, y: 0.6}
+    newSize: {x: 0.85, y: 0.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.29, y: 0.32}
+  m_EdgeRadius: 0
 --- !u!95 &5736596497625437882
 Animator:
   serializedVersion: 5
@@ -96,7 +142,7 @@ Animator:
   m_GameObject: {fileID: 6001305068737318086}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f88157c9276179a49b5273a4669af28c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 29d7b2c1f45f17d43a3d77df7fd4b070, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -107,7 +153,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-3293949884378945586
+--- !u!114 &-5848435202434315785
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,13 +162,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6001305068737318086}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 227849884b2f52347a15ddaf9ca2ee34, type: 3}
+  m_Script: {fileID: 11500000, guid: ad200e1a9e565ba48bc01004ce30168f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  distance: 0.5
-  isLayer:
-    serializedVersion: 2
-    m_Bits: 6144
-  damage: 10
-  attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
+  lifeTime: 5

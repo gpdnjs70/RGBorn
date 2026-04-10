@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MidBossAttackEvent : MonoBehaviour
@@ -12,9 +13,14 @@ public class MidBossAttackEvent : MonoBehaviour
     [SerializeField] private Transform[] summonPoints; // 소환할 위치
     private GameObject[] activeMinions; // 각 위치별로 소환된 미니언을 기억할 배열
 
+    private bool isFieldFired = false;
     [SerializeField] private GameObject fireFieldEffectPrefab;
-    [SerializeField] private GameObject p1s2EffectPrefab;
-    [SerializeField] private GameObject fireRainEffectPrefab;
+
+    private bool isBallFired = false;
+    [SerializeField] private GameObject fireBallEffectPrefab;
+    
+    private bool isMineFired = false;
+    [SerializeField] private GameObject fireMineEffectPrefab;
 
     // Blaze Dash
     [SerializeField] private GameObject BlazeDashEffectPrefab; // 지나간 길에 남길 프리팹
@@ -24,7 +30,10 @@ public class MidBossAttackEvent : MonoBehaviour
     private bool isDashing = false;
     public bool dashHitRegistered { get; private set; }
 
+    private bool isTempestFired = false;
     [SerializeField] private GameObject BlazeTempestEffectPrefab;
+
+    private bool isMeteorFired = false;
     [SerializeField] private GameObject meteorShowerEffectPrefab;
 
     private void Start()
@@ -40,6 +49,12 @@ public class MidBossAttackEvent : MonoBehaviour
     {
         enemy = GetComponent<Enemy>();
         rigid = GetComponent<Rigidbody2D>();
+    }
+
+    private IEnumerator ResetFlag(System.Action<bool> setFlag)
+    {
+        yield return new WaitForSeconds(0.1f);
+        setFlag(false);
     }
 
     public void PassiveSkill()
@@ -102,22 +117,59 @@ public class MidBossAttackEvent : MonoBehaviour
     {
         Debug.Log("fireField");
 
-        // fireField Effect
-        Vector3 pos = enemy.player.transform.position;
-        pos += Vector3.up * 0.5f;
-        GameObject effectObj = Instantiate(fireFieldEffectPrefab, pos, Quaternion.identity);
+        if (isFieldFired) return;
+        isFieldFired = true;
+        StartCoroutine(ResetFlag(v => isFieldFired = v));
 
-        PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
-        if (effectScript != null)
+        int spawnCount = 8;
+        float range = 6.0f;
+        float spacing = 1.0f;
+
+        int obstacleLayerMask = LayerMask.GetMask("Wall", "fireField");
+
+        Vector3 center = transform.position;
+
+        for (int i = 0; i < spawnCount; i++)
         {
-            float damage = 8f;
-            effectScript.Setup(enemy, EnemyAttackType.Skill1, damage);
+            Vector2 randomCircle = Random.insideUnitCircle * range;
+            Vector3 spawnPos = center + new Vector3(randomCircle.x, randomCircle.y, 0);
+
+            spawnPos.x = Mathf.RoundToInt(spawnPos.x / spacing) * spacing;
+            spawnPos.y = Mathf.RoundToInt(spawnPos.y / spacing) * spacing;
+
+            Collider2D hitObstacle = Physics2D.OverlapPoint(spawnPos, obstacleLayerMask);
+
+            if (hitObstacle == null)
+            {
+                GameObject tileObj = Instantiate(fireFieldEffectPrefab, spawnPos, Quaternion.identity);
+
+                fireField tileScript = tileObj.GetComponent<fireField>();
+                if (tileScript != null)
+                {
+                    Entity attackerEntity = enemy.GetComponent<Enemy_HP>();
+                    tileScript.Setup(attackerEntity, 10f);
+                }
+            }
+            else
+            {
+                i--;
+
+                if (i < -50)
+                {
+                    Debug.LogWarning("장판을 깔 빈 공간이 부족합니다! 남은 생성을 취소합니다.");
+                    break;
+                }
+            }
         }
     }
 
-    public void phase1Skill2()
+    public void fireBall()
     {
-        Debug.Log("phase1Skill2 - Radial Shot");
+        Debug.Log("fireBall");
+
+        if (isBallFired) return;
+        isBallFired = true;
+        StartCoroutine(ResetFlag(v => isBallFired = v));
 
         if (enemy == null || enemy.attackPoints == null) return;
 
@@ -130,17 +182,15 @@ public class MidBossAttackEvent : MonoBehaviour
         for (int i = 0; i < enemy.attackPoints.Length; i++)
         {
             Transform spawnPoint = enemy.attackPoints[i];
-            GameObject arrowObj = Instantiate(p1s2EffectPrefab, spawnPoint.position, spawnPoint.rotation);
+            GameObject arrowObj = Instantiate(fireBallEffectPrefab, spawnPoint.position, spawnPoint.rotation);
 
             arrow arrowScript = arrowObj.GetComponent<arrow>();
             if (arrowScript != null)
             {
                 arrowScript.Init(attackerEntity);
 
-                // 핵심: (생성 지점 - 보스 중심) = 중심에서 바깥으로 뻗어나가는 방향
                 Vector2 radialDir = (spawnPoint.position - centerPos).normalized;
 
-                // 만약 위치가 너무 겹쳐서 방향이 0이 나올 경우를 대비한 안전장치
                 if (radialDir == Vector2.zero) radialDir = spawnPoint.right;
 
                 arrowScript.SetDirection(radialDir);
@@ -148,20 +198,63 @@ public class MidBossAttackEvent : MonoBehaviour
         }
     }
 
-    public void fireRain()
+    public void fireMine()
     {
-        Debug.Log("fireRain");
+        Debug.Log("fireMine 호출");
 
-        // fireRain Effect
-        Vector3 pos = enemy.player.transform.position;
-        pos += new Vector3(0, 1.5f, 0);
-        GameObject effectObj = Instantiate(fireRainEffectPrefab, pos, Quaternion.identity);
+        if (isMineFired) return;
+        isMineFired = true;
+        StartCoroutine(ResetFlag(v => isMineFired = v));
 
-        PunishmentEffect effectScript = effectObj.GetComponent<PunishmentEffect>();
-        if (effectScript != null)
+        // fireMine Effect
+        if (enemy == null) return;
+        Entity attackerEntity = enemy.GetComponent<Enemy_HP>();
+        if (attackerEntity == null) return;
+
+        int spawnCount = 5;       // 맵에 뿌릴 지뢰 개수
+        float range = 6.0f;       // 보스 주변 스폰 반경
+        float spacing = 1.0f;     // 그리드 간격 (fireField와 동일하게 적용)
+
+        int obstacleLayerMask = LayerMask.GetMask("Wall", "fireMine", "Enemy");
+
+        Vector3 center = transform.position; // 보스의 현재 위치
+
+        for (int i = 0; i < spawnCount; i++)
         {
-            float damage = enemy.player.GetComponent<Player_HP>().HP * 0.05f;
-            effectScript.Setup(enemy, EnemyAttackType.Skill3, damage);
+            Vector2 randomCircle = Random.insideUnitCircle * range;
+            Vector3 spawnPos = center + new Vector3(randomCircle.x, randomCircle.y, 0);
+
+            // 일정 간격(그리드)에 맞게 위치 조정
+            spawnPos.x = Mathf.RoundToInt(spawnPos.x / spacing) * spacing;
+            spawnPos.y = Mathf.RoundToInt(spawnPos.y / spacing) * spacing;
+
+            Collider2D hitObstacle = Physics2D.OverlapPoint(spawnPos, obstacleLayerMask);
+            // 벽이 아닌 빈 공간에만 생성
+            if (hitObstacle == null)
+            {
+                // Debug.Log($"지뢰 생성 위치: {spawnPos} - 벽 없음. 생성 시도!");
+                GameObject mineObj = Instantiate(fireMineEffectPrefab, spawnPos, Quaternion.identity);
+
+                fireMine mineScript = mineObj.GetComponent<fireMine>();
+                if (mineScript != null)
+                {
+                    // fireBall처럼 큰 단발성 대미지 수치 지정
+                    float burstDamage = 15f;
+                    mineScript.Setup(attackerEntity, burstDamage);
+                }
+            }
+            else
+            {
+                // 벽에 걸려서 생성을 실패했다면 루프 횟수를 복구하여 지정된 개수를 무조건 채움
+                // Debug.LogWarning($"지뢰 생성 실패: {spawnPos} 위치에 벽 감지됨! (i 값: {i})");
+                i--;
+
+                if (i < -50)
+                {
+                    // Debug.LogError("지뢰 생성 무한 루프 발생! 강제 종료");
+                    break;
+                }
+            }
         }
     }
 
@@ -170,12 +263,12 @@ public class MidBossAttackEvent : MonoBehaviour
         Debug.Log("Blaze Dash");
 
         if (isDashing) return;
+        isDashing = true;
         StartCoroutine(Dash());
     }
 
     private IEnumerator Dash()
     {
-        isDashing = true;
         dashHitRegistered = false;
 
         // 대시 시작 시점의 플레이어 위치를 향한 방향 계산
@@ -237,6 +330,10 @@ public class MidBossAttackEvent : MonoBehaviour
     {
         Debug.Log("Blaze Tempest");
 
+        if (isTempestFired) return;
+        isTempestFired = true;
+        StartCoroutine(ResetFlag(v => isTempestFired = v));
+
         Vector3 pos = enemy.transform.position;
         float sign = (enemy.player.position.x - transform.position.x) >= 0 ? 1f : -1f;
         pos += new Vector3(sign * 0.5f, 0, 0);
@@ -260,6 +357,10 @@ public class MidBossAttackEvent : MonoBehaviour
     public void meteorShower()
     {
         Debug.Log("meteorShower");
+
+        if (isMeteorFired) return;
+        isMeteorFired = true;
+        StartCoroutine(ResetFlag(v => isMeteorFired = v));
 
         // meteorShower Effect
         Vector3 pos = enemy.player.transform.position;

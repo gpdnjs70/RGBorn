@@ -21,9 +21,9 @@ TagManager:
   - Enemy
   - ee
   - Player
-  - 
-  - 
-  - 
+  - Wall
+  - fireField
+  - fireMine
   - 
   - 
   - 

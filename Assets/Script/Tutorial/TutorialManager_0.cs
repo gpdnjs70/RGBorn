@@ -40,6 +40,7 @@ public class TutorialManager_0 : MonoBehaviour
     [SerializeField] private List<Sprite> controlSprites = new List<Sprite>(); // 0:WASD키, 1:Shift키 등
 
     [Header("Interactive Objects")]
+    [SerializeField] private boxTrigger targetBox;
     [SerializeField] private GameObject SceneChange;
 
     [Header("Animation State")]
@@ -185,7 +186,7 @@ public class TutorialManager_0 : MonoBehaviour
         yield return StartCoroutine(PlayDialogue(4));
 
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(PlayDialogue(10));
+        yield return StartCoroutine(PlayDialogue(11));
         yield return new WaitForSeconds(1f);
 
         yield return StartCoroutine(PlayDialogue(5));
@@ -211,7 +212,7 @@ public class TutorialManager_0 : MonoBehaviour
 
                 // 박스 근처에서 E키를 누르면 탈출
                 if (Input.GetKeyDown(KeyCode.E))
-                {
+                {                    
                     break;
                 }
             }
@@ -241,6 +242,13 @@ public class TutorialManager_0 : MonoBehaviour
         
         yield return StartCoroutine(PlayDialogue(7));
 
+        if (targetBox != null) targetBox.PlayOpenAnimation();
+        yield return new WaitForSeconds(1.5f);
+
+        yield return StartCoroutine(PlayDialogue(8));
+
+        if (targetBox != null) targetBox.PlayFinishAnimation();
+
         // --- 5단계: 팔찌 장착 ---
         if (colorController != null)
         {
@@ -264,12 +272,12 @@ public class TutorialManager_0 : MonoBehaviour
         }
 
         StartCoroutine(CameraShake(shakeDuration, shakeMagnitude));
-        yield return StartCoroutine(PlayDialogue(8));
+        yield return StartCoroutine(PlayDialogue(9));
        
         isNearDoor = false;
         SetPlayerControllable(TutorialStep.All);
         yield return new WaitUntil(() => isNearDoor);
-        yield return StartCoroutine(PlayDialogue(9));
+        yield return StartCoroutine(PlayDialogue(10));
 
         if (targetPositions.Count > 0)
         {

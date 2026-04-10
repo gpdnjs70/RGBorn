@@ -18,13 +18,18 @@ public abstract class DebuffBase
 {
     protected Entity target;    // 디버프를 당하는 쪽
     protected Entity source;   // 디버프를 건 쪽
-    protected float duration;
+    public float RemainingDuration { get; protected set; }
 
     public void Init(Entity source, Entity target, float duration)
     {
         this.source = source;
         this.target = target;
-        this.duration = duration;
+        this.RemainingDuration = duration;
+    }
+
+    public void Renew(float duration)
+    {
+        this.RemainingDuration = duration; // 혹은 누적하려면 += duration
     }
 
     public virtual void OnForceRemove() { }
@@ -40,18 +45,25 @@ public class BurnDebuff : DebuffBase
     public override IEnumerator Run()
     {
         Debug.Log("화상 디버프 시작");
-        float elapsed = 0f;
+        float tickTimer = 0f;
 
-        yield return new WaitForSeconds(tickInterval);
-
-        while (elapsed < duration)
+        while (RemainingDuration > 0)
         {
-            target.TakeDamage(damage);
-            elapsed += tickInterval;
-            yield return new WaitForSeconds(tickInterval);
+            RemainingDuration -= Time.deltaTime; // 전체 시간 차감
+            tickTimer += Time.deltaTime;         // 틱 타이머 증가
+
+            if (tickTimer >= tickInterval)
+            {
+                target.TakeDamage(damage);
+                tickTimer -= tickInterval; // 타이머 초기화 (초과분 보존을 위해 -= 사용)
+            }
+
+            yield return null; // 매 프레임 대기
         }
 
         Debug.Log("화상 디버프 종료");
+
+        target.GetComponent<DebuffController>().OnDebuffFinished(this);
     }
 }
 
@@ -69,10 +81,16 @@ public class SlowDebuff : DebuffBase
         target.stats.Speed.AddModifier(appliedModifier);
         Debug.Log("슬로우 시작");
 
-        yield return new WaitForSeconds(duration);
+        while (RemainingDuration > 0)
+        {
+            RemainingDuration -= Time.deltaTime;
+            yield return null;
+        }
 
         target.stats.Speed.RemoveModifier(appliedModifier);
         Debug.Log("슬로우 종료");
+
+        target.GetComponent<DebuffController>().OnDebuffFinished(this);
     }
 
     public override void OnForceRemove()
@@ -89,21 +107,31 @@ public class LifeStealDebuff : DebuffBase
     public override IEnumerator Run()
     {
         Debug.Log("흡혈 디버프 시작");
-        float elapsed = 0f;
+        float tickTimer = 0f;
 
-        while (elapsed < duration)
+        while (RemainingDuration > 0)
         {
-            // 타겟에게 데미지
-            target.TakeDamage(stealAmount);
+            RemainingDuration -= Time.deltaTime; // 전체 시간 차감
+            tickTimer += Time.deltaTime;         // 틱 타이머 증가
 
-            // 시전자 체력 회복
-            source.HP += stealAmount;
+            // 틱 인터벌(2초)이 지날 때마다 흡혈 실행
+            if (tickTimer >= tickInterval)
+            {
+                // 타겟에게 데미지
+                target.TakeDamage(stealAmount);
 
-            elapsed += tickInterval;
-            yield return new WaitForSeconds(tickInterval);
+                // 시전자 체력 회복
+                source.HP += stealAmount;
+
+                tickTimer -= tickInterval; // 타이머 초기화 (초과분 보존)
+            }
+
+            yield return null; // 매 프레임 대기
         }
 
         Debug.Log("흡혈 디버프 종료");
+
+        target.GetComponent<DebuffController>().OnDebuffFinished(this);
     }
 }
 
@@ -115,11 +143,17 @@ public class ShockDebuff : DebuffBase
         target.LockAction();
         Debug.Log("Shock 시작");
 
-        yield return new WaitForSeconds(duration);
+        while (RemainingDuration > 0)
+        {
+            RemainingDuration -= Time.deltaTime;
+            yield return null;
+        }
 
         // 행동 복구
         target.UnlockAction();
         Debug.Log("Shock 종료");
+
+        target.GetComponent<DebuffController>().OnDebuffFinished(this);
     }
 
     public override void OnForceRemove()
@@ -138,11 +172,17 @@ public class CorrosionDebuff : DebuffBase
         target.AddDefenseModifier(defenseReduction);
         Debug.Log("부식 디버프 시작");
 
-        yield return new WaitForSeconds(duration);
+        while (RemainingDuration > 0)
+        {
+            RemainingDuration -= Time.deltaTime;
+            yield return null;
+        }
 
         // 원상 복구
         target.RemoveDefenseModifier(defenseReduction);
         Debug.Log("부식 디버프 종료");
+
+        target.GetComponent<DebuffController>().OnDebuffFinished(this);
     }
 
     public override void OnForceRemove()
@@ -158,10 +198,16 @@ public class PoisonDebuff : DebuffBase
         target.AddAttackRedirect(this);
         Debug.Log("중독 디버프 시작");
 
-        yield return new WaitForSeconds(duration);
+        while (RemainingDuration > 0)
+        {
+            RemainingDuration -= Time.deltaTime;
+            yield return null;
+        }
 
         target.RemoveAttackRedirect(this);
         Debug.Log("중독 디버프 종료");
+
+        target.GetComponent<DebuffController>().OnDebuffFinished(this);
     }
 
     public override void OnForceRemove()

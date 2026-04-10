@@ -54,7 +54,7 @@ public class MidBossReadyState : StateMachineBehaviour
             enemy.skill1Delay = enemy.skill1CoolTime;
         }
 
-        selectedIndex = 2;
+        selectedIndex = 1;
 
         Debug.Log($"attackState »£√‚, selectedIndex: {selectedIndex}");
 

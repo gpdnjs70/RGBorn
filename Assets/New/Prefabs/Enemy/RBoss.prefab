@@ -99,7 +99,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9052995333326814689}
   - {fileID: 1338713246322979973}
@@ -333,9 +333,9 @@ MonoBehaviour:
   - {fileID: 5126572264228229323}
   - {fileID: 9057287989944521669}
   - {fileID: 7951435461275978329}
-  fireFieldEffectPrefab: {fileID: 6879359026652843144, guid: d49dc46e8fc41724cbb0a1dd31b11b04, type: 3}
-  p1s2EffectPrefab: {fileID: 6001305068737318086, guid: 7fb0ab656dc732e4ca48c34209956346, type: 3}
-  fireRainEffectPrefab: {fileID: 6879359026652843144, guid: cf181bde5152d5640af4e393d5c15797, type: 3}
+  fireFieldEffectPrefab: {fileID: 6879359026652843144, guid: 63fcfd18985288c48ad1ba6efc3f696e, type: 3}
+  fireBallEffectPrefab: {fileID: 6001305068737318086, guid: 7fb0ab656dc732e4ca48c34209956346, type: 3}
+  fireMineEffectPrefab: {fileID: 6001305068737318086, guid: 52391d830f585fd4abeb2edcbd7dc888, type: 3}
   BlazeDashEffectPrefab: {fileID: 6879359026652843144, guid: f3329548462b48945ab94440d2d1ecc0, type: 3}
   distanceInterval: 0.5
   dashingPower: 20

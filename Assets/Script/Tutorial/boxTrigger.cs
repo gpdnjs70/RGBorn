@@ -5,10 +5,12 @@ using UnityEngine;
 public class boxTrigger : MonoBehaviour
 {
     private TutorialManager_0 manager;
+    private Animator anim;
 
     private void Start()
     {
         manager = FindFirstObjectByType<TutorialManager_0>();
+        anim = GetComponent<Animator>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -27,6 +29,22 @@ public class boxTrigger : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             manager.PlayerLeftBox(); // 멀어짐 (false로 리셋)
+        }
+    }
+
+    public void PlayOpenAnimation()
+    {
+        if (anim != null)
+        {
+            anim.SetTrigger("Open");
+        }
+    }
+
+    public void PlayFinishAnimation()
+    {
+        if (anim != null)
+        {
+            anim.SetTrigger("Finish");
         }
     }
 }
