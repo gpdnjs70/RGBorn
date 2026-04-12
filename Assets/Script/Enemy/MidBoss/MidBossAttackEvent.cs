@@ -36,6 +36,8 @@ public class MidBossAttackEvent : MonoBehaviour
     private bool isMeteorFired = false;
     [SerializeField] private GameObject meteorShowerEffectPrefab;
 
+    [SerializeField] private float teleportDistanceOffset = 4.0f; // 플레이어로부터 떨어질 거리
+
     private void Start()
     {
         // 소환 지점 개수만큼 관리용 배열 크기 설정
@@ -122,17 +124,32 @@ public class MidBossAttackEvent : MonoBehaviour
         StartCoroutine(ResetFlag(v => isFieldFired = v));
 
         int spawnCount = 8;
-        float range = 6.0f;
+        float range = 4.0f; // 랜덤 분산 범위 (조금 줄여서 밀집도 높임)
         float spacing = 1.0f;
+        float forwardOffset = 3.0f; // 플레이어 쪽으로 얼마나 전진해서 생성할 것인지
 
         int obstacleLayerMask = LayerMask.GetMask("Wall", "fireField");
 
+        // 1. 보스 위치와 플레이어 위치 파악
         Vector3 center = transform.position;
+        GameObject player = GameObject.FindWithTag("Player"); // 플레이어 태그로 찾기
+
+        Vector3 targetCenter = center;
+
+        if (player != null)
+        {
+            // 2. 플레이어를 향하는 방향 벡터 (정규화)
+            Vector3 dirToPlayer = (player.transform.position - center).normalized;
+
+            // 3. 생성 중심점을 플레이어 방향으로 전진시킴
+            targetCenter = center + (dirToPlayer * forwardOffset);
+        }
 
         for (int i = 0; i < spawnCount; i++)
         {
+            // 4. 이동된 targetCenter 주변으로 랜덤 좌표 생성
             Vector2 randomCircle = Random.insideUnitCircle * range;
-            Vector3 spawnPos = center + new Vector3(randomCircle.x, randomCircle.y, 0);
+            Vector3 spawnPos = targetCenter + new Vector3(randomCircle.x, randomCircle.y, 0);
 
             spawnPos.x = Mathf.RoundToInt(spawnPos.x / spacing) * spacing;
             spawnPos.y = Mathf.RoundToInt(spawnPos.y / spacing) * spacing;
@@ -142,7 +159,6 @@ public class MidBossAttackEvent : MonoBehaviour
             if (hitObstacle == null)
             {
                 GameObject tileObj = Instantiate(fireFieldEffectPrefab, spawnPos, Quaternion.identity);
-
                 fireField tileScript = tileObj.GetComponent<fireField>();
                 if (tileScript != null)
                 {
@@ -153,12 +169,8 @@ public class MidBossAttackEvent : MonoBehaviour
             else
             {
                 i--;
-
-                if (i < -50)
-                {
-                    Debug.LogWarning("장판을 깔 빈 공간이 부족합니다! 남은 생성을 취소합니다.");
-                    break;
-                }
+                // 무한 루프 방지 카운트 (i가 너무 작아지면 중단)
+                if (i < -50) break;
             }
         }
     }
@@ -256,6 +268,53 @@ public class MidBossAttackEvent : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void Teleport()
+    {
+        if (enemy.player == null) return;
+
+        Vector2 playerPos = enemy.player.position;
+        Vector3 targetPos = transform.position;
+
+        bool foundPos = false;
+        int attempts = 0;
+
+        // 플레이어 주변 2~3 유닛 정도 떨어진 곳을 목표로 함
+        float minDistance = 2.0f;
+        float maxDistance = 3.5f;
+
+        while (!foundPos && attempts < 15)
+        {
+            attempts++;
+
+            // 1. 플레이어를 중심으로 랜덤한 각도와 거리 계산
+            float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+            float randomDist = Random.Range(minDistance, maxDistance);
+
+            Vector2 offset = new Vector2(Mathf.Cos(randomAngle), Mathf.Sin(randomAngle)) * randomDist;
+            Vector2 potentialPos = playerPos + offset;
+
+            // 2. 해당 위치가 벽 내부가 아닌지 확인
+            Collider2D hitWall = Physics2D.OverlapCircle(potentialPos, 0.5f, LayerMask.GetMask("Wall"));
+
+            if (hitWall == null)
+            {
+                targetPos = potentialPos;
+                foundPos = true;
+            }
+        }
+
+        // 만약 플레이어 주변이 온통 벽이라 자리를 못 찾았다면, 최후의 수단으로 플레이어 위치 그대로 이동
+        if (!foundPos)
+        {
+            targetPos = playerPos;
+        }
+
+        transform.position = targetPos;
+
+        // 텔레포트 후 즉시 플레이어를 바라보게 설정
+        enemy.DirectionEnemy(playerPos);
     }
 
     public void BlazeDash()

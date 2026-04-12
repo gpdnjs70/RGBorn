@@ -39,6 +39,11 @@ public class TutorialManager_0 : MonoBehaviour
     [SerializeField] private Image controlImage;
     [SerializeField] private List<Sprite> controlSprites = new List<Sprite>(); // 0:WASD키, 1:Shift키 등
 
+    [Header("동화책 전용 UI")]
+    [SerializeField] private GameObject storyBookPanel; // 동화책 전체 패널
+    [SerializeField] private Image storyBookImage;      // 동화책 이미지가 표시될 컴포넌트
+    [SerializeField] private List<Sprite> storyBookSprites; // 동화책 페이지 이미지 리스트
+
     [Header("Interactive Objects")]
     [SerializeField] private boxTrigger targetBox;
     [SerializeField] private GameObject SceneChange;
@@ -186,7 +191,7 @@ public class TutorialManager_0 : MonoBehaviour
         yield return StartCoroutine(PlayDialogue(4));
 
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(PlayDialogue(11));
+        yield return StartCoroutine(PlayFullStory());
         yield return new WaitForSeconds(1f);
 
         yield return StartCoroutine(PlayDialogue(5));
@@ -444,5 +449,24 @@ public class TutorialManager_0 : MonoBehaviour
     public void PlayerReachedDoor()
     {
         isNearDoor = true;
+    }
+
+    private IEnumerator PlayFullStory()
+    {
+        SetPlayerControllable(TutorialStep.None);
+        if (storyBookPanel != null) storyBookPanel.SetActive(true);
+
+        // sprites 리스트의 count만큼 반복
+        for (int i = 0; i < storyBookSprites.Count; i++)
+        {
+            storyBookImage.sprite = storyBookSprites[i];
+
+            // 마지막 페이지에서만 "닫기" 느낌을 주고 싶다면 로그를 찍거나 이펙트 추가 가능
+            Debug.Log($"현재 동화책 {i + 1} / {storyBookSprites.Count} 페이지 읽는 중");
+
+            yield return StartCoroutine(WaitForUserInput());
+        }
+
+        if (storyBookPanel != null) storyBookPanel.SetActive(false);
     }
 }

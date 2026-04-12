@@ -89,8 +89,34 @@ public class TutorialDialogue : MonoBehaviour
 
     void UpdatePanelPosition()
     {
+        if (currentTargetTransform == null || talkPanelRect == null) return;
+
+        // 1. 타겟의 월드 좌표를 스크린 좌표로 변환
         Vector3 worldPos = currentTargetTransform.position + currentLineOffset;
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
-        talkPanelRect.position = screenPos;
+
+        // 2. 만약 카메라 뒤에 있다면 (카메라 시야 밖 처리)
+        if (screenPos.z < 0)
+        {
+            talkPanel.SetActive(false);
+            return;
+        }
+
+        // 3. 화면 경계값 계산 (패널의 피벗과 크기를 고려)
+        // talkPanelRect의 피벗이 중앙(0.5, 0.5)이라고 가정할 때의 계산입니다.
+        float panelWidth = talkPanelRect.rect.width * talkPanelRect.lossyScale.x;
+        float panelHeight = talkPanelRect.rect.height * talkPanelRect.lossyScale.y;
+
+        // 화면의 가로세로 범위 (0 ~ Screen.width / 0 ~ Screen.height)
+        float minX = panelWidth / 2;
+        float maxX = Screen.width - (panelWidth / 2);
+        float minY = panelHeight / 2;
+        float maxY = Screen.height - (panelHeight / 2);
+
+        // 4. 좌표가 화면 밖으로 나가지 않도록 Clamp 처리
+        float clampedX = Mathf.Clamp(screenPos.x, minX, maxX);
+        float clampedY = Mathf.Clamp(screenPos.y, minY, maxY);
+
+        talkPanelRect.position = new Vector3(clampedX, clampedY, screenPos.z);
     }
 }

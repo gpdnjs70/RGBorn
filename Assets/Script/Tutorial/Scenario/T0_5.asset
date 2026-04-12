@@ -16,12 +16,12 @@ MonoBehaviour:
   lines:
   - talkerType: 1
     talkerName: player
-    context: "\uC774\uAC74\u2026 "
+    context: "\u2026\uC774\uAC74,"
     portrait: {fileID: 21300000, guid: 29227bc8906e5c74fab658faba167bd1, type: 3}
     customOffset: {x: 0, y: 4.5, z: 0}
   - talkerType: 1
     talkerName: player
-    context: "\uC5B4\uB9B4 \uB54C \uBCF4\uB358 \uCC45\uC778\uB370.\r"
+    context: "\uC5B4\uB9B4 \uB54C \uC5B4\uBA38\uB2C8\uAC00 \uC77D\uC5B4\uC8FC\uC2DC\uB358\u2026"
     portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
     customOffset: {x: 0, y: 4.5, z: 0}
   - talkerType: 1

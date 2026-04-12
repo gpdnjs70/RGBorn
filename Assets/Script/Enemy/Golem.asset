@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyName: Golem
   EnemyDescription: 
-  baseHP: 30
+  baseHP: 25
   baseSpeed: 5

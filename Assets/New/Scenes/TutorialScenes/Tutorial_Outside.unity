@@ -1647,7 +1647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6107827436815739192, guid: ada716a0e128c0c458ee46017ed52e25, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -157169,7 +157169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33e1b2a6f82121f40821ba6d77c262b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Stage1_slime
+  sceneName: Stage1
 --- !u!4 &470499556
 Transform:
   m_ObjectHideFlags: 0
@@ -198581,7 +198581,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 856a93fbc48117a4dafb44b3503b7686, type: 3}
-    m_FontSize: 40
+    m_FontSize: 35
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -198592,8 +198592,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC800\uD76C \uAD50\uB2E8\uC5D0\uB294 \uC0AC\uC81C\uB4E4 \uC0AC\uC774\uC5D0\uC11C\uB9CC
-    \uC804\uD574\uC9C0\uB294 \uC608\uC5B8\uC774 \uC788\uC2B5\uB2C8\uB2E4."
+  m_Text: "\uD639\uC2DC \uC5B4\uB290 \uACF3\uC758 \uC0AC\uC81C\uB2D8\uC774\uC2E0\uAC00\uC694?\n\uAF2D
+    \uAC10\uC0AC \uC778\uC0AC\uB97C \uC804\uD558\uACE0 \uC2F6\uC5B4\uC694."
 --- !u!222 &1917074002
 CanvasRenderer:
   m_ObjectHideFlags: 0

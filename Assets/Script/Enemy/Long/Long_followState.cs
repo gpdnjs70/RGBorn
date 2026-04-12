@@ -21,7 +21,7 @@ public class Long_followState : StateMachineBehaviour
         Vector2 currentPos = enemyTransform.position;
         float distance = Vector2.Distance(enemy.player.position, currentPos);
 
-        if (distance > 15f)
+        if (distance > 10f)
         {
             animator.SetBool("isFollow", false);
             return;

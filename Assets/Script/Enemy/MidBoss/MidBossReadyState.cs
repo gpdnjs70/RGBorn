@@ -7,19 +7,21 @@ public class MidBossReadyState : StateMachineBehaviour
     Transform enemyTransform;
     MidBoss enemy;
     int selectedIndex = 0;
+    private int patternStep = 0;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("ready");
         enemy = animator.GetComponent<MidBoss>();
         enemyTransform = animator.GetComponent<Transform>();
-        animator.ResetTrigger("Attack");
+        //animator.ResetTrigger("Attack");
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Vector2.Distance(enemy.player.position, enemyTransform.position) <= 10f && enemy.atkDelay <= 0)
+        if (enemy.atkDelay <= 0)
         {
+            Debug.Log("조건 만족! 공격 시도");
             DetermineNextAttack(animator);
         }
 
@@ -28,33 +30,17 @@ public class MidBossReadyState : StateMachineBehaviour
 
     private void DetermineNextAttack(Animator animator)
     {
-        if (enemy.phase == 1 && enemy.passiveSkillDelay <= 0 && enemy.passiveSkillCount < enemy.maxPassiveCount)
+        switch (patternStep)
         {
-            selectedIndex = 0;
-
-            enemy.passiveSkillDelay = enemy.passiveSkillCoolTime;
-            enemy.passiveSkillCount++; // 사용 횟수 증가
+            case 0: // 장판 (플레이어 쪽) -> 파이어볼
+                selectedIndex = 1;
+                patternStep = 1;
+                break;
+            case 1: // 순간이동 -> 지뢰 (보스 주변) -> 파이어볼
+                selectedIndex = 3;
+                patternStep = 0; // 다시 처음으로
+                break;
         }
-        else
-        {
-            if (enemy.phase == 1)
-            {
-                // selectedIndex = Random.Range(1, 4);
-                if (selectedIndex == 1) { selectedIndex = 2; }
-                else if (selectedIndex == 2) { selectedIndex = 3; }
-                else { selectedIndex = 1; }
-            }
-            else if (enemy.phase == 2)
-            {
-                if (selectedIndex == 4) { selectedIndex = 5; }
-                else if (selectedIndex == 5) { selectedIndex = 6; }
-                else { selectedIndex = 4; }
-            }
-
-            enemy.skill1Delay = enemy.skill1CoolTime;
-        }
-
-        selectedIndex = 1;
 
         Debug.Log($"attackState 호출, selectedIndex: {selectedIndex}");
 
@@ -65,6 +51,6 @@ public class MidBossReadyState : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetBool("isReady", false);
+        
     }
 }

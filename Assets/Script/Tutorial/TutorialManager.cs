@@ -326,6 +326,14 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // --- 4단계: 불안정한 속성에 대한 설명 ---
+        yield return StartCoroutine(MovePlayerToTarget(targetPositions[0]));
+        Animator playerAnim = player.GetComponent<Animator>();
+        if (playerAnim != null)
+        {
+            playerAnim.SetFloat("DirX", 1);
+            playerAnim.SetFloat("DirY", 0);
+        }
+
         if (slimeAI2 != null && SlimeController3 != null)
         {
             // 새로 만든 함수 호출
@@ -361,13 +369,14 @@ public class TutorialManager : MonoBehaviour
         {
             npcCtrl.PlayIdleAnimation(Vector2.left);
         }
+        statePanel.SetActive(false);
 
         yield return StartCoroutine(MovePlayerToTarget(targetPositions[1]));
 
         // 마지막 대화 방향 설정
         Vector2 dirToNPC = (npcObject.transform.position - player.transform.position).normalized;
 
-        Animator playerAnim = player.GetComponent<Animator>();
+        playerAnim = player.GetComponent<Animator>();
         if (playerAnim != null)
         {
             playerAnim.SetFloat("DirX", dirToNPC.x);

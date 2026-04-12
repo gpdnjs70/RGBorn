@@ -16,6 +16,11 @@ MonoBehaviour:
   lines:
   - talkerType: 0
     talkerName: "\uC544\uC8FC\uBA38\uB2C8"
-    context: "\uC548\uB155\uD558\uC138\uC694."
+    context: "\uC548\uB155\uD558\uC138\uC694, \uC5EC\uD589\uC790\uB2D8!"
+    portrait: {fileID: 21300000, guid: 9545a9d528e6b524c8f384ab08cafc7e, type: 3}
+    customOffset: {x: 0, y: 5, z: 0}
+  - talkerType: 0
+    talkerName: "\uC544\uC8FC\uBA38\uB2C8"
+    context: "\uC800\uD76C \uB9C8\uC744\uC740 \uB9C8\uC74C\uC5D0 \uB4DC\uC2DC\uB098\uC694?"
     portrait: {fileID: 21300000, guid: 9545a9d528e6b524c8f384ab08cafc7e, type: 3}
     customOffset: {x: 0, y: 5, z: 0}

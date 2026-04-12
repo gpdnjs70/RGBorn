@@ -22,14 +22,30 @@ public class EnemyAttribute : MonoBehaviour
         animator = GetComponent<Animator>();
         attribute = GetComponent<ColorAttribute>();
         skillUI = GetComponentInChildren<SkillActivateUI>(true);
-
-        attribute.SetColor(mode);
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        // 첫 루프 시작
+        // 오브젝트가 켜질 때마다 상태 초기화
+        isSkillUIActive = false;
+        remainingChangeCount = 0;
+
+        // 처음 나타날 때 즉시 랜덤 속성 부여 (원치 않으면 생략 가능)
+        ChangeAttribute();
+
+        // 기존에 돌아가던 루프가 있다면 멈추고 새로 시작
+        if (changeAttributeRoutine != null) StopCoroutine(changeAttributeRoutine);
         changeAttributeRoutine = StartCoroutine(AttributeChangeLoop());
+    }
+
+    private void OnDisable()
+    {
+        // 오브젝트가 꺼질 때 코루틴을 안전하게 멈춤
+        if (changeAttributeRoutine != null)
+        {
+            StopCoroutine(changeAttributeRoutine);
+            changeAttributeRoutine = null;
+        }
     }
 
     private IEnumerator AttributeChangeLoop()
@@ -37,7 +53,7 @@ public class EnemyAttribute : MonoBehaviour
         while (true)
         {
             // 랜덤 대기 (2f ~ 4.1f)
-            yield return new WaitForSeconds(Random.Range(2f, 4.1f));
+            yield return new WaitForSeconds(Random.Range(3f, 5.1f));
 
             ChangeAttribute();
         }

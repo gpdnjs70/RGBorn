@@ -10,6 +10,7 @@ public class EliteAttackState : StateMachineBehaviour
     {
         Debug.Log("attack");
         enemy = animator.GetComponent<Enemy>();
+        animator.SetBool("isReady", false);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -19,6 +20,7 @@ public class EliteAttackState : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Debug.Log("공격 종료");
         // enemy.atkDelay = enemy.atkCoolTime;
     }
 }

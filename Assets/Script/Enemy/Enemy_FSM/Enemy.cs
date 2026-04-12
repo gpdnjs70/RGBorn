@@ -42,10 +42,16 @@ public class Enemy : MonoBehaviour
 
     // 원거리 공격 몬스터 관련 변수
     public GameObject bullet;
+    private float lastShootTime = 0f;
+    [SerializeField] private float shootCooldown = 0.1f;
     private Vector2 lockedAttackDir;
 
     private bool lastShockState = false;
     NavMeshAgent agent;
+
+    [Header("Damage Settings")]
+    [SerializeField] private float meleeDamage = 2f;      // 기본 근접 데미지
+    [SerializeField] private float criticalMeleeDamage = 5f; // 크리티컬 근접 데미지 (10% 확률)
 
     protected virtual void Start()
     {
@@ -201,10 +207,10 @@ public class Enemy : MonoBehaviour
 
         if (hit != null)
         {
-            int damage = 2;
+            float damage = meleeDamage;
             if (UnityEngine.Random.value < 0.1f)
             {
-                damage = 5;
+                damage = criticalMeleeDamage;
             }
 
             DealDamageToTarget(damage, 3f);
@@ -249,6 +255,9 @@ public class Enemy : MonoBehaviour
 
     public void Shoot()
     {
+        if (Time.time - lastShootTime < shootCooldown) return;
+        lastShootTime = Time.time;
+
         if (bullet == null) return;
         
         Transform spawnPoint = (attackPoints != null && attackPoints.Length > currentDirIndex)

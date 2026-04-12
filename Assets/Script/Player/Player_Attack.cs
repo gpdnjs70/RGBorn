@@ -13,12 +13,6 @@ public class Player_Attack : MonoBehaviour
     Animator animator;
     Rigidbody2D myrigidbody;
 
-    void Start()
-    {
-        animator = GetComponent<Animator>();
-        myrigidbody = GetComponent<Rigidbody2D>();
-    }
-
     private float curTime = 0;
     public float coolTime = 1.0f;
     public Transform pos;
@@ -30,9 +24,20 @@ public class Player_Attack : MonoBehaviour
 
     [SerializeField] private AttributeDatabase attributeDB;
 
+    [Header("Debuff Settings")]
+    [Range(0f, 1f)] public float baseDebuffChance = 0.25f; // 기본 25% 확률
+    private int failCount = 0; // 실패 횟수 카운트
+    public int maxFailStack = 4; // 4번 실패하면 5번째는 확정 (보정치)
+
     bool IsAdvantage(ColorAttributeData attacker, ColorAttributeData defender)
     {
         return attacker.strongAgainst.Contains(defender.colorMode);
+    }
+    
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+        myrigidbody = GetComponent<Rigidbody2D>();
     }
 
     void Awake()
@@ -128,7 +133,18 @@ public class Player_Attack : MonoBehaviour
                 }
             }
 
-            attacker.ApplyAttributeDebuffTo(actualTarget, 10f);
+            // --- 디버프 발동 로직 ---
+            if (ShouldApplyDebuff())
+            {
+                attacker.ApplyAttributeDebuffTo(actualTarget, 10f);
+                Debug.Log("디버프 발동!");
+                failCount = 0; // 발동 성공 시 스택 초기화
+            }
+            else
+            {
+                failCount++;
+                Debug.Log($"디버프 실패.. (현재 스택: {failCount})");
+            }
 
             actualTarget.TakeDamage(finalDamage);
         }
@@ -148,6 +164,19 @@ public class Player_Attack : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         movement.SetAttacking(false);
+    }
+
+    bool ShouldApplyDebuff()
+    {
+        // 1. 최대 실패 스택에 도달했는지 확인
+        if (failCount >= maxFailStack) return true;
+
+        // 2. 랜덤 확률 판정 (0.0 ~ 1.0)
+        float randomValue = Random.value;
+
+        // 기본 확률 + (실패할 때마다 보너스 확률 추가 가능)
+        // 여기서는 단순하게 기본 확률로 판정하고, 스택은 확정 발동용으로만 사용
+        return randomValue <= baseDebuffChance;
     }
 
     private void OnDrawGizmos()

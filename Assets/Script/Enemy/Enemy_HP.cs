@@ -13,6 +13,7 @@ public class Enemy_HP : Entity, IDebuffTarget
     [SerializeField] private AttributeDatabase attributeDB;
     [SerializeField] public PlayerAttribute playerAttribute;
     [SerializeField] private EnemyAttribute enemyAttribute;
+    [SerializeField] private EnemyAttributeMono enemyAttributeMono;
 
     [SerializeField] public UI_HP hpUI;
     private bool isDead = false;
@@ -26,6 +27,8 @@ public class Enemy_HP : Entity, IDebuffTarget
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         enemy = GetComponent<Enemy>();
+        enemyAttribute = GetComponent<EnemyAttribute>();
+        enemyAttributeMono = GetComponent<EnemyAttributeMono>();
 
         stats = new Stats();
         stats.MaxHP.BaseValue = data.baseHP;
@@ -118,6 +121,11 @@ public class Enemy_HP : Entity, IDebuffTarget
 
         if (EnemyManager.Instance != null && enemy != null && enemy is EliteMonster)
             EnemyManager.Instance.OnEnemyDied(enemy);
+
+        if (MonsterWaveManager.Instance != null)
+        {
+            MonsterWaveManager.Instance.OnMonsterDied(this.gameObject);
+        }
 
         // 죽는 애니메이션
         if (animator != null)

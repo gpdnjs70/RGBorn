@@ -23,6 +23,11 @@ public class VillageManager : MonoBehaviour
     [SerializeField] private Image controlImage;
     [SerializeField] private List<Sprite> controlSprites = new List<Sprite>(); // 0: E키 등
 
+    [Header("동화책 전용 UI")]
+    [SerializeField] private GameObject storyBookPanel;
+    [SerializeField] private Image storyBookImage;
+    [SerializeField] private List<Sprite> storyBookSprites;
+
     [SerializeField] private GameObject SceneChange;
 
     private void Awake()
@@ -133,5 +138,20 @@ public class VillageManager : MonoBehaviour
                 break;
             yield return null;
         }
+    }
+
+    public IEnumerator PlayFullStory()
+    {
+        SetPlayerControllable(false); // 조작 금지
+        if (storyBookPanel != null) storyBookPanel.SetActive(true);
+
+        for (int i = 0; i < storyBookSprites.Count; i++)
+        {
+            storyBookImage.sprite = storyBookSprites[i];
+            yield return StartCoroutine(WaitForUserInput()); // 유저 입력 대기
+        }
+
+        if (storyBookPanel != null) storyBookPanel.SetActive(false);
+        SetPlayerControllable(true); // 조작 해제
     }
 }

@@ -16,6 +16,6 @@ MonoBehaviour:
   lines:
   - talkerType: 0
     talkerName: "\uB178\uC778"
-    context: "\uC774\uC81C \uC774\uC57C\uAE30\uB294 \uB05D\uB0AC\uB2E8\uB2E4."
+    context: "\uC624\uB298 \uC774\uC57C\uAE30\uB294 \uC5EC\uAE30\uAE4C\uC9C0\uB780\uB2E4."
     portrait: {fileID: 21300000, guid: dbaecc47272f78746be0f82f98d5cc29, type: 3}
     customOffset: {x: 0, y: 5, z: 0}

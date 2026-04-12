@@ -176,7 +176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7941974000611480863
 RectTransform:
   m_ObjectHideFlags: 0
@@ -877,6 +877,9 @@ MonoBehaviour:
   boxSize: {x: 1.8, y: 1.4}
   IdentifySkillUI: {fileID: 1641799348117295664}
   bullet: {fileID: 0}
+  shootCooldown: 0.1
+  meleeDamage: 2
+  criticalMeleeDamage: 5
 --- !u!114 &6226941517827926611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -899,6 +902,7 @@ MonoBehaviour:
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
   playerAttribute: {fileID: 0}
   enemyAttribute: {fileID: 5825326947173024709}
+  enemyAttributeMono: {fileID: 0}
   hpUI: {fileID: 7039392557738974320}
   data: {fileID: 11400000, guid: a9f006c4e8e62d04697a2c3dd56c9c02, type: 2}
   detectionRange: 10
@@ -1012,7 +1016,7 @@ RectTransform:
   m_Father: {fileID: 8260756497161045910}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.487, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

@@ -27,7 +27,7 @@ public class Long_patrolState : StateMachineBehaviour
         float dist = Vector2.Distance(enemyTransform.position, enemy.player.position);
 
         // 플레이어 발견 시 산책 중단하고 추적
-        if (dist <= 14f)
+        if (dist <= 9f)
         {
             animator.SetBool("isWander", false);
             animator.SetBool("isFollow", true);
