@@ -166,6 +166,7 @@ MonoBehaviour:
   dashCooldownUI: {fileID: 0}
   lastDir: {x: 1, y: 0}
   dirX: 0
+  dirY: 0
   isKnockBack: 0
 --- !u!114 &4731971
 MonoBehaviour:
@@ -203,12 +204,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1294fe1bcf5eb0144be08a1cabadebcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAttributeImage: {fileID: 1688631015}
-  modeSprites:
-  - {fileID: 21300000, guid: 2cfa100891316ab458fd1a0214191ca3, type: 3}
-  - {fileID: 21300000, guid: a0adc81d71829534da0ed6497b7f9c12, type: 3}
-  - {fileID: 21300000, guid: 7e025a9d357baa6448164f4b426d7629, type: 3}
-  - {fileID: 21300000, guid: e5914da08a7dec64ea0a1aac005f4700, type: 3}
+  animator: {fileID: 0}
+  attributeOverrides: []
+  attributeImages: []
+  activeAlpha: 0
+  inactiveAlpha: 0.8
 --- !u!114 &4731974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,7 +265,17 @@ MonoBehaviour:
   boxSize: {x: 1.6, y: 3.2}
   movement: {fileID: 4731970}
   damage: 5
+  directionOffsets:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
+  clip: {fileID: 0}
 --- !u!95 &4731977
 Animator:
   serializedVersion: 5
@@ -142262,7 +142272,7 @@ SpriteRenderer:
   m_SortingLayerID: 1883998863
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9657d44899d75f4499e5d25bac7ff28b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 666d19c270c07a0468da8f68aebd52f6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -144794,6 +144804,8 @@ MonoBehaviour:
   entity: {fileID: 4731974}
   sliderHP: {fileID: 1408697957}
   textHP: {fileID: 1095412163}
+  fillImage: {fileID: 0}
+  attributeColors: []
 --- !u!1 &1389991929
 GameObject:
   m_ObjectHideFlags: 0
@@ -144847,6 +144859,9 @@ MonoBehaviour:
   talkText: {fileID: 1917074001}
   isAction: 0
   talkIndex: 0
+  isDialogueFinished: 0
+  typeClip: {fileID: 0}
+  typingSpeed: 0.05
 --- !u!1 &1408697955
 GameObject:
   m_ObjectHideFlags: 0
@@ -159487,7 +159502,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6107827436815739192, guid: ada716a0e128c0c458ee46017ed52e25, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

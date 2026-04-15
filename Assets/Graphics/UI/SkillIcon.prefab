@@ -302,7 +302,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillName: 
-  maxCooldownTime: 0
-  textSkillData: {fileID: 0}
   textCooldownTime: {fileID: 3013930497995943247}
   imageCooldownTime: {fileID: 7282979846190798471}
+  maxCooldownTime: 0

@@ -16,19 +16,42 @@ public class VillageNPC : MonoBehaviour
     private bool isPlayerNear = false;
     private bool isTalking = false;
 
+    private Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     private void Update()
     {
         // 근처에 있고 대화 중이 아닐 때 E키 입력 시 상호작용
-        if (isPlayerNear && !isTalking && Input.GetKeyDown(KeyCode.E))
+        if (isPlayerNear && !isTalking && !villageManager.isDialogueActive && Input.GetKeyDown(KeyCode.E))
         {
+            isTalking = true;
             StartCoroutine(ProcessInteraction());
         }
     }
 
     private IEnumerator ProcessInteraction()
     {
-        isTalking = true;
         villageManager.HideControlGuide();
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Animator playerAnim = (player != null) ? player.GetComponent<Animator>() : null;
+
+        if (player != null && playerAnim != null)
+        {
+            UpdateFaceDirection(player.transform);
+            Vector2 dirToNPC = (transform.position - player.transform.position).normalized;
+
+            playerAnim.SetBool("isMove", false);
+            playerAnim.SetFloat("DirX", dirToNPC.x);
+            playerAnim.SetFloat("DirY", dirToNPC.y);
+
+            Rigidbody2D playerRigid = player.GetComponent<Rigidbody2D>();
+            if (playerRigid != null) playerRigid.velocity = Vector2.zero;
+        }
 
         int targetIndex = INDEX_IDLE;
 
@@ -90,6 +113,14 @@ public class VillageNPC : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            UpdateFaceDirection(collision.transform);
+        }
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -97,5 +128,18 @@ public class VillageNPC : MonoBehaviour
             isPlayerNear = false;
             villageManager.HideControlGuide();
         }
+    }
+
+    private void UpdateFaceDirection(Transform playerTransform)
+    {
+        if (npcID == 3) return;
+
+        if (animator == null) return;
+
+        float diff = playerTransform.position.x - transform.position.x;
+
+        float direction = (diff > 0) ? 1f : -1f;
+
+        animator.SetFloat("Direction", direction);
     }
 }

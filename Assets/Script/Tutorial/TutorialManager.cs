@@ -418,19 +418,8 @@ public class TutorialManager : MonoBehaviour
         ObjData npcData = npcObject.GetComponent<ObjData>();
         npcData.SetDialogue(index); // NPC에게 대사 SO 교체 명령
 
-        // SO의 대사 줄 수만큼 + 창 닫기용 1번 = 총 횟수
-        int totalCalls = npcData.dialogue.lines.Length + 1;
-
-        for (int i = 0; i < totalCalls; i++)
-        {
-            tutorialDialogue.Action(npcObject);
-
-            // 마지막 호출(창 닫기)이 아닐 때만 유저 입력을 기다림
-            if (i < npcData.dialogue.lines.Length)
-            {
-                yield return StartCoroutine(WaitForUserInput());
-            }
-        }
+        tutorialDialogue.Action(npcObject);
+        yield return new WaitUntil(() => tutorialDialogue.isDialogueFinished);
     }
 
     private void SetupGuideUI(int index)
@@ -448,24 +437,11 @@ public class TutorialManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+            yield return new WaitUntil(() => hittedSlime != null);
 
-            float timeout = 0.5f; // 타격 판정 시간을 조금 더 타이트하게 잡음
-            float timer = 0f;
-
-            while (timer < timeout)
-            {
-                if (hittedSlime != null)
-                {
-                    // 여기서 현재 튜토리얼 단계에 맞는 놈인지 한 번 더 체크 가능
-                    ActivateSlimeUI(hittedSlime);
-                    hittedSlime = null; // 처리 후 즉시 비움
-                    break;
-                }
-                timer += Time.deltaTime;
-                yield return null;
-            }
-            hittedSlime = null; // 타임아웃 시 비움
+            ActivateSlimeUI(hittedSlime);
+            hittedSlime = null;
+            yield return null;
         }
     }
 

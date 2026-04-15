@@ -36,6 +36,7 @@ public class MidBossAttackEvent : MonoBehaviour
     private bool isMeteorFired = false;
     [SerializeField] private GameObject meteorShowerEffectPrefab;
 
+    private bool isTeleportFired = false;
     [SerializeField] private float teleportDistanceOffset = 4.0f; // 플레이어로부터 떨어질 거리
 
     private void Start()
@@ -51,12 +52,6 @@ public class MidBossAttackEvent : MonoBehaviour
     {
         enemy = GetComponent<Enemy>();
         rigid = GetComponent<Rigidbody2D>();
-    }
-
-    private IEnumerator ResetFlag(System.Action<bool> setFlag)
-    {
-        yield return new WaitForSeconds(0.1f);
-        setFlag(false);
     }
 
     public void PassiveSkill()
@@ -117,11 +112,10 @@ public class MidBossAttackEvent : MonoBehaviour
 
     public void fireField()
     {
-        Debug.Log("fireField");
+        Debug.Log("파이어 필드");
 
         if (isFieldFired) return;
         isFieldFired = true;
-        StartCoroutine(ResetFlag(v => isFieldFired = v));
 
         int spawnCount = 8;
         float range = 4.0f; // 랜덤 분산 범위 (조금 줄여서 밀집도 높임)
@@ -177,11 +171,10 @@ public class MidBossAttackEvent : MonoBehaviour
 
     public void fireBall()
     {
-        Debug.Log("fireBall");
+        Debug.Log("파이어 볼");
 
         if (isBallFired) return;
         isBallFired = true;
-        StartCoroutine(ResetFlag(v => isBallFired = v));
 
         if (enemy == null || enemy.attackPoints == null) return;
 
@@ -212,11 +205,10 @@ public class MidBossAttackEvent : MonoBehaviour
 
     public void fireMine()
     {
-        Debug.Log("fireMine 호출");
+        Debug.Log("불 지뢰");
 
         if (isMineFired) return;
         isMineFired = true;
-        StartCoroutine(ResetFlag(v => isMineFired = v));
 
         // fireMine Effect
         if (enemy == null) return;
@@ -272,6 +264,11 @@ public class MidBossAttackEvent : MonoBehaviour
 
     public void Teleport()
     {
+        Debug.Log("순간이동");
+
+        if (isTeleportFired) return;
+        isTeleportFired = true;
+
         if (enemy.player == null) return;
 
         Vector2 playerPos = enemy.player.position;
@@ -391,7 +388,6 @@ public class MidBossAttackEvent : MonoBehaviour
 
         if (isTempestFired) return;
         isTempestFired = true;
-        StartCoroutine(ResetFlag(v => isTempestFired = v));
 
         Vector3 pos = enemy.transform.position;
         float sign = (enemy.player.position.x - transform.position.x) >= 0 ? 1f : -1f;
@@ -419,7 +415,6 @@ public class MidBossAttackEvent : MonoBehaviour
 
         if (isMeteorFired) return;
         isMeteorFired = true;
-        StartCoroutine(ResetFlag(v => isMeteorFired = v));
 
         // meteorShower Effect
         Vector3 pos = enemy.player.transform.position;
@@ -432,5 +427,16 @@ public class MidBossAttackEvent : MonoBehaviour
             float damage = enemy.player.GetComponent<Player_HP>().HP * 0.07f;
             effectScript.Setup(enemy, EnemyAttackType.Skill6, damage);
         }
+    }
+
+    public void ResetAllAttackFlags()
+    {
+        isFieldFired = false;
+        isBallFired = false;
+        isMineFired = false;
+        isTempestFired = false;
+        isMeteorFired = false;
+        isTeleportFired = false;
+        Debug.Log("모든 공격 플래그 리셋됨 (스테이트 종료)");
     }
 }

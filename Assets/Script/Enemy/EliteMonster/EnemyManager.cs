@@ -50,15 +50,4 @@ public class EnemyManager : MonoBehaviour
             enemy.AddAttackBonus(enemy.powerBonusRate);
         }
     }
-
-    public void ShowAllEnemiesUI()
-    {
-        foreach (var enemy in enemies)
-        {
-            if (enemy != null)
-            {
-                enemy.ActivateSkillUI();
-            }
-        }
-    }
 }

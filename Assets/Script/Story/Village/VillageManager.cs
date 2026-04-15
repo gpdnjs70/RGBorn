@@ -30,6 +30,8 @@ public class VillageManager : MonoBehaviour
 
     [SerializeField] private GameObject SceneChange;
 
+    public bool isDialogueActive { get; private set; }
+
     private void Awake()
     {
         rigid = player.GetComponent<Rigidbody2D>();
@@ -99,6 +101,8 @@ public class VillageManager : MonoBehaviour
 
     public IEnumerator PlayDialogue(GameObject npcObj, int dialogueIndex)
     {
+        isDialogueActive = true;
+
         // 1. 플레이어 조작 정지 및 애니메이션 초기화
         SetPlayerControllable(false);
 
@@ -126,7 +130,11 @@ public class VillageManager : MonoBehaviour
             }
         }
 
+        yield return new WaitUntil(() => dialogueSystem.isDialogueFinished == true);
+        yield return new WaitForSeconds(0.1f);
+
         SetPlayerControllable(true);
+        isDialogueActive = false;
     }
 
     private IEnumerator WaitForUserInput()

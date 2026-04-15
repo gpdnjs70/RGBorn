@@ -64,7 +64,7 @@ public abstract class Entity : MonoBehaviour
 
     // 상대방을 공격할 때 상대방의 TakeDamage() 호출
     // 매개변수 damage는 공격하는 본인 공격력
-    public abstract void TakeDamage(float damage);
+    public abstract void TakeDamage(float damage, GameObject sender = null);
 
     // 부식 디버프
     public float DefenseMultiplier

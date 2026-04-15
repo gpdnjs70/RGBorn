@@ -62826,9 +62826,7 @@ MonoBehaviour:
   boxSize: {x: 1.6, y: 3.2}
   movement: {fileID: 1390846105}
   damage: 5
-  attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
-  baseDebuffChance: 0.25
-  maxFailStack: 4
+  attributeDB: {fileID: 11400000, guid: ff68df4989a520840a97d5d9234e4bee, type: 2}
 --- !u!114 &1390846108
 MonoBehaviour:
   m_ObjectHideFlags: 0

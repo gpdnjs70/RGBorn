@@ -7,6 +7,7 @@ public class FollowState : StateMachineBehaviour
     Transform enemyTransform;
     Enemy enemy;
     Entity entity;
+    // private float soundTimer;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -14,6 +15,8 @@ public class FollowState : StateMachineBehaviour
         enemy = animator.GetComponent<Enemy>();
         enemyTransform = animator.GetComponent<Transform>();
         entity = enemy.GetComponent<Entity>();
+
+        // soundTimer = 0f;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -26,6 +29,18 @@ public class FollowState : StateMachineBehaviour
             animator.SetBool("isFollow", false);
             return;
         }
+
+        /**
+        soundTimer -= Time.deltaTime;
+        if (soundTimer <= 0f && enemy.followSound != null)
+        {
+            SoundManager.instance.SFXPlay(enemy.gameObject.name + "_Follow", enemy.followSound);
+
+            // 재생 간격 설정 (예: 0.5초마다 하나씩). 
+            // enemy.stepInterval 변수가 없다면 그냥 0.5f 같은 수치를 넣으세요.
+            soundTimer = (enemy.stepInterval > 0) ? enemy.stepInterval : 0.5f;
+        }
+        **/
 
         if (distance <= 1.4f)
         {

@@ -103,4 +103,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   damage: 4
-  attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
+  attributeDB: {fileID: 11400000, guid: ff68df4989a520840a97d5d9234e4bee, type: 2}

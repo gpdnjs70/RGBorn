@@ -36,8 +36,7 @@ public class arrow : MonoBehaviour
             {
                 Entity actualTarget = source.ResolveAttackTarget(target);
 
-                // 데미지 계산 + 디버프 전부 Entity에게 위임
-                DealDamageWithAttribute(source, actualTarget);
+                actualTarget.TakeDamage(damage, source.gameObject);
             }
 
             DestroyBullet();
@@ -45,35 +44,6 @@ public class arrow : MonoBehaviour
         }
 
         transform.Translate(Vector2.right * speed * Time.deltaTime);
-    }
-
-    void DealDamageWithAttribute(Entity attacker, Entity target)
-    {
-        float finalDamage = damage;
-
-        ColorAttribute atkAttrComp = attacker.GetComponent<ColorAttribute>();
-
-        ColorAttribute defAttrComp = target.GetComponent<ColorAttribute>();
-
-        if (atkAttrComp != null && defAttrComp != null)
-        {
-            ColorAttributeData atkAttr = attributeDB.Get(atkAttrComp.colorMode);
-
-            ColorAttributeData defAttr = attributeDB.Get(defAttrComp.colorMode);
-
-            if (atkAttr.strongAgainst.Contains(defAttr.colorMode))
-                finalDamage *= (1f + atkAttr.attackBonusPercent);
-
-            if (atkAttr.weakAgainst.Contains(defAttr.colorMode))
-                finalDamage *= (1f - atkAttr.attackMinusPercent);
-        }
-
-        if (UnityEngine.Random.value < 0.3f)
-        {
-            attacker.ApplyAttributeDebuffTo(target, 3f);
-        }
-
-        target.TakeDamage(finalDamage);
     }
 
 

@@ -38,8 +38,6 @@ public class Enemy : MonoBehaviour
     public Vector2 boxSize;
     private int currentDirIndex = 0;
 
-    [SerializeField] private SkillActivateUI IdentifySkillUI;
-
     // 원거리 공격 몬스터 관련 변수
     public GameObject bullet;
     private float lastShootTime = 0f;
@@ -52,6 +50,13 @@ public class Enemy : MonoBehaviour
     [Header("Damage Settings")]
     [SerializeField] private float meleeDamage = 2f;      // 기본 근접 데미지
     [SerializeField] private float criticalMeleeDamage = 5f; // 크리티컬 근접 데미지 (10% 확률)
+
+    [Header("Audio Settings")]
+    // public AudioClip followSound; // 추적 시작 시 소리
+    // public float stepInterval = 0.5f;
+    public AudioClip readySound;
+    public AudioClip damagedSound; // 피격 시 소리
+    public AudioClip dieSound; // 사망 시 소리
 
     protected virtual void Start()
     {
@@ -166,7 +171,7 @@ public class Enemy : MonoBehaviour
             // attacker.ApplyAttributeDebuffTo(actualTarget, debuffDuration);
         }
 
-        actualTarget.TakeDamage(damage);
+        actualTarget.TakeDamage(damage, this.gameObject);
     }
 
     private void OnDestroy()
@@ -236,15 +241,6 @@ public class Enemy : MonoBehaviour
         {
             myHP.target = boss.hp.target; // 보스가 때리던 대상의 HP 정보
             myHP.playerAttribute = boss.hp.playerAttribute; // 플레이어 속성 정보
-        }
-    }
-
-    public void ActivateSkillUI()
-    {
-        EnemyAttribute myAttribute = GetComponent<EnemyAttribute>();
-        if (myAttribute != null)
-        {
-            myAttribute.ActivateSkill();
         }
     }
 

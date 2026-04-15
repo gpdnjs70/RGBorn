@@ -53,7 +53,7 @@ public class fireMine : MonoBehaviour
         isExploded = true;
         col.enabled = false; // 중복 밟기 방지를 위해 콜라이더 즉시 끄기
 
-        target.TakeDamage(burstDamage);
+        target.TakeDamage(burstDamage, attacker != null ? attacker.gameObject : null);
 
         anim.SetTrigger("Explode");
     }

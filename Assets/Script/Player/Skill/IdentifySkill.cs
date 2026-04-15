@@ -14,7 +14,8 @@ public class IdentifySkill : ISkill
         // EnemyManager에 있는 모든 적의 UI 활성화 함수 호출
         if (EnemyManager.Instance != null)
         {
-            EnemyManager.Instance.ShowAllEnemiesUI();
+            Debug.Log("Identify 스킬 호출");
+            // EnemyManager.Instance.ShowAllEnemiesUI();
         }
         else
         {

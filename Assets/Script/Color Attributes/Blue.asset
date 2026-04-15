@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Blue
   m_EditorClassIdentifier: 
   colorMode: 3
-  attackBonusPercent: 0.3
-  attackMinusPercent: 0.3
-  damageReductionRate: 0.9
+  attackBonusPercent: 0.6
+  attackMinusPercent: 0.6
+  damageReductionRate: 0.3
   strongAgainst: 01000000
   weakAgainst: 02000000
   debuffType: 2

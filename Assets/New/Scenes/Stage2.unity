@@ -14843,6 +14843,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FadeManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6107827436815739192, guid: ada716a0e128c0c458ee46017ed52e25, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -132237,6 +132241,8 @@ MonoBehaviour:
   movement: {fileID: 1390846105}
   damage: 5
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
+  baseDebuffChance: 0.25
+  maxFailStack: 4
 --- !u!114 &1390846108
 MonoBehaviour:
   m_ObjectHideFlags: 0

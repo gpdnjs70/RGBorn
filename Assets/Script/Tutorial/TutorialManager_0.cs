@@ -350,15 +350,8 @@ public class TutorialManager_0 : MonoBehaviour
         ObjData data = playerSelfObject.GetComponent<ObjData>();
         data.SetDialogue(index);
 
-        int totalCalls = data.dialogue.lines.Length + 1;
-        for (int i = 0; i < totalCalls; i++)
-        {
-            tutorialDialogue.Action(playerSelfObject);
-            if (i < data.dialogue.lines.Length)
-            {
-                yield return StartCoroutine(WaitForUserInput());
-            }
-        }
+        tutorialDialogue.Action(playerSelfObject);
+        yield return new WaitUntil(() => tutorialDialogue.isDialogueFinished);
     }
 
     // 퀘스트 창과 조작법 창을 동시에 설정하는 기존 함수 유지

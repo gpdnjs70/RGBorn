@@ -87,10 +87,12 @@ public class Bullet : MonoBehaviour
                 finalDamage *= (1f - atkAttr.attackMinusPercent);
         }
 
+        /**
         if (UnityEngine.Random.value < 0.3f)
         {
             attacker.ApplyAttributeDebuffTo(target, 3f);
         }
+        **/
 
         target.TakeDamage(finalDamage);
     }

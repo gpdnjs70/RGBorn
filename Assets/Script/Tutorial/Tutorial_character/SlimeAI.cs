@@ -94,16 +94,6 @@ public class SlimeAI : MonoBehaviour
         if (slimeAIScript) slimeAIScript.enabled = false;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("Something touched me: " + collision.gameObject.name + " / Tag: " + collision.tag);
-
-        if (collision.CompareTag("Weapon"))
-        {
-            OnHit?.Invoke(gameObject);
-        }
-    }
-
     public void InvokeOnHit()
     {
         // 구독자(TutorialManager 등)가 있을 때만 이벤트를 실행

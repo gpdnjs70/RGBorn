@@ -7,16 +7,19 @@ using UnityEngine.UI;
 public class PlayerAttribute : MonoBehaviour
 {
     private ColorAttribute attribute;
+    public Animator animator;
+    public AnimatorOverrideController[] attributeOverrides;
+
     private int currentModeIndex = 0;
 
-    public Image playerAttributeImage;
-    public Sprite[] modeSprites;
+    public Image[] attributeImages;
+    public float activeAlpha = 0f;
+    public float inactiveAlpha = 0.8f;
 
     private void Awake()
     {
         attribute = GetComponent<ColorAttribute>();
-
-        if (playerAttributeImage == null) playerAttributeImage = GetComponent<Image>();
+        if (animator == null) animator = GetComponent<Animator>();
 
         SetColor((ColorMode)currentModeIndex);
     }
@@ -48,13 +51,26 @@ public class PlayerAttribute : MonoBehaviour
 
         int index = (int)mode;
 
-        if (modeSprites != null && index < modeSprites.Length && modeSprites[index] != null)
+        if (attributeOverrides != null && index < attributeOverrides.Length && attributeOverrides[index] != null)
         {
-            playerAttributeImage.sprite = modeSprites[index];
+            // 배열에 담긴 오버라이드 컨트롤러 에셋을 현재 애니메이터에 꽂아버립니다.
+            animator.runtimeAnimatorController = attributeOverrides[index];
         }
-        else
+
+        UpdateUIAlpha(index);
+    }
+
+    private void UpdateUIAlpha(int activeIndex)
+    {
+        for (int i = 0; i < attributeImages.Length; i++)
         {
-            Debug.LogWarning($"{mode}에 해당하는 Sprite가 modeSprites 배열에 등록되지 않았습니다.");
+            if (attributeImages[i] == null) continue;
+
+            Color color = attributeImages[i].color;
+
+            color.a = (i + 1 == activeIndex) ? activeAlpha : inactiveAlpha;
+
+            attributeImages[i].color = color;
         }
     }
 }

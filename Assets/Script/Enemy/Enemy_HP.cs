@@ -37,21 +37,26 @@ public class Enemy_HP : Entity, IDebuffTarget
         base.Setup();
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, GameObject sender = null)
     {
-        float skill1Multiplier = IsSkill1Active();
+        // float skill1Multiplier = IsSkill1Active();
 
-        float finalDamage = damage * DefenseMultiplier * skill1Multiplier;
+        float finalDamage = damage * DefenseMultiplier; //* skill1Multiplier;
 
         Debug.Log($"데미지는 {finalDamage}");
         DamagePopup.Create(transform.position + Vector3.up, (int)finalDamage, false);
 
         HP -= finalDamage;
-
+        
         if (HP <= 0)
         {
             Die();
             return;
+        }
+
+        if (enemy != null && enemy.damagedSound != null)
+        {
+            SoundManager.instance.SFXPlay(gameObject.name + "_Hit", enemy.damagedSound);
         }
 
         if (animator != null)
@@ -62,30 +67,26 @@ public class Enemy_HP : Entity, IDebuffTarget
         // StartCoroutine("HitAnimation");
     }
 
+    /**
     private float IsSkill1Active()
     {
+        // 스킬 사용 중이 아니면 배율 1 (대미지 변화 없음)
         if (enemy == null || enemy.currentAttackType != EnemyAttackType.Skill1)
             return 1f;
 
-        ColorAttribute atkAttrComp = playerAttribute.GetComponent<ColorAttribute>();
+        // 공격자(Player)와 방어자(Enemy)의 컴포넌트 가져오기
         ColorAttribute defAttrComp = enemyAttribute.GetComponent<ColorAttribute>();
-
-        ColorAttributeData atkAttr = attributeDB.Get(atkAttrComp.colorMode);
         ColorAttributeData defAttr = attributeDB.Get(defAttrComp.colorMode);
 
+        // --- 상성 관련 로직(if문들)을 여기서 삭제합니다 ---
         float reduction = defAttr.damageReductionRate;
 
-        if (defAttr.strongAgainst.Contains(atkAttr.colorMode))
-            reduction += 0.1f;
+        Debug.Log($"Skill1 중 -> 순수 속성 방어력({reduction}) 적용");
 
-        if (defAttr.weakAgainst.Contains(atkAttr.colorMode))
-            reduction -= 0.1f;
-
-        Debug.Log("Skill1 중 → 피해 감소");
-
-        // reduction 0.3 → multiplier 0.7
+        // 최종 배율 반환 (예: reduction이 0.3이면 0.7배의 대미지만 받음)
         return 1f - reduction;
     }
+    **/
 
     private IEnumerator HitAnimation()
     {
@@ -105,6 +106,11 @@ public class Enemy_HP : Entity, IDebuffTarget
         if (isDead) return;
         isDead = true;
 
+        if (enemy != null && enemy.dieSound != null)
+        {
+            SoundManager.instance.SFXPlay(gameObject.name + "_Die", enemy.dieSound);
+        }
+
         Debug.Log("Enemy Dead");
 
         // 충돌 제거
@@ -113,7 +119,6 @@ public class Enemy_HP : Entity, IDebuffTarget
             col.enabled = false;
 
         // 이동/공격 중단
-        Enemy enemy = GetComponent<Enemy>();
         if (enemy != null)
         {
             enemy.enabled = false;

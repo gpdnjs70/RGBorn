@@ -17,7 +17,7 @@ MonoBehaviour:
   - talkerType: 0
     talkerName: "\uCCAD\uB144"
     context: "\u2026\uC790\uB124 \uC5EC\uD589\uC790\uC778\uAC00?"
-    portrait: {fileID: 21300000, guid: 9dfbb39b40ce20c4a963622098ad4f08, type: 3}
+    portrait: {fileID: 21300000, guid: 52f8bfce12f2ef64595e80239c3058e7, type: 3}
     customOffset: {x: 0, y: 5, z: 0}
   - talkerType: 1
     talkerName: player
@@ -28,7 +28,7 @@ MonoBehaviour:
     talkerName: "\uCCAD\uB144"
     context: "\uADF8\uB807\uB2E4\uBA74 \uC2E0\uC804 \uC598\uAE30\uB294\u2026 \uC54C\uACE0
       \uC788\uC5B4?"
-    portrait: {fileID: 21300000, guid: 9dfbb39b40ce20c4a963622098ad4f08, type: 3}
+    portrait: {fileID: 21300000, guid: 52f8bfce12f2ef64595e80239c3058e7, type: 3}
     customOffset: {x: 0, y: 5, z: 0}
   - talkerType: 1
     talkerName: player

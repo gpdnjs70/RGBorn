@@ -16,7 +16,7 @@ MonoBehaviour:
   lines:
   - talkerType: 1
     talkerName: player
-    context: "\uC5B4?"
+    context: "\uC5B4?!"
     portrait: {fileID: 21300000, guid: 29227bc8906e5c74fab658faba167bd1, type: 3}
     customOffset: {x: 0, y: 4.5, z: 0}
   - talkerType: 1
@@ -31,11 +31,11 @@ MonoBehaviour:
     customOffset: {x: 0, y: 4.5, z: 0}
   - talkerType: 1
     talkerName: player
-    context: "\uBC16\uB3C4\u2026 \uBCC0\uD588\uC744\uC9C0\uB3C4 \uBAB0\uB77C."
+    context: "\u2026\uBC16\uB3C4 \uBCC0\uD588\uC744\uC9C0\uB3C4 \uBAB0\uB77C."
     portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
     customOffset: {x: 0, y: 4.5, z: 0}
   - talkerType: 1
     talkerName: player
-    context: "\u2026\uB098\uAC00\uBD10\uC57C\uACA0\uC5B4."
+    context: "\uB098\uAC00\uBD10\uC57C\uACA0\uC5B4."
     portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
     customOffset: {x: 0, y: 4.5, z: 0}

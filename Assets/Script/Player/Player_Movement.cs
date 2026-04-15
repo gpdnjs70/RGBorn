@@ -16,6 +16,7 @@ public class Player_Movement : MonoBehaviour
     private Vector2 moveInput;              // 현재 프레임 이동 입력 (정규화)
     public Vector2 lastDir = Vector2.down; // 마지막 비영(0) 방향(대시 방향)
     public float dirX;
+    public float dirY;
 
     private bool isDashing;
     private bool isAttacking = false;
@@ -65,19 +66,17 @@ public class Player_Movement : MonoBehaviour
         if (IsMovementLocked) return;
 
         // 입력
-        moveInput.x = Input.GetAxisRaw("Horizontal");
-        moveInput.y = Input.GetAxisRaw("Vertical");
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
+        moveInput = new Vector2(x, y);
 
         if (!IsMovementLocked)
         {
             if (moveInput != Vector2.zero)
             {
-                // dirX를 위한 코드
-                if (Mathf.Abs(moveInput.x) > 0.0001f)
-                {
-                    dirX = moveInput.x; // 좌우 방향 갱신
-                }
-                anim.SetFloat("Direction", dirX);
+                dirX = x;
+                dirY = y;
+
                 //---------------------------
 
                 // 8방향 파라미터 업데이트
@@ -97,11 +96,7 @@ public class Player_Movement : MonoBehaviour
         // 대시 입력
         if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && !isAttacking)
         {
-            // 대시 쿨타임 확인
-            if (dashCooldownUI == null || dashCooldownUI.TryUseSkill())
-            {
-                StartCoroutine(Dash());
-            }
+            StartCoroutine(Dash());
         }
     }
 

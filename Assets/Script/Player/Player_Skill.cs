@@ -45,7 +45,7 @@ public class Player_Skill : MonoBehaviour
     {
         if (entity != null && !entity.CanAct) return;
         if (Input.GetKeyDown(KeyCode.Q)) UseSkill(0);
-        if (Input.GetKeyDown(KeyCode.E)) UseSkill(1);
+        // if (Input.GetKeyDown(KeyCode.E)) UseSkill(1);
     }
 
     void UseSkill(int index)

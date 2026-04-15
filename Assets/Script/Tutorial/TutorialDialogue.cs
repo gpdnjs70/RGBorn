@@ -23,22 +23,55 @@ public class TutorialDialogue : MonoBehaviour
     public int talkIndex;
     private DialogueData currentDialogue;
 
+    public bool isDialogueFinished = false;
+
+    [Header("Typing Effect")]
+    public AudioClip typeClip;
+    public float typingSpeed = 0.05f; // 글자 출력 속도
+    private Coroutine typingCoroutine; // 현재 실행 중인 코루틴 관리
+    private bool isTyping; // 현재 타이핑 중인지 확인
+    private string fullSentence; // 현재 전체 문장 저장
+
+    void Update()
+    {
+        // 대화 중일 때 입력 처리 (마우스 왼쪽 클릭 또는 스페이스바)
+        if (isAction && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)))
+        {
+            HandleInput();
+        }
+    }
+
     public void Action(GameObject scanObj)
     {
-        npcTransform = scanObj.transform;
-        ObjData objData = scanObj.GetComponent<ObjData>();
+        Debug.Log("Action Called");
 
-        // 새로운 대화를 시작할 때만 데이터를 세팅
         if (!isAction)
         {
+            npcTransform = scanObj.transform;
             currentDialogue = scanObj.GetComponent<ObjData>().dialogue;
             talkIndex = 0;
+            isAction = true; // 상태 먼저 변경
+            isDialogueFinished = false;
+            talkPanel.SetActive(true);
+            Talk();
         }
+    }
 
-        Talk();
-
-        UpdatePanelPosition();
-        talkPanel.SetActive(isAction);
+    void HandleInput()
+    {
+        if (isTyping)
+        {
+            // 1. 타이핑 중일 때 클릭하면 -> 즉시 전체 문장 출력
+            isTyping = false;
+            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+            talkText.text = fullSentence;
+            if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
+        }
+        else
+        {
+            // 2. 타이핑이 끝났을 때 클릭하면 -> 다음 대화로
+            Talk();
+        }
     }
 
     void Talk()
@@ -47,7 +80,9 @@ public class TutorialDialogue : MonoBehaviour
         if (currentDialogue == null || talkIndex >= currentDialogue.lines.Length)
         {
             isAction = false;
+            isDialogueFinished = true;
             talkIndex = 0;
+            talkPanel.SetActive(false);
             return;
         }
 
@@ -70,13 +105,40 @@ public class TutorialDialogue : MonoBehaviour
         currentLineOffset = (currentLine.customOffset == Vector3.zero) ? offset : currentLine.customOffset;
 
         // 텍스트 및 초상화 설정
-        talkText.text = currentLine.context;
         talkerName.text = currentLine.talkerName;
         portraitImg.sprite = currentLine.portrait;
         portraitImg.color = new Color(1, 1, 1, currentLine.portrait != null ? 1 : 0);
 
-        isAction = true;
+        // --- 타이핑 효과 시작 ---
+        fullSentence = currentLine.context;
+        if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+        typingCoroutine = StartCoroutine(TypeSentence(fullSentence));
+
         talkIndex++;
+    }
+
+    IEnumerator TypeSentence(string sentence)
+    {
+        talkText.text = ""; // 텍스트 초기화
+        isTyping = true;
+
+        foreach (char letter in sentence.ToCharArray())
+        {
+            if (!isTyping) break;
+
+            talkText.text += letter; // 한 글자씩 추가
+
+            if (SoundManager.instance != null && typeClip != null)
+            {
+                // [변경] 매번 생성하지 않는 새로운 함수를 호출하거나, 직접 제어
+                SoundManager.instance.PlayVariableSFX(typeClip);
+            }
+
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        isTyping = false;
+        if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
     }
 
     void LateUpdate()

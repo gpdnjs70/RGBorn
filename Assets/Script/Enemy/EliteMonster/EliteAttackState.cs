@@ -8,6 +8,8 @@ public class EliteAttackState : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        animator.SetBool("doAttack", false);
+
         Debug.Log("attack");
         enemy = animator.GetComponent<Enemy>();
         animator.SetBool("isReady", false);
@@ -20,7 +22,17 @@ public class EliteAttackState : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        animator.SetBool("doAttack", false);
+        animator.SetInteger("AttackIndex", -1);
+
         Debug.Log("공격 종료");
+
+        var attackEvent = animator.GetComponent<MidBossAttackEvent>();
+        if (attackEvent != null)
+        {
+            attackEvent.ResetAllAttackFlags();
+        }
+
         // enemy.atkDelay = enemy.atkCoolTime;
     }
 }

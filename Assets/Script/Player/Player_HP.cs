@@ -118,11 +118,46 @@ public class Player_HP : Entity, IDebuffTarget
         target = closestEnemy;
     }
 
-    public void TakeDamage(float damage, GameObject sender)
+    public override void TakeDamage(float damage, GameObject sender = null)
     {
-        float finalDamage = damage * DefenseMultiplier;
+        // 1. 기본 방어 배율 가져오기 (1.0 +- 버프/디버프)
+        float multiplier = DefenseMultiplier;
 
-        Debug.Log($"데미지는 {finalDamage}");
+        // 2. 공격자(sender)와의 상성 체크
+        if (sender != null)
+        {
+            // 내 속성과 공격자의 속성을 가져옴
+            ColorAttribute myAttrComp = GetComponent<ColorAttribute>();
+            ColorAttribute attackerAttrComp = sender.GetComponent<ColorAttribute>();
+
+            if (myAttrComp != null && attackerAttrComp != null)
+            {
+                // DB에서 내 속성 데이터를 가져옴
+                ColorAttributeData myData = AttributeDatabase.Instance.Get(myAttrComp.colorMode);
+                ColorMode attackerMode = attackerAttrComp.colorMode;
+
+                if (myData != null)
+                {
+                    // 내가 공격자에게 강한 상성일 때 (우위: 대미지 감소)
+                    if (myData.strongAgainst.Contains(attackerMode))
+                    {
+                        // ReductionRate가 0.3이면 multiplier에서 0.3을 빼서 0.7배가 됨
+                        multiplier -= Mathf.Abs(myData.damageReductionRate);
+                    }
+                    // 내가 공격자에게 약한 상성일 때 (열위: 대미지 증가)
+                    else if (myData.weakAgainst.Contains(attackerMode))
+                    {
+                        // ReductionRate가 0.3이면 multiplier에 0.3을 더해서 1.3배가 됨
+                        multiplier += Mathf.Abs(myData.damageReductionRate);
+                    }
+                }
+            }
+        }
+
+        float finalDamage = damage * Mathf.Clamp(multiplier, 0.1f, 2f);
+
+        // --- 기존 로직 수행 ---
+        Debug.Log($"최종 데미지는 {finalDamage} (배율: {multiplier})");
         DamagePopup.Create(transform.position + Vector3.up, (int)finalDamage, false);
 
         HP -= finalDamage;
@@ -133,12 +168,6 @@ public class Player_HP : Entity, IDebuffTarget
         }
 
         StartCoroutine("HitAnimation");
-    }
-
-    public override void TakeDamage(float damage)
-    {
-        // 공격자 정보를 모를 때는 그냥 제자리 넉백이나 생략
-        TakeDamage(damage, null);
     }
 
     private IEnumerator HitAnimation()
