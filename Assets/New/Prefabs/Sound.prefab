@@ -48,7 +48,13 @@ MonoBehaviour:
   mixer: {fileID: 24100000, guid: 65855e5b13dd82e4d9c0279bceed9474, type: 2}
   bgSound: {fileID: 7533681477056064885}
   bglist:
+  - {fileID: 8300000, guid: 39dcea6138b52b943972e8b16ac988bc, type: 3}
+  - {fileID: 8300000, guid: 39dcea6138b52b943972e8b16ac988bc, type: 3}
+  - {fileID: 8300000, guid: 39dcea6138b52b943972e8b16ac988bc, type: 3}
   - {fileID: 8300000, guid: 9ea7670cc44abd64faf5c7c4a2ff0c60, type: 3}
+  - {fileID: 8300000, guid: 39dcea6138b52b943972e8b16ac988bc, type: 3}
+  - {fileID: 8300000, guid: 39dcea6138b52b943972e8b16ac988bc, type: 3}
+  - {fileID: 8300000, guid: 39dcea6138b52b943972e8b16ac988bc, type: 3}
 --- !u!82 &7533681477056064885
 AudioSource:
   m_ObjectHideFlags: 0
@@ -59,7 +65,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -3569109618263259064, guid: 65855e5b13dd82e4d9c0279bceed9474, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 9ea7670cc44abd64faf5c7c4a2ff0c60, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

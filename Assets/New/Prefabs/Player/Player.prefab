@@ -266,6 +266,7 @@ MonoBehaviour:
   dashingPower: 20
   dashingTime: 0.2
   dashCooldownUI: {fileID: 0}
+  dashClip: {fileID: 8300000, guid: 3f527f7fb6241b94086d401d770b2fe2, type: 3}
   lastDir: {x: 1, y: 0}
   dirX: 0
   dirY: 0
@@ -310,7 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91a9b2ebfcce78d4ba773fb1f63fdc88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skill1_Prefab: {fileID: 6001305068737318086, guid: 9601e993872574043b4da290ca5b1db5, type: 3}
+  skill1_Prefab: {fileID: 6001305068737318086, guid: e8e08addbae6a1640b4695d78ecbf4b3, type: 3}
   skill1_Pos: {fileID: 6377526911536764848}
   skill1_UI: {fileID: 0}
   skill2_UI: {fileID: 0}

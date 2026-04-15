@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerAttribute : MonoBehaviour
@@ -20,6 +21,17 @@ public class PlayerAttribute : MonoBehaviour
     {
         attribute = GetComponent<ColorAttribute>();
         if (animator == null) animator = GetComponent<Animator>();
+
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        if (sceneName == "Tutorial_Inside" || sceneName == "Tutorial_Outside" || sceneName == "Town")
+        {
+            currentModeIndex = 0;
+        }
+        else
+        {
+            currentModeIndex = 1;
+        }
 
         SetColor((ColorMode)currentModeIndex);
     }

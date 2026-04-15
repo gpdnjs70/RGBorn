@@ -31,12 +31,13 @@ public class SoundManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        for (int i = 0; i < bglist.Length; i++)
+        // 현재 씬의 빌드 인덱스(Build Settings에 등록된 순서)를 가져옵니다.
+        int sceneIndex = arg0.buildIndex;
+
+        // 만약 빌드 인덱스에 맞는 음악이 bglist에 있다면 바로 재생
+        if (sceneIndex < bglist.Length && bglist[sceneIndex] != null)
         {
-            if (arg0.name == bglist[i].name)
-            {
-                BgSoundPlay(bglist[i]);
-            }
+            BgSoundPlay(bglist[sceneIndex]);
         }
     }
 

@@ -8,6 +8,7 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] private float dashingPower = 24f;
     [SerializeField] private float dashingTime = 0.2f;
     [SerializeField] private SkillCoolTime dashCooldownUI;
+    [SerializeField] private AudioClip dashClip;
 
     private Rigidbody2D rigid;
     private Animator anim;
@@ -119,6 +120,12 @@ public class Player_Movement : MonoBehaviour
     private IEnumerator Dash()
     {
         isDashing = true;
+
+        if (dashClip != null)
+        {
+            SoundManager.instance.SFXPlay("Dash", dashClip);
+        }
+
         anim.SetTrigger("Dash");
 
         rigid.velocity = lastDir * dashingPower;
