@@ -409,7 +409,7 @@ Animator:
   m_GameObject: {fileID: 3530756173012619840}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1935ddad757e5c246afbb6a99d559ba7, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2423a290f59186e4da38dac8e77dbe9b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -497,9 +497,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mode: 1
   colorOverrides:
-  - {fileID: 22100000, guid: 6a7c9166b3043f8488a3bf7623a6cf8e, type: 2}
-  - {fileID: 22100000, guid: 34b364e1bfdf65f41a6413d4691f0c45, type: 2}
-  - {fileID: 22100000, guid: adb284d10c27a314a96a4b45246c4c1f, type: 2}
+  - {fileID: 22100000, guid: b9f546d4606e1024f92e8dd63d737792, type: 2}
+  - {fileID: 22100000, guid: d91f1c6693eefbd40bf55426991217de, type: 2}
+  - {fileID: 22100000, guid: 798c32e55c5617f4ba8799aee1158dd5, type: 2}
 --- !u!114 &8697787603735060922
 MonoBehaviour:
   m_ObjectHideFlags: 0

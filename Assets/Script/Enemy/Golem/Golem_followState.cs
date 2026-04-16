@@ -55,11 +55,19 @@ public class Golem_followState : StateMachineBehaviour
         float distToTarget = Vector2.Distance(enemyTransform.position, targetPosition);
         float distToPlayer = Vector2.Distance(enemyTransform.position, enemy.player.position);
 
-        if (distToPlayer <= 1.4f)
+        if (distToPlayer <= 1.1f)
         {
             enemy.DirectionEnemy(enemy.player.position);
             enemy.OnAttackEvent();
 
+            animator.SetTrigger("isFall");
+            animator.SetBool("isFollow", false);
+            return;
+        }
+
+        if (enemy.GetComponent<Collider2D>().IsTouchingLayers(LayerMask.GetMask("Wall")))
+        {
+            Debug.Log("벽에 충돌함!");
             animator.SetTrigger("isFall");
             animator.SetBool("isFollow", false);
             return;
