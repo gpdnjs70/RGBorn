@@ -19,7 +19,7 @@ public class idleState : StateMachineBehaviour
         float dist = Vector2.Distance(enemyTransform.position, enemy.player.position);
 
         // 공격 조건 (사거리 안 + 쿨타임 완료)
-        if (dist <= 1.4f && enemy.atkDelay <= 0)
+        if (dist <= 1.5f && enemy.atkDelay <= 0)
         {
             enemy.atkDelay = enemy.atkCoolTime;
             enemy.DirectionEnemy(enemy.player.position);
@@ -29,7 +29,7 @@ public class idleState : StateMachineBehaviour
         }
 
         // 추적 조건 (공격 사거리는 아니지만 인식 범위 안)
-        if (dist > 1.4f && dist <= 9f)
+        if (dist > 1.5f && dist <= 9f)
         {
             animator.SetBool("isWander", false);
             animator.SetBool("isFollow", true);

@@ -46,7 +46,7 @@ public class Bullet : MonoBehaviour
             return;
         }
 
-        transform.Translate(dir * speed * Time.deltaTime);
+        transform.Translate(dir * speed * Time.deltaTime, Space.World);
     }
 
     void DealDamageWithAttribute(Entity attacker, Entity target)
@@ -103,16 +103,14 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void SetDirection(float direction)
+    public void SetDirection(Vector2 direction)
     {
-        float sign = direction >= 0 ? 1f : -1f;
-        dir = new Vector2(sign, 0f);
+        dir = direction.normalized;
 
-        if (dir.x != 0)
+        if (dir != Vector2.zero)
         {
-            Vector3 scale = transform.localScale;
-            scale.x = Mathf.Abs(scale.x) * (dir.x > 0 ? 1 : -1);
-            transform.localScale = scale;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
         }
     }
 }

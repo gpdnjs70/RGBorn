@@ -42,7 +42,7 @@ public class FollowState : StateMachineBehaviour
         }
         **/
 
-        if (distance <= 1.4f)
+        if (distance <= 1.5f)
         {
             if (enemy.atkDelay <= 0)
             {

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyName: Slime
   EnemyDescription: 
-  baseHP: 15
+  baseHP: 30
   baseSpeed: 1
