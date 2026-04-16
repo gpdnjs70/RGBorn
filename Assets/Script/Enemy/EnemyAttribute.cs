@@ -11,7 +11,6 @@ public class EnemyAttribute : MonoBehaviour
     private ColorAttribute attribute;
 
     private Coroutine changeAttributeRoutine;
-    private int remainingChangeCount = 0;
 
     private void Awake()
     {
@@ -21,9 +20,6 @@ public class EnemyAttribute : MonoBehaviour
 
     private void OnEnable()
     {
-        // 오브젝트가 켜질 때마다 상태 초기화
-        remainingChangeCount = 0;
-
         // 처음 나타날 때 즉시 랜덤 속성 부여 (원치 않으면 생략 가능)
         ChangeAttribute();
 

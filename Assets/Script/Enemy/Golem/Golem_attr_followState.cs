@@ -64,6 +64,14 @@ public class Golem_attr_followState : StateMachineBehaviour
             return;
         }
 
+        if (enemy.GetComponent<Collider2D>().IsTouchingLayers(LayerMask.GetMask("Wall")))
+        {
+            // Debug.Log("벽에 충돌함!");
+            animator.SetTrigger("isFall");
+            animator.SetBool("isFollow", false);
+            return;
+        }
+
         if (distToTarget < 0.1f)
         {
             animator.SetBool("isFollow", false);

@@ -28,7 +28,7 @@ public class MonsterWaveManager : MonoBehaviour
     [Header("Dialogue & Player Control")]
     [SerializeField] private TutorialDialogue tutorialDialogue;
     [SerializeField] private GameObject playerObject;
-    [SerializeField] private int startWaveDialogueIndex = 0;
+    // [SerializeField] private int startWaveDialogueIndex = 0;
 
     private Player_Movement playerMove;
     private Player_Attack playerAttack;

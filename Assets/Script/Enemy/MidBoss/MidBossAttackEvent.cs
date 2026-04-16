@@ -37,7 +37,6 @@ public class MidBossAttackEvent : MonoBehaviour
     [SerializeField] private GameObject meteorShowerEffectPrefab;
 
     private bool isTeleportFired = false;
-    [SerializeField] private float teleportDistanceOffset = 4.0f; // 플레이어로부터 떨어질 거리
 
     private void Start()
     {
