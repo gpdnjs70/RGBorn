@@ -11,7 +11,7 @@ public class Long_patrolState : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("patrol");
+        // Debug.Log("patrol");
         enemy = animator.GetComponent<Enemy>();
         enemyTransform = animator.transform;
 

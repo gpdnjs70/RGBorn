@@ -10,7 +10,7 @@ public class Long_idleState : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("idle");
+        // Debug.Log("idle");
         enemy = animator.GetComponent<Enemy>();
         enemyTransform = animator.GetComponent<Transform>();
         timer = Random.Range(2f, 5f);

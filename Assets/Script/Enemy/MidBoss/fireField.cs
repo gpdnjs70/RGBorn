@@ -51,10 +51,11 @@ public class fireField : MonoBehaviour
     {
         if (!collision.CompareTag("Player")) return;
 
-        Entity target = collision.GetComponent<Entity>();
-        if (target != null && source != null)
+        Player_HP target = collision.GetComponent<Player_HP>();
+        if (target != null)
         {
-            source.ApplyAttributeDebuffTo(target, 3f);
+            // Debug.Log("화상 시작");
+            target.ApplyBurn(5f, 2f, 5f);
         }
     }
 }

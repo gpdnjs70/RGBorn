@@ -14,7 +14,7 @@ public class Golem_followState : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("follow");
+        // Debug.Log("follow");
         enemy = animator.GetComponent<Enemy>();
         enemyTransform = animator.GetComponent<Transform>();
         entity = enemy.GetComponent<Entity>();

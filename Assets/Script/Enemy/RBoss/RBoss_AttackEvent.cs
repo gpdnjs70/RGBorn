@@ -11,6 +11,9 @@ public class RBoss_AttackEvent : MonoBehaviour
     [SerializeField] private GameObject fireBallEffectPrefab;
     [SerializeField] private GameObject fireMineEffectPrefab;
 
+    [SerializeField] private GameObject[] minionPrefabs;
+    private int currentMinionIndex = 0;
+
     private Dictionary<string, float> lastExecutionTimes = new Dictionary<string, float>();
 
     private void Awake()
@@ -23,7 +26,7 @@ public class RBoss_AttackEvent : MonoBehaviour
     {
         if (IsDuplicateInvocation("fireField")) return;
 
-        Debug.Log("파이어 필드");
+        // Debug.Log("파이어 필드");
 
         int spawnCount = 8;
         float range = 4.0f; // 랜덤 분산 범위 (조금 줄여서 밀집도 높임)
@@ -81,7 +84,7 @@ public class RBoss_AttackEvent : MonoBehaviour
     {
         if (IsDuplicateInvocation("fireBall")) return;
 
-        Debug.Log("파이어 볼");
+        // Debug.Log("파이어 볼");
 
         if (enemy == null || enemy.attackPoints == null) return;
 
@@ -114,7 +117,7 @@ public class RBoss_AttackEvent : MonoBehaviour
     {
         if (IsDuplicateInvocation("fireMine")) return;
 
-        Debug.Log("불 지뢰");
+        // Debug.Log("불 지뢰");
 
         // fireMine Effect
         if (enemy == null) return;
@@ -172,7 +175,7 @@ public class RBoss_AttackEvent : MonoBehaviour
     {
         if (IsDuplicateInvocation("Teleport")) return;
 
-        Debug.Log("순간이동");
+        // Debug.Log("순간이동");
 
         if (enemy.player == null) return;
 
@@ -217,6 +220,38 @@ public class RBoss_AttackEvent : MonoBehaviour
 
         // 텔레포트 후 즉시 플레이어를 바라보게 설정
         enemy.DirectionEnemy(playerPos);
+    }
+
+    public void SummonMinions()
+    {
+        if (IsDuplicateInvocation("SummonMinions")) return;
+
+        if (minionPrefabs == null || minionPrefabs.Length == 0) return;
+
+        GameObject prefabToSpawn = minionPrefabs[currentMinionIndex];
+
+        if (prefabToSpawn != null)
+        {
+            int countPerType = 3; // 한 번에 소환할 마릿수
+            float summonRange = 3.0f;
+
+            for (int i = 0; i < countPerType; i++)
+            {
+                Vector2 spawnPos = (Vector2)transform.position + Random.insideUnitCircle * summonRange;
+                GameObject minionObj = Instantiate(prefabToSpawn, spawnPos, Quaternion.identity);
+
+                // 초기화 로직 실행
+                Minion minionScript = minionObj.GetComponent<Minion>();
+                if (minionScript != null)
+                {
+                    minionScript.InitMinion();
+                }
+            }
+
+            Debug.Log($"{prefabToSpawn.name} 3마리 소환 완료 (Index: {currentMinionIndex})");
+        }
+
+        currentMinionIndex = (currentMinionIndex + 1) % minionPrefabs.Length;
     }
 
     private bool IsDuplicateInvocation(string methodName)

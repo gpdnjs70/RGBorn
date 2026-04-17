@@ -5,12 +5,12 @@ using UnityEngine;
 public class RBoss_idleState : StateMachineBehaviour
 {
     Transform enemyTransform;
-    Enemy enemy;
+    RBoss enemy;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("idle");
-        enemy = animator.GetComponent<Enemy>();
+        // Debug.Log("idle");
+        enemy = animator.GetComponent<RBoss>();
         enemyTransform = animator.GetComponent<Transform>();
     }
 

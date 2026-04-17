@@ -14,6 +14,9 @@ public class Player_HP : Entity, IDebuffTarget
 
     private KnockBack knockback;
 
+    private Coroutine burnRoutine;
+    private float burnRemainingTime = 0f;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -181,5 +184,38 @@ public class Player_HP : Entity, IDebuffTarget
 
         color.a = 1;
         spriteRenderer.color = color;
+    }
+
+    public void ApplyBurn(float duration, float interval, float damage)
+    {
+        burnRemainingTime = duration; // 닿을 때마다 5초로 갱신
+
+        // 이미 불타고 있다면 루틴을 중복 실행하지 않음
+        if (burnRoutine == null)
+        {
+            burnRoutine = StartCoroutine(BurnDamageRoutine(interval, damage));
+        }
+    }
+
+    IEnumerator BurnDamageRoutine(float interval, float damage)
+    {
+        float tickTimer = 0f;
+
+        while (burnRemainingTime > 0)
+        {
+            burnRemainingTime -= Time.deltaTime;
+            tickTimer += Time.deltaTime;
+
+            if (tickTimer >= interval)
+            {
+                TakeDamage(damage); // 2초마다 대미지
+                tickTimer = 0f;
+            }
+
+            yield return null;
+        }
+
+        burnRoutine = null; // 시간 다 되면 루틴 종료
+        // Debug.Log("화상 종료");
     }
 }

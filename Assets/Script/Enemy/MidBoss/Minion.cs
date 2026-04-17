@@ -4,77 +4,45 @@ using System.Reflection;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-public class Minion : MonoBehaviour
+public class Minion : Enemy
 {
-    private Enemy master;
-    private Transform playerTransform;
+    private Enemy_HP myHP;
 
-    // 필요한 컴포넌트들
-    private Enemy_HP hpScript;
-    private Enemy enemyScript;
-    private Collider2D col;
-    private Animator anim;
-
-    private void Awake()
+    // 보스가 소환 후 이 함수를 호출해줍니다.
+    public void InitMinion()
     {
-        hpScript = GetComponent<Enemy_HP>();
-        enemyScript = GetComponent<Enemy>();
-        col = GetComponent<Collider2D>();
-        anim = GetComponent<Animator>();
-    }
+        // 1. 씬에서 플레이어 태그로 플레이어 오브젝트를 찾습니다.
+        GameObject playerObj = GameObject.FindWithTag("Player");
 
-    public void Setup(Enemy boss)
-    {
-        master = boss;
-        playerTransform = boss.player;
-
-        if (hpScript != null)
+        if (playerObj != null)
         {
-            hpScript.playerAttribute = boss.hp.playerAttribute;
-        }
+            // 2. Enemy 스크립트 변수들 할당
+            this.player = playerObj.transform;       // Player-transform
+            this.target = playerObj.transform;       // Target-transform
+            this.targetHP = playerObj.GetComponent<Entity>(); // TargetHP (Entity)
 
-        ResetMinion();
-    }
-
-    private void ResetMinion()
-    {
-        DebuffController debuffController = GetComponent<DebuffController>();
-        if (debuffController != null)
-        {
-            debuffController.ClearAllDebuffs();
-        }
-
-        if (hpScript != null)
-        {
-            // 체력 및 스크립트 활성화
-            hpScript.HP = hpScript.MaxHP;
-            hpScript.enabled = true;
-
-            // 리플렉션으로 private 변수인 isDead를 false로 강제 변경
-            FieldInfo isDeadField = typeof(Enemy_HP).GetField("isDead", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (isDeadField != null)
+            // 3. Enemy_HP에 PlayerAttribute 할당
+            if (myHP == null) myHP = GetComponent<Enemy_HP>();
+            if (myHP != null)
             {
-                isDeadField.SetValue(hpScript, false);
+                // 플레이어가 가진 PlayerAttribute 컴포넌트를 직접 가져와서 할당
+                myHP.playerAttribute = playerObj.GetComponent<PlayerAttribute>();
+
+                if (myHP.data != null)
+                {
+                    myHP.stats.MaxHP.BaseValue = myHP.data.baseHP;
+                    myHP.stats.Speed.BaseValue = myHP.data.baseSpeed;
+
+                    // 현재 HP를 새로운 MaxHP로 꽉 채움
+                    myHP.HP = myHP.MaxHP;
+                }
             }
 
-            if (hpScript.hpUI != null) hpScript.hpUI.gameObject.SetActive(true);
+            Debug.Log("잡몹 초기화 완료: 플레이어 정보 로드 성공");
         }
-
-        if (enemyScript != null) enemyScript.enabled = true;
-        if (col != null) col.enabled = true;
-
-        if (anim != null)
+        else
         {
-            anim.Rebind();
-            anim.Update(0f);
+            Debug.LogError("플레이어를 찾을 수 없어 잡몹 초기화에 실패했습니다!");
         }
-
-        // OnEnable도 혹시 모르니 유지 (다른 초기화 로직이 있을 수 있음)
-        hpScript.SendMessage("OnEnable", SendMessageOptions.DontRequireReceiver);
-    }
-
-    public void Deactivate()
-    {
-        gameObject.SetActive(false);
     }
 }

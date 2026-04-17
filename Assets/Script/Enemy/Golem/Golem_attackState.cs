@@ -8,7 +8,7 @@ public class Golem_attackState : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("attack");
+        // Debug.Log("attack");
         enemy = animator.GetComponent<Enemy>();
         animator.SetBool("isAttack", false);
     }

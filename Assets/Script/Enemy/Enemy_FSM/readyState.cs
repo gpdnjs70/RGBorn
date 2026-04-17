@@ -8,7 +8,7 @@ public class readyState : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("ready");
+        // Debug.Log("ready");
         if (enemy == null) enemy = animator.GetComponent<Enemy>();
         if (enemy != null && enemy.readySound != null)
         {

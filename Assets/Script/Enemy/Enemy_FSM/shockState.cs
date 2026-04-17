@@ -7,7 +7,7 @@ public class shockState : StateMachineBehaviour
     override public void OnStateEnter(
         Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Shock State Enter");
+        // Debug.Log("Shock State Enter");
     }
 
     override public void OnStateUpdate(
@@ -19,6 +19,6 @@ public class shockState : StateMachineBehaviour
     override public void OnStateExit(
         Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Shock State Exit");
+        // Debug.Log("Shock State Exit");
     }
 }

@@ -86,7 +86,7 @@ public class MidBossAttackEvent : MonoBehaviour
         Minion minionComponent = minionObj.GetComponent<Minion>();
         if (minionComponent != null)
         {
-            minionComponent.Setup(this.enemy);
+            //minionComponent.Setup(this.enemy);
         }
 
         // 관리 배열에 등록
