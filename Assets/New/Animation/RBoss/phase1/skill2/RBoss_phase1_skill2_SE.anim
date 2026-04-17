@@ -50,6 +50,8 @@ AnimationClip:
       value: {fileID: 21300000, guid: 80cbd66d670ad8a42aee9c85939ececc, type: 3}
     - time: 1.1666666
       value: {fileID: 21300000, guid: 8d00570d07a18dc4f875ae4efdc3c16f, type: 3}
+    - time: 1.25
+      value: {fileID: 21300000, guid: 8d00570d07a18dc4f875ae4efdc3c16f, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -87,12 +89,13 @@ AnimationClip:
     - {fileID: 21300000, guid: 09cf5ea561e25d84d912c68fce62acd4, type: 3}
     - {fileID: 21300000, guid: 80cbd66d670ad8a42aee9c85939ececc, type: 3}
     - {fileID: 21300000, guid: 8d00570d07a18dc4f875ae4efdc3c16f, type: 3}
+    - {fileID: 21300000, guid: 8d00570d07a18dc4f875ae4efdc3c16f, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.25
+    m_StopTime: 1.3333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -111,4 +114,18 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 1.1666666
+    functionName: fireBall
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.25
+    functionName: OnPatternEnd
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

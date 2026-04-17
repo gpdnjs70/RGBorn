@@ -18,6 +18,12 @@ public class RBoss_idleState : StateMachineBehaviour
     {
         enemy.DirectionEnemy(enemy.player.position);
 
+        if (enemy.atkDelay <= 0)
+        {
+            enemy.atkDelay = enemy.atkCoolTime;
+            enemy.StartPattern();
+        }
+
         // animator.SetBool("isReady", true);
     }
 

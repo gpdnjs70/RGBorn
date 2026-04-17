@@ -11,6 +11,8 @@ public class RBoss_AttackEvent : MonoBehaviour
     [SerializeField] private GameObject fireBallEffectPrefab;
     [SerializeField] private GameObject fireMineEffectPrefab;
 
+    private Dictionary<string, float> lastExecutionTimes = new Dictionary<string, float>();
+
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
@@ -19,6 +21,8 @@ public class RBoss_AttackEvent : MonoBehaviour
 
     public void fireField()
     {
+        if (IsDuplicateInvocation("fireField")) return;
+
         Debug.Log("파이어 필드");
 
         int spawnCount = 8;
@@ -75,6 +79,8 @@ public class RBoss_AttackEvent : MonoBehaviour
 
     public void fireBall()
     {
+        if (IsDuplicateInvocation("fireBall")) return;
+
         Debug.Log("파이어 볼");
 
         if (enemy == null || enemy.attackPoints == null) return;
@@ -106,6 +112,8 @@ public class RBoss_AttackEvent : MonoBehaviour
 
     public void fireMine()
     {
+        if (IsDuplicateInvocation("fireMine")) return;
+
         Debug.Log("불 지뢰");
 
         // fireMine Effect
@@ -162,6 +170,8 @@ public class RBoss_AttackEvent : MonoBehaviour
 
     public void Teleport()
     {
+        if (IsDuplicateInvocation("Teleport")) return;
+
         Debug.Log("순간이동");
 
         if (enemy.player == null) return;
@@ -207,5 +217,24 @@ public class RBoss_AttackEvent : MonoBehaviour
 
         // 텔레포트 후 즉시 플레이어를 바라보게 설정
         enemy.DirectionEnemy(playerPos);
+    }
+
+    private bool IsDuplicateInvocation(string methodName)
+    {
+        // fireBall은 중복 호출이 심하므로 쿨타임을 더 넉넉하게 잡습니다.
+        float customDebounce = (methodName == "fireBall") ? 0.4f : 0.1f;
+
+        if (lastExecutionTimes.ContainsKey(methodName))
+        {
+            float timeSinceLast = Time.time - lastExecutionTimes[methodName];
+            if (timeSinceLast < customDebounce)
+            {
+                // Debug.Log($"<color=red>{methodName}</color> 중복 호출 차단됨 (간격: {timeSinceLast})");
+                return true;
+            }
+        }
+
+        lastExecutionTimes[methodName] = Time.time;
+        return false;
     }
 }

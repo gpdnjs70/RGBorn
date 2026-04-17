@@ -47,6 +47,8 @@ public class Enemy : MonoBehaviour
     private bool lastShockState = false;
     NavMeshAgent agent;
 
+    public int currentPattern = 0;
+
     [Header("Damage Settings")]
     [SerializeField] private float meleeDamage = 2f;      // 기본 근접 데미지
     [SerializeField] private float criticalMeleeDamage = 5f; // 크리티컬 근접 데미지 (10% 확률)
@@ -62,7 +64,6 @@ public class Enemy : MonoBehaviour
     {
         EnemyManager.Instance.Register(this);
 
-        animator = GetComponent<Animator>();
         GameObject p = GameObject.FindWithTag("Player");
         if (p != null) player = p.transform;
     }
@@ -70,6 +71,7 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         entity = GetComponent<Entity>();
+        animator = GetComponent<Animator>();
 
         agent = GetComponent<NavMeshAgent>();
         if (agent != null)
@@ -272,5 +274,33 @@ public class Enemy : MonoBehaviour
                 arrowScript.Init(entity);
             }
         }
+    }
+
+    // 1. 애니메이션 이벤트에서 호출할 함수 (애니메이션 끝부분에 배치)
+    public void OnSkillAnimationEnd()
+    {
+        // 다음 스킬로 강제 전이
+        animator.SetTrigger("NextStep");
+    }
+
+    public void StartPattern()
+    {
+        // 1. 공격 시작 직전에 현재 패턴 번호를 애니메이터에 전달
+        animator.SetInteger("patternID", currentPattern);
+
+        // 2. 전달 직후, 미리 다음 패턴 번호를 계산해둠 (0 -> 1 -> 0 ...)
+        currentPattern = (currentPattern == 0) ? 1 : 0;
+
+        // 3. 애니메이션 실행
+        animator.SetBool("isAttacking", true);
+        animator.SetTrigger("Attack");
+
+        Debug.Log($"공격 시작! 이번 패턴 번호: {animator.GetInteger("patternID")}, 다음 예정 패턴: {currentPattern}");
+    }
+
+    public void OnPatternEnd()
+    {
+        // 이제 여기서는 패턴 교체를 하지 않고 상태만 해제합니다.
+        animator.SetBool("isAttacking", false);
     }
 }

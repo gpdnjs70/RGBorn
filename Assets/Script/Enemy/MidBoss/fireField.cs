@@ -7,8 +7,13 @@ public class fireField : MonoBehaviour
     private Entity source;
     private float damage;
     private Collider2D col;
+    private Animator anim;
 
-    void Awake() => col = GetComponent<Collider2D>();
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+        col = GetComponent<Collider2D>();
+    }
 
     public void Setup(Entity attacker, float duration)
     {
@@ -25,9 +30,18 @@ public class fireField : MonoBehaviour
 
         // 2. 활성화 단계: 콜라이더를 켜고 불꽃 애니메이션 재생
         col.enabled = true;
-        // (여기에 실제 불꽃 이펙트를 켜는 코드 추가 가능)
 
         yield return new WaitForSeconds(duration);
+
+        col.enabled = false; // 사라지는 중에는 데미지를 주지 않도록 콜라이더 끔
+        if (anim != null)
+        {
+            anim.SetTrigger("Expire");
+
+            yield return new WaitForEndOfFrame();
+            float animationLength = anim.GetCurrentAnimatorStateInfo(0).length;
+            yield return new WaitForSeconds(animationLength);
+        }
 
         // 3. 소멸 단계
         Destroy(gameObject);

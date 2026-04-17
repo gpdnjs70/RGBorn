@@ -157,7 +157,7 @@ public class Player_HP : Entity, IDebuffTarget
         float finalDamage = damage * Mathf.Clamp(multiplier, 0.1f, 2f);
 
         // --- 기존 로직 수행 ---
-        Debug.Log($"최종 데미지는 {finalDamage} (배율: {multiplier})");
+        // Debug.Log($"최종 데미지는 {finalDamage} (배율: {multiplier})");
         DamagePopup.Create(transform.position + Vector3.up, (int)finalDamage, false);
 
         HP -= finalDamage;
