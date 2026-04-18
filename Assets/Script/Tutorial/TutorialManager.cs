@@ -212,6 +212,9 @@ public class TutorialManager : MonoBehaviour
                 target.position,
                 moveSpeed * Time.deltaTime
             );
+
+            playerMoveScript.PlayGroundSound();
+
             yield return null; // 다음 프레임까지 대기
         }
 
@@ -222,6 +225,11 @@ public class TutorialManager : MonoBehaviour
             anim.SetFloat("DirX", 1f);
             anim.SetFloat("DirY", 0f);
             anim.SetBool("isMove", false);
+        }
+
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.StopVariableSFX();
         }
     }
 

@@ -7,6 +7,9 @@ TagManager:
   - Enemy
   - Bullet
   - Weapon
+  - Grass
+  - Stone
+  - Wood
   layers:
   - Default
   - TransparentFX
@@ -14,7 +17,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Ground
   - NPC
   - 
   - 

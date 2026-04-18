@@ -70,7 +70,13 @@ public class SoundManager : MonoBehaviour
     public void PlayVariableSFX(AudioClip clip)
     {
         if (clip == null || sfxPlayer == null) return;
-        if (sfxPlayer.isPlaying) return;
+        if (sfxPlayer.isPlaying)
+        {
+            if (sfxPlayer.clip == clip) return;
+
+            // 바뀌었다면 기존 소리 중지
+            sfxPlayer.Stop();
+        }
 
         sfxPlayer.clip = clip;
         sfxPlayer.Play();

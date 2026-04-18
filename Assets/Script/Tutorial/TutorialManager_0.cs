@@ -321,12 +321,19 @@ public class TutorialManager_0 : MonoBehaviour
                 target.position,
                 moveSpeed * Time.deltaTime
             );
+
+            playerMoveScript.PlayGroundSound();
+
             yield return null;
         }
 
         // 도착 후 정리
         player.transform.position = target.position;
         if (anim != null) anim.SetBool("isMove", false);
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.StopVariableSFX();
+        }
     }
 
     // 기존 PlayDialogue 로직 유지

@@ -39991,9 +39991,12 @@ GameObject:
   - component: {fileID: 1077078947}
   - component: {fileID: 1077078949}
   - component: {fileID: 1077078948}
-  m_Layer: 0
+  - component: {fileID: 1077078952}
+  - component: {fileID: 1077078951}
+  - component: {fileID: 1077078950}
+  m_Layer: 6
   m_Name: Grass
-  m_TagString: Untagged
+  m_TagString: Stone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51784,6 +51787,126 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!66 &1077078950
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077078946}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 1
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths:
+  - m_Collider: {fileID: 1077078951}
+    m_ColliderPaths:
+    - - X: 160000000
+        Y: 290000000
+      - X: -160000000
+        Y: 290000000
+      - X: -160000000
+        Y: -70000000
+      - X: 160000000
+        Y: -70000000
+  m_CompositePaths:
+    m_Paths:
+    - - {x: 15.999971, y: -7}
+      - {x: 15.999971, y: 29}
+      - {x: -16, y: 28.999971}
+      - {x: -15.999971, y: -7}
+  m_VertexDistance: 0.0005
+  m_OffsetDistance: 0.00005
+  m_UseDelaunayMesh: 0
+  m_CompositeGameObject: {fileID: 1077078946}
+--- !u!19719996 &1077078951
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077078946}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 1
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
+--- !u!50 &1077078952
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077078946}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1259713227
 GameObject:
   m_ObjectHideFlags: 0
@@ -77938,6 +78061,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: RBoss
       objectReference: {fileID: 0}
+    - target: {fileID: 5311123713727263912, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
+      propertyPath: summonClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4381d75fcd110ab49a653280004ee4f5, type: 3}
+    - target: {fileID: 5311123713727263912, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
+      propertyPath: fireBallClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9e25457437b26f5408c84ee4e8d7c9e7, type: 3}
+    - target: {fileID: 5311123713727263912, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
+      propertyPath: fireMineClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 783dec7a7a3d64b4193f81fbb5a03b10, type: 3}
+    - target: {fileID: 5311123713727263912, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
+      propertyPath: teleportClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 3f527f7fb6241b94086d401d770b2fe2, type: 3}
+    - target: {fileID: 5311123713727263912, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
+      propertyPath: fireFieldClip
+      value: 
+      objectReference: {fileID: 8300000, guid: f9d0102c6711c2746a4d9c3f76d00e90, type: 3}
     - target: {fileID: 6190142716537893031, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
       propertyPath: player
       value: 

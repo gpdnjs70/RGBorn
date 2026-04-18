@@ -271,6 +271,9 @@ MonoBehaviour:
   dirX: 0
   dirY: 0
   isKnockBack: 0
+  grassClip: {fileID: 8300000, guid: 254c443b24a8e4e45a4fe7e684c75c5d, type: 3}
+  stoneClip: {fileID: 8300000, guid: 6ffdc6339eb04934392aa77ff713be6a, type: 3}
+  woodClip: {fileID: 8300000, guid: a1c9d2ee07be14a4c9427b2e174622a1, type: 3}
 --- !u!114 &892609409066627205
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -16,15 +16,33 @@ public class RBoss_AttackEvent : MonoBehaviour
 
     private Dictionary<string, float> lastExecutionTimes = new Dictionary<string, float>();
 
+    [Header("Attack Sounds")]
+    [SerializeField] private AudioClip fireFieldClip;
+    [SerializeField] private AudioClip fireBallClip;
+    [SerializeField] private AudioClip fireMineClip;
+    [SerializeField] private AudioClip teleportClip;
+    [SerializeField] private AudioClip summonClip;
+
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
         rigid = GetComponent<Rigidbody2D>();
     }
 
+    private void PlayBossSFX(string actionName, AudioClip clip)
+    {
+        if (clip != null && SoundManager.instance != null)
+        {
+            // 작성하신 SoundManager의 SFXPlay는 새로운 GameObject를 생성해 재생하고 파괴합니다.
+            SoundManager.instance.SFXPlay(actionName, clip);
+        }
+    }
+
     public void fireField()
     {
         if (IsDuplicateInvocation("fireField")) return;
+
+        PlayBossSFX("FireField", fireFieldClip);
 
         // Debug.Log("파이어 필드");
 
@@ -84,6 +102,7 @@ public class RBoss_AttackEvent : MonoBehaviour
     {
         if (IsDuplicateInvocation("fireBall")) return;
 
+        PlayBossSFX("FireBall", fireBallClip);
         // Debug.Log("파이어 볼");
 
         if (enemy == null || enemy.attackPoints == null) return;
@@ -117,6 +136,7 @@ public class RBoss_AttackEvent : MonoBehaviour
     {
         if (IsDuplicateInvocation("fireMine")) return;
 
+        PlayBossSFX("FireMine", fireMineClip);
         // Debug.Log("불 지뢰");
 
         // fireMine Effect
@@ -175,6 +195,7 @@ public class RBoss_AttackEvent : MonoBehaviour
     {
         if (IsDuplicateInvocation("Teleport")) return;
 
+        PlayBossSFX("Teleport", teleportClip);
         // Debug.Log("순간이동");
 
         if (enemy.player == null) return;
@@ -226,6 +247,7 @@ public class RBoss_AttackEvent : MonoBehaviour
     {
         if (IsDuplicateInvocation("SummonMinions")) return;
 
+        PlayBossSFX("Summon", summonClip);
         if (minionPrefabs == null || minionPrefabs.Length == 0) return;
 
         GameObject prefabToSpawn = minionPrefabs[currentMinionIndex];
