@@ -141591,7 +141591,7 @@ GameObject:
   - component: {fileID: 898769176}
   - component: {fileID: 898769177}
   m_Layer: 0
-  m_Name: npc2
+  m_Name: npc1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141607,7 +141607,7 @@ Animator:
   m_GameObject: {fileID: 898769172}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 010a15976f6ba7746bf8148310b2e3b0, type: 2}
+  m_Controller: {fileID: 9100000, guid: bb8baa425b9b99c46a7d5be355e34519, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -144492,7 +144492,7 @@ GameObject:
   - component: {fileID: 1516575785}
   - component: {fileID: 1516575786}
   m_Layer: 0
-  m_Name: npc1
+  m_Name: npc2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144508,7 +144508,7 @@ Animator:
   m_GameObject: {fileID: 1516575781}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bb8baa425b9b99c46a7d5be355e34519, type: 2}
+  m_Controller: {fileID: 9100000, guid: 010a15976f6ba7746bf8148310b2e3b0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -144560,7 +144560,7 @@ SpriteRenderer:
   m_SortingLayerID: 1883998863
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9545a9d528e6b524c8f384ab08cafc7e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 31610e787fab62c4fbb3848228004ddc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

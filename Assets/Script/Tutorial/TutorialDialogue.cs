@@ -34,10 +34,24 @@ public class TutorialDialogue : MonoBehaviour
 
     void Update()
     {
-        // 대화 중일 때 입력 처리 (마우스 왼쪽 클릭 또는 스페이스바)
         if (isAction && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)))
         {
             HandleInput();
+        }
+    }
+
+    void HandleInput()
+    {
+        if (isTyping)
+        {
+            isTyping = false;
+            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+            talkText.text = fullSentence;
+            if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
+        }
+        else
+        {
+            Talk();
         }
     }
 
@@ -53,23 +67,6 @@ public class TutorialDialogue : MonoBehaviour
             isAction = true; // 상태 먼저 변경
             isDialogueFinished = false;
             talkPanel.SetActive(true);
-            Talk();
-        }
-    }
-
-    void HandleInput()
-    {
-        if (isTyping)
-        {
-            // 1. 타이핑 중일 때 클릭하면 -> 즉시 전체 문장 출력
-            isTyping = false;
-            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
-            talkText.text = fullSentence;
-            if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
-        }
-        else
-        {
-            // 2. 타이핑이 끝났을 때 클릭하면 -> 다음 대화로
             Talk();
         }
     }
@@ -153,29 +150,34 @@ public class TutorialDialogue : MonoBehaviour
     {
         if (currentTargetTransform == null || talkPanelRect == null) return;
 
-        // 1. 타겟의 월드 좌표를 스크린 좌표로 변환
         Vector3 worldPos = currentTargetTransform.position + currentLineOffset;
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
 
-        // 2. 만약 카메라 뒤에 있다면 (카메라 시야 밖 처리)
         if (screenPos.z < 0)
         {
             talkPanel.SetActive(false);
             return;
         }
 
-        // 3. 화면 경계값 계산 (패널의 피벗과 크기를 고려)
-        // talkPanelRect의 피벗이 중앙(0.5, 0.5)이라고 가정할 때의 계산입니다.
-        float panelWidth = talkPanelRect.rect.width * talkPanelRect.lossyScale.x;
-        float panelHeight = talkPanelRect.rect.height * talkPanelRect.lossyScale.y;
+        // 1. 부모 패널의 실제 크기
+        float parentHalfW = (talkPanelRect.rect.width * talkPanelRect.lossyScale.x) * 0.5f;
+        float parentHalfH = (talkPanelRect.rect.height * talkPanelRect.lossyScale.y) * 0.5f;
 
-        // 화면의 가로세로 범위 (0 ~ Screen.width / 0 ~ Screen.height)
-        float minX = panelWidth / 2;
-        float maxX = Screen.width - (panelWidth / 2);
-        float minY = panelHeight / 2;
-        float maxY = Screen.height - (panelHeight / 2);
+        // 2. 자식(nametag)에 의한 추가 오프셋 계산 
+        // 이미지처럼 nametag가 부모 중심에서 벗어나 있다면 그만큼 여백을 더 줘야 합니다.
+        // 여기서는 수동으로 적어주거나, 넉넉하게 Padding을 잡는 것이 정신건강에 좋습니다.
 
-        // 4. 좌표가 화면 밖으로 나가지 않도록 Clamp 처리
+        float extraRight = 35f;  // nametag가 오른쪽으로 치우친 정도 (예시)
+        float extraTop = 20f;    // nametag가 위쪽으로 치우친 정도 (이미지의 Pos Y: 20)
+        float safePadding = 10f; // 화면 끝과의 최소 간격
+
+        // 3. 최종 경계값 계산 (부모 크기 + 자식이 삐져나온 만큼)
+        float minX = parentHalfW + safePadding;
+        float maxX = Screen.width - (parentHalfW + extraRight + safePadding);
+        float minY = parentHalfH + safePadding;
+        float maxY = Screen.height - (parentHalfH + extraTop + safePadding);
+
+        // 4. 제한(Clamp) 적용
         float clampedX = Mathf.Clamp(screenPos.x, minX, maxX);
         float clampedY = Mathf.Clamp(screenPos.y, minY, maxY);
 
