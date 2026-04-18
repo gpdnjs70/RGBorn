@@ -62,7 +62,11 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: 7ba3c0fc567215e428d1401c9e17e979
+    name: BGSoundVolume
+  - guid: 4a94545c8dbbebf4daf2c9547984da1d
+    name: MyExposedParam
   m_AudioMixerGroupViews:
   - guids:
     - 596ebfa56a125d24eb4ec85cb03e0492
@@ -117,7 +121,7 @@ AudioMixerSnapshotController:
   m_SnapshotID: 34e8b5e985c145d48b9eae7cf07ddac8
   m_FloatValues:
     4a94545c8dbbebf4daf2c9547984da1d: -0.17160678
-    7ba3c0fc567215e428d1401c9e17e979: 7.833429
+    7ba3c0fc567215e428d1401c9e17e979: 0.46876207
   m_TransitionOverrides: {}
 --- !u!243 &7690575115245442796
 AudioMixerGroupController:

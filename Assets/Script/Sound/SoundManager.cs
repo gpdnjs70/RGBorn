@@ -98,4 +98,34 @@ public class SoundManager : MonoBehaviour
         bgSound.volume = 0.1f;
         bgSound.Play();
     }
+
+    public void SetBGSoundVolume(float val)
+    {
+        if (val <= 0.0001f)
+        {
+            mixer.SetFloat("BGSoundVolume", -80f);
+        }
+        else
+        {
+            // Mathf.Log10(val) * 20은 0dB 기준입니다. 
+            // 여기에 20을 더하면 슬라이더 1일 때 20dB, 슬라이더 0.1일 때 0dB가 됩니다.
+            float volume = Mathf.Log10(val) * 20 + 20;
+
+            // 믹서의 최댓값인 20을 넘지 않도록 제한
+            mixer.SetFloat("BGSoundVolume", Mathf.Clamp(volume, -80f, 20f));
+        }
+    }
+
+    public void SetSFXVolume(float val)
+    {
+        if (val <= 0.0001f)
+        {
+            mixer.SetFloat("SFXVolume", -80f);
+        }
+        else
+        {
+            float volume = Mathf.Log10(val) * 20 + 20;
+            mixer.SetFloat("SFXVolume", Mathf.Clamp(volume, -80f, 20f));
+        }
+    }
 }
