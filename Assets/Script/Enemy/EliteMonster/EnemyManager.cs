@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] private GameObject SceneChange;
+    [SerializeField] private RBossSceneManager bossSceneManager;
 
     public static EnemyManager Instance { get; private set; }
 
@@ -33,9 +34,10 @@ public class EnemyManager : MonoBehaviour
             {
                 SceneChange.SetActive(true);
             }
-            else
+
+            if (bossSceneManager != null)
             {
-                Debug.Log("PortalTrigger가 EnemyManager에 연결되지 않음");
+                bossSceneManager.OnAllEnemiesDefeated();
             }
         }
     }

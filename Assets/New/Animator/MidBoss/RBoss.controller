@@ -570,7 +570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 829ba58a4e3ab7046b9bd5c09cdadb5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-3234378379474257754
+--- !u!114 &-3324973746420897288
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -921,7 +921,7 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   - m_Name: DirY
     m_Type: 1
-    m_DefaultFloat: 0
+    m_DefaultFloat: -1
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
@@ -1728,7 +1728,7 @@ AnimatorState:
   - {fileID: 6121569350563318057}
   - {fileID: -1589226735038103937}
   m_StateMachineBehaviours:
-  - {fileID: -3234378379474257754}
+  - {fileID: -3324973746420897288}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

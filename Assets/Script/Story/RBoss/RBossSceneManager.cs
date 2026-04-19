@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RBossSceneManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class RBossSceneManager : MonoBehaviour
     private Player_Attack attackScript;
     private PlayerAttribute playerAttributeScript;
     private Player_Skill playerSkillScript;
+    [SerializeField] private GameObject statePanel;
 
     [Header("References")]
     [SerializeField] private GameObject player;
@@ -20,6 +22,8 @@ public class RBossSceneManager : MonoBehaviour
     [SerializeField] private float cutsceneMoveSpeed = 1.5f;
 
     public TutorialDialogue dialogueSystem;
+
+    [SerializeField] private string nextSceneName;
 
     private void Awake()
     {
@@ -65,8 +69,12 @@ public class RBossSceneManager : MonoBehaviour
 
         // 3. 보스 대화 시작 (PlayDialogue 함수 재사용)
         yield return StartCoroutine(PlayDialogue(bossNPC, 0));
+        yield return new WaitForSeconds(0.5f);
 
-        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(CameraShake(0.5f, 0.1f));
+        yield return StartCoroutine(PlayDialogue(bossNPC, 1));
+
+        yield return new WaitForSeconds(2.0f);
 
         StartBossBattle();
     }
@@ -76,14 +84,13 @@ public class RBossSceneManager : MonoBehaviour
         // 대화용 NPC 제거 및 실제 적 개체 활성화
         if (bossNPC != null) bossNPC.SetActive(false);
         if (bossEnemy != null) bossEnemy.SetActive(true);
+        if(statePanel != null) statePanel.SetActive(true);
 
         // 플레이어 조작 권한 반환
         SetPlayerControllable(true);
 
         // 여기에 BGM 변경이나 UI 활성화 로직 추가
     }
-
-    // --- 기존 매니저에서 사용한 공용 함수들 ---
 
     public IEnumerator PlayDialogue(GameObject npcObj, int dialogueIndex)
     {
@@ -136,6 +143,50 @@ public class RBossSceneManager : MonoBehaviour
         if (anim != null && !canControl)
         {
             anim.SetBool("isMove", false);
+        }
+    }
+
+    private IEnumerator CameraShake(float duration, float magnitude)
+    {
+        Vector3 originalPos = Camera.main.transform.localPosition;
+        float elapsed = 0.0f;
+        while (elapsed < duration)
+        {
+            Camera.main.transform.localPosition = originalPos + (Vector3)Random.insideUnitCircle * magnitude;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        Camera.main.transform.localPosition = originalPos;
+    }
+
+    public void OnAllEnemiesDefeated()
+    {
+        StartCoroutine(EndBattleSequence());
+    }
+
+    private IEnumerator EndBattleSequence()
+    {
+        Debug.Log("전투 종료 시퀀스 시작");
+
+        // 전투 중이던 UI(패널 등)를 끄고 싶다면 여기에 추가
+        if (statePanel != null) statePanel.SetActive(false);
+
+        // 플레이어 조작 다시 정지 (대화 씬으로 넘어가기 전 안전장치)
+        SetPlayerControllable(false);
+
+        yield return new WaitForSeconds(1.5f); // 적들이 사라지는 것을 볼 시간
+
+        // 씬 전환
+        if (FadeTransition.Instance != null)
+        {
+            // 인스펙터에서 설정한 nextSceneName으로 페이드 전환 시작
+            FadeTransition.Instance.FadeToScene(nextSceneName);
+        }
+        else
+        {
+            // 혹시 모르니 페이드 매니저가 없을 때의 예외 처리
+            Debug.LogWarning("FadeTransition Instance를 찾을 수 없습니다. 바로 씬을 전환합니다.");
+            UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
         }
     }
 }
