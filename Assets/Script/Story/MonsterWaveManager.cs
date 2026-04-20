@@ -37,6 +37,8 @@ public class MonsterWaveManager : MonoBehaviour
     [SerializeField] private GameObject playerObject;
     private Player_Movement playerMove;
     private Player_Attack playerAttack;
+    private Player_Skill playerSkill;
+    private PlayerAttribute playerAttribute;
     private Rigidbody2D playerRigid;
     private Animator playerAnim;
 
@@ -55,6 +57,8 @@ public class MonsterWaveManager : MonoBehaviour
             playerAttack = playerObject.GetComponent<Player_Attack>();
             playerRigid = playerObject.GetComponent<Rigidbody2D>();
             playerAnim = playerObject.GetComponent<Animator>();
+            playerSkill = playerObject.GetComponent<Player_Skill>();
+            playerAttribute = playerObject.GetComponent<PlayerAttribute>();
         }
     }
 
@@ -75,6 +79,8 @@ public class MonsterWaveManager : MonoBehaviour
 
         if (playerMove != null) playerMove.enabled = canControl;
         if (playerAttack != null) playerAttack.enabled = canControl;
+        if(playerSkill != null) playerSkill.enabled = canControl;
+        if(playerAttribute != null) playerAttribute.enabled = canControl;
 
         if (!canControl)
         {
@@ -218,6 +224,12 @@ public class MonsterWaveManager : MonoBehaviour
     {
         ShowControlPanel(false);
         RemoveCurrentWalls();
+
+        if (playerAttribute != null)
+        {
+            playerAttribute.OnEquipGear();
+        }
+
         Debug.Log("<color=yellow>모든 퀘스트 완료! 벽이 사라집니다.</color>");
 
         currentPhaseIndex++; // 웨이브 최종 종료 처리

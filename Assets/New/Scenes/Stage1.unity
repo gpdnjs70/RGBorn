@@ -8900,7 +8900,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Panel: {fileID: 426396279}
   PanelRect: {fileID: 426396280}
-  playerTransform: {fileID: 0}
+  playerTransform: {fileID: 1390846104}
   offset: {x: 0, y: 2.5, z: 0}
 --- !u!222 &426396282
 CanvasRenderer:
@@ -252666,6 +252666,26 @@ PrefabInstance:
       propertyPath: attributeImages.Array.data[2]
       value: 
       objectReference: {fileID: 1622132235}
+    - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: attributeOverrides.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: attributeOverrides.Array.data[4]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: attributeOverrides.Array.data[5]
+      value: 
+      objectReference: {fileID: 22100000, guid: 4db9d21de62dcde4ab67564ab03bc481, type: 2}
+    - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: attributeOverrides.Array.data[6]
+      value: 
+      objectReference: {fileID: 22100000, guid: d7b55cd872045ed46a24a2ed3fcb29c9, type: 2}
+    - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: attributeOverrides.Array.data[7]
+      value: 
+      objectReference: {fileID: 22100000, guid: 5f235a777c707824dbb00812504702f4, type: 2}
     - target: {fileID: 6234848510416873537, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: m_Name
       value: Player

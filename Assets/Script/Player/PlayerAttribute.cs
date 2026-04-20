@@ -17,6 +17,9 @@ public class PlayerAttribute : MonoBehaviour
     public float activeAlpha = 0f;
     public float inactiveAlpha = 0.8f;
 
+    public bool hasGear = false; // 장비 획득 여부
+    private const int GEAR_OFFSET = 4; // 장비 장착 시 건너뛸 인덱스 거리
+
     private void Awake()
     {
         attribute = GetComponent<ColorAttribute>();
@@ -59,17 +62,18 @@ public class PlayerAttribute : MonoBehaviour
     private void SetColor(ColorMode mode)
     {
         attribute.SetColor(mode);
+        int baseIndex = (int)mode;
         // Debug.Log($"PlayerAttribute color updated: {mode}");
 
-        int index = (int)mode;
+        // 장비를 가졌다면 인덱스에 4를 더함 (예: 1번 속성 -> 5번 속성 오버라이드)
+        int targetIndex = hasGear ? baseIndex + GEAR_OFFSET : baseIndex;
 
-        if (attributeOverrides != null && index < attributeOverrides.Length && attributeOverrides[index] != null)
+        if (attributeOverrides != null && targetIndex < attributeOverrides.Length && attributeOverrides[targetIndex] != null)
         {
-            // 배열에 담긴 오버라이드 컨트롤러 에셋을 현재 애니메이터에 꽂아버립니다.
-            animator.runtimeAnimatorController = attributeOverrides[index];
+            animator.runtimeAnimatorController = attributeOverrides[targetIndex];
         }
 
-        UpdateUIAlpha(index);
+        UpdateUIAlpha(baseIndex);
     }
 
     private void UpdateUIAlpha(int activeIndex)
@@ -84,5 +88,12 @@ public class PlayerAttribute : MonoBehaviour
 
             attributeImages[i].color = color;
         }
+    }
+
+    public void OnEquipGear()
+    {
+        hasGear = true;
+        // 장비를 얻자마자 현재 모드의 강화된 버전으로 즉시 갱신
+        SetColor((ColorMode)currentModeIndex);
     }
 }
