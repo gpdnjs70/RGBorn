@@ -161,15 +161,12 @@ public class Player_Movement : MonoBehaviour
     public void PlayGroundSound()
     {
         // 1. 내 발 위치의 좌표를 잡습니다. (보통 캐릭터 발치인 중앙 하단)
-        // 캐릭터의 중심점(pivot)이 발바닥이라면 transform.position 그대로 쓰면 됩니다.
         Vector2 footPos = new Vector2(transform.position.x, transform.position.y - 1.36f);
 
         // 2. 그 지점에 있는 'Ground' 레이어의 콜라이더를 하나 가져옵니다.
-        // 레이어 마스크를 쓰지 않으려면 세 번째 인자를 빼도 되지만, 성능상 넣는 것이 좋습니다.
         Collider2D hit = Physics2D.OverlapPoint(footPos, LayerMask.GetMask("Ground"));
 
-        // 시각적 확인: Scene 뷰에서 내 발 위치에 작은 원이 보입니다.
-        Debug.Log($"발밑 검사 위치: {footPos}");
+        // Debug.Log($"발밑 검사 위치: {footPos}");
 
         if (hit != null)
         {
@@ -187,7 +184,7 @@ public class Player_Movement : MonoBehaviour
             if (clipToPlay != null && SoundManager.instance != null)
             {
                 SoundManager.instance.PlayVariableSFX(clipToPlay);
-                Debug.Log($"[발소리] 현재 밟은 곳: {tag}");
+                // Debug.Log($"[발소리] 현재 밟은 곳: {tag}");
             }
         }
     }

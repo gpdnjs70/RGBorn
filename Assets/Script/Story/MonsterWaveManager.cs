@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MonsterWaveManager : MonoBehaviour
 {
@@ -11,25 +12,29 @@ public class MonsterWaveManager : MonoBehaviour
     {
         public string phaseName; // 인스펙터 식별용
         public List<GameObject> monsters; // 해당 단계에 나타날 몬스터들
+        public GameObject bossMonster;
+        public GameObject[] phaseWalls;
+        public GameObject entryCollider;
     }
 
     [Header("Wave Structure")]
     [SerializeField] private WavePhase[] phases = new WavePhase[3]; // 3단계를 위한 배열
     private int currentPhaseIndex = 0;
 
+    [Header("UI References")]
+    [SerializeField] private GameObject controlPanel;
+    [SerializeField] private Image controlImage;
+
     [Header("Wave Objects")]
     [SerializeField] private GameObject mapParent;
-    [SerializeField] private GameObject[] treeWalls;
+    [SerializeField] private Sprite chestInteractionSprite;
 
     [Header("Shake Settings")]
     [SerializeField] private float shakeDuration = 0.8f;
     [SerializeField] private float shakeMagnitude = 0.15f;
 
     [Header("Dialogue & Player Control")]
-    [SerializeField] private TutorialDialogue tutorialDialogue;
     [SerializeField] private GameObject playerObject;
-    // [SerializeField] private int startWaveDialogueIndex = 0;
-
     private Player_Movement playerMove;
     private Player_Attack playerAttack;
     private Rigidbody2D playerRigid;
@@ -37,6 +42,9 @@ public class MonsterWaveManager : MonoBehaviour
 
     private int aliveCount;
     private bool isWaveStarted = false;
+
+    [SerializeField] private GameObject boxPrefab;
+    private bool allMonstersDead = false;
 
     private void Awake()
     {
@@ -52,95 +60,16 @@ public class MonsterWaveManager : MonoBehaviour
 
     void Start()
     {
-        foreach (var wall in treeWalls) wall.SetActive(false);
-
-        // 모든 단계의 모든 몬스터를 일단 꺼둡니다.
+        if (controlPanel != null) controlPanel.SetActive(false);
         foreach (var phase in phases)
         {
-            foreach (var mon in phase.monsters) mon.SetActive(false);
+            foreach (var wall in phase.phaseWalls) if (wall != null) wall.SetActive(false);
+            foreach (var mon in phase.monsters) if (mon != null) mon.SetActive(false);
+            if (phase.bossMonster != null) phase.bossMonster.SetActive(false);
         }
     }
 
-    public void StartWave()
-    {
-        if (isWaveStarted) return;
-        StartCoroutine(WaveStartSequence());
-    }
-
-    private IEnumerator WaveStartSequence()
-    {
-        isWaveStarted = true;
-        currentPhaseIndex = 0;
-
-        SetPlayerControl(false);
-
-        if (mapParent != null) StartCoroutine(MapShake(mapParent, shakeDuration, shakeMagnitude));
-        foreach (var wall in treeWalls) wall.SetActive(true);
-
-        // 첫 시작 대사 연출 (필요 시 주석 해제)
-        // yield return StartCoroutine(PlayWaveDialogue(startWaveDialogueIndex));
-
-        SetPlayerControl(true);
-
-        // 첫 번째 페이즈 시작
-        StartPhase(currentPhaseIndex);
-        yield return null;
-    }
-
-    private void StartPhase(int index)
-    {
-        if (index >= phases.Length) return;
-
-        Debug.Log($"<color=cyan>{phases[index].phaseName} 시작!</color>");
-        aliveCount = phases[index].monsters.Count;
-
-        foreach (var mon in phases[index].monsters)
-        {
-            mon.SetActive(true);
-            // 몬스터가 켜질 때 EnemyAttribute가 있다면 초기화 로직이 작동할 것입니다.
-        }
-    }
-
-    public void OnMonsterDied(GameObject monster)
-    {
-        // 현재 페이즈의 몬스터인지 확인
-        if (!phases[currentPhaseIndex].monsters.Contains(monster)) return;
-
-        aliveCount--;
-        Debug.Log($"몬스터 처치! 남은 수: {aliveCount}");
-
-        if (aliveCount <= 0)
-        {
-            currentPhaseIndex++;
-
-            if (currentPhaseIndex < phases.Length)
-            {
-                // 다음 페이즈로 넘어가기 전 짧은 대기 시간 (연출용)
-                Invoke("NextPhase", 1.0f);
-            }
-            else
-            {
-                EndWave();
-            }
-        }
-    }
-
-    private void NextPhase()
-    {
-        // 다음 단계가 시작될 때 지진 효과를 살짝 다시 주면 좋습니다.
-        if (mapParent != null) StartCoroutine(MapShake(mapParent, 0.4f, 0.1f));
-        StartPhase(currentPhaseIndex);
-    }
-
-    void EndWave()
-    {
-        foreach (var wall in treeWalls) wall.SetActive(false);
-        isWaveStarted = false;
-        Debug.Log("<color=yellow>모든 웨이브 클리어!</color>");
-    }
-
-    // 플레이어의 움직임과 공격을 끄고 켜는 함수
-    private void SetPlayerControl(bool canControl)
+    public void SetPlayerControl(bool canControl)
     {
         if (playerObject == null) return;
 
@@ -149,30 +78,95 @@ public class MonsterWaveManager : MonoBehaviour
 
         if (!canControl)
         {
-            // 움직임을 멈출 때 속도 초기화 및 애니메이션 정지
+            // 움직임 멈추기: 속도 초기화 및 애니메이션 정지
             if (playerRigid != null) playerRigid.velocity = Vector2.zero;
             if (playerAnim != null) playerAnim.SetBool("isMove", false);
         }
     }
 
-    private IEnumerator PlayWaveDialogue(int index)
+    public void OnPlayerEnterPhase(int index)
     {
-        ObjData playerFileData = playerObject.GetComponent<ObjData>();
-        if (playerFileData != null && tutorialDialogue != null)
+        // 순서대로 진행하기 위해 현재 페이즈 인덱스와 맞는지 확인
+        if (index == currentPhaseIndex && !isWaveStarted)
         {
-            playerFileData.SetDialogue(index);
-            int totalCalls = playerFileData.dialogue.lines.Length + 1;
+            StartCoroutine(StartPhaseSequence(index));
+        }
+    }
 
-            for (int i = 0; i < totalCalls; i++)
+    private IEnumerator StartPhaseSequence(int index)
+    {
+        isWaveStarted = true;
+        WavePhase cp = phases[index];
+
+        // 1. 입구 콜라이더는 이제 끔 (중복 실행 방지)
+        if (cp.entryCollider != null) cp.entryCollider.SetActive(false);
+
+        // 2. 연출: 화면 흔들림과 함께 벽이 활성화
+        if (mapParent != null) StartCoroutine(MapShake(mapParent, shakeDuration, shakeMagnitude));
+
+        foreach (var wall in cp.phaseWalls)
+        {
+            if (wall != null) wall.SetActive(true);
+        }
+
+        yield return new WaitForSeconds(0.3f); // 살짝의 시간차 연출
+
+        // 3. 몬스터 등장
+        aliveCount = cp.monsters.Count;
+        foreach (var mon in cp.monsters)
+        {
+            if (mon != null) mon.SetActive(true);
+        }
+    }
+
+    public void OnMonsterDied(GameObject monster)
+    {
+        WavePhase cp = phases[currentPhaseIndex];
+
+        if (monster == cp.bossMonster)
+        {
+            SpawnTreasure(monster.transform.position);
+        }
+
+        if (!cp.monsters.Contains(monster) && monster != cp.bossMonster) return;
+
+        aliveCount--;
+
+        // 2. 모든 몬스터가 죽었을 때
+        if (aliveCount <= 0)
+        {
+            if (currentPhaseIndex < phases.Length - 1)
             {
-                tutorialDialogue.Action(playerObject);
-
-                if (i < playerFileData.dialogue.lines.Length)
-                {
-                    yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0));
-                    yield return null;
-                }
+                // 중간 페이즈는 평소대로 벽 제거
+                RemoveCurrentWalls();
+                currentPhaseIndex++;
+                isWaveStarted = false;
             }
+            else
+            {
+                // 마지막 페이즈: 이제부터 상호작용이 가능하다고 표시
+                allMonstersDead = true;
+                Debug.Log("<color=cyan>모든 적 처치! 이제 상자를 열 수 있습니다.</color>");
+            }
+        }
+    }
+
+    private void EndCurrentPhase()
+    {
+        // 현재 페이즈 벽 해제
+        foreach (var wall in phases[currentPhaseIndex].phaseWalls)
+        {
+            if (wall != null) wall.SetActive(false);
+        }
+
+        Debug.Log($"<color=green>{phases[currentPhaseIndex].phaseName} 클리어!</color>");
+
+        currentPhaseIndex++;
+        isWaveStarted = false; // 다음 페이즈 입구 진입을 대기하기 위해 false로
+
+        if (currentPhaseIndex >= phases.Length)
+        {
+            Debug.Log("<color=yellow>전체 웨이브 종료!</color>");
         }
     }
 
@@ -190,5 +184,50 @@ public class MonsterWaveManager : MonoBehaviour
             yield return null;
         }
         target.transform.position = originalPos;
+    }
+
+    private void SpawnTreasure(Vector3 spawnPos)
+    {
+        if (boxPrefab != null)
+        {
+            // 몬스터 위치에 상자 생성
+            Instantiate(boxPrefab, spawnPos, Quaternion.identity);
+            Debug.Log("<color=orange>보스가 보물상자를 남겼습니다!</color>");
+        }
+    }
+
+    public void ShowControlPanel(bool show)
+    {
+        // 마지막 페이즈이고, 모든 몬스터가 죽었을 때만 UI를 보여줌
+        if (currentPhaseIndex == phases.Length - 1 && allMonstersDead)
+        {
+            if (controlPanel != null)
+            {
+                controlPanel.SetActive(show);
+                if (show && controlImage != null) controlImage.sprite = chestInteractionSprite;
+            }
+        }
+    }
+
+    public bool CanInteractWithChest()
+    {
+        return allMonstersDead;
+    }
+
+    public void OnChestOpened()
+    {
+        ShowControlPanel(false);
+        RemoveCurrentWalls();
+        Debug.Log("<color=yellow>모든 퀘스트 완료! 벽이 사라집니다.</color>");
+
+        currentPhaseIndex++; // 웨이브 최종 종료 처리
+    }
+
+    private void RemoveCurrentWalls()
+    {
+        foreach (var wall in phases[currentPhaseIndex].phaseWalls)
+        {
+            if (wall != null) wall.SetActive(false);
+        }
     }
 }
