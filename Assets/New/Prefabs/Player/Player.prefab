@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 4481813356437012346}
   - component: {fileID: 8893746164398633758}
   - component: {fileID: 8318355520135928417}
+  - component: {fileID: 2935231933254700593}
   m_Layer: 12
   m_Name: Player
   m_TagString: Player
@@ -318,6 +319,7 @@ MonoBehaviour:
   skill1_Pos: {fileID: 6377526911536764848}
   skill1_UI: {fileID: 0}
   skill2_UI: {fileID: 0}
+  skill3_UI: {fileID: 0}
 --- !u!114 &4681487884055260846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,6 +367,7 @@ MonoBehaviour:
   - {fileID: 0}
   activeAlpha: 0
   inactiveAlpha: 0.8
+  hasGear: 0
 --- !u!114 &8893746164398633758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,3 +388,17 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6234848510416873537}
   m_Enabled: 1
+--- !u!114 &2935231933254700593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6234848510416873537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcc358ba1f5e93740968cd1ab2ae3a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entrancePos: {fileID: 0}
+  savePointPos: {fileID: 0}

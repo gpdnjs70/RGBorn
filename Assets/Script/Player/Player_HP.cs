@@ -167,16 +167,40 @@ public class Player_HP : Entity, IDebuffTarget
 
         // --- 기존 로직 수행 ---
         // Debug.Log($"최종 데미지는 {finalDamage} (배율: {multiplier})");
+        
+        HP -= finalDamage;
         DamagePopup.Create(transform.position + Vector3.up, (int)finalDamage, false);
 
-        HP -= finalDamage;
-
-        if (knockback != null && sender != null)
+        // --- HP가 0 이하일 때 처리 ---
+        if (HP <= 0)
         {
-            knockback.PlayFeedBack(sender);
+            DieAndRespawn();
+        }
+        else
+        {
+            // 살아있을 때만 히트 애니메이션과 넉백 실행
+            if (knockback != null && sender != null) knockback.PlayFeedBack(sender);
+            StartCoroutine("HitAnimation");
+        }
+    }
+
+    private void DieAndRespawn()
+    {
+        if (IsInvincible) return;
+        IsInvincible = true;
+
+        // 1. 현재 씬 이름 가져오기
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        // 2. 리로드 전에 부활 지점 정보를 먼저 세이브
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.SaveGame(true);
         }
 
-        StartCoroutine("HitAnimation");
+        // 3. FadeTransition에 모든 연출과 씬 전환을 위임
+        // FadeToScene 내부에서 [페이드아웃 -> 씬로드 -> 페이드인]이 순차적으로 일어납니다.
+        FadeTransition.Instance.FadeToScene(currentSceneName);
     }
 
     private IEnumerator HitAnimation()

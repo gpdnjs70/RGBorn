@@ -91,4 +91,31 @@ public class FadeTransition : MonoBehaviour
         c.a = to;
         fadeImage.color = c;
     }
+
+    public void FadeAction(System.Action onBlack)
+    {
+        if (isTransitioning) return;
+        StartCoroutine(FadeActionRoutine(onBlack));
+    }
+
+    private IEnumerator FadeActionRoutine(System.Action onBlack)
+    {
+        isTransitioning = true;
+        if (fadeImage != null) fadeImage.raycastTarget = true;
+
+        // 1. 암전
+        yield return StartCoroutine(Fade(0f, 1f, fadeOutTime));
+
+        // 2. 암전된 상태에서 전달받은 함수(Action) 실행 (예: 위치 이동, 데이터 세이브 등)
+        onBlack?.Invoke();
+
+        if (blackHoldTime > 0f)
+            yield return new WaitForSeconds(blackHoldTime);
+
+        // 3. 다시 밝아짐
+        yield return StartCoroutine(Fade(1f, 0f, fadeInTime));
+
+        if (fadeImage != null) fadeImage.raycastTarget = false;
+        isTransitioning = false;
+    }
 }

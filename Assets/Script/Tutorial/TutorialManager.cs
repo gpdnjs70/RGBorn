@@ -63,7 +63,17 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject SceneChange;
 
     private void Awake()
-    { 
+    {
+        if (SaveManager.Instance != null)
+        {
+            // 중요: 세이브 파일이 아예 없을 때만 기본값(입구 시작)으로 저장
+            if (SaveManager.Instance.LoadGame() == null)
+            {
+                SaveManager.Instance.SaveGame(false);
+                Debug.Log("첫 방문: 기본 세이브 생성");
+            }
+        }
+
         playerMoveScript = player.GetComponent<Player_Movement>();
         attackScript = player.GetComponent<Player_Attack>();
         playerAttributeScript = player.GetComponent<PlayerAttribute>();
