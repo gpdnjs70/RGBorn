@@ -57,6 +57,12 @@ public class RBossFinishManager : MonoBehaviour
             yield return StartCoroutine(PlayDialogue(bossNPC, 0));
         }
 
+        if (bossNPC != null)
+        {
+            Animator RBossAnim = bossNPC.GetComponent<Animator>();
+            RBossAnim.SetTrigger("Death");
+        }
+
         yield return new WaitForSeconds(1.0f);
 
         // 4. 대화가 다 끝나면 다음 장소로 이동
