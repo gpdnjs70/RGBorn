@@ -252677,15 +252677,15 @@ PrefabInstance:
     - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: attributeOverrides.Array.data[5]
       value: 
-      objectReference: {fileID: 22100000, guid: 4db9d21de62dcde4ab67564ab03bc481, type: 2}
+      objectReference: {fileID: 22100000, guid: ff6e8c33af0660745b72c332264c703c, type: 2}
     - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: attributeOverrides.Array.data[6]
       value: 
-      objectReference: {fileID: 22100000, guid: d7b55cd872045ed46a24a2ed3fcb29c9, type: 2}
+      objectReference: {fileID: 22100000, guid: 7c2708b2b5a8b6a43b60fc7ed3a39350, type: 2}
     - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: attributeOverrides.Array.data[7]
       value: 
-      objectReference: {fileID: 22100000, guid: 5f235a777c707824dbb00812504702f4, type: 2}
+      objectReference: {fileID: 22100000, guid: 7e6d749933d73904db03c8e177f33ce8, type: 2}
     - target: {fileID: 6234848510416873537, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: m_Name
       value: Player

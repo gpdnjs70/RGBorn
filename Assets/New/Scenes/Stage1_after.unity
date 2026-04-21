@@ -194960,6 +194960,18 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: attributeOverrides.Array.data[1]
+      value: 
+      objectReference: {fileID: 22100000, guid: ff6e8c33af0660745b72c332264c703c, type: 2}
+    - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: attributeOverrides.Array.data[2]
+      value: 
+      objectReference: {fileID: 22100000, guid: 7c2708b2b5a8b6a43b60fc7ed3a39350, type: 2}
+    - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: attributeOverrides.Array.data[3]
+      value: 
+      objectReference: {fileID: 22100000, guid: 7e6d749933d73904db03c8e177f33ce8, type: 2}
+    - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: attributeOverrides.Array.data[4]
       value: 
       objectReference: {fileID: 0}
