@@ -22,6 +22,11 @@ public class TempleManager : MonoBehaviour
     public bool isDialogueActive { get; private set; }
     private bool hasTriggeredPaladin = false; // 중복 실행 방지
 
+    [Header("Camera Event")]
+    [SerializeField] private CameraFollow cameraFollow; // 기존 카메라 스크립트 참조
+    [SerializeField] private Transform cameraEventPos;  // 카메라가 도달할 목표 지점
+    private GameObject cameraDummy;                     // 코드에서 생성할 임시 타겟
+
     private void Awake()
     {
         if (player != null)
@@ -49,8 +54,30 @@ public class TempleManager : MonoBehaviour
 
     private IEnumerator PaladinDialogueSequence()
     {
-        // 1. 성기사 대화 시작
         SetPlayerControllable(false);
+
+        Animator playerAnim = player.GetComponent<Animator>();
+        if (playerAnim != null)
+        {
+            playerAnim.SetFloat("DirX", 0);
+            playerAnim.SetFloat("DirY", 1);
+        }
+
+        if (cameraFollow != null && cameraEventPos != null)
+        {
+            // 현재 플레이어 위치에 더미 생성
+            cameraDummy = new GameObject("CameraDummy");
+            cameraDummy.transform.position = player.transform.position;
+
+            Transform originalTarget = cameraFollow.target; // 원래 타겟(플레이어) 저장
+            cameraFollow.target = cameraDummy.transform;    // 카메라 타겟을 더미로 변경
+
+            // 1. 카메라 서서히 올리기 (2초 동안)
+            yield return StartCoroutine(MoveCameraDummy(cameraEventPos.position, 2.0f));
+        }
+
+        // 1. 성기사 대화 시작
+        
         yield return StartCoroutine(PlayDialogue(paladinNPC, 0));
 
         // 2. 보스 등장 및 이동
@@ -70,6 +97,21 @@ public class TempleManager : MonoBehaviour
         // 4. 모든 이벤트 종료 후 연출
         if (SceneChange != null) SceneChange.SetActive(true);
         SetPlayerControllable(true);
+    }
+
+    private IEnumerator MoveCameraDummy(Vector3 targetPos, float duration)
+    {
+        float elapsed = 0;
+        Vector3 startPos = cameraDummy.transform.position;
+
+        while (elapsed < duration)
+        {
+            // Lerp를 사용하여 부드럽게 이동
+            cameraDummy.transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        cameraDummy.transform.position = targetPos;
     }
 
     private IEnumerator MoveBoss(GameObject boss, Vector3 targetPos, float duration)

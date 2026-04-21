@@ -14791,6 +14791,8 @@ MonoBehaviour:
   entity: {fileID: 1390846108}
   sliderHP: {fileID: 825035682}
   textHP: {fileID: 1281855309}
+  fillImage: {fileID: 0}
+  attributeColors: []
 --- !u!1001 &663407097
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132220,9 +132222,14 @@ MonoBehaviour:
   dashingPower: 20
   dashingTime: 0.2
   dashCooldownUI: {fileID: 241052231}
+  dashClip: {fileID: 0}
   lastDir: {x: 1, y: 0}
   dirX: 0
+  dirY: 0
   isKnockBack: 0
+  grassClip: {fileID: 0}
+  stoneClip: {fileID: 0}
+  woodClip: {fileID: 0}
 --- !u!114 &1390846107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132240,9 +132247,17 @@ MonoBehaviour:
   boxSize: {x: 1.6, y: 3.2}
   movement: {fileID: 1390846105}
   damage: 5
+  directionOffsets:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
   attributeDB: {fileID: 11400000, guid: 02f32ea9b977faf4da8f72ddaae5420c, type: 2}
-  baseDebuffChance: 0.25
-  maxFailStack: 4
+  clip: {fileID: 0}
 --- !u!114 &1390846108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132278,12 +132293,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1294fe1bcf5eb0144be08a1cabadebcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAttributeImage: {fileID: 37381082}
-  modeSprites:
-  - {fileID: 21300000, guid: 2cfa100891316ab458fd1a0214191ca3, type: 3}
-  - {fileID: 21300000, guid: a0adc81d71829534da0ed6497b7f9c12, type: 3}
-  - {fileID: 21300000, guid: 7e025a9d357baa6448164f4b426d7629, type: 3}
-  - {fileID: 21300000, guid: e5914da08a7dec64ea0a1aac005f4700, type: 3}
+  animator: {fileID: 0}
+  attributeOverrides: []
+  attributeImages: []
+  activeAlpha: 0
+  inactiveAlpha: 0.8
+  hasGear: 0
 --- !u!114 &1390846112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137855,6 +137870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneChange: {fileID: 0}
+  bossSceneManager: {fileID: 0}
 --- !u!4 &1727137489
 Transform:
   m_ObjectHideFlags: 0

@@ -19,7 +19,6 @@ public class BtnType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public BTNType currentType;
     public Transform buttonScale;
-    public Text btnText;
     Vector3 defaultScale;
     public CanvasGroup mainGroup;
     public CanvasGroup optionGroup;
@@ -44,19 +43,6 @@ public class BtnType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             case BTNType.Option:
                 CanvasGroupOn(optionGroup);
                 CanvasGroupOff(mainGroup);
-                break;
-            case BTNType.Sound:
-                if (isSound)
-                {
-                    btnText.text = "Sound Off";
-                    Debug.Log("사운드OFF");
-                }
-                else
-                {
-                    btnText.text = "Sound On";
-                    Debug.Log("사운드ON");
-                }
-                isSound = !isSound;
                 break;
             case BTNType.Back:
                 CanvasGroupOn(mainGroup);

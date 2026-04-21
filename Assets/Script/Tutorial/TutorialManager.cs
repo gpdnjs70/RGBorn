@@ -291,7 +291,18 @@ public class TutorialManager : MonoBehaviour
                 return hasAttacked && (slimeAI1.enabled == false);
             });
 
+            if (tutorialSlime1 != null)
+            {
+                Animator slimeAnim = tutorialSlime1.GetComponent<Animator>();
+
+                slimeAnim.SetFloat("DirX", -1);
+                slimeAnim.SetFloat("DirY", 0);
+
+                slimeAnim.Update(0);
+            }
+
             if (enemyHPScript1 != null) enemyHPScript1.LockAction();
+
             yield return new WaitForSeconds(0.5f);
             yield return StartCoroutine(FadeOutPanel());
         }
@@ -306,11 +317,9 @@ public class TutorialManager : MonoBehaviour
             SetupGuideUI(1);
             SetPlayerControllable(TutorialStep.Attribute);
 
-            // 유저가 속성 전환(Space)할 때까지 대기
-            yield return new WaitUntil(() =>
-                (int)playerAttributeScript.GetComponent<ColorAttribute>().colorMode == 1 &&
-                Input.GetMouseButtonDown(0)
-            );
+            float initialHP = enemyHPScript1.HP;
+
+            yield return new WaitUntil(() => enemyHPScript1.HP < initialHP);
 
             Debug.Log("속성 전환 확인 완료!");
             yield return new WaitForSeconds(0.5f);
