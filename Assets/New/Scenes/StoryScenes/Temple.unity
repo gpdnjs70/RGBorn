@@ -40028,6 +40028,18 @@ PrefabInstance:
       propertyPath: attributeImages.Array.data[2]
       value: 
       objectReference: {fileID: 499816149}
+    - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: attributeOverrides.Array.data[1]
+      value: 
+      objectReference: {fileID: 22100000, guid: 99bd11cb15f33ab4fadd31c24b197ff8, type: 2}
+    - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: attributeOverrides.Array.data[2]
+      value: 
+      objectReference: {fileID: 22100000, guid: e11c689216b11ad49ad087e2be6ac676, type: 2}
+    - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: attributeOverrides.Array.data[3]
+      value: 
+      objectReference: {fileID: 22100000, guid: 00b204f357668e84bb6b2013935c971d, type: 2}
     - target: {fileID: 6234848510416873537, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: m_Name
       value: Player
