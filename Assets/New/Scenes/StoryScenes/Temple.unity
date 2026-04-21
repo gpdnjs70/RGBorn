@@ -25551,6 +25551,8 @@ MonoBehaviour:
   bossTargetPos: {fileID: 50008289}
   dialogueSystem: {fileID: 1389991931}
   SceneChange: {fileID: 806086335}
+  cameraFollow: {fileID: 1902511302}
+  cameraEventPos: {fileID: 1944769873}
 --- !u!1 &201489992
 GameObject:
   m_ObjectHideFlags: 0
@@ -40074,7 +40076,7 @@ Animator:
   m_GameObject: {fileID: 1278621161}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c0f72288210fb4248bf47c66b777ae32, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3d2e3e36d7d880a45a9dc80faaa3be4a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -46085,7 +46087,7 @@ Animator:
   m_GameObject: {fileID: 1595191111}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c0f72288210fb4248bf47c66b777ae32, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3d2e3e36d7d880a45a9dc80faaa3be4a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -129389,6 +129391,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1917073999}
   m_CullTransparentMesh: 1
+--- !u!1 &1944769872
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1944769873}
+  m_Layer: 0
+  m_Name: dummy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1944769873
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944769872}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 7.27, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2042697649}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1947237772 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6008171668560124080, guid: caa3a040cd474514b8860ecb9cd2c45e, type: 3}
@@ -129500,6 +129533,7 @@ Transform:
   - {fileID: 1389991930}
   - {fileID: 180258000}
   - {fileID: 1348877892}
+  - {fileID: 1944769873}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2044855057 stripped

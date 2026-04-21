@@ -23,7 +23,7 @@ MonoBehaviour:
     talkerName: "\uC131\uAE30\uC0AC"
     context: "\u2026\uC0AC\uC81C\uB2D8?"
     portrait: {fileID: 21300000, guid: 52f8bfce12f2ef64595e80239c3058e7, type: 3}
-    customOffset: {x: -6, y: 10, z: 0}
+    customOffset: {x: -6, y: 8.5, z: 0}
   - talkerType: 0
     talkerName: "\uC218\uC2B5\uC0AC\uC81C"
     context: "\uADF8 \uBD84, \uC81C\uAC00 \uB370\uB824\uC628 \uBD84\uC774\uC5D0\uC694."
@@ -33,7 +33,7 @@ MonoBehaviour:
     talkerName: "\uC131\uAE30\uC0AC"
     context: "\u2026\uC2E0\uC6D0\uC774 \uBD88\uD655\uC2E4\uD55C \uC874\uC7AC\uC785\uB2C8\uB2E4."
     portrait: {fileID: 21300000, guid: 52f8bfce12f2ef64595e80239c3058e7, type: 3}
-    customOffset: {x: -6, y: 10, z: 0}
+    customOffset: {x: -6, y: 8.5, z: 0}
   - talkerType: 0
     talkerName: "\uC218\uC2B5\uC0AC\uC81C"
     context: "\uBB38\uC81C\uAC00 \uC0DD\uAE30\uBA74, \uC81C\uAC00 \uCC45\uC784\uC9C0\uACA0\uC2B5\uB2C8\uB2E4."
