@@ -44,7 +44,7 @@ public class DamagePopup : MonoBehaviour
         else
         {
             // Critical Hit
-            ColorUtility.TryParseHtmlString("#FF2B00", out textColor);
+            ColorUtility.TryParseHtmlString("#0ABB0A", out textColor);
         }
         textMesh.color = textColor;
 

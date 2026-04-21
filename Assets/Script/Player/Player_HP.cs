@@ -123,6 +123,12 @@ public class Player_HP : Entity, IDebuffTarget
 
     public override void TakeDamage(float damage, GameObject sender = null)
     {
+        if (IsInvincible)
+        {
+            Debug.Log("무적 상태: 대미지를 무시합니다.");
+            return;
+        }
+
         // 1. 기본 방어 배율 가져오기 (1.0 +- 버프/디버프)
         float multiplier = DefenseMultiplier;
 

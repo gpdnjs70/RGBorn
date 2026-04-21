@@ -35,22 +35,6 @@ public class Fireball : ISkill
             animator.SetTrigger("Skill");
         }
 
-        if (bulletPrefab != null && firePos != null)
-        {
-            GameObject b = Object.Instantiate(bulletPrefab, firePos.position, Quaternion.identity);
-            Bullet bulletScript = b.GetComponent<Bullet>();
-
-            if (bulletScript != null && movement != null)
-            {
-                Vector2 fireDir = new Vector2(movement.dirX, movement.dirY);
-
-                if (fireDir == Vector2.zero) fireDir = Vector2.right;
-
-                bulletScript.SetDirection(fireDir);
-                bulletScript.Init(entity);
-            }
-        }
-
         Debug.Log($"{SkillName} น฿ป็!");
     }
 

@@ -730,8 +730,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 90400553149923512}
-  - {fileID: 2130769195737515344}
   - {fileID: 5534558587797893429}
+  - {fileID: 2130769195737515344}
   - {fileID: 5597213297929946428}
   m_Father: {fileID: 5162629432804658337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1276,7 +1276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 157992313787668615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -220
+      value: -110
       objectReference: {fileID: 0}
     - target: {fileID: 157992313787668615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1402,7 +1402,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 157992313787668615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -110
+      value: -220
       objectReference: {fileID: 0}
     - target: {fileID: 157992313787668615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1430,7 +1430,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: skillName
-      value: Identify
+      value: Invincible
       objectReference: {fileID: 0}
     - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: textSkillData
@@ -1438,7 +1438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: maxCooldownTime
-      value: 30
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 7282979846190798471, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_Sprite
@@ -1556,7 +1556,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: skillName
-      value: Fire
+      value: LifeSteal
       objectReference: {fileID: 0}
     - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: textSkillData
@@ -1564,7 +1564,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: maxCooldownTime
-      value: 3
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7282979846190798471, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_Sprite

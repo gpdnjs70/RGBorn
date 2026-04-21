@@ -553,6 +553,11 @@ MonoBehaviour:
   - {fileID: 1922383166123797733, guid: d0fa8d2b24a579e4cbd41d6e08b312db, type: 3}
   - {fileID: 3530756173012619840, guid: 05731a3b5080b914aa15343d180f485d, type: 3}
   - {fileID: 3273539624030740307, guid: f80f36cdb7b2925448cde7cf91a1d551, type: 3}
+  fireFieldClip: {fileID: 0}
+  fireBallClip: {fileID: 8300000, guid: de5f2cb762428ee4d88bbbf50ae34e4f, type: 3}
+  fireMineClip: {fileID: 0}
+  teleportClip: {fileID: 0}
+  summonClip: {fileID: 0}
 --- !u!1 &6286011205003132475
 GameObject:
   m_ObjectHideFlags: 0

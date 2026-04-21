@@ -17,6 +17,8 @@ public abstract class Entity : MonoBehaviour
     }
     // public abstract float HPRecovery    { get; }    // 초당 체력 회복량
 
+    public bool IsInvincible { get; set; } = false; // 무적 상태 프로퍼티
+
     // 속도(Speed) 프로퍼티
     public float Speed => Mathf.Max(0.1f, stats.Speed.Value);
 
@@ -29,6 +31,9 @@ public abstract class Entity : MonoBehaviour
     // 마비
     private int actionLockCount = 0;
     public bool CanAct { get; private set; } = true;
+
+    public bool IsLifeStealActive { get; set; } = false;
+    public float LifeStealRatio { get; set; } = 0f;
 
     protected void Setup()
     {
@@ -147,5 +152,13 @@ public abstract class Entity : MonoBehaviour
             actionLockCount = 0;
             CanAct = true;
         }
+    }
+
+    // 체력 회복 메서드
+    public void Heal(float amount)
+    {
+        HP = Mathf.Min(HP + amount, stats.MaxHP.Value);
+        // 필요 시 회복 팝업 출력
+        DamagePopup.Create(transform.position + Vector3.up, (int)amount, true);
     }
 }

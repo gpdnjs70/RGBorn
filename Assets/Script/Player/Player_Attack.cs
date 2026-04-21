@@ -178,6 +178,12 @@ public class Player_Attack : MonoBehaviour
 
         // 4. 최종 데미지 입히기
         actualTarget.TakeDamage(finalDamage);
+
+        if (entity.IsLifeStealActive)
+        {
+            float healAmount = finalDamage * entity.LifeStealRatio;
+            entity.Heal(healAmount);
+        }
     }
 
     /**

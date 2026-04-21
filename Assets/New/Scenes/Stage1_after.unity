@@ -70349,7 +70349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33e1b2a6f82121f40821ba6d77c262b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Town
+  sceneName: temple
 --- !u!4 &1500198804
 Transform:
   m_ObjectHideFlags: 0
@@ -194891,6 +194891,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caa3a040cd474514b8860ecb9cd2c45e, type: 3}
+--- !u!114 &3938733121456501668 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2273527576211397940, guid: caa3a040cd474514b8860ecb9cd2c45e, type: 3}
+  m_PrefabInstance: {fileID: 3938733121456501667}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28aed40eea3964245aba5de6014b905e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &9115674842732086179
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -194905,11 +194916,11 @@ PrefabInstance:
       objectReference: {fileID: 1452905516}
     - target: {fileID: 3944695193190440399, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 61.28
+      value: 3.9
       objectReference: {fileID: 0}
     - target: {fileID: 3944695193190440399, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -73.22
+      value: 29.24
       objectReference: {fileID: 0}
     - target: {fileID: 3944695193190440399, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: m_LocalPosition.z
@@ -194999,6 +195010,10 @@ PrefabInstance:
       propertyPath: skill2_UI
       value: 
       objectReference: {fileID: 433371408}
+    - target: {fileID: 6815555458812477010, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: skill3_UI
+      value: 
+      objectReference: {fileID: 3938733121456501668}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

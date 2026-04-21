@@ -43924,6 +43924,39 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caa3a040cd474514b8860ecb9cd2c45e, type: 3}
+--- !u!114 &802486917 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2273527576211397940, guid: caa3a040cd474514b8860ecb9cd2c45e, type: 3}
+  m_PrefabInstance: {fileID: 802486916}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28aed40eea3964245aba5de6014b905e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &802486918 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2228940041014503741, guid: caa3a040cd474514b8860ecb9cd2c45e, type: 3}
+  m_PrefabInstance: {fileID: 802486916}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28aed40eea3964245aba5de6014b905e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &802486919 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5742786432436542808, guid: caa3a040cd474514b8860ecb9cd2c45e, type: 3}
+  m_PrefabInstance: {fileID: 802486916}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28aed40eea3964245aba5de6014b905e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &806086335
 GameObject:
   m_ObjectHideFlags: 0
@@ -44562,11 +44595,15 @@ PrefabInstance:
     - target: {fileID: 6815555458812477010, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: skill1_UI
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 802486919}
     - target: {fileID: 6815555458812477010, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: skill2_UI
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 802486918}
+    - target: {fileID: 6815555458812477010, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: skill3_UI
+      value: 
+      objectReference: {fileID: 802486917}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

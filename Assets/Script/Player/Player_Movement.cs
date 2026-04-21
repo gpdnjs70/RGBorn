@@ -103,7 +103,7 @@ public class Player_Movement : MonoBehaviour
         }
 
         // 대시 입력
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && !isAttacking)
+        if (Input.GetKeyDown(KeyCode.Space) && !isDashing && !isAttacking)
         {
             StartCoroutine(Dash());
         }

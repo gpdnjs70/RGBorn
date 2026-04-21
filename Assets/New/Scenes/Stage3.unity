@@ -5516,6 +5516,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caa3a040cd474514b8860ecb9cd2c45e, type: 3}
+--- !u!114 &924524872 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2273527576211397940, guid: caa3a040cd474514b8860ecb9cd2c45e, type: 3}
+  m_PrefabInstance: {fileID: 924524871}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28aed40eea3964245aba5de6014b905e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &952806407
 GameObject:
   m_ObjectHideFlags: 0
@@ -62317,6 +62328,10 @@ PrefabInstance:
       propertyPath: skill2_UI
       value: 
       objectReference: {fileID: 338780820}
+    - target: {fileID: 6815555458812477010, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: skill3_UI
+      value: 
+      objectReference: {fileID: 924524872}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -79055,7 +79070,7 @@ PrefabInstance:
     - target: {fileID: 5311123713727263912, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
       propertyPath: fireBallClip
       value: 
-      objectReference: {fileID: 8300000, guid: 9e25457437b26f5408c84ee4e8d7c9e7, type: 3}
+      objectReference: {fileID: 8300000, guid: de5f2cb762428ee4d88bbbf50ae34e4f, type: 3}
     - target: {fileID: 5311123713727263912, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
       propertyPath: fireMineClip
       value: 

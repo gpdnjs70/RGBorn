@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class Bullet : MonoBehaviour
 {
+    private Animator anim;
     public float speed;
     private Vector2 dir = Vector2.right;
 
@@ -16,7 +17,12 @@ public class Bullet : MonoBehaviour
     public float damage = 20f;
     private Entity source;
 
-    [SerializeField] private AttributeDatabase attributeDB;    
+    [SerializeField] private AttributeDatabase attributeDB;
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     void Start()
     {
@@ -70,6 +76,7 @@ public class Bullet : MonoBehaviour
 
         float finalDamage = damage;
 
+        /**
         ColorAttribute atkAttrComp = attacker.GetComponent<ColorAttribute>();
 
         ColorAttribute defAttrComp = target.GetComponent<ColorAttribute>();
@@ -86,6 +93,7 @@ public class Bullet : MonoBehaviour
             if (atkAttr.weakAgainst.Contains(defAttr.colorMode))
                 finalDamage *= (1f - atkAttr.attackMinusPercent);
         }
+        **/
 
         /**
         if (UnityEngine.Random.value < 0.3f)
@@ -95,6 +103,12 @@ public class Bullet : MonoBehaviour
         **/
 
         target.TakeDamage(finalDamage);
+
+        if (attacker != null && attacker.IsLifeStealActive)
+        {
+            float healAmount = finalDamage * attacker.LifeStealRatio;
+            attacker.Heal(healAmount);
+        }
     }
 
 
@@ -107,10 +121,16 @@ public class Bullet : MonoBehaviour
     {
         dir = direction.normalized;
 
-        if (dir != Vector2.zero)
+        if (anim != null)
         {
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            // 애니메이터의 파라미터에 방향 값 전달
+            anim.SetFloat("DirX", dir.x);
+            anim.SetFloat("DirY", dir.y);
         }
+
+        // 레이캐스트가 날아가는 방향을 위해 Rotation은 맞춰주는 것이 좋습니다.
+        // 다만, 비주얼은 애니메이터가 담당하므로 SpriteRenderer의 회전은 끌 수도 있습니다.
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }
