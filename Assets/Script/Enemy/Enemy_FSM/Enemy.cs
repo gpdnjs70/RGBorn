@@ -267,6 +267,14 @@ public class Enemy : MonoBehaviour
         {
             arrowScript.SetDirection(lockedAttackDir);
 
+            Animator arrowAnim = b.GetComponent<Animator>();
+            if (arrowAnim != null)
+            {
+                // lockedAttackDir의 x, y 값을 애니메이터 파라미터로 전달
+                arrowAnim.SetFloat("DirX", lockedAttackDir.x);
+                arrowAnim.SetFloat("DirY", lockedAttackDir.y);
+            }
+
             if (entity != null)
             {
                 arrowScript.Init(entity);

@@ -44,6 +44,8 @@ AnimationClip:
       value: {fileID: 21300000, guid: 6bb44d465c505b845afc3aff62d23439, type: 3}
     - time: 0.9166667
       value: {fileID: 21300000, guid: 0c8ddd954d90cf3478d75af82c22c546, type: 3}
+    - time: 1
+      value: {fileID: 21300000, guid: 68d3a521e1dead543a30a125690334e5, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -78,17 +80,18 @@ AnimationClip:
     - {fileID: 21300000, guid: 039da3f10c3391a46ab2a28362649abe, type: 3}
     - {fileID: 21300000, guid: 6bb44d465c505b845afc3aff62d23439, type: 3}
     - {fileID: 21300000, guid: 0c8ddd954d90cf3478d75af82c22c546, type: 3}
+    - {fileID: 21300000, guid: 68d3a521e1dead543a30a125690334e5, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1
+    m_StopTime: 1.0833334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 0
+    m_LoopTime: 1
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0
@@ -103,7 +106,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.9166667
+  - time: 1
     functionName: Shoot
     data: 
     objectReferenceParameter: {fileID: 0}
