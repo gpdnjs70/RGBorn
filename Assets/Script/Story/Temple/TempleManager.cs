@@ -15,6 +15,8 @@ public class TempleManager : MonoBehaviour
     [SerializeField] private Transform bossTargetPos;
     public TutorialDialogue dialogueSystem;
 
+    [SerializeField] private Transform playerTargetPos;
+
     [Header("UI & Effect")]
     [SerializeField] private GameObject SceneChange;
 
@@ -96,7 +98,13 @@ public class TempleManager : MonoBehaviour
 
         // 4. 모든 이벤트 종료 후 연출
         if (SceneChange != null) SceneChange.SetActive(true);
-        SetPlayerControllable(true);
+        if (playerTargetPos != null)
+        {
+            // 카메라가 다시 플레이어(혹은 플레이어를 따라가는 더미)를 비추도록 설정
+            // 만약 카메라가 플레이어를 바로 따라가게 하고 싶다면 cameraFollow.target = player.transform;
+
+            yield return StartCoroutine(MovePlayerToPosition(playerTargetPos.position, 2.5f));
+        }
     }
 
     private IEnumerator MoveCameraDummy(Vector3 targetPos, float duration)
@@ -112,6 +120,34 @@ public class TempleManager : MonoBehaviour
             yield return null;
         }
         cameraDummy.transform.position = targetPos;
+    }
+
+    private IEnumerator MovePlayerToPosition(Vector3 targetPos, float duration)
+    {
+        float elapsed = 0;
+        Vector3 startPos = player.transform.position;
+        Animator playerAnim = player.GetComponent<Animator>();
+
+        // 애니메이션 설정 (걷기 애니메이션이 있다면)
+        if (playerAnim != null)
+        {
+            playerAnim.SetBool("isMove", true);
+            // 이동 방향에 따라 DirX, DirY 설정 (예: 위로 이동 시 DirY = 1)
+            Vector2 dir = (targetPos - startPos).normalized;
+            playerAnim.SetFloat("DirX", dir.x);
+            playerAnim.SetFloat("DirY", dir.y);
+        }
+
+        while (elapsed < duration)
+        {
+            player.transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        player.transform.position = targetPos;
+
+        if (playerAnim != null) playerAnim.SetBool("isMove", false);
     }
 
     private IEnumerator MoveBoss(GameObject boss, Vector3 targetPos, float duration)

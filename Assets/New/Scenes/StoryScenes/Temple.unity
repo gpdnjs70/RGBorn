@@ -25550,6 +25550,7 @@ MonoBehaviour:
   finalBoss: {fileID: 59532456}
   bossTargetPos: {fileID: 50008289}
   dialogueSystem: {fileID: 1389991931}
+  playerTargetPos: {fileID: 1430417546}
   SceneChange: {fileID: 806086335}
   cameraFollow: {fileID: 1902511302}
   cameraEventPos: {fileID: 1944769873}
@@ -40076,7 +40077,7 @@ Animator:
   m_GameObject: {fileID: 1278621161}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3d2e3e36d7d880a45a9dc80faaa3be4a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0d4c4a6dc6ea61241815335356881896, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -40128,7 +40129,7 @@ SpriteRenderer:
   m_SortingLayerID: 1883998863
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d9800335ed6d0184688f5aba04ea98ae, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2fceb0157ac23ed49b2032fca888f9ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -45639,6 +45640,37 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &1430417545
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1430417546}
+  m_Layer: 0
+  m_Name: playerFinalPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1430417546
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430417545}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 6.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1560781576}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1483797585
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46040,6 +46072,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 50008289}
+  - {fileID: 1430417546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1595191111
@@ -46139,7 +46172,7 @@ SpriteRenderer:
   m_SortingLayerID: 1883998863
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d9800335ed6d0184688f5aba04ea98ae, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e17e427d433322d4fb36faf400576e28, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
