@@ -68,7 +68,7 @@ public class RBossFinishManager : MonoBehaviour
         // 4. 대화가 다 끝나면 다음 장소로 이동
         if (!string.IsNullOrEmpty(nextSceneName))
         {
-            SceneManager.LoadScene(nextSceneName);
+            FadeTransition.Instance.FadeToScene(nextSceneName);
         }
     }
 

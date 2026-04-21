@@ -51,7 +51,7 @@ public class CutSceneManager : MonoBehaviour
         Debug.Log("ÄÆ¾À Á¾·á");
         if (!string.IsNullOrEmpty(nextSceneName))
         {
-            SceneManager.LoadScene(nextSceneName);
+            FadeTransition.Instance.FadeToScene(nextSceneName);
         }
         else
         {

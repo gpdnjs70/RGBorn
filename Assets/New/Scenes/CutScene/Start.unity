@@ -743,7 +743,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8482561669334252483, guid: ada716a0e128c0c458ee46017ed52e25, type: 3}
       propertyPath: blackHoldTime
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

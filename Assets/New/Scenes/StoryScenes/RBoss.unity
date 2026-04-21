@@ -79347,7 +79347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1102898208}
   bossNPC: {fileID: 1023699714}
-  nextSceneName: 
+  nextSceneName: Finish
   dialogueSystem: {fileID: 1389991931}
 --- !u!1 &2087418679
 GameObject:
