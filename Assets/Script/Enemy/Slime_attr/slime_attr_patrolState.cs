@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class slime_attr_patrolState : StateMachineBehaviour
 {
-    private Vector2 targetPos;
+    private NavMeshAgent agent;
     private Enemy enemy;
     private Transform enemyTransform;
     private float wanderRange = 3f;
@@ -15,18 +16,24 @@ public class slime_attr_patrolState : StateMachineBehaviour
         enemy = animator.GetComponent<Enemy>();
         enemyTransform = animator.transform;
 
-        float moveDistance = Random.Range(1.0f, wanderRange);
+        agent = animator.GetComponent<NavMeshAgent>();
 
-        if (Random.value > 0.5f) moveDistance *= -1;
+        if (agent != null)
+        {
+            agent.speed = enemy.GetComponent<Entity>().Speed * 0.5f;
+            agent.isStopped = false;
 
-        targetPos = new Vector2(enemyTransform.position.x + moveDistance, enemyTransform.position.y);
+            // NavMesh 영역 내 유효한 랜덤 좌표 가져오기
+            Vector3 targetPos = GetRandomNavMeshPos(enemyTransform.position, wanderRange);
+            agent.SetDestination(targetPos);
+        }
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         float dist = Vector2.Distance(enemyTransform.position, enemy.player.position);
 
-        // 플레이어 발견 시 산책 중단하고 추적
+        // 플레이어 발견 시 추적
         if (dist <= 9f)
         {
             animator.SetBool("isWander", false);
@@ -34,15 +41,34 @@ public class slime_attr_patrolState : StateMachineBehaviour
             return;
         }
 
-        // 목표 지점까지 이동
-        enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, targetPos, Time.deltaTime * (enemy.GetComponent<Entity>().Speed * 0.5f));
-        enemy.DirectionEnemy(targetPos);
+        // 방향 업데이트
+        if (!agent.isStopped)
+        {
+            enemy.DirectionEnemy(agent.steeringTarget);
+        }
 
-        // 도착하면 다시 Idle로
-        if (Vector2.Distance(enemyTransform.position, targetPos) < 0.1f)
+        // 목적지 도착 체크
+        if (!agent.pathPending && agent.remainingDistance < 0.2f)
         {
             animator.SetBool("isWander", false);
-            return;
         }
+    }
+
+    private Vector3 GetRandomNavMeshPos(Vector3 origin, float dist)
+    {
+        Vector3 randDir = Random.insideUnitCircle * dist;
+        randDir += origin;
+        NavMeshHit navHit;
+        // 2D 영역 내에서 유효한 바닥 좌표를 찾음
+        if (NavMesh.SamplePosition(randDir, out navHit, dist, NavMesh.AllAreas))
+        {
+            return new Vector3(navHit.position.x, navHit.position.y, 0);
+        }
+        return origin;
+    }
+
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (agent != null) agent.isStopped = true;
     }
 }

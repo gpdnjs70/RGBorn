@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Long_followState : StateMachineBehaviour
 {
+    private NavMeshAgent agent;
     Transform enemyTransform;
     Enemy enemy;
     Entity entity;
@@ -14,65 +16,58 @@ public class Long_followState : StateMachineBehaviour
         enemy = animator.GetComponent<Enemy>();
         enemyTransform = animator.GetComponent<Transform>();
         entity = enemy.GetComponent<Entity>();
+        agent = animator.GetComponent<NavMeshAgent>();
+
+        if (agent != null)
+        {
+            agent.speed = entity.Speed;
+            agent.isStopped = false;
+            // 핵심: 원거리 몬스터는 정지 거리를 사거리(6f)에 가깝게 설정합니다.
+            // 5.5f 정도로 설정하면 사거리에 진입하자마자 자연스럽게 멈춥니다.
+            agent.stoppingDistance = 5.5f;
+        }
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Vector2 currentPos = enemyTransform.position;
-        float distance = Vector2.Distance(enemy.player.position, currentPos);
+        if (enemy.player == null) return;
 
+        float distance = Vector2.Distance(enemy.player.position, enemyTransform.position);
+
+        // 1. 추격 포기 (최대 인식 거리 10f 초과 시)
         if (distance > 10f)
         {
             animator.SetBool("isFollow", false);
             return;
         }
 
+        // 2. 사거리 진입 체크 및 공격 실행
         if (distance <= 6f)
         {
             if (enemy.atkDelay <= 0)
             {
+                agent.isStopped = true; // 공격 전 이동 정지
                 enemy.atkDelay = enemy.atkCoolTime;
                 enemy.DirectionEnemy(enemy.player.position);
                 animator.SetTrigger("Attack");
+                animator.SetBool("isFollow", false);
             }
-
-            animator.SetBool("isFollow", false);
             return;
         }
 
-        float finalSpeed = entity.Speed;
-
-        // 플레이어를 향한 기본 방향
-        Vector2 moveDir = ((Vector2)enemy.player.position - currentPos).normalized;
-
-        // 분리 계산
-        Vector2 separation = Vector2.zero;
-        float detectionRadius = 1.5f; // 원거리 몬스터는 조금 더 넉넉하게 간격 유지
-        Collider2D[] neighbors = Physics2D.OverlapCircleAll(currentPos, detectionRadius);
-
-        foreach (var neighbor in neighbors)
+        // 3. NavMesh를 통한 추격 (사거리 밖인 경우)
+        if (agent != null && !agent.isStopped)
         {
-            if (neighbor.gameObject != animator.gameObject && neighbor.CompareTag("Enemy"))
-            {
-                Vector2 diff = currentPos - (Vector2)neighbor.transform.position;
-                // 너무 가까우면 강하게 밀어냄
-                separation += diff.normalized / Mathf.Max(diff.magnitude, 0.1f);
-            }
+            agent.SetDestination(enemy.player.position);
+
+            // 이동 방향에 맞춰 스프라이트 반전
+            enemy.DirectionEnemy(agent.steeringTarget);
         }
-
-        // 최종 이동 벡터
-        Vector2 finalDir = (moveDir + separation * 0.5f).normalized;
-
-        // 이동 적용
-        enemyTransform.position += (Vector3)finalDir * finalSpeed * Time.deltaTime;
-
-        // 플레이어 바라보기
-        enemy.DirectionEnemy(enemy.player.position);
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        if (agent != null) agent.isStopped = true;
     }
 }
 
