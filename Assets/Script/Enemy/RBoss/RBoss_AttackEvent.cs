@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class RBoss_AttackEvent : MonoBehaviour
 {
@@ -38,6 +39,17 @@ public class RBoss_AttackEvent : MonoBehaviour
         }
     }
 
+    private Vector3 GetValidNavMeshPos(Vector3 targetPos, float range = 1.0f)
+    {
+        NavMeshHit hit;
+        // 2D 평면(X-Y)에서 targetPos 주변 반경 내의 유효한 '파란색 영역'을 찾습니다.
+        if (NavMesh.SamplePosition(targetPos, out hit, range, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+        return Vector3.zero;
+    }
+
     public void fireField()
     {
         if (IsDuplicateInvocation("fireField")) return;
@@ -51,12 +63,11 @@ public class RBoss_AttackEvent : MonoBehaviour
         float spacing = 1.0f;
         float forwardOffset = 3.0f; // 플레이어 쪽으로 얼마나 전진해서 생성할 것인지
 
-        int obstacleLayerMask = LayerMask.GetMask("Wall", "fireField");
+        int obstacleLayerMask = LayerMask.GetMask("fireField", "Enemy", "Wall");
 
         // 1. 보스 위치와 플레이어 위치 파악
         Vector3 center = transform.position;
         GameObject player = GameObject.FindWithTag("Player"); // 플레이어 태그로 찾기
-
         Vector3 targetCenter = center;
 
         if (player != null)
@@ -68,32 +79,44 @@ public class RBoss_AttackEvent : MonoBehaviour
             targetCenter = center + (dirToPlayer * forwardOffset);
         }
 
-        for (int i = 0; i < spawnCount; i++)
+        int currentSpawned = 0;
+        int attempts = 0;
+        int maxAttempts = 100; // 공간이 부족할 경우를 대비한 안전장치
+
+        while (currentSpawned < spawnCount && attempts < maxAttempts)
         {
-            // 4. 이동된 targetCenter 주변으로 랜덤 좌표 생성
+            attempts++;
+
+            // 1. 랜덤 좌표 생성
             Vector2 randomCircle = Random.insideUnitCircle * range;
-            Vector3 spawnPos = targetCenter + new Vector3(randomCircle.x, randomCircle.y, 0);
+            Vector3 rawSpawnPos = targetCenter + new Vector3(randomCircle.x, randomCircle.y, 0);
 
-            spawnPos.x = Mathf.RoundToInt(spawnPos.x / spacing) * spacing;
-            spawnPos.y = Mathf.RoundToInt(spawnPos.y / spacing) * spacing;
+            // 2. NavMesh 위 유효한 위치인지 먼저 확인 (Bake된 파란 영역 안으로 보정)
+            Vector3 navPos = GetValidNavMeshPos(rawSpawnPos, 2.0f);
 
-            Collider2D hitObstacle = Physics2D.OverlapPoint(spawnPos, obstacleLayerMask);
-
-            if (hitObstacle == null)
+            if (navPos != Vector3.zero)
             {
-                GameObject tileObj = Instantiate(fireFieldEffectPrefab, spawnPos, Quaternion.identity);
-                fireField tileScript = tileObj.GetComponent<fireField>();
-                if (tileScript != null)
+                // 3. NavMesh 위 좌표를 Spacing(그리드)에 맞춰 정렬
+                float finalX = Mathf.Round(navPos.x / spacing) * spacing;
+                float finalY = Mathf.Round(navPos.y / spacing) * spacing;
+                Vector3 finalPos = new Vector3(finalX, finalY, 0);
+
+                // 4. 중복 위치 확인 (이미 fireField가 설치되었는지)
+                // NavMesh를 썼으므로 "Wall" 체크는 제외하고 "fireField" 중복만 체크합니다.
+                Collider2D hit = Physics2D.OverlapCircle(finalPos, 0.7f, obstacleLayerMask);
+
+                if (hit == null)
                 {
-                    Entity attackerEntity = enemy.GetComponent<Enemy_HP>();
-                    tileScript.Setup(attackerEntity, 10f);
+                    // 5. 생성 및 셋업
+                    GameObject tileObj = Instantiate(fireFieldEffectPrefab, finalPos, Quaternion.identity);
+                    fireField tileScript = tileObj.GetComponent<fireField>();
+                    if (tileScript != null)
+                    {
+                        Entity attackerEntity = enemy.GetComponent<Enemy_HP>();
+                        tileScript.Setup(attackerEntity, 10f);
+                    }
+                    currentSpawned++;
                 }
-            }
-            else
-            {
-                i--;
-                // 무한 루프 방지 카운트 (i가 너무 작아지면 중단)
-                if (i < -50) break;
             }
         }
     }
@@ -147,45 +170,50 @@ public class RBoss_AttackEvent : MonoBehaviour
         int spawnCount = 5;       // 맵에 뿌릴 지뢰 개수
         float range = 6.0f;       // 보스 주변 스폰 반경
         float spacing = 1.0f;     // 그리드 간격 (fireField와 동일하게 적용)
+        float safetyRadius = 0.7f;
 
-        int obstacleLayerMask = LayerMask.GetMask("Wall", "fireMine", "Enemy");
+        int obstacleLayerMask = LayerMask.GetMask("Wall", "fireMine");
 
         Vector3 center = transform.position; // 보스의 현재 위치
 
-        for (int i = 0; i < spawnCount; i++)
+        int currentSpawned = 0;
+        int attempts = 0;
+        int maxAttempts = 50; // 무한 루프 방지
+
+        while (currentSpawned < spawnCount && attempts < maxAttempts)
         {
+            attempts++;
+
+            // 1. 랜덤 좌표 생성
             Vector2 randomCircle = Random.insideUnitCircle * range;
-            Vector3 spawnPos = center + new Vector3(randomCircle.x, randomCircle.y, 0);
+            Vector3 rawSpawnPos = center + new Vector3(randomCircle.x, randomCircle.y, 0);
 
-            // 일정 간격(그리드)에 맞게 위치 조정
-            spawnPos.x = Mathf.RoundToInt(spawnPos.x / spacing) * spacing;
-            spawnPos.y = Mathf.RoundToInt(spawnPos.y / spacing) * spacing;
+            // 2. NavMesh 위 유효한 위치 찾기
+            Vector3 navPos = GetValidNavMeshPos(rawSpawnPos, 2.0f);
 
-            Collider2D hitObstacle = Physics2D.OverlapPoint(spawnPos, obstacleLayerMask);
-            // 벽이 아닌 빈 공간에만 생성
-            if (hitObstacle == null)
+            if (navPos != Vector3.zero)
             {
-                // Debug.Log($"지뢰 생성 위치: {spawnPos} - 벽 없음. 생성 시도!");
-                GameObject mineObj = Instantiate(fireMineEffectPrefab, spawnPos, Quaternion.identity);
+                // 3. Spacing 적용 (그리드 정렬)
+                float finalX = Mathf.Round(navPos.x / spacing) * spacing;
+                float finalY = Mathf.Round(navPos.y / spacing) * spacing;
+                Vector3 finalPos = new Vector3(finalX, finalY, 0);
 
-                fireMine mineScript = mineObj.GetComponent<fireMine>();
-                if (mineScript != null)
-                {
-                    // fireBall처럼 큰 단발성 대미지 수치 지정
-                    float burstDamage = 15f;
-                    mineScript.Setup(attackerEntity, burstDamage);
-                }
-            }
-            else
-            {
-                // 벽에 걸려서 생성을 실패했다면 루프 횟수를 복구하여 지정된 개수를 무조건 채움
-                // Debug.LogWarning($"지뢰 생성 실패: {spawnPos} 위치에 벽 감지됨! (i 값: {i})");
-                i--;
+                // 4. 안전 거리 체크 (OverlapCircle 사용)
+                // '점'이 아니라 '원'으로 체크하여 보스 테두리에 찰싹 붙는 것을 방지합니다.
+                Collider2D hit = Physics2D.OverlapCircle(finalPos, safetyRadius, obstacleLayerMask);
 
-                if (i < -50)
+                if (hit == null)
                 {
-                    // Debug.LogError("지뢰 생성 무한 루프 발생! 강제 종료");
-                    break;
+                    // 5. 생성 및 셋업
+                    GameObject mineObj = Instantiate(fireMineEffectPrefab, finalPos, Quaternion.identity);
+                    fireMine mineScript = mineObj.GetComponent<fireMine>();
+
+                    if (mineScript != null)
+                    {
+                        float burstDamage = 15f;
+                        mineScript.Setup(attackerEntity, burstDamage);
+                    }
+                    currentSpawned++;
                 }
             }
         }
@@ -194,53 +222,45 @@ public class RBoss_AttackEvent : MonoBehaviour
     public void Teleport()
     {
         if (IsDuplicateInvocation("Teleport")) return;
+    PlayBossSFX("Teleport", teleportClip);
 
-        PlayBossSFX("Teleport", teleportClip);
-        // Debug.Log("순간이동");
+    Vector2 playerPos = enemy.player.position;
+    Vector3 finalPos = transform.position;
+    bool foundPos = false;
 
-        if (enemy.player == null) return;
+    for (int i = 0; i < 15; i++)
+    {
+        float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+        float randomDist = Random.Range(2.0f, 3.5f);
+        
+        // 2D 위치 계산
+        Vector3 potentialPos = new Vector3(
+            playerPos.x + Mathf.Cos(randomAngle) * randomDist,
+            playerPos.y + Mathf.Sin(randomAngle) * randomDist,
+            0
+        );
 
-        Vector2 playerPos = enemy.player.position;
-        Vector3 targetPos = transform.position;
+        // NavMeshPlus가 구워놓은 '갈 수 있는 영역'인지 확인
+        Vector3 validPos = GetValidNavMeshPos(potentialPos, 1.0f);
 
-        bool foundPos = false;
-        int attempts = 0;
-
-        // 플레이어 주변 2~3 유닛 정도 떨어진 곳을 목표로 함
-        float minDistance = 2.0f;
-        float maxDistance = 3.5f;
-
-        while (!foundPos && attempts < 15)
+        if (validPos != Vector3.zero)
         {
-            attempts++;
-
-            // 1. 플레이어를 중심으로 랜덤한 각도와 거리 계산
-            float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-            float randomDist = Random.Range(minDistance, maxDistance);
-
-            Vector2 offset = new Vector2(Mathf.Cos(randomAngle), Mathf.Sin(randomAngle)) * randomDist;
-            Vector2 potentialPos = playerPos + offset;
-
-            // 2. 해당 위치가 벽 내부가 아닌지 확인
-            Collider2D hitWall = Physics2D.OverlapCircle(potentialPos, 0.5f, LayerMask.GetMask("Wall"));
-
-            if (hitWall == null)
-            {
-                targetPos = potentialPos;
-                foundPos = true;
-            }
+            finalPos = validPos;
+            foundPos = true;
+            break;
         }
+    }
 
-        // 만약 플레이어 주변이 온통 벽이라 자리를 못 찾았다면, 최후의 수단으로 플레이어 위치 그대로 이동
-        if (!foundPos)
-        {
-            targetPos = playerPos;
-        }
-
-        transform.position = targetPos;
-
-        // 텔레포트 후 즉시 플레이어를 바라보게 설정
-        enemy.DirectionEnemy(playerPos);
+    // NavMeshAgent2D 등을 사용 중이라면 Warp가 가장 안전합니다.
+    var agent = GetComponent<NavMeshAgent>();
+    if (agent != null)
+    {
+        agent.Warp(finalPos);
+    }
+    else
+    {
+        transform.position = finalPos;
+    }
     }
 
     public void SummonMinions()

@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Golem_idleState : StateMachineBehaviour
 {
+    private NavMeshAgent agent;
     Transform enemyTransform;
     Enemy enemy;
     private float timer;
@@ -13,11 +15,23 @@ public class Golem_idleState : StateMachineBehaviour
         // Debug.Log("idle");
         enemy = animator.GetComponent<Enemy>();
         enemyTransform = animator.GetComponent<Transform>();
+
+        agent = animator.GetComponent<NavMeshAgent>();
+
+        // 1. 에이전트 정지: Idle 상태가 되면 이전 상태의 이동 명령을 취소합니다.
+        if (agent != null)
+        {
+            agent.isStopped = true; // 이동 멈춤
+            agent.velocity = Vector3.zero; // 물리적 관성 제거
+        }
+
         timer = Random.Range(2f, 5f);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (enemy.player == null) return;
+
         float dist = Vector2.Distance(enemyTransform.position, enemy.player.position);
 
         // 추적 조건
