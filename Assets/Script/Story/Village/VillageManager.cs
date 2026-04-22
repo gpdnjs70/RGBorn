@@ -24,9 +24,9 @@ public class VillageManager : MonoBehaviour
     [SerializeField] private List<Sprite> controlSprites = new List<Sprite>(); // 0: E키 등
 
     [Header("동화책 전용 UI")]
-    [SerializeField] private GameObject storyBookPanel;
-    [SerializeField] private Image storyBookImage;
-    [SerializeField] private List<Sprite> storyBookSprites;
+    [SerializeField] private GameObject storyBookPanel; // 동화책 전체 패널
+    [SerializeField] private Animator storyBookContentAnimator; // 애니메이션이 실행되는 자식 오브젝트의 애니메이터
+    [SerializeField] private int totalPageCount = 5; // 애니메이터에 설정된 총 페이지(상태) 수
 
     [SerializeField] private GameObject SavePoint;
 
@@ -101,36 +101,37 @@ public class VillageManager : MonoBehaviour
 
     public IEnumerator PlayDialogue(GameObject npcObj, int dialogueIndex)
     {
+        if (isDialogueActive) yield break;
+
         isDialogueActive = true;
 
-        // 1. 플레이어 조작 정지 및 애니메이션 초기화
+        // 2. 플레이어 조작 정지 및 애니메이션 초기화
         SetPlayerControllable(false);
 
-        // 2. NPC의ObjData 가져오기 및 대사 SO 설정
+        // 3. NPC의 ObjData 가져오기 및 대사 SO 설정
         ObjData npcData = npcObj.GetComponent<ObjData>();
         if (npcData == null)
         {
             Debug.LogError(npcObj.name + "에 ObjData 스크립트가 없습니다!");
             SetPlayerControllable(true);
+            isDialogueActive = false;
             yield break;
         }
+
         npcData.SetDialogue(dialogueIndex);
 
-        // 3. 대사 줄 수만큼 반복 (+ 창 닫기용 1회)
-        int totalCalls = npcData.dialogue.lines.Length + 1;
+        // --- 핵심 수정 부분 ---
+        // VillageManager의 for 루프와 WaitForUserInput을 제거하고,
+        // TutorialDialogue 시스템이 내부적으로 입력을 처리하게 둡니다.
 
-        for (int i = 0; i < totalCalls; i++)
-        {
-            dialogueSystem.Action(npcObj);
+        // 대화 시작 신호 (한 번만 호출)
+        dialogueSystem.Action(npcObj);
 
-            // 마지막 호출(창 닫기)이 아닐 때만 유저 입력을 기다림
-            if (i < npcData.dialogue.lines.Length)
-            {
-                yield return StartCoroutine(WaitForUserInput());
-            }
-        }
+        // TutorialDialogue가 대화를 모두 마치고 isDialogueFinished를 true로 바꿀 때까지 대기
+        yield return new WaitUntil(() => dialogueSystem.isDialogueFinished);
+        // -----------------------
 
-        yield return new WaitUntil(() => dialogueSystem.isDialogueFinished == true);
+        // 대화가 완전히 끝난 후 약간의 여유 (연타 방지)
         yield return new WaitForSeconds(0.1f);
 
         SetPlayerControllable(true);
@@ -150,16 +151,39 @@ public class VillageManager : MonoBehaviour
 
     public IEnumerator PlayFullStory()
     {
-        SetPlayerControllable(false); // 조작 금지
+        SetPlayerControllable(false);
+
+        // 1. 배경이 포함된 전체 패널 활성화
         if (storyBookPanel != null) storyBookPanel.SetActive(true);
 
-        for (int i = 0; i < storyBookSprites.Count; i++)
+        // 2. 페이지 수만큼 루프
+        for (int i = 0; i < totalPageCount; i++)
         {
-            storyBookImage.sprite = storyBookSprites[i];
-            yield return StartCoroutine(WaitForUserInput()); // 유저 입력 대기
+            Debug.Log($"현재 동화책 {i + 1} / {totalPageCount} 페이지 대기 중");
+
+            // 3. 사용자 입력을 기다림 (스페이스바/클릭)
+            yield return StartCoroutine(WaitForUserInput());
+
+            // 4. 마지막 페이지에서 입력을 받았다면 루프 종료
+            if (i == totalPageCount - 1) break;
+
+            // 5. 다음 페이지 애니메이션 실행
+            if (storyBookContentAnimator != null)
+            {
+                storyBookContentAnimator.SetTrigger("NextPage");
+
+                // 6. 애니메이션이 시작되고 전환되는 동안 아주 잠깐 대기 (연타 방지)
+                yield return new WaitForSeconds(0.1f);
+
+                // 만약 애니메이션이 완전히 끝날 때까지 입력을 막고 싶다면 아래 주석을 해제하세요.
+
+                yield return new WaitUntil(() =>
+                    storyBookContentAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f
+                    && !storyBookContentAnimator.IsInTransition(0));
+            }
         }
 
+        // 7. 모든 과정이 끝나면 배경 패널까지 비활성화
         if (storyBookPanel != null) storyBookPanel.SetActive(false);
-        SetPlayerControllable(true); // 조작 해제
     }
 }

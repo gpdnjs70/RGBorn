@@ -10,6 +10,7 @@ public class RBossFinishManager : MonoBehaviour
     [SerializeField] private GameObject bossNPC;      // 대화할 보스 NPC
     [SerializeField] private string nextSceneName;    // 대화 종료 후 이동할 마을/다음맵
     public TutorialDialogue dialogueSystem;
+    private bool isDialogueActive = false;
 
     private Player_Movement playerMoveScript;
     private Player_Attack attackScript;
@@ -74,16 +75,26 @@ public class RBossFinishManager : MonoBehaviour
 
     public IEnumerator PlayDialogue(GameObject npcObj, int dialogueIndex)
     {
+        if (isDialogueActive) yield break;
+        isDialogueActive = true;
+
+        // 혹시 모를 조작 방지 재확인
+        SetPlayerControllable(false);
+
         ObjData npcData = npcObj.GetComponent<ObjData>();
         if (npcData != null)
         {
             npcData.SetDialogue(dialogueIndex);
+
+            // 대화 시스템 시작 (제어권 양도)
             dialogueSystem.Action(npcObj);
 
-            // dialogueSystem의 끝남 플래그를 기다림
+            // TutorialDialogue가 완료될 때까지 대기
             yield return new WaitUntil(() => dialogueSystem.isDialogueFinished);
         }
+
         yield return new WaitForSeconds(0.1f);
+        isDialogueActive = false;
     }
 
     public void SetPlayerControllable(bool canControl)

@@ -62,6 +62,8 @@ public class TutorialManager : MonoBehaviour
 
     [SerializeField] private GameObject SavePoint;
 
+    private bool isDialogueActive = false;
+
     private void Awake()
     {
         playerMoveScript = player.GetComponent<Player_Movement>();
@@ -431,12 +433,17 @@ public class TutorialManager : MonoBehaviour
     // NPC의 dialogueList 중 하나를 끝까지 재생하고 창을 닫는 공용 함수
     private IEnumerator PlayDialogue(int index)
     {
+        // 중복 실행 방지
+        if (isDialogueActive) yield break;
+        isDialogueActive = true;
+
+        // 플레이어 조작 및 물리 정지
         SetPlayerControllable(TutorialStep.None);
 
         if (rigid != null)
         {
             rigid.velocity = Vector2.zero;
-            rigid.angularVelocity = 0f; // 회전이 있다면 회전도 정지
+            rigid.angularVelocity = 0f;
         }
 
         Animator anim = player.GetComponent<Animator>();
@@ -445,11 +452,26 @@ public class TutorialManager : MonoBehaviour
             anim.SetBool("isMove", false);
         }
 
+        // NPC 데이터 설정 및 대사 시작
         ObjData npcData = npcObject.GetComponent<ObjData>();
-        npcData.SetDialogue(index); // NPC에게 대사 SO 교체 명령
+        if (npcData == null)
+        {
+            Debug.LogError(npcObject.name + "에 ObjData가 없습니다!");
+            isDialogueActive = false;
+            yield break;
+        }
 
+        npcData.SetDialogue(index); // 대사 SO 교체
+
+        // 대화 시스템 실행 (Action 한 번 호출로 시스템에 제어권을 넘김)
         tutorialDialogue.Action(npcObject);
+
+        // TutorialDialogue 스크립트가 스스로 대화를 끝낼 때까지 대기
         yield return new WaitUntil(() => tutorialDialogue.isDialogueFinished);
+
+        // 대화 종료 후 약간의 여유 시간
+        yield return new WaitForSeconds(0.1f);
+        isDialogueActive = false;
     }
 
     private void SetupGuideUI(int index)

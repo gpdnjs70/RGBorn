@@ -61,6 +61,8 @@ public class TutorialManager_0 : MonoBehaviour
     private CanvasGroup panelCanvasGroup;
     [SerializeField] private float fadeDuration = 0.5f;
 
+    private bool isDialogueActive = false;
+
     private void Awake()
     {
         if (SaveManager.Instance != null)
@@ -362,12 +364,17 @@ public class TutorialManager_0 : MonoBehaviour
     // 기존 PlayDialogue 로직 유지
     private IEnumerator PlayDialogue(int index)
     {
+        // 1. 중복 실행 방지
+        if (isDialogueActive) yield break;
+        isDialogueActive = true;
+
+        // 2. 플레이어 조작 정지
         SetPlayerControllable(TutorialStep.None);
 
         if (rigid != null)
         {
             rigid.velocity = Vector2.zero;
-            rigid.angularVelocity = 0f; // 회전이 있다면 회전도 정지
+            rigid.angularVelocity = 0f;
         }
 
         Animator anim = player.GetComponent<Animator>();
@@ -376,12 +383,26 @@ public class TutorialManager_0 : MonoBehaviour
             anim.SetBool("isMove", false);
         }
 
-        // 주인공 독백 데이터 설정
+        // 3. 주인공 독백 데이터 설정
         ObjData data = playerSelfObject.GetComponent<ObjData>();
+        if (data == null)
+        {
+            Debug.LogError("playerSelfObject에 ObjData가 없습니다!");
+            isDialogueActive = false;
+            yield break;
+        }
+
         data.SetDialogue(index);
 
+        // 4. 대화 시스템 실행 (제어권 양도)
         tutorialDialogue.Action(playerSelfObject);
+
+        // 5. TutorialDialogue가 끝날 때까지 대기
         yield return new WaitUntil(() => tutorialDialogue.isDialogueFinished);
+
+        // 6. 대화 종료 처리
+        yield return new WaitForSeconds(0.1f);
+        isDialogueActive = false;
     }
 
     // 퀘스트 창과 조작법 창을 동시에 설정하는 기존 함수 유지

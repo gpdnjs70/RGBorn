@@ -22,6 +22,7 @@ public class RBossSceneManager : MonoBehaviour
     [SerializeField] private float cutsceneMoveSpeed = 1.5f;
 
     public TutorialDialogue dialogueSystem;
+    private bool isDialogueActive = false;
 
     [SerializeField] private string nextSceneName;
 
@@ -94,12 +95,32 @@ public class RBossSceneManager : MonoBehaviour
 
     public IEnumerator PlayDialogue(GameObject npcObj, int dialogueIndex)
     {
+        // 중복 실행 방지
+        if (isDialogueActive) yield break;
+        isDialogueActive = true;
+
+        // 1. 플레이어 조작 정지 및 물리 초기화 (확실히 고정)
+        SetPlayerControllable(false);
+
+        // 2. NPC 데이터 설정
         ObjData npcData = npcObj.GetComponent<ObjData>();
+        if (npcData == null)
+        {
+            Debug.LogError(npcObj.name + "에 ObjData가 없습니다!");
+            isDialogueActive = false;
+            yield break;
+        }
         npcData.SetDialogue(dialogueIndex);
 
+        // 3. 대화 시스템 실행 (Action 한 번 호출로 시스템에 제어권을 넘김)
         dialogueSystem.Action(npcObj);
+
+        // 4. TutorialDialogue가 스스로 대화를 끝낼 때까지 대기
         yield return new WaitUntil(() => dialogueSystem.isDialogueFinished);
+
+        // 5. 대화 종료 후 약간의 여유 (연타 방지)
         yield return new WaitForSeconds(0.1f);
+        isDialogueActive = false;
     }
 
     private IEnumerator MoveObject(GameObject obj, Vector3 targetPos, float speed)
