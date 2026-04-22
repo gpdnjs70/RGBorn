@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class idleState : StateMachineBehaviour
 {
+    private NavMeshAgent agent;
     Transform enemyTransform;
     Enemy enemy;
     private float timer;
@@ -11,24 +13,34 @@ public class idleState : StateMachineBehaviour
         // Debug.Log("idle");
         enemy = animator.GetComponent<Enemy>();
         enemyTransform = animator.GetComponent<Transform>();
+        agent = animator.GetComponent<NavMeshAgent>();
+
+        // 에이전트 정지 및 경로 초기화
+        if (agent != null)
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+        }
+
         timer = Random.Range(2f, 5f);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (enemy.player == null) return;
+
         float dist = Vector2.Distance(enemyTransform.position, enemy.player.position);
 
-        // 공격 조건 (사거리 안 + 쿨타임 완료)
+        // 1. 공격 조건
         if (dist <= 1.5f && enemy.atkDelay <= 0)
         {
             enemy.atkDelay = enemy.atkCoolTime;
             enemy.DirectionEnemy(enemy.player.position);
-
             animator.SetTrigger("Attack");
-            return; // 공격 시작하면 아래 로직 무시
+            return;
         }
 
-        // 추적 조건 (공격 사거리는 아니지만 인식 범위 안)
+        // 2. 추적 조건
         if (dist > 1.5f && dist <= 9f)
         {
             animator.SetBool("isWander", false);
@@ -36,6 +48,7 @@ public class idleState : StateMachineBehaviour
             return;
         }
 
+        // 3. 정찰 전환
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
