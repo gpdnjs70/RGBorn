@@ -33,7 +33,8 @@ public class EliteFollowState : StateMachineBehaviour
         if (Vector2.Distance(enemy.player.position, enemyTransform.position) > 3f)
         {
             /**
-            float finalSpeed = entity.Speed;
+            float final
+            = entity.Speed;
             Debug.Log($"현재 속도는 {finalSpeed}");
             enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, enemy.player.position, Time.deltaTime * finalSpeed);
             **/

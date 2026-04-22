@@ -44449,7 +44449,7 @@ SpriteRenderer:
   m_SortingLayerID: 1883998863
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7c7ac38f0ab3a0c438c63207cb52e920, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a0c887eee4645274e8124e47e5a3bd05, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -61437,7 +61437,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

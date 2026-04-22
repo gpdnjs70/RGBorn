@@ -4717,6 +4717,8 @@ MonoBehaviour:
   pointType: 0
   nextSceneName: 
   sceneChange: {fileID: 0}
+  upgradeMaxHP: 50
+  attackUpgradePercent: 0
 --- !u!61 &205224353
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5698,7 +5700,7 @@ MonoBehaviour:
   shakeDuration: 0.5
   shakeMagnitude: 0.2
   playerObject: {fileID: 1390846099}
-  boxPrefab: {fileID: 7412488732542958870, guid: ba41cb8bc44019d459e09bc77958c3ed, type: 3}
+  boxPrefab: {fileID: 7412488732542958870, guid: 950125cc09841d44a9e3bf08af23f102, type: 3}
   SavePoint: {fileID: 689206975}
 --- !u!4 &538756508
 Transform:
@@ -9620,16 +9622,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ed3f29657ac8864a954f8e5ebff06ee, type: 3}
---- !u!4 &633086459 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 860121523436886222, guid: 1ed3f29657ac8864a954f8e5ebff06ee, type: 3}
-  m_PrefabInstance: {fileID: 633086458}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &633086460 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6392742814106453257, guid: 1ed3f29657ac8864a954f8e5ebff06ee, type: 3}
-  m_PrefabInstance: {fileID: 633086458}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &640914951
 GameObject:
   m_ObjectHideFlags: 0
@@ -9828,14 +9820,14 @@ GameObject:
   - component: {fileID: 689206978}
   - component: {fileID: 689206977}
   - component: {fileID: 689206980}
-  - component: {fileID: 689206979}
+  - component: {fileID: 689206981}
   m_Layer: 0
   m_Name: currentScene_savePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &689206976
 Transform:
   m_ObjectHideFlags: 0
@@ -9924,21 +9916,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &689206979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 689206975}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb9822030a050f34db09ad6cedf447ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointType: 1
-  nextSceneName: Temple
-  sceneChange: {fileID: 1500198801}
 --- !u!61 &689206980
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9984,6 +9961,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.4, y: 0.7}
   m_EdgeRadius: 0
+--- !u!114 &689206981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689206975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb9822030a050f34db09ad6cedf447ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 1
+  nextSceneName: Temple
+  sceneChange: {fileID: 1500198801}
+  upgradeMaxHP: 100
+  attackUpgradePercent: 0.2
 --- !u!1 &695663418
 GameObject:
   m_ObjectHideFlags: 0
@@ -10391,6 +10385,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2655512150425280453, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
+      propertyPath: textList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2655512150425280453, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
+      propertyPath: spriteList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2655512150425280453, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
+      propertyPath: textList.Array.data[0]
+      value: "\uACF5\uACA9\uB825 20% \uC0C1\uC2B9"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2655512150425280453, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
+      propertyPath: textList.Array.data[1]
+      value: "\uCD5C\uB300 \uCCB4\uB825 \uC99D\uAC00 50 -> 100"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2655512150425280453, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
+      propertyPath: textList.Array.data[2]
+      value: "\uCCB4\uB825 \uD68C\uBCF5"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2655512150425280453, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
+      propertyPath: textList.Array.data[3]
+      value: "\uC800\uC7A5 \uC644\uB8CC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2655512150425280453, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
+      propertyPath: spriteList.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8f1fc11888ea51145919251db4ddc6e2, type: 3}
+    - target: {fileID: 2655512150425280453, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
+      propertyPath: spriteList.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8f1fc11888ea51145919251db4ddc6e2, type: 3}
+    - target: {fileID: 2655512150425280453, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
+      propertyPath: spriteList.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8f1fc11888ea51145919251db4ddc6e2, type: 3}
     - target: {fileID: 4886806288508500756, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
       propertyPath: m_Name
       value: StatPanel
@@ -180465,7 +180495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e661ce3de5f2b24d8751e983e2eb99e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneChange: {fileID: 1500198801}
+  SceneChange: {fileID: 0}
   bossSceneManager: {fileID: 0}
 --- !u!4 &1727137489
 Transform:
@@ -194483,11 +194513,11 @@ PrefabInstance:
     - target: {fileID: 2935231933254700593, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: entrancePos
       value: 
-      objectReference: {fileID: 633086460}
+      objectReference: {fileID: 0}
     - target: {fileID: 2935231933254700593, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: savePointPos
       value: 
-      objectReference: {fileID: 633086459}
+      objectReference: {fileID: 0}
     - target: {fileID: 3944695193190440399, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: m_LocalPosition.x
       value: 90.8

@@ -128,6 +128,8 @@ public class RBossSceneManager : MonoBehaviour
 
     public void SetPlayerControllable(bool canControl)
     {
+        if (player == null) return;
+
         // 이동, 공격, 속성, 스킬 스크립트 전체 제어
         if (playerMoveScript) playerMoveScript.enabled = canControl;
         if (attackScript) attackScript.enabled = canControl;

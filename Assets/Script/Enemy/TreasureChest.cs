@@ -51,6 +51,8 @@ public class TreasureChest : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            MonsterWaveManager.Instance.SetPlayerSkillControl(false);
+
             isPlayerNearby = true;
             // 상자 근처에 오면 조작법 패널 켜기
             MonsterWaveManager.Instance.ShowControlPanel(true);
@@ -61,6 +63,8 @@ public class TreasureChest : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            MonsterWaveManager.Instance.SetPlayerSkillControl(true);
+
             isPlayerNearby = false;
             // 상자에서 멀어지면 조작법 패널 끄기
             MonsterWaveManager.Instance.ShowControlPanel(false);

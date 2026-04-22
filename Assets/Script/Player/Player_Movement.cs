@@ -65,6 +65,11 @@ public class Player_Movement : MonoBehaviour
         entity = GetComponent<Entity>();
     }
 
+    private void Start()
+    {
+        LoadAndApplyStats();
+    }
+
     private void Update()
     {
         if (!entity.CanAct) return;
@@ -204,5 +209,26 @@ public class Player_Movement : MonoBehaviour
         if (TryGetComponent(out Player_Attack attack)) attack.enabled = enabled;
         if (TryGetComponent(out PlayerAttribute attr)) attr.enabled = enabled;
         if (TryGetComponent(out Player_Skill skill)) skill.enabled = enabled;
+    }
+
+    private void LoadAndApplyStats()
+    {
+        if (SaveManager.Instance == null) return;
+
+        SaveData data = SaveManager.Instance.LoadGame();
+        if (data != null)
+        {
+            Entity entity = GetComponent<Entity>();
+            // 세이브 파일에 기록된 수치로 내 스탯을 덮어씌움
+            entity.stats.MaxHP.BaseValue = data.currentMaxHP;
+            entity.stats.Speed.BaseValue = data.currentSpeed;
+
+            Debug.Log($"[Player] 스탯 로드 완료: Speed {data.currentSpeed}");
+        }
+        else
+        {
+            // 세이브 파일이 없으면 인스펙터의 기본값 사용 (여기서 초기 기본값을 강제해도 됨)
+            Debug.Log("[Player] 세이브 없음: 기본 스탯 사용");
+        }
     }
 }

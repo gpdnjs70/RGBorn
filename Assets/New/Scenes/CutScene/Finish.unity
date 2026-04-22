@@ -420,21 +420,22 @@ MonoBehaviour:
   imageDisplay: {fileID: 2070562779}
   textDisplay: {fileID: 1150667007}
   cutsceneScenes:
-  - illustration: {fileID: 21300000, guid: b3f8f85ad6e90e942b3cbe96f2545850, type: 3}
+  - illustration: {fileID: 21300000, guid: b8edab8501d0eb14e8048a6786a8059f, type: 3}
     dialogue: "\uCEF7\uC52C \uB098\uC624\uAE30 \uC804\uC5D0 \uC77C\uB2E8 \uC138\uC0C1\uC5D0
       \uBE68\uAC04 \uC0C9 \uB3CC\uC544\uC624\uB294 \uAC70 \uBCF4\uC5EC\uC8FC\uACE0"
     displayTime: 3
-  - illustration: {fileID: 21300000, guid: 7e81b7e5c51dad141a20976c3e82c5af, type: 3}
-    dialogue: "\uCEF7\uC52C\uC5D0\uC11C G\uBCF4\uC2A4, B\uBCF4\uC2A4 \uCC28\uB840\uB300\uB85C
-      \uD574\uCE58\uC6B0\uB294 \uAC70 \uBCF4\uC5EC\uC8FC\uACE0"
+  - illustration: {fileID: 21300000, guid: 4788d96abe5324841a482ac0e6eeed04, type: 3}
+    dialogue: "G\uBCF4\uC2A4 \uD574\uCE58\uC6B0\uB294 \uAC70"
     displayTime: 3
-  - illustration: {fileID: 21300000, guid: f134c590a48d5334d959cebef2a83627, type: 3}
+  - illustration: {fileID: 21300000, guid: 5de50e3c4c04bf04e8b19bd17d1c5695, type: 3}
+    dialogue: "\uC138\uC0C1\uC5D0 \uCD08\uB85D \uC0C9 \uB3CC\uC544\uC624\uB294 \uAC70
+      \uBCF4\uC5EC\uC8FC\uACE0"
+    displayTime: 3
+  - illustration: {fileID: 21300000, guid: 187a772713ce4bf48874f02f5619fd16, type: 3}
+    dialogue: "B\uBCF4\uC2A4 \uD574\uCE58\uC6B0\uB294 \uAC70"
+    displayTime: 3
+  - illustration: {fileID: 21300000, guid: eb0481791827b2041b632fc558c385d9, type: 3}
     dialogue: "\uC138\uC0C1\uC5D0 \uC0C9 \uB2E4 \uB3CC\uC544\uC624\uB294 \uAC70 \uBCF4\uC5EC\uC8FC\uACE0"
-    displayTime: 3
-  - illustration: {fileID: 21300000, guid: f9c9fd8957487924494df59cd38a04d4, type: 3}
-    dialogue: "\uCD5C\uC885\uBCF4\uC2A4\uB791.. \uC804\uD22C\uD558\uB294 \uAC74 \uC548
-      \uBCF4\uC5EC\uC918\uB3C4 \uB420 \uB4EF \uADF8\uB0E5 \uC138\uC0C1\uC5D0 \uC0C9
-      \uB2E4 \uB3CC\uC544\uC624\uB294 \uAC83\uB9CC \uBCF4\uC5EC\uC918\uB3C4 \uB420\uB4EF??"
     displayTime: 3
   nextSceneName: MainMenu
 --- !u!1 &1720871970

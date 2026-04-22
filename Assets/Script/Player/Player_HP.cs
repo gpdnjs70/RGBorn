@@ -17,24 +17,18 @@ public class Player_HP : Entity, IDebuffTarget
     private Coroutine burnRoutine;
     private float burnRemainingTime = 0f;
 
+    private bool isHitVisualActive = false; // 피격 애니메이션 상태 체크용
+
     private void Awake()
     {
-        SaveData data = SaveManager.Instance.LoadGame();
-
-        if (data != null)
-        {
-            // 씬 이름 switch문 대신 저장된 고정 HP 값을 그대로 사용
-            stats.MaxHP.BaseValue = data.currentMaxHP;
-        }
-        else
-        {
-            stats.MaxHP.BaseValue = baseHP; // 데이터 없으면 기본값
-        }
-
         spriteRenderer = GetComponent<SpriteRenderer>();
         knockback = GetComponent<KnockBack>();
 
         base.Setup();
+    }
+
+    private void Start()
+    {
         RestoreFullHP(); // 시작 시 풀피
     }
 
@@ -195,15 +189,13 @@ public class Player_HP : Entity, IDebuffTarget
 
     private IEnumerator HitAnimation()
     {
-        Color color = spriteRenderer.color;
-
-        color.a = 0.2f;
-        spriteRenderer.color = color;
+        isHitVisualActive = true;
+        UpdateVisuals();
 
         yield return new WaitForSeconds(0.1f);
 
-        color.a = 1;
-        spriteRenderer.color = color;
+        isHitVisualActive = false;
+        UpdateVisuals();
     }
 
     public void ApplyBurn(float duration, float interval, float damage)
@@ -249,5 +241,48 @@ public class Player_HP : Entity, IDebuffTarget
     {
         stats.MaxHP.BaseValue = newHPValue;
         RestoreFullHP();
+    }
+
+    public void UpdateVisuals()
+    {
+        if (spriteRenderer == null) return;
+
+        // 1. 기본 색상 결정 (흰색 또는 흡혈 상태의 초록색)
+        Color finalColor = IsLifeStealActive ? new Color(0.5f, 1.0f, 0.5f) : Color.white;
+
+        // 2. 투명도(Alpha) 결정
+        if (isHitVisualActive)
+        {
+            finalColor.a = 0.2f; // 피격 시 최우선적으로 깜빡임
+        }
+        else if (IsInvincible)
+        {
+            finalColor.a = 0.5f; // 무적 상태일 때 반투명
+        }
+        else
+        {
+            finalColor.a = 1.0f; // 평상시
+        }
+
+        spriteRenderer.color = finalColor;
+    }
+
+    public void ResetAllVisualsAndStates()
+    {
+        // 1. 모든 상태 변수 꺼버리기
+        IsInvincible = false;
+        IsLifeStealActive = false;
+        isHitVisualActive = false;
+
+        // 2. 코루틴들이 돌고 있다면 강제 종료 (선택 사항이지만 안전함)
+        // StopAllCoroutines(); // 주의: 피격 애니메이션 등 다른 코루틴도 멈춤
+
+        // 3. 색상을 무조건 흰색, 불투명으로 고정
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = Color.white;
+        }
+
+        Debug.Log("<color=orange>캐릭터 상태 및 색상 강제 초기화 완료</color>");
     }
 }

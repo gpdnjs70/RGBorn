@@ -107050,6 +107050,8 @@ MonoBehaviour:
   pointType: 0
   nextSceneName: 
   sceneChange: {fileID: 0}
+  upgradeMaxHP: 100
+  attackUpgradePercent: 0.2
 --- !u!61 &371438450
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -170260,7 +170262,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1472064714
 Transform:
   m_ObjectHideFlags: 0
@@ -170364,6 +170366,8 @@ MonoBehaviour:
   pointType: 1
   nextSceneName: Stage1_after
   sceneChange: {fileID: 470499554}
+  upgradeMaxHP: 50
+  attackUpgradePercent: 0
 --- !u!61 &1472064718
 BoxCollider2D:
   m_ObjectHideFlags: 0

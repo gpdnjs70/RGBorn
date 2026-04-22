@@ -109,11 +109,11 @@ public class savePoint : MonoBehaviour
             SaveManager.Instance.SaveGame(false, nextSceneName, data);
 
             // 4. UI 출력 (HP: 50 -> 100 형태)
-            StatUIController.Instance.StartUISequence(() => {
-                if (sceneChange != null) sceneChange.SetActive(true);
-            });
+            StatUIController.Instance.StartUISequence();
 
             yield return new WaitUntil(() => !StatUIController.Instance.isDisplaying);
+
+            if (sceneChange != null) sceneChange.SetActive(true);
         }
         else
         {

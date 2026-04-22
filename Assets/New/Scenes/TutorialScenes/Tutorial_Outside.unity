@@ -192787,6 +192787,8 @@ MonoBehaviour:
   pointType: 1
   nextSceneName: Stage1
   sceneChange: {fileID: 470499554}
+  upgradeMaxHP: 50
+  attackUpgradePercent: 0
 --- !u!61 &1997980980
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -193321,6 +193323,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2655512150425280453, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
+      propertyPath: textList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2655512150425280453, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
+      propertyPath: spriteList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2655512150425280453, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
+      propertyPath: textList.Array.data[0]
+      value: "\uCCB4\uB825 \uD68C\uBCF5"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2655512150425280453, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
+      propertyPath: textList.Array.data[1]
+      value: "\uC800\uC7A5 \uC644\uB8CC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2655512150425280453, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
+      propertyPath: spriteList.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8f1fc11888ea51145919251db4ddc6e2, type: 3}
     - target: {fileID: 4886806288508500756, guid: 89be2d1c714e6ab46891d12610d29b09, type: 3}
       propertyPath: m_Name
       value: StatPanel

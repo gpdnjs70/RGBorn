@@ -32,7 +32,7 @@ public class StatUIController : MonoBehaviour
         panelGroup.blocksRaycasts = false;
         panelGroup.gameObject.SetActive(false);
 
-        // 버튼에 함수 연결
+        confirmButton.onClick.RemoveAllListeners(); // 기존 연결 싹 다 제거
         confirmButton.onClick.AddListener(ShowNextContent);
     }
 
@@ -48,9 +48,11 @@ public class StatUIController : MonoBehaviour
     // 외부(savePoint 등)에서 호출할 시작 함수
     public void StartUISequence(Action onComplete = null)
     {
+        // 이전 호출자가 남겨둔 콜백이 실행되지 않도록 무조건 덮어씌웁니다.
+        onSequenceComplete = onComplete;
+
         if (spriteList.Count == 0 || textList.Count == 0) return;
 
-        onSequenceComplete = onComplete;
         isDisplaying = true;
         currentIndex = 0;
 
@@ -89,7 +91,12 @@ public class StatUIController : MonoBehaviour
         panelGroup.blocksRaycasts = false;
         panelGroup.gameObject.SetActive(false);
 
-        onSequenceComplete?.Invoke();
-        onSequenceComplete = null;
+        if (onSequenceComplete != null)
+        {
+            Debug.Log($"[StatUI] 콜백 실행됨: {onSequenceComplete.Method.Name}");
+            var tempAction = onSequenceComplete;
+            onSequenceComplete = null;
+            tempAction.Invoke();
+        }
     }
 }

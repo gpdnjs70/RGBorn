@@ -41,8 +41,8 @@ public class TutorialManager_0 : MonoBehaviour
 
     [Header("동화책 전용 UI")]
     [SerializeField] private GameObject storyBookPanel; // 동화책 전체 패널
-    [SerializeField] private Image storyBookImage;      // 동화책 이미지가 표시될 컴포넌트
-    [SerializeField] private List<Sprite> storyBookSprites; // 동화책 페이지 이미지 리스트
+    [SerializeField] private Animator storyBookContentAnimator; // 애니메이션이 실행되는 자식 오브젝트의 애니메이터
+    [SerializeField] private int totalPageCount = 5; // 애니메이터에 설정된 총 페이지(상태) 수
 
     [Header("Interactive Objects")]
     [SerializeField] private boxTrigger targetBox;
@@ -85,6 +85,23 @@ public class TutorialManager_0 : MonoBehaviour
 
     private void Start()
     {
+        if (SaveManager.Instance != null)
+        {
+            // 1. 새로운 세이브 데이터 객체 생성
+            SaveData firstSave = new SaveData();
+            Entity playerEntity = player.GetComponent<Entity>();
+
+            // 2. 인스펙터에 설정된 플레이어의 기본 스탯을 데이터에 주입
+            if (playerEntity != null)
+            {
+                firstSave.currentMaxHP = playerEntity.stats.MaxHP.BaseValue;
+                firstSave.currentSpeed = playerEntity.stats.Speed.BaseValue; // 인스펙터 값이 5라면 5가 들어감
+            }
+
+            // 3. 이 데이터를 가지고 저장 (updatedData 인자로 전달)
+            SaveManager.Instance.SaveGame(false, null, firstSave);
+        }
+
         // 집 안에서 깨어나는 시퀀스 바로 시작
         StartCoroutine(HouseTutorialSequence());
     }
@@ -148,7 +165,7 @@ public class TutorialManager_0 : MonoBehaviour
         SetPlayerControllable(TutorialStep.DashEnabled);
 
         startPos = player.transform.position;
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift));
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(FadeOutPanel());
 
@@ -460,19 +477,38 @@ public class TutorialManager_0 : MonoBehaviour
     private IEnumerator PlayFullStory()
     {
         SetPlayerControllable(TutorialStep.None);
+
+        // 1. 배경이 포함된 전체 패널 활성화
         if (storyBookPanel != null) storyBookPanel.SetActive(true);
 
-        // sprites 리스트의 count만큼 반복
-        for (int i = 0; i < storyBookSprites.Count; i++)
+        // 2. 페이지 수만큼 루프
+        for (int i = 0; i < totalPageCount; i++)
         {
-            storyBookImage.sprite = storyBookSprites[i];
+            Debug.Log($"현재 동화책 {i + 1} / {totalPageCount} 페이지 대기 중");
 
-            // 마지막 페이지에서만 "닫기" 느낌을 주고 싶다면 로그를 찍거나 이펙트 추가 가능
-            Debug.Log($"현재 동화책 {i + 1} / {storyBookSprites.Count} 페이지 읽는 중");
-
+            // 3. 사용자 입력을 기다림 (스페이스바/클릭)
             yield return StartCoroutine(WaitForUserInput());
+
+            // 4. 마지막 페이지에서 입력을 받았다면 루프 종료
+            if (i == totalPageCount - 1) break;
+
+            // 5. 다음 페이지 애니메이션 실행
+            if (storyBookContentAnimator != null)
+            {
+                storyBookContentAnimator.SetTrigger("NextPage");
+
+                // 6. 애니메이션이 시작되고 전환되는 동안 아주 잠깐 대기 (연타 방지)
+                yield return new WaitForSeconds(0.1f);
+
+                // 만약 애니메이션이 완전히 끝날 때까지 입력을 막고 싶다면 아래 주석을 해제하세요.
+                
+                yield return new WaitUntil(() => 
+                    storyBookContentAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f 
+                    && !storyBookContentAnimator.IsInTransition(0));
+            }
         }
 
+        // 7. 모든 과정이 끝나면 배경 패널까지 비활성화
         if (storyBookPanel != null) storyBookPanel.SetActive(false);
     }
 }

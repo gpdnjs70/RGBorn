@@ -29,15 +29,13 @@ public class LifeStealSkill : ISkill
         playerEntity.IsLifeStealActive = true;
         playerEntity.LifeStealRatio = HealRatio;
 
-        // 시각적 피드백 (예: 캐릭터 색상을 보라색이나 빨간색으로 변경)
-        SpriteRenderer sr = playerEntity.GetComponent<SpriteRenderer>();
-        Color originalColor = sr.color;
-        sr.color = new Color(0.5f, 1.0f, 0.5f); // 붉은 기운
+        Player_HP pHP = playerEntity.GetComponent<Player_HP>();
+        if (pHP != null) pHP.UpdateVisuals();
 
         yield return new WaitForSeconds(Duration);
 
-        sr.color = originalColor;
         playerEntity.IsLifeStealActive = false;
+        if (pHP != null) pHP.UpdateVisuals();
         Debug.Log("체력 흡수 종료");
     }
 }

@@ -53,7 +53,8 @@ public class DamagePopup : MonoBehaviour
 
     private void Update()
     {
-        // float moveYSpeed = 20f;
+        // float moveY
+        // = 20f;
         // transform.position += new Vector3(0, moveYSpeed) * Time.deltaTime;
 
         disappearTimer -= Time.deltaTime;

@@ -376,6 +376,14 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // --- 마무리 단계: NPC에게 이동 및 최종 대화 ---
+        if (player != null)
+        {
+            Player_HP pHP = player.GetComponent<Player_HP>();
+            if (pHP != null)
+            {
+                pHP.ResetAllVisualsAndStates();
+            }
+        }
         yield return new WaitForSeconds(1.0f);
 
         SetPlayerControllable(TutorialStep.None);

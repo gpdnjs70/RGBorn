@@ -10,6 +10,7 @@ public class SaveData
     public string lastSceneName; // 저장된 씬 이름
     public bool isRespawn;      // true면 세이브 포인트, false면 맵 입구 스폰
     public float currentMaxHP = 50f;    // 도달할 고정 HP 값
+    public float currentSpeed = 5f;
     public float attackMultiplier = 1f; // 누적된 공격력 배율 (1.0 = 100%)
 }
 

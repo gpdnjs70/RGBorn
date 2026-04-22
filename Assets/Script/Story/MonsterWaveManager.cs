@@ -91,6 +91,12 @@ public class MonsterWaveManager : MonoBehaviour
         }
     }
 
+    public void SetPlayerSkillControl(bool canControl)
+    {
+        if (playerObject == null) return;
+        if (playerSkill != null) playerSkill.enabled = canControl;
+    }
+
     public void OnPlayerEnterPhase(int index)
     {
         // 순서대로 진행하기 위해 현재 페이즈 인덱스와 맞는지 확인
