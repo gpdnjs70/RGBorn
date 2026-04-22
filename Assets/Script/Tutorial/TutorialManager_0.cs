@@ -63,6 +63,12 @@ public class TutorialManager_0 : MonoBehaviour
 
     private void Awake()
     {
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.SaveGame(false);
+            Debug.Log("첫 방문: 기본 세이브 생성");
+        }
+
         playerMoveScript = player.GetComponent<Player_Movement>();
         attackScript = player.GetComponent<Player_Attack>();
         rigid = player.GetComponent<Rigidbody2D>();

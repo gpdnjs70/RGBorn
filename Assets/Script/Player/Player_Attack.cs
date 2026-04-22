@@ -45,6 +45,8 @@ public class Player_Attack : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         myrigidbody = GetComponent<Rigidbody2D>();
+
+        LoadAttackData();
     }
 
     void Awake()
@@ -74,6 +76,20 @@ public class Player_Attack : MonoBehaviour
         if (isContacting)
         {
             CheckCollision();
+        }
+    }
+
+    private void LoadAttackData()
+    {
+        if (SaveManager.Instance != null)
+        {
+            SaveData data = SaveManager.Instance.LoadGame();
+            if (data != null)
+            {
+                // JSON에 저장된 누적 배율(예: 1.2, 1.44 등)을 기본 데미지에 곱함
+                // 주의: damage 변수가 스크립트 상에서 계속 변하지 않게 관리해야 함
+                Debug.Log($"공격력 배율 로드 완료: {data.attackMultiplier}");
+            }
         }
     }
 
@@ -140,17 +156,11 @@ public class Player_Attack : MonoBehaviour
     {
         if (target == null || !target.enabled) return;
 
-        // 1. 기본 데미지 설정
-        float finalDamage = damage;
+        SaveData data = SaveManager.Instance.LoadGame();
+        float multiplier = (data != null) ? data.attackMultiplier : 1f;
 
-        // 2. 스테이지별 데미지 배율 적용 (SceneManager 사용)
-        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-        switch (sceneName)
-        {
-            case "Stage1": finalDamage *= 1.2f; break;
-            case "Stage2": finalDamage *= 1.44f; break;
-            case "Stage3": finalDamage *= 1.728f; break;
-        }
+        // 스테이지 이름 기반 하드코딩 삭제 -> 저장된 고정 배율 사용
+        float finalDamage = damage * multiplier;
 
         // 3. 상성 계산 (ColorAttribute)
         Entity attacker = entity; // 플레이어 본인

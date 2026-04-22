@@ -57,24 +57,12 @@ public class Bullet : MonoBehaviour
 
     void DealDamageWithAttribute(Entity attacker, Entity target)
     {
-        string sceneName = SceneManager.GetActiveScene().name;
+        // 1. 세이브 데이터에서 누적 공격력 배율 로드
+        SaveData data = SaveManager.Instance.LoadGame();
+        float multiplier = (data != null) ? data.attackMultiplier : 1f;
 
-        switch (sceneName)
-        {
-            case "Stage1":
-                damage *= 1.2f;
-                break;
-            case "Stage2":
-                damage *= 1.44f;
-                break;
-            case "Stage3":
-                damage *= 1.728f;
-                break;
-            default:
-                break;
-        }
-
-        float finalDamage = damage;
+        // 2. 기존 Stage 이름 기반 하드코딩을 삭제하고 배율 적용
+        float finalDamage = damage * multiplier;
 
         /**
         ColorAttribute atkAttrComp = attacker.GetComponent<ColorAttribute>();

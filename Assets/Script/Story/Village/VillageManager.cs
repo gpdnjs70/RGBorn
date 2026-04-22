@@ -28,7 +28,7 @@ public class VillageManager : MonoBehaviour
     [SerializeField] private Image storyBookImage;
     [SerializeField] private List<Sprite> storyBookSprites;
 
-    [SerializeField] private GameObject SceneChange;
+    [SerializeField] private GameObject SavePoint;
 
     public bool isDialogueActive { get; private set; }
 
@@ -46,17 +46,17 @@ public class VillageManager : MonoBehaviour
 
     private IEnumerator VillageStorySequence()
     {
-        if (SceneChange != null) SceneChange.SetActive(false);
+        if (SavePoint != null) SavePoint.SetActive(false);
 
         yield return new WaitUntil(() => talkedToNPC1 && talkedToNPC3);
         Debug.Log("모든 조건 충족! 이제 NPC 2와 대화하면 다음 씬으로 넘어갑니다.");
 
         yield return new WaitUntil(() => talkedToNPC2);
 
-        Debug.Log("모든 대화 완료! 씬 전환 오브젝트를 활성화합니다.");
-        if (SceneChange != null)
+        Debug.Log("모든 대화 완료! 세이브 포인트 오브젝트를 활성화합니다.");
+        if (SavePoint != null)
         {
-            SceneChange.SetActive(true);
+            SavePoint.SetActive(true);
         }
     }
 

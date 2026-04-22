@@ -19,34 +19,23 @@ public class Player_HP : Entity, IDebuffTarget
 
     private void Awake()
     {
+        SaveData data = SaveManager.Instance.LoadGame();
+
+        if (data != null)
+        {
+            // 씬 이름 switch문 대신 저장된 고정 HP 값을 그대로 사용
+            stats.MaxHP.BaseValue = data.currentMaxHP;
+        }
+        else
+        {
+            stats.MaxHP.BaseValue = baseHP; // 데이터 없으면 기본값
+        }
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         knockback = GetComponent<KnockBack>();
 
-        stats = new Stats();
-        stats.Speed.BaseValue = 5f;
-
-        string sceneName = SceneManager.GetActiveScene().name;
-        float hpByScene = baseHP;
-
-        switch (sceneName)
-        {
-            case "Stage1":
-                hpByScene = 50f;
-                break;
-            case "Stage2":
-                hpByScene = 100f;
-                break;
-            case "Stage3":
-                hpByScene = 200f;
-                break;
-            default:
-                hpByScene = baseHP; // 예외 상황 대비
-                break;
-        }
-
-        stats.MaxHP.BaseValue = hpByScene;
-
         base.Setup();
+        RestoreFullHP(); // 시작 시 풀피
     }
 
     protected override void Update()
@@ -195,7 +184,8 @@ public class Player_HP : Entity, IDebuffTarget
         // 2. 리로드 전에 부활 지점 정보를 먼저 세이브
         if (SaveManager.Instance != null)
         {
-            SaveManager.Instance.SaveGame(true);
+            // 죽었을 때는 '현재 씬' 이름을 'true' 상태로 저장합니다.
+            SaveManager.Instance.SaveGame(true, currentSceneName);
         }
 
         // 3. FadeTransition에 모든 연출과 씬 전환을 위임
@@ -247,5 +237,17 @@ public class Player_HP : Entity, IDebuffTarget
 
         burnRoutine = null; // 시간 다 되면 루틴 종료
         // Debug.Log("화상 종료");
+    }
+
+    public void RestoreFullHP()
+    {
+        HP = stats.MaxHP.BaseValue; // 현재 최대 체력만큼 수치 복구
+        Debug.Log("체력이 완전히 회복되었습니다.");
+    }
+
+    public void ApplyHPValue(float newHPValue)
+    {
+        stats.MaxHP.BaseValue = newHPValue;
+        RestoreFullHP();
     }
 }

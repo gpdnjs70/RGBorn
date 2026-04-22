@@ -60,20 +60,10 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private float fadeDuration = 0.5f;
     private CanvasGroup panelCanvasGroup;
 
-    [SerializeField] private GameObject SceneChange;
+    [SerializeField] private GameObject SavePoint;
 
     private void Awake()
     {
-        if (SaveManager.Instance != null)
-        {
-            // 중요: 세이브 파일이 아예 없을 때만 기본값(입구 시작)으로 저장
-            if (SaveManager.Instance.LoadGame() == null)
-            {
-                SaveManager.Instance.SaveGame(false);
-                Debug.Log("첫 방문: 기본 세이브 생성");
-            }
-        }
-
         playerMoveScript = player.GetComponent<Player_Movement>();
         attackScript = player.GetComponent<Player_Attack>();
         playerAttributeScript = player.GetComponent<PlayerAttribute>();
@@ -421,7 +411,12 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // Debug.Log("조작법 및 구출 튜토리얼 완전 종료!");
-        SceneChange.SetActive(true);
+        if (SavePoint != null)
+        {
+            SavePoint.SetActive(true);
+            Debug.Log("모든 튜토리얼 단계 완료: 세이브 포인트 활성화");
+        }
+
         SetPlayerControllable(TutorialStep.All);
     }
 

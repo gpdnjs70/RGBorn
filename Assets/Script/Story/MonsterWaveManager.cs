@@ -47,6 +47,7 @@ public class MonsterWaveManager : MonoBehaviour
 
     [SerializeField] private GameObject boxPrefab;
     private bool allMonstersDead = false;
+    [SerializeField] private GameObject SavePoint;
 
     private void Awake()
     {
@@ -228,6 +229,12 @@ public class MonsterWaveManager : MonoBehaviour
         if (playerAttribute != null)
         {
             playerAttribute.OnEquipGear();
+        }
+
+        if (SavePoint != null)
+        {
+            SavePoint.SetActive(true);
+            Debug.Log("<color=lime>웨이브 종료 보상 획득! 세이브 포인트가 활성화되었습니다.</color>");
         }
 
         Debug.Log("<color=yellow>모든 퀘스트 완료! 벽이 사라집니다.</color>");

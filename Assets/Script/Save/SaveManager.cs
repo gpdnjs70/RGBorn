@@ -9,7 +9,8 @@ public class SaveData
 {
     public string lastSceneName; // 저장된 씬 이름
     public bool isRespawn;      // true면 세이브 포인트, false면 맵 입구 스폰
-    // public int playerHP;         // (선택) 필요하다면 HP 정보 등 추가
+    public float currentMaxHP = 50f;    // 도달할 고정 HP 값
+    public float attackMultiplier = 1f; // 누적된 공격력 배율 (1.0 = 100%)
 }
 
 public class SaveManager : MonoBehaviour
@@ -34,12 +35,18 @@ public class SaveManager : MonoBehaviour
     }
 
     // 데이터 저장 (씬 이동 시나 세이브 포인트 밟을 때 호출)
-    public void SaveGame(bool isRespawnPoint)
+    public void SaveGame(bool isRespawnPoint, string targetSceneName = null, SaveData updatedData = null)
     {
-        SaveData data = new SaveData();
-        data.lastSceneName = SceneManager.GetActiveScene().name;
+        // 1. 만약 외부에서 계산된 데이터를 줬다면 그걸 쓰고, 아니면 기존 파일을 로드함
+        SaveData data = (updatedData != null) ? updatedData : LoadGame();
+
+        if (data == null)
+        {
+            data = new SaveData();
+        }
+
+        data.lastSceneName = (targetSceneName != null) ? targetSceneName : SceneManager.GetActiveScene().name;
         data.isRespawn = isRespawnPoint;
-        // data.playerHP = 100; // 씬 이동 시 풀피로 저장한다고 가정
 
         // 객체를 JSON 문자열로 변환
         string json = JsonUtility.ToJson(data, true);

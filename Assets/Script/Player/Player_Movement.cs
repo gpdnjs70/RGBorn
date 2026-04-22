@@ -188,4 +188,21 @@ public class Player_Movement : MonoBehaviour
             }
         }
     }
+
+    public void SetControlEnabled(bool enabled)
+    {
+        // 조작 허용/차단 시 속도 초기화
+        Rigidbody2D rigid = GetComponent<Rigidbody2D>();
+        if (!enabled && rigid != null) rigid.velocity = Vector2.zero;
+
+        // 애니메이터 정지 (선택 사항)
+        Animator anim = GetComponent<Animator>();
+        if (!enabled && anim != null) anim.SetBool("isMove", false);
+
+        // 각 컴포넌트 활성/비활성
+        if (TryGetComponent(out Player_Movement move)) move.enabled = enabled;
+        if (TryGetComponent(out Player_Attack attack)) attack.enabled = enabled;
+        if (TryGetComponent(out PlayerAttribute attr)) attr.enabled = enabled;
+        if (TryGetComponent(out Player_Skill skill)) skill.enabled = enabled;
+    }
 }

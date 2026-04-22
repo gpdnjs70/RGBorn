@@ -39,6 +39,21 @@ public class BtnType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 break;
             case BTNType.Continue:
                 Debug.Log("이어하기");
+                // 1. SaveManager를 통해 JSON 데이터 로드
+                SaveData data = SaveManager.Instance.LoadGame();
+
+                if (data != null)
+                {
+                    // 2. 저장된 데이터가 있다면 해당 씬 이름으로 이동
+                    Debug.Log("저장된 씬으로 이동: " + data.lastSceneName);
+                    FadeTransition.Instance.FadeToScene(data.lastSceneName);
+                }
+                else
+                {
+                    // 3. 저장 파일이 없을 경우 예외 처리 (예: 새 게임으로 시작)
+                    Debug.Log("저장된 파일이 없습니다. 처음부터 시작합니다.");
+                    FadeTransition.Instance.FadeToScene("Start");
+                }
                 break;
             case BTNType.Option:
                 CanvasGroupOn(optionGroup);
