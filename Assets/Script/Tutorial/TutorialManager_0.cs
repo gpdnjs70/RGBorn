@@ -96,8 +96,10 @@ public class TutorialManager_0 : MonoBehaviour
             // 2. 인스펙터에 설정된 플레이어의 기본 스탯을 데이터에 주입
             if (playerEntity != null)
             {
+                firstSave.lastSceneName = "Tutorial_Inside";
                 firstSave.currentMaxHP = playerEntity.stats.MaxHP.BaseValue;
                 firstSave.currentSpeed = playerEntity.stats.Speed.BaseValue; // 인스펙터 값이 5라면 5가 들어감
+                firstSave.attackMultiplier = 1.0f;
             }
 
             // 3. 이 데이터를 가지고 저장 (updatedData 인자로 전달)

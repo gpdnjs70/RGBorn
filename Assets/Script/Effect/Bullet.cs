@@ -118,7 +118,7 @@ public class Bullet : MonoBehaviour
 
         // 레이캐스트가 날아가는 방향을 위해 Rotation은 맞춰주는 것이 좋습니다.
         // 다만, 비주얼은 애니메이터가 담당하므로 SpriteRenderer의 회전은 끌 수도 있습니다.
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        // float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        // transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }

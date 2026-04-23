@@ -1627,8 +1627,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentType: 0
   buttonScale: {fileID: 1255435702}
-  mainGroup: {fileID: 0}
-  optionGroup: {fileID: 0}
+  mainGroup: {fileID: 333254746}
+  optionGroup: {fileID: 333254746}
 --- !u!1 &1293807529
 GameObject:
   m_ObjectHideFlags: 0
@@ -2293,7 +2293,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6107827436815739192, guid: ada716a0e128c0c458ee46017ed52e25, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8482561669334252483, guid: ada716a0e128c0c458ee46017ed52e25, type: 3}
       propertyPath: fadeInTime

@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 102
   lines:
   - talkerType: 0
-    talkerName: "\uB178\uC778"
-    context: "\uC624\uB298 \uC774\uC57C\uAE30\uB294 \uC5EC\uAE30\uAE4C\uC9C0\uB780\uB2E4."
-    portrait: {fileID: 21300000, guid: dbaecc47272f78746be0f82f98d5cc29, type: 3}
+    talkerName: "\uB9C8\uC744 \uC0AC\uB78C3"
+    context: "\uB354 \uB4E3\uACE0 \uC2F6\uC5B4\uB3C4 \uC624\uB298 \uC774\uC57C\uAE30\uB294
+      \uC5EC\uAE30\uAE4C\uC9C0\uB780\uB2E4."
+    portrait: {fileID: 21300000, guid: 07772595431f614489c2d6a3d6c30c46, type: 3}
     customOffset: {x: 0, y: 5, z: 0}

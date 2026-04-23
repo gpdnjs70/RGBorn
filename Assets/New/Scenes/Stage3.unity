@@ -781,10 +781,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1652284482}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: -5}
-  m_SizeDelta: {x: 0, y: 10}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -1.010002, y: -2.83}
+  m_SizeDelta: {x: 208, y: 208}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &580238613
 GameObject:
@@ -5382,7 +5382,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 35, y: 20}
-  m_SizeDelta: {x: 271, y: 56}
+  m_SizeDelta: {x: 225, y: 48}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &790759682
 MonoBehaviour:
@@ -5404,7 +5404,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: eee7133b728060c48a9bf46ccc091438, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3f4463adb33a31548bcfd6d9e16bcb2f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -72572,7 +72572,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 495, y: 0}
-  m_SizeDelta: {x: 208, y: 214}
+  m_SizeDelta: {x: 225, y: 231}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1652284483
 MonoBehaviour:
@@ -72594,7 +72594,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6688ae4bfeb3bf5419f58ff16abc8e74, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 541157e9fea1cab4c83068e113dbced3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -72763,7 +72763,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 750, y: 290}
+  m_SizeDelta: {x: 750, y: 264}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1742561942
 MonoBehaviour:
@@ -72785,7 +72785,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 816d2bf4ff3537d498246d20603d60b6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5e8221bec04c74342b720ffcbef85f86, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -84962,7 +84962,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6107827436815739192, guid: ada716a0e128c0c458ee46017ed52e25, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8482561669334252483, guid: ada716a0e128c0c458ee46017ed52e25, type: 3}
       propertyPath: fadeInTime
@@ -85382,7 +85382,7 @@ PrefabInstance:
     - target: {fileID: 5311123713727263912, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
       propertyPath: summonClip
       value: 
-      objectReference: {fileID: 8300000, guid: 4381d75fcd110ab49a653280004ee4f5, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 5311123713727263912, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
       propertyPath: fireBallClip
       value: 
@@ -85390,15 +85390,15 @@ PrefabInstance:
     - target: {fileID: 5311123713727263912, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
       propertyPath: fireMineClip
       value: 
-      objectReference: {fileID: 8300000, guid: 783dec7a7a3d64b4193f81fbb5a03b10, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 5311123713727263912, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
       propertyPath: teleportClip
       value: 
-      objectReference: {fileID: 8300000, guid: 3f527f7fb6241b94086d401d770b2fe2, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 5311123713727263912, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
       propertyPath: fireFieldClip
       value: 
-      objectReference: {fileID: 8300000, guid: f9d0102c6711c2746a4d9c3f76d00e90, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 6190142716537893031, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
       propertyPath: player
       value: 

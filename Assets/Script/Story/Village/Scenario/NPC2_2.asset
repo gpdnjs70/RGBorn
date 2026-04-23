@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 101
   lines:
   - talkerType: 0
-    talkerName: "\uCCAD\uB144"
+    talkerName: "\uB9C8\uC744 \uC0AC\uB78C2"
     context: "\u2026\uC9C0\uAE08\uC740 \uB9D0 \uC11E\uC744 \uAE30\uBD84 \uC544\uB2C8\uC57C."
     portrait: {fileID: 21300000, guid: 52f8bfce12f2ef64595e80239c3058e7, type: 3}
     customOffset: {x: 0, y: 5, z: 0}

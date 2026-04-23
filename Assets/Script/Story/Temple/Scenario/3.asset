@@ -17,15 +17,15 @@ MonoBehaviour:
   - talkerType: 0
     talkerName: "\uC131\uAE30\uC0AC"
     context: "\u2026\uC54C\uACA0\uC2B5\uB2C8\uB2E4."
-    portrait: {fileID: 21300000, guid: 52f8bfce12f2ef64595e80239c3058e7, type: 3}
+    portrait: {fileID: 21300000, guid: 51374dd5f50f3034094efda5fc9c2e69, type: 3}
     customOffset: {x: -6, y: 8.5, z: 0}
   - talkerType: 0
     talkerName: "\uC131\uAE30\uC0AC"
     context: "\uC774\uBC88\uB9CC\uC785\uB2C8\uB2E4."
-    portrait: {fileID: 21300000, guid: 52f8bfce12f2ef64595e80239c3058e7, type: 3}
+    portrait: {fileID: 21300000, guid: 51374dd5f50f3034094efda5fc9c2e69, type: 3}
     customOffset: {x: -6, y: 8.5, z: 0}
   - talkerType: 0
     talkerName: "\uC131\uAE30\uC0AC"
     context: "\uC548\uC73C\uB85C \uB4E4\uC5B4\uAC00\uC2DC\uC8E0."
-    portrait: {fileID: 21300000, guid: 52f8bfce12f2ef64595e80239c3058e7, type: 3}
+    portrait: {fileID: 21300000, guid: 51374dd5f50f3034094efda5fc9c2e69, type: 3}
     customOffset: {x: -6, y: 8.5, z: 0}

@@ -421,22 +421,45 @@ MonoBehaviour:
   textDisplay: {fileID: 1150667007}
   cutsceneScenes:
   - illustration: {fileID: 21300000, guid: b8edab8501d0eb14e8048a6786a8059f, type: 3}
-    dialogue: "\uCEF7\uC52C \uB098\uC624\uAE30 \uC804\uC5D0 \uC77C\uB2E8 \uC138\uC0C1\uC5D0
-      \uBE68\uAC04 \uC0C9 \uB3CC\uC544\uC624\uB294 \uAC70 \uBCF4\uC5EC\uC8FC\uACE0"
-    displayTime: 3
+    dialogue: "\uBD89\uC74C\uC758 \uC8FC\uAD50\uB97C \uC4F0\uB7EC\uB728\uB9AC\uACE0,\r\n\uBD89\uC740
+      \uC0C9\uC774 \uBD09\uC778\uB41C \uC131\uBB3C\uC744 \uD30C\uAD34\uD558\uC790\r\n\uC138\uC0C1\uC5D0
+      \uB2E4\uC2DC \uBD89\uC740 \uC0C9\uC774 \uB3CC\uC544\uC654\uB2E4."
+    displayTime: 5
+  - illustration: {fileID: 21300000, guid: b8edab8501d0eb14e8048a6786a8059f, type: 3}
+    dialogue: "\uC624\uB7AB\uB3D9\uC548 \uC0AC\uB77C\uC838 \uC788\uB358 \uC628\uAE30\uAC00\r\n\uC870\uAE08\uC529,
+      \uC774\uACF3\uC800\uACF3\uC5D0 \uC2A4\uBA70\uB4E4\uAE30 \uC2DC\uC791\uD588\uB2E4."
+    displayTime: 5
   - illustration: {fileID: 21300000, guid: 4788d96abe5324841a482ac0e6eeed04, type: 3}
-    dialogue: "G\uBCF4\uC2A4 \uD574\uCE58\uC6B0\uB294 \uAC70"
-    displayTime: 3
+    dialogue: "\uCD08\uB85D\uC758 \uC8FC\uAD50\uB97C \uC4F0\uB7EC\uB728\uB9AC\uACE0,\r\n\uCD08\uB85D\uC0C9\uC774
+      \uBD09\uC778\uB41C \uC131\uBB3C\uC744 \uD30C\uAD34\uD558\uC790"
+    displayTime: 5
   - illustration: {fileID: 21300000, guid: 5de50e3c4c04bf04e8b19bd17d1c5695, type: 3}
-    dialogue: "\uC138\uC0C1\uC5D0 \uCD08\uB85D \uC0C9 \uB3CC\uC544\uC624\uB294 \uAC70
-      \uBCF4\uC5EC\uC8FC\uACE0"
-    displayTime: 3
+    dialogue: "\uC78A\uD600\uC84C\uB358 \uC0DD\uBA85\uC758 \uC0C9 \uB610\uD55C,\r\n\uB2E4\uC2DC
+      \uC138\uC0C1\uC5D0 \uBAA8\uC2B5\uC744 \uB4DC\uB7EC\uB0C8\uB2E4."
+    displayTime: 5
+  - illustration: {fileID: 21300000, guid: 5de50e3c4c04bf04e8b19bd17d1c5695, type: 3}
+    dialogue: "\uBA54\uB9C8\uB978 \uB545 \uC704\uC5D0\uB294\r\n\uB2E4\uC2DC \uD65C\uAE30\uAC00
+      \uCC3E\uC544\uC654\uACE0\r\n\uBA48\uCDB0 \uC788\uB358 \uC228\uACB0\uC774 \uC870\uC6A9\uD788
+      \uC774\uC5B4\uC9C0\uAE30 \uC2DC\uC791\uD588\uB2E4."
+    displayTime: 5
   - illustration: {fileID: 21300000, guid: 187a772713ce4bf48874f02f5619fd16, type: 3}
-    dialogue: "B\uBCF4\uC2A4 \uD574\uCE58\uC6B0\uB294 \uAC70"
-    displayTime: 3
+    dialogue: "\uADF8\uB9AC\uACE0\u2014\r\n\uD478\uB984\uC758 \uC8FC\uAD50\uB97C
+      \uC4F0\uB7EC\uB728\uB9AC\uACE0\r\n\uD478\uB978 \uC0C9\uC774 \uBD09\uC778\uB41C
+      \uC131\uBB3C\uC744 \uD30C\uAD34\uD558\uC790,"
+    displayTime: 5
   - illustration: {fileID: 21300000, guid: eb0481791827b2041b632fc558c385d9, type: 3}
-    dialogue: "\uC138\uC0C1\uC5D0 \uC0C9 \uB2E4 \uB3CC\uC544\uC624\uB294 \uAC70 \uBCF4\uC5EC\uC8FC\uACE0"
-    displayTime: 3
+    dialogue: "\uB9C8\uCE68\uB0B4 \uC138\uC0C1\uC758 \uC774\uCE58\uB294 \uC81C\uC790\uB9AC\uB85C
+      \uB3CC\uC544\uC654\uB2E4."
+    displayTime: 5
+  - illustration: {fileID: 21300000, guid: eb0481791827b2041b632fc558c385d9, type: 3}
+    dialogue: "\uD769\uC5B4\uC838 \uC788\uB358 \uC0C9\uB4E4\uC740 \uB2E4\uC2DC \uD558\uB098\uB85C
+      \uC774\uC5B4\uC84C\uACE0,\n\uC624\uB79C \uC2DC\uAC04 \uBA48\uCDB0 \uC788\uB358
+      \uC138\uC0C1\uC740 \uBE44\uB85C\uC18C \uC81C \uBAA8\uC2B5\uC744 \uB418\uCC3E\uC558\uB2E4."
+    displayTime: 5
+  - illustration: {fileID: 21300000, guid: a190827017965c949b621f371dfe2407, type: 3}
+    dialogue: "\uADF8\uB9AC\uACE0,\r\n\uC0C9\uC740 \uB354\uC774\uC0C1 \uD2B9\uBCC4\uD55C
+      \uC774\uB4E4\uB9CC\uC758 \uAC83\uC774 \uC544\uB2C8\uAC8C \uB418\uC5C8\uB2E4."
+    displayTime: 5
   nextSceneName: MainMenu
 --- !u!1 &1720871970
 GameObject:

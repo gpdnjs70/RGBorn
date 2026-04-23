@@ -456,8 +456,8 @@ MonoBehaviour:
   meleeDamage: 2
   criticalMeleeDamage: 5
   readySound: {fileID: 8300000, guid: 4381d75fcd110ab49a653280004ee4f5, type: 3}
-  damagedSound: {fileID: 8300000, guid: 6cd735ba0ed1d95409ce55e625b2f4b0, type: 3}
-  dieSound: {fileID: 8300000, guid: 135e9b722845e92479b3b312bd123c0f, type: 3}
+  damagedSound: {fileID: 8300000, guid: 9b10f04e3c1dd204483e6bd93f9230fd, type: 3}
+  dieSound: {fileID: 8300000, guid: 8b9720ff168287b499775b8389e6b0f1, type: 3}
 --- !u!114 &216006849904087425
 MonoBehaviour:
   m_ObjectHideFlags: 0

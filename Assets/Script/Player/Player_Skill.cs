@@ -12,7 +12,7 @@ public interface ISkill
 public class Player_Skill : MonoBehaviour
 {
     [SerializeField] private GameObject skill1_Prefab;
-    [SerializeField] private Transform skill1_Pos;
+    [SerializeField] private Transform[] skill1_Positions;
     [SerializeField] private SkillCoolTime skill1_UI;
 
     [SerializeField] private SkillCoolTime skill2_UI;
@@ -28,7 +28,7 @@ public class Player_Skill : MonoBehaviour
     {
         if (skill1_Prefab != null)
         {
-            Fireball fb = new Fireball(this.gameObject, skill1_Prefab, skill1_Pos);
+            Fireball fb = new Fireball(this.gameObject, skill1_Prefab);
             skills.Add(fb);
             skillUIs.Add(skill1_UI);
             skill1_UI.SetMaxCooldown(fb.Cooldown);
@@ -74,21 +74,49 @@ public class Player_Skill : MonoBehaviour
     public void OnFireballRelease()
     {
         // 첫 번째 스킬이 파이어볼이라고 가정
-        if (skills.Count > 0 && skill1_Prefab != null && skill1_Pos != null)
+        if (skills.Count > 0 && skill1_Prefab != null)
         {
-            GameObject b = Instantiate(skill1_Prefab, skill1_Pos.position, Quaternion.identity);
+            Transform spawnPos = GetSpawnPositionByDirection();
+
+            GameObject b = Instantiate(skill1_Prefab, spawnPos.position, Quaternion.identity);
             Bullet bulletScript = b.GetComponent<Bullet>();
 
             Player_Movement movement = GetComponent<Player_Movement>();
             if (bulletScript != null && movement != null)
             {
-                Vector2 fireDir = new Vector2(movement.dirX, movement.dirY);
+                float dx = movement.dirX > 0 ? 1 : (movement.dirX < 0 ? -1 : 0);
+                float dy = movement.dirY > 0 ? 1 : (movement.dirY < 0 ? -1 : 0);
+                Vector2 fireDir = new Vector2(dx, dy);
+
                 if (fireDir == Vector2.zero) fireDir = Vector2.right;
 
-                bulletScript.SetDirection(fireDir);
+                bulletScript.SetDirection(fireDir); // 여기서 발사체 애니메이터가 설정됨
                 bulletScript.Init(GetComponent<Entity>());
             }
-            Debug.Log("애니메이션 이벤트: 파이어볼 실제 생성!");
         }
+    }
+
+    private Transform GetSpawnPositionByDirection()
+    {
+        Player_Movement movement = GetComponent<Player_Movement>();
+        float x = movement.dirX;
+        float y = movement.dirY;
+
+        // 시계 방향 순서대로 인덱스를 정한다고 가정 (예: 0=북, 1=북동, 2=동...)
+        int index = 0;
+
+        if (x == 0 && y > 0) index = 0;      // 북 (Up)
+        else if (x > 0 && y > 0) index = 1; // 북동 (Up-Right)
+        else if (x > 0 && y == 0) index = 2; // 동 (Right)
+        else if (x > 0 && y < 0) index = 3; // 남동 (Down-Right)
+        else if (x == 0 && y < 0) index = 4; // 남 (Down)
+        else if (x < 0 && y < 0) index = 5; // 남서 (Down-Left)
+        else if (x < 0 && y == 0) index = 6; // 서 (Left)
+        else if (x < 0 && y > 0) index = 7; // 북서 (Up-Left)
+
+        // 방어 코드: 배열 범위를 벗어나지 않게 처리
+        if (index >= skill1_Positions.Length) return skill1_Positions[0];
+
+        return skill1_Positions[index];
     }
 }
