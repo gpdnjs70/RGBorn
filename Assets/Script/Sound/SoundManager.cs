@@ -15,26 +15,14 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(instance);
-            SceneManager.sceneLoaded += OnSceneLoaded;
+        instance = this;
 
-            SetupSFXPlayer();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        SetupSFXPlayer();
     }
 
-    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    private void Start()
     {
-        // 현재 씬의 빌드 인덱스(Build Settings에 등록된 순서)를 가져옵니다.
-        int sceneIndex = arg0.buildIndex;
-
-        // 만약 빌드 인덱스에 맞는 음악이 bglist에 있다면 바로 재생
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (sceneIndex < bglist.Length && bglist[sceneIndex] != null)
         {
             BgSoundPlay(bglist[sceneIndex]);
@@ -99,6 +87,17 @@ public class SoundManager : MonoBehaviour
         bgSound.Play();
     }
 
+    public float GetBGSoundVolume()
+    {
+        float value;
+        if (mixer.GetFloat("BGSoundVolume", out value))
+        {
+            // 공식: 10^(dB / 20)
+            return Mathf.Pow(10, value / 20f);
+        }
+        return 0.5f;
+    }
+
     public void SetBGSoundVolume(float val)
     {
         if (val <= 0.0001f)
@@ -107,13 +106,19 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            // Mathf.Log10(val) * 20은 0dB 기준입니다. 
-            // 여기에 20을 더하면 슬라이더 1일 때 20dB, 슬라이더 0.1일 때 0dB가 됩니다.
-            float volume = Mathf.Log10(val) * 20 + 20;
-
-            // 믹서의 최댓값인 20을 넘지 않도록 제한
-            mixer.SetFloat("BGSoundVolume", Mathf.Clamp(volume, -80f, 20f));
+            float volume = Mathf.Log10(val) * 20;
+            mixer.SetFloat("BGSoundVolume", Mathf.Clamp(volume, -80f, 0f));
         }
+    }
+
+    public float GetSFXVolume()
+    {
+        float value;
+        if (mixer.GetFloat("SFXVolume", out value))
+        {
+            return Mathf.Pow(10, value / 20f);
+        }
+        return 0.5f;
     }
 
     public void SetSFXVolume(float val)
@@ -124,8 +129,8 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            float volume = Mathf.Log10(val) * 20 + 20;
-            mixer.SetFloat("SFXVolume", Mathf.Clamp(volume, -80f, 20f));
+            float volume = Mathf.Log10(val) * 20;
+            mixer.SetFloat("SFXVolume", Mathf.Clamp(volume, -80f, 0f));
         }
     }
 }

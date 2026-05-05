@@ -16,6 +16,9 @@ public class savePoint : MonoBehaviour
     [SerializeField] private float upgradeMaxHP = 100f;       // 도달할 최종 HP (값)
     [SerializeField][Range(0f, 2f)] private float attackUpgradePercent = 0.2f; // 상승할 공격력 (20% 등)
 
+    [SerializeField] private List<Sprite> upgradeSprites;
+    [SerializeField] private List<string> upgradeTexts;
+
     private void Start()
     {
         // 씬 시작 시 데이터 로드
@@ -109,19 +112,21 @@ public class savePoint : MonoBehaviour
             SaveManager.Instance.SaveGame(false, nextSceneName, data);
 
             // 4. UI 출력 (HP: 50 -> 100 형태)
-            StatUIController.Instance.StartUISequence();
+            StatUIController.Instance.StartUISequence(upgradeSprites, upgradeTexts, () => {
+                // UI 끝나면 다음 씬으로 넘어가거나 조작 활성화
+                if (sceneChange != null) sceneChange.SetActive(true);
+                playerMove.SetControlEnabled(true);
+            });
 
-            yield return new WaitUntil(() => !StatUIController.Instance.isDisplaying);
-
-            if (sceneChange != null) sceneChange.SetActive(true);
+            yield break;
         }
         else
         {
             // 리스폰 포인트는 회복만 시켜주고 저장
             SaveManager.Instance.SaveGame(true);
             yield return new WaitForSeconds(0.5f);
-        }
 
-        playerMove.SetControlEnabled(true);
+            playerMove.SetControlEnabled(true);
+        }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RBossFinishManager : MonoBehaviour
 {
@@ -12,12 +13,22 @@ public class RBossFinishManager : MonoBehaviour
     public TutorialDialogue dialogueSystem;
     private bool isDialogueActive = false;
 
+    [Header("조작 UI")]
+    [SerializeField] private GameObject controlPanel;
+    [SerializeField] private Image controlImage;
+    [SerializeField] private List<Sprite> controlSprites;
+
+    [SerializeField] private GameObject earRing;
+
     private Player_Movement playerMoveScript;
     private Player_Attack attackScript;
     private PlayerAttribute playerAttributeScript;
     private Player_Skill playerSkillScript;
     private Rigidbody2D rigid;
     private Animator playerAnim;
+
+    private bool canInteract = false; // 상호작용 가능 플래그
+    private bool hasInteracted = false; // 상호작용 완료 플래그
 
     private void Awake()
     {
@@ -35,6 +46,16 @@ public class RBossFinishManager : MonoBehaviour
     {
         // 씬이 시작되자마자 대화 시퀀스 실행
         StartCoroutine(FullDialogueSequence());
+    }
+
+    private void Update()
+    {
+        // 상호작용 대기 상태에서 E키를 누르면 시퀀스 진행
+        if (canInteract && !hasInteracted && Input.GetKeyDown(KeyCode.E))
+        {
+            hasInteracted = true;
+            HideControlGuide();
+        }
     }
 
     private IEnumerator FullDialogueSequence()
@@ -65,6 +86,20 @@ public class RBossFinishManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1.0f);
+
+        canInteract = true;
+        ShowControlGuide(0);
+        yield return new WaitUntil(() => hasInteracted);
+
+        if (bossNPC != null)
+        {
+            Animator RBossAnim = bossNPC.GetComponent<Animator>();
+            RBossAnim.SetTrigger("Final");
+        }
+
+        earRing.SetActive(true);
+
+        yield return new WaitForSeconds(3.0f);
 
         // 4. 대화가 다 끝나면 다음 장소로 이동
         if (!string.IsNullOrEmpty(nextSceneName))
@@ -110,5 +145,18 @@ public class RBossFinishManager : MonoBehaviour
             Animator anim = player.GetComponent<Animator>();
             if (anim != null) anim.SetBool("isMove", false);
         }
+    }
+
+    public void ShowControlGuide(int spriteIndex)
+    {
+        if (controlPanel == null) return;
+        controlPanel.SetActive(true);
+        if (controlSprites.Count > spriteIndex)
+            controlImage.sprite = controlSprites[spriteIndex];
+    }
+
+    public void HideControlGuide()
+    {
+        if (controlPanel != null) controlPanel.SetActive(false);
     }
 }

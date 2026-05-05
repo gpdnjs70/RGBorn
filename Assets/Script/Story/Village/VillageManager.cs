@@ -18,7 +18,7 @@ public class VillageManager : MonoBehaviour
 
     private Player_Movement playerMoveScript;
 
-    // 퀘스트 창/조작 가이드 UI (TutorialManager_0의 기능)
+    [Header("조작 UI")]
     [SerializeField] public GameObject controlPanel;
     [SerializeField] private Image controlImage;
     [SerializeField] private List<Sprite> controlSprites = new List<Sprite>(); // 0: E키 등

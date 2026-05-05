@@ -24,6 +24,8 @@ public class StatUIController : MonoBehaviour
 
     private Action onSequenceComplete; // 종료 후 실행할 함수 보관용
 
+    [SerializeField] private AudioClip levelUpSound;
+
     private void Awake()
     {
         Instance = this;
@@ -46,8 +48,14 @@ public class StatUIController : MonoBehaviour
     }
 
     // 외부(savePoint 등)에서 호출할 시작 함수
-    public void StartUISequence(Action onComplete = null)
+    public void StartUISequence(List<Sprite> newSprites, List<string> newTexts, Action onComplete = null)
     {
+        spriteList.Clear();
+        spriteList.AddRange(newSprites);
+
+        textList.Clear();
+        textList.AddRange(newTexts);
+
         // 이전 호출자가 남겨둔 콜백이 실행되지 않도록 무조건 덮어씌웁니다.
         onSequenceComplete = onComplete;
 
@@ -82,6 +90,11 @@ public class StatUIController : MonoBehaviour
     {
         contentImage.sprite = spriteList[currentIndex];
         contentText.text = textList[currentIndex];
+
+        if (levelUpSound != null && SoundManager.instance != null)
+        {
+            SoundManager.instance.SFXPlay("levelUp", levelUpSound);
+        }
     }
 
     private void CloseUI()

@@ -15,7 +15,10 @@ public class TutorialDialogue : MonoBehaviour
     public Vector3 offset = new Vector3(0, 2.0f, 0);
     private Vector3 currentLineOffset;
 
+    public GameObject Frame;
     public Image portraitImg;
+
+    public GameObject Nametag;
     public Text talkerName;
     public Text talkText;
 
@@ -31,6 +34,10 @@ public class TutorialDialogue : MonoBehaviour
     private Coroutine typingCoroutine; // 현재 실행 중인 코루틴 관리
     private bool isTyping; // 현재 타이핑 중인지 확인
     private string fullSentence; // 현재 전체 문장 저장
+
+    [Header("Skip Feature")]
+    public GameObject skipButton; // UI에서 스킵 버튼 오브젝트 연결
+    public int skipThreshold = 5; // 스킵 버튼이 나타날 최소 대사 줄 수
 
     void Update()
     {
@@ -67,6 +74,13 @@ public class TutorialDialogue : MonoBehaviour
             isAction = true; // 상태 먼저 변경
             isDialogueFinished = false;
             talkPanel.SetActive(true);
+
+            if (skipButton != null)
+            {
+                // 대사 줄 수가 설정한 threshold보다 많을 때만 버튼 활성화
+                skipButton.SetActive(currentDialogue.lines.Length >= skipThreshold);
+            }
+
             Talk();
         }
     }
@@ -76,10 +90,7 @@ public class TutorialDialogue : MonoBehaviour
         // 대화가 끝났는지 확인
         if (currentDialogue == null || talkIndex >= currentDialogue.lines.Length)
         {
-            isAction = false;
-            isDialogueFinished = true;
-            talkIndex = 0;
-            talkPanel.SetActive(false);
+            EndDialogue();
             return;
         }
 
@@ -112,6 +123,15 @@ public class TutorialDialogue : MonoBehaviour
         typingCoroutine = StartCoroutine(TypeSentence(fullSentence));
 
         talkIndex++;
+    }
+
+    private void EndDialogue()
+    {
+        isAction = false;
+        isDialogueFinished = true;
+        talkIndex = 0;
+        talkPanel.SetActive(false);
+        if (skipButton != null) skipButton.SetActive(false); // 종료 시 버튼 숨김
     }
 
     IEnumerator TypeSentence(string sentence)
@@ -182,5 +202,26 @@ public class TutorialDialogue : MonoBehaviour
         float clampedY = Mathf.Clamp(screenPos.y, minY, maxY);
 
         talkPanelRect.position = new Vector3(clampedX, clampedY, screenPos.z);
+    }
+
+    public void SkipDialogue()
+    {
+        // 1. 타이핑 중이었다면 중단
+        if (isTyping)
+        {
+            isTyping = false;
+            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+            if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
+        }
+
+        // 2. 대화 강제 종료 처리
+        isAction = false;
+        isDialogueFinished = true;
+        talkIndex = 0;
+        talkPanel.SetActive(false);
+
+        if (skipButton != null) skipButton.SetActive(false);
+
+        Debug.Log("대화가 스킵되었습니다.");
     }
 }

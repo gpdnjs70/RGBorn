@@ -23,11 +23,13 @@ public class CutSceneManager : MonoBehaviour
     [SerializeField] private CutsceneScene[] cutsceneScenes;
     [SerializeField] private string nextSceneName;
 
+    private Coroutine cutsceneRoutine;
+
     private void Start()
     {
         if (cutsceneScenes != null && cutsceneScenes.Length > 0)
         {
-            StartCoroutine(PlayCutscene());
+            cutsceneRoutine = StartCoroutine(PlayCutscene());
         }
     }
 
@@ -58,5 +60,31 @@ public class CutSceneManager : MonoBehaviour
             // 다음 씬 이름이 없으면 컷씬 UI만 비활성화
             gameObject.SetActive(false);
         }
+    }
+
+    public void SkipToTutorial()
+    {
+        // 1. 진행 중인 코루틴이 있다면 중단 (중복 호출 방지)
+        if (cutsceneRoutine != null)
+        {
+            StopCoroutine(cutsceneRoutine);
+        }
+
+        // 2. 즉시 튜토리얼로 이동
+        Debug.Log("컷씬 스킵: Tutorial로 이동");
+        FadeTransition.Instance.FadeToScene("Tutorial_Inside");
+    }
+
+    public void SkipToMainMenuFinal()
+    {
+        // 1. 진행 중인 코루틴이 있다면 중단 (중복 호출 방지)
+        if (cutsceneRoutine != null)
+        {
+            StopCoroutine(cutsceneRoutine);
+        }
+
+        // 2. 즉시 메인 메뉴로 이동
+        Debug.Log("컷씬 스킵: MainMenu_Final로 이동");
+        FadeTransition.Instance.FadeToScene("MainMenu_Final");
     }
 }

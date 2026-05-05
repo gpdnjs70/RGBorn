@@ -63,6 +63,11 @@ public class TutorialManager_0 : MonoBehaviour
 
     private bool isDialogueActive = false;
 
+    [Header("Color Sprites")]
+    [SerializeField] private Sprite ColorPanelSprite;
+    [SerializeField] private Sprite ColorNametagSprite;
+    [SerializeField] private Sprite ColorFrameSprite;
+
     private void Awake()
     {
         if (SaveManager.Instance != null)
@@ -157,9 +162,11 @@ public class TutorialManager_0 : MonoBehaviour
         SetupGuideUI(1); // WASD 가이드 표시
         SetPlayerControllable(TutorialStep.MoveOnly);
 
-        Vector3 startPos = player.transform.position;
-        // 일정 거리 이상 움직이면 가이드 숨김
-        yield return new WaitUntil(() => Vector3.Distance(player.transform.position, startPos) > 5f);
+        yield return new WaitUntil(() =>
+             Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) ||
+             Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)
+        );
+        yield return new WaitForSeconds(1f);
         yield return StartCoroutine(FadeOutPanel());
 
         // --- 2단계: 상자 조사 유도 (Shift) ---
@@ -167,13 +174,12 @@ public class TutorialManager_0 : MonoBehaviour
 
         SetupGuideUI(2); // Shift 대시 가이드 표시
         SetPlayerControllable(TutorialStep.DashEnabled);
-
-        startPos = player.transform.position;
+        
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(FadeOutPanel());
 
-        // --- 3단계: 성물 발견 ---
+        // --- 3단계: 책 발견 ---
         yield return StartCoroutine(PlayDialogue(3));
         SetPlayerControllable(TutorialStep.All);
 
@@ -301,6 +307,20 @@ public class TutorialManager_0 : MonoBehaviour
 
             // 교체 직후 파티클이나 효과음을 넣으면 더 극적입니다.
             // Instantiate(colorAwakeEffect, player.transform.position, Quaternion.identity);
+        }
+
+        // talkPanel Color Sprite로 교체
+        if (tutorialDialogue.talkPanel.GetComponent<Image>() != null)
+        {
+            tutorialDialogue.talkPanel.GetComponent<Image>().sprite = ColorPanelSprite;
+        }
+        if (tutorialDialogue.Nametag.GetComponent<Image>() != null)
+        {
+            tutorialDialogue.Nametag.GetComponent<Image>().sprite = ColorNametagSprite;
+        }
+        if (tutorialDialogue.Frame.GetComponent<Image>() != null)
+        {
+            tutorialDialogue.Frame.GetComponent<Image>().sprite = ColorFrameSprite;
         }
 
         StartCoroutine(CameraShake(shakeDuration, shakeMagnitude));

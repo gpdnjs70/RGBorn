@@ -42,6 +42,13 @@ public class TempleManager : MonoBehaviour
     {
         if (SceneChange != null) SceneChange.SetActive(false);
         if (finalBoss != null) finalBoss.SetActive(false);
+        if (player != null)
+        {
+            Animator anim = player.GetComponent<Animator>();
+
+            anim.SetFloat("DirX", 0);
+            anim.SetFloat("DirY", 1);
+        }
     }
 
     // --- 외부(Trigger 오브젝트)에서 호출할 함수 ---

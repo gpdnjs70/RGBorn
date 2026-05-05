@@ -115,7 +115,8 @@ public class MonsterWaveManager : MonoBehaviour
         if (cp.entryCollider != null) cp.entryCollider.SetActive(false);
 
         // 2. 연출: 화면 흔들림과 함께 벽이 활성화
-        if (mapParent != null) StartCoroutine(MapShake(mapParent, shakeDuration, shakeMagnitude));
+        // if (mapParent != null) StartCoroutine(MapShake(mapParent, shakeDuration, shakeMagnitude));
+        StartCoroutine(CameraShake(0.5f, 0.1f));
 
         foreach (var wall in cp.phaseWalls)
         {
@@ -254,5 +255,18 @@ public class MonsterWaveManager : MonoBehaviour
         {
             if (wall != null) wall.SetActive(false);
         }
+    }
+
+    private IEnumerator CameraShake(float duration, float magnitude)
+    {
+        Vector3 originalPos = Camera.main.transform.localPosition;
+        float elapsed = 0.0f;
+        while (elapsed < duration)
+        {
+            Camera.main.transform.localPosition = originalPos + (Vector3)Random.insideUnitCircle * magnitude;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        Camera.main.transform.localPosition = originalPos;
     }
 }

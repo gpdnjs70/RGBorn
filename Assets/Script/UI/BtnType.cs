@@ -12,7 +12,18 @@ public enum BTNType
     Option,
     Sound,
     Back,
-    Quit
+    Quit,
+    Scene,
+    SceneBack,
+    Scene_Tutorial_Inside,
+    Scene_Tutorial_Outside,
+    Scene_Stage1,
+    Scene_Town,
+    Scene_Stage2,
+    Scene_Temple,
+    Scene_Stage3,
+    Scene_RBoss,
+    Scene_Final,
 }
 
 public class BtnType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -22,6 +33,7 @@ public class BtnType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     Vector3 defaultScale;
     public CanvasGroup mainGroup;
     public CanvasGroup optionGroup;
+    public CanvasGroup sceneGroup;
 
     public void Start()
     {
@@ -67,6 +79,41 @@ public class BtnType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 Application.Quit();
                 Debug.Log("앱 종료");
                 break;
+            case BTNType.Scene:
+                CanvasGroupOn(sceneGroup);
+                CanvasGroupOff(optionGroup);
+                break;
+            case BTNType.SceneBack:
+                CanvasGroupOn(optionGroup);
+                CanvasGroupOff(sceneGroup);
+                break;
+            case BTNType.Scene_Tutorial_Inside:
+                SaveAndLoadScene("Tutorial_Inside", 50.0f, 5.0f, 1.0f);
+                break;
+            case BTNType.Scene_Tutorial_Outside:
+                SaveAndLoadScene("Tutorial_Outside", 50.0f, 5.0f, 1.0f);
+                break;
+            case BTNType.Scene_Stage1:
+                SaveAndLoadScene("Stage1", 50.0f, 5.0f, 1.0f);
+                break;
+            case BTNType.Scene_Town:
+                SaveAndLoadScene("Town", 50.0f, 5.0f, 1.2f);
+                break;
+            case BTNType.Scene_Stage2:
+                SaveAndLoadScene("Stage1_after", 50.0f, 5.0f, 1.2f);
+                break;
+            case BTNType.Scene_Temple:
+                SaveAndLoadScene("Temple", 100.0f, 5.0f, 1.44f);
+                break;
+            case BTNType.Scene_Stage3:
+                SaveAndLoadScene("Stage3", 100.0f, 5.0f, 1.44f);
+                break;
+            case BTNType.Scene_RBoss:
+                SaveAndLoadScene("RBoss", 100.0f, 5.0f, 1.44f);
+                break;
+            case BTNType.Scene_Final:
+                SaveAndLoadScene("Finish", 100.0f, 5.0f, 1.44f);
+                break;
         }
     }
 
@@ -92,5 +139,28 @@ public class BtnType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerExit(PointerEventData eventData)
     {
         buttonScale.localScale = defaultScale;
+    }
+
+    private void SaveAndLoadScene(string sceneName, float maxHP, float speed, float attackMult)
+    {
+        // 1. 새로운 저장 데이터 객체 생성 및 값 할당
+        SaveData newData = new SaveData();
+
+        newData.lastSceneName = sceneName;
+        newData.isRespawn = false; // 요청하신 대로 false 고정
+
+        // 하드코딩 혹은 전달받은 값 입력
+        newData.currentMaxHP = maxHP;
+        newData.currentSpeed = speed;
+        newData.attackMultiplier = attackMult;
+
+        // 2. SaveManager를 통해 JSON으로 저장
+        // (SaveManager에 SaveGame(SaveData data) 메서드가 있다고 가정합니다)
+        SaveManager.Instance.SaveGame(false, sceneName, newData);
+
+        Debug.Log($"{sceneName} 데이터 저장 완료 후 이동");
+
+        // 3. 씬 이동
+        FadeTransition.Instance.FadeToScene(sceneName);
     }
 }

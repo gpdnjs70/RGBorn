@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorMode: 0
   attackBonusPercent: 0
-  receiveDamageMultiplier: 1
+  attackMinusPercent: 1
+  damageReductionRate: 0
   strongAgainst: 
+  weakAgainst: 010000000200000003000000
   debuffType: 0
   debuffChance: 0
   debuffDuration: 0

@@ -467,3 +467,4 @@ MonoBehaviour:
   textList:
   - "\uC800\uC7A5 \uC644\uB8CC"
   isDisplaying: 0
+  levelUpSound: {fileID: 8300000, guid: 783dec7a7a3d64b4193f81fbb5a03b10, type: 3}

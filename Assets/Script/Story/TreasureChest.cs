@@ -8,6 +8,11 @@ public class TreasureChest : MonoBehaviour
     private bool isPlayerNearby = false;
     private bool isOpened = false;
 
+    [SerializeField] private List<Sprite> itemSprites;
+    [SerializeField] private List<string> itemTexts;
+
+    [SerializeField] private AudioClip acquisitionSound;
+
     void Awake()
     {
         anim = GetComponent<Animator>();
@@ -38,13 +43,35 @@ public class TreasureChest : MonoBehaviour
 
         // 2. UI 끄기 및 보상 처리 (매니저 호출)
         MonsterWaveManager.Instance.OnChestOpened();
+        if (acquisitionSound != null && SoundManager.instance != null)
+        {
+            SoundManager.instance.SFXPlay("acquisitionSound", acquisitionSound);
+        }
         yield return new WaitForSeconds(3.0f);
 
-        MonsterWaveManager.Instance.SetPlayerControl(true);
-        Debug.Log("연출 종료, 플레이어 이동 가능");
+        if (StatUIController.Instance != null)
+        {
+            StatUIController.Instance.StartUISequence(itemSprites, itemTexts, () =>
+            {
+                // UI가 완전히 닫힌 후 실행될 콜백 (Action)
+                EndSequence();
+            });
+        }
+        else
+        {
+            // UI가 없을 경우 바로 종료 처리
+            EndSequence();
+        }
+    }
 
-        // 3. 잠시 후 상자가 다시 닫히는 애니메이션 (필요 시)
+    private void EndSequence()
+    {
+        // 4. 플레이어 조작 복구 및 후처리
+        MonsterWaveManager.Instance.SetPlayerControl(true);
+
         if (anim != null) anim.SetTrigger("Close");
+
+        Debug.Log("아이템 획득 연출 종료");
     }
 
     private void OnTriggerEnter2D(Collider2D other)

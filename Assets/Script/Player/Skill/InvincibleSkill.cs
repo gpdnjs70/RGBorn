@@ -5,7 +5,7 @@ using UnityEngine;
 public class InvincibleSkill : ISkill
 {
     public string SkillName => "Invincible";
-    public float Cooldown => 300.0f;
+    public float Cooldown => 120.0f;
     public float Duration => 3.0f; // 무적 유지 시간
 
     private Player_HP playerHP;

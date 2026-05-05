@@ -165,4 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c76bdbc5db9a8e4db8136cd49393f60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlPanel: {fileID: 0}
+  itemSprites:
+  - {fileID: 21300000, guid: 76b9b0742525e9145933c0d28d368a47, type: 3}
+  itemTexts:
+  - "\uACF5\uACA9\uB825 20% \uC0C1\uC2B9"
+  acquisitionSound: {fileID: 8300000, guid: ce7d411839bcd694ea1e777fa7bde218, type: 3}
