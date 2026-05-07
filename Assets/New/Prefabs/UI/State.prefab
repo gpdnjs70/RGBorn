@@ -1515,10 +1515,20 @@ PrefabInstance:
       propertyPath: maxCooldownTime
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
+      propertyPath: skillDescription
+      value: "\uAC80\uAE30 \uB0A0\uB9AC\uAE30\n\uD6A8\uACFC: \uBC14\uB77C\uBCF4\uB294
+        \uBC29\uD5A5\uC73C\uB85C \uAC80\uAE30\uB97C \uB0A0\uB9BC\n\uCFE8\uD0C0\uC784:
+        3\uCD08"
+      objectReference: {fileID: 0}
     - target: {fileID: 7282979846190798471, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 1097877fdb7185d48a90acad9e1b8220, type: 3}
+    - target: {fileID: 8462202913105208192, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9120498802220249187, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -1639,12 +1649,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: maxCooldownTime
-      value: 300
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
+      propertyPath: skillDescription
+      value: "\uBB34\uC801\n\uD6A8\uACFC: 3\uCD08 \uB3D9\uC548 \uBAA8\uB4E0 \uACF5\uACA9
+        \uBB34\uC2DC\n\uCFE8\uD0C0\uC784: 120\uCD08"
       objectReference: {fileID: 0}
     - target: {fileID: 7282979846190798471, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: d0bfe866578063445a1ecbadf63d51b0, type: 3}
+    - target: {fileID: 8462202913105208192, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9120498802220249187, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -1767,10 +1786,19 @@ PrefabInstance:
       propertyPath: maxCooldownTime
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 5769453835828969615, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
+      propertyPath: skillDescription
+      value: "\uD68C\uBCF5\n\uD6A8\uACFC: 5\uCD08 \uB3D9\uC548 \uAC00\uD55C \uB300\uBBF8\uC9C0\uC758
+        20% HP \uD68C\uBCF5\n\uCFE8\uD0C0\uC784: 40\uCD08"
+      objectReference: {fileID: 0}
     - target: {fileID: 7282979846190798471, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 31d0fb06ab930d44b8f96643c95e5be2, type: 3}
+    - target: {fileID: 8462202913105208192, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9120498802220249187, guid: 9d304e74a98af924caf818e03e41e825, type: 3}
       propertyPath: m_Sprite
       value: 

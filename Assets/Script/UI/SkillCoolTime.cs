@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class SkillCoolTime : MonoBehaviour
+public class SkillCoolTime : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private string skillName;
+    [TextArea][SerializeField] private string skillDescription;
+
     [SerializeField] private TextMeshProUGUI textCooldownTime;
     [SerializeField] private Image imageCooldownTime;
+
+    [SerializeField] private GameObject tooltipObject; // 설명 UI 부모 객체
+    [SerializeField] private Text textTooltipDescription; // 설명창의 본문 텍스트
 
     public float maxCooldownTime;
     private float currentCooldownTime;
@@ -19,6 +25,7 @@ public class SkillCoolTime : MonoBehaviour
     private void Awake()
     {
         SetCooldownIs(false);
+        if (tooltipObject != null) tooltipObject.SetActive(false); // 시작 시 설명창 끄기
     }
 
     public void UseSkill()
@@ -78,5 +85,21 @@ public class SkillCoolTime : MonoBehaviour
     public void SetMaxCooldown(float time)
     {
         maxCooldownTime = time;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (tooltipObject == null) return;
+
+        // 설명창 내용 세팅
+        if (textTooltipDescription != null) textTooltipDescription.text = skillDescription;
+
+        tooltipObject.SetActive(true);
+    }
+
+    // 마우스가 아이콘 밖으로 나갔을 때 실행
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (tooltipObject != null) tooltipObject.SetActive(false);
     }
 }
