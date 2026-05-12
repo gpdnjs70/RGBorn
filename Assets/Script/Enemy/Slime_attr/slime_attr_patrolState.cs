@@ -31,6 +31,8 @@ public class slime_attr_patrolState : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (PauseManager.IsPaused) return;
+
         float dist = Vector2.Distance(enemyTransform.position, enemy.player.position);
 
         // 플레이어 발견 시 추적

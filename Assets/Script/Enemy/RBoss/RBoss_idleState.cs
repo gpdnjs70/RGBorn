@@ -16,6 +16,8 @@ public class RBoss_idleState : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (PauseManager.IsPaused) return;
+
         enemy.DirectionEnemy(enemy.player.position);
 
         if (enemy.atkDelay <= 0)

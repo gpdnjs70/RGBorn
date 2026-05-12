@@ -53,7 +53,10 @@ public class Player_Skill : MonoBehaviour
 
     void Update()
     {
+        if (PauseManager.IsPaused) return;
+
         if (entity != null && !entity.CanAct) return;
+        
         if (Input.GetKeyDown(KeyCode.Q)) UseSkill(1);
         if (Input.GetKeyDown(KeyCode.E)) UseSkill(0);
         if (Input.GetKeyDown(KeyCode.R)) UseSkill(2);

@@ -41,6 +41,8 @@ public class PlayerAttribute : MonoBehaviour
 
     private void Update()
     {
+        if (PauseManager.IsPaused) return;
+
         if (Input.GetMouseButtonDown(1))
         {
             CycleColor();
@@ -74,6 +76,12 @@ public class PlayerAttribute : MonoBehaviour
         }
 
         UpdateUIAlpha(baseIndex);
+    }
+
+    public void SetNoneColor()
+    {
+        currentModeIndex = 0; // None ¿Œµ¶Ω∫
+        SetColor(ColorMode.None);
     }
 
     private void UpdateUIAlpha(int activeIndex)

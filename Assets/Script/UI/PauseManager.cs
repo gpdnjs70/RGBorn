@@ -10,7 +10,7 @@ public class PauseManager : MonoBehaviour
     public CanvasGroup mainGroup;
     public CanvasGroup optionGroup;
 
-    private bool isPaused = false;
+    public static bool IsPaused { get; private set; } = false;
 
     [Header("Sliders")]
     public Slider bgmSlider;
@@ -21,7 +21,7 @@ public class PauseManager : MonoBehaviour
         // ESC 키 입력 감지
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused)
+            if (IsPaused)
             {
                 if (optionGroup.alpha > 0)
                 {
@@ -44,7 +44,12 @@ public class PauseManager : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f; // 시간 정상화
-        isPaused = false;
+        IsPaused = false;
+
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.PauseAllSFX(false);
+        }
     }
 
     // 게임 일시 정지
@@ -55,7 +60,12 @@ public class PauseManager : MonoBehaviour
         CanvasGroupOff(optionGroup);
 
         Time.timeScale = 0f;
-        isPaused = true;
+        IsPaused = true;
+
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.PauseAllSFX(true);
+        }
     }
 
     public void SoundSetting()

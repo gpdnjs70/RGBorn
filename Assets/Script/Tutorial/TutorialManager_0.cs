@@ -163,8 +163,8 @@ public class TutorialManager_0 : MonoBehaviour
         SetPlayerControllable(TutorialStep.MoveOnly);
 
         yield return new WaitUntil(() =>
-             Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) ||
-             Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)
+             !PauseManager.IsPaused && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) ||
+             Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D))
         );
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(FadeOutPanel());
@@ -175,7 +175,7 @@ public class TutorialManager_0 : MonoBehaviour
         SetupGuideUI(2); // Shift 대시 가이드 표시
         SetPlayerControllable(TutorialStep.DashEnabled);
         
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        yield return new WaitUntil(() => !PauseManager.IsPaused && Input.GetKeyDown(KeyCode.Space));
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(FadeOutPanel());
 
@@ -249,7 +249,7 @@ public class TutorialManager_0 : MonoBehaviour
                 }
 
                 // 박스 근처에서 E키를 누르면 탈출
-                if (Input.GetKeyDown(KeyCode.E))
+                if (!PauseManager.IsPaused && Input.GetKeyDown(KeyCode.E))
                 {                    
                     break;
                 }
@@ -353,7 +353,24 @@ public class TutorialManager_0 : MonoBehaviour
 
         while (Vector3.Distance(player.transform.position, target.position) > 0.05f)
         {
-            // 방향 계산 (8방향 애니메이션 반영)
+            // 1. 일시정지 체크
+            if (PauseManager.IsPaused)
+            {
+                if (anim != null) anim.speed = 0f;
+                if (SoundManager.instance != null) SoundManager.instance.PauseVariableSFX();
+
+                // 일시정지인 동안은 여기서 계속 대기하며 아래 로직을 실행하지 않음
+                yield return null;
+                continue;
+            }
+
+            // 2. 일시정지가 아닐 때 (정상 작동)
+            if (anim != null && anim.speed != 1f) anim.speed = 1f;
+
+            // 사운드 재개 (UnPause)
+            if (SoundManager.instance != null) SoundManager.instance.ResumeVariableSFX();
+            
+            // 방향 계산 및 애니메이션 설정
             Vector3 direction = (target.position - player.transform.position).normalized;
             if (anim != null)
             {
@@ -362,21 +379,28 @@ public class TutorialManager_0 : MonoBehaviour
                 anim.SetBool("isMove", true);
             }
 
-            // 실제 좌표 이동
+            // 실제 좌표 이동 (Time.timeScale이 0이면 deltaTime이 0이라 자동으로 멈추긴 함)
             player.transform.position = Vector3.MoveTowards(
                 player.transform.position,
                 target.position,
                 moveSpeed * Time.deltaTime
             );
 
+            // 발소리 재생
             playerMoveScript.PlayGroundSound();
 
             yield return null;
         }
 
-        // 도착 후 정리
+        // 3. 도착 후 정리
         player.transform.position = target.position;
-        if (anim != null) anim.SetBool("isMove", false);
+        if (anim != null)
+        {
+            anim.speed = 1f;
+            anim.SetBool("isMove", false);
+        }
+
+        // 도착했으므로 이제는 Pause가 아니라 Stop으로 사운드 완전히 끄기
         if (SoundManager.instance != null)
         {
             SoundManager.instance.StopVariableSFX();
@@ -448,7 +472,8 @@ public class TutorialManager_0 : MonoBehaviour
         yield return null;
         while (true)
         {
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) break;
+            if (!PauseManager.IsPaused && (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)))
+                break;
             yield return null;
         }
     }

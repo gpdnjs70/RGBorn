@@ -30,6 +30,8 @@ public class slime_attr_followState : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (PauseManager.IsPaused) return;
+
         if (enemy.player == null) return;
 
         float distance = Vector2.Distance(enemy.player.position, enemyTransform.position);

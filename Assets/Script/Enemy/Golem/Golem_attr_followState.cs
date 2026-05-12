@@ -28,6 +28,8 @@ public class Golem_attr_followState : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (PauseManager.IsPaused) return;
+
         float finalSpeed = entity.Speed;
 
         Vector2 currentPos = enemyTransform.position;

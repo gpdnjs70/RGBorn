@@ -51,6 +51,8 @@ public class Golem_followState : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (PauseManager.IsPaused) return;
+
         stateTime += Time.deltaTime;
 
         // --- 공통 체크 (플레이어 접촉/벽 충돌) ---

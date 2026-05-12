@@ -41,6 +41,8 @@ public class TutorialDialogue : MonoBehaviour
 
     void Update()
     {
+        if (PauseManager.IsPaused) return;
+
         if (isAction && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)))
         {
             HandleInput();
@@ -206,6 +208,8 @@ public class TutorialDialogue : MonoBehaviour
 
     public void SkipDialogue()
     {
+        if (PauseManager.IsPaused) return;
+
         // 1. 타이핑 중이었다면 중단
         if (isTyping)
         {

@@ -72,8 +72,9 @@ public class Player_Movement : MonoBehaviour
 
     private void Update()
     {
-        if (!entity.CanAct) return;
+        if (PauseManager.IsPaused) return;
 
+        if (!entity.CanAct) return;
         if (IsMovementLocked) return;
 
         // ют╥б

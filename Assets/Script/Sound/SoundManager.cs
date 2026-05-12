@@ -92,8 +92,8 @@ public class SoundManager : MonoBehaviour
         float value;
         if (mixer.GetFloat("BGSoundVolume", out value))
         {
-            // 공식: 10^(dB / 20)
-            return Mathf.Pow(10, value / 20f);
+            // 공식: 10^((dB - 20) / 40)
+            return Mathf.Pow(10, (value - 20f) / 40f);
         }
         return 0.5f;
     }
@@ -106,8 +106,8 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            float volume = Mathf.Log10(val) * 20;
-            mixer.SetFloat("BGSoundVolume", Mathf.Clamp(volume, -80f, 0f));
+            float volume = Mathf.Log10(val) * 40f + 20f;
+            mixer.SetFloat("BGSoundVolume", Mathf.Clamp(volume, -80f, 20f));
         }
     }
 
@@ -116,7 +116,7 @@ public class SoundManager : MonoBehaviour
         float value;
         if (mixer.GetFloat("SFXVolume", out value))
         {
-            return Mathf.Pow(10, value / 20f);
+            return Mathf.Pow(10, (value - 20f) / 40f);
         }
         return 0.5f;
     }
@@ -129,8 +129,39 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            float volume = Mathf.Log10(val) * 20;
-            mixer.SetFloat("SFXVolume", Mathf.Clamp(volume, -80f, 0f));
+            float volume = Mathf.Log10(val) * 40f + 20f;
+            mixer.SetFloat("SFXVolume", Mathf.Clamp(volume, -80f, 20f));
+        }
+    }
+
+    public void PauseAllSFX(bool pause)
+    {
+        if (pause) sfxPlayer.Pause();
+        else sfxPlayer.UnPause();
+
+        AudioSource[] allSources = FindObjectsOfType<AudioSource>();
+        foreach (AudioSource source in allSources)
+        {
+            if (source == bgSound) continue;
+
+            if (pause) source.Pause();
+            else source.UnPause();
+        }
+    }
+
+    public void PauseVariableSFX()
+    {
+        if (sfxPlayer != null && sfxPlayer.isPlaying)
+        {
+            sfxPlayer.Pause();
+        }
+    }
+
+    public void ResumeVariableSFX()
+    {
+        if (sfxPlayer != null)
+        {
+            sfxPlayer.UnPause();
         }
     }
 }

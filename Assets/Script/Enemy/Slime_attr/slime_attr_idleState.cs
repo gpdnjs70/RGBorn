@@ -29,6 +29,8 @@ public class slime_attr_idleState : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (PauseManager.IsPaused) return;
+
         if (enemy.player == null) return;
 
         float dist = Vector2.Distance(enemyTransform.position, enemy.player.position);

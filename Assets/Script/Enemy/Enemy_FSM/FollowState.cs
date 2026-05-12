@@ -33,6 +33,8 @@ public class FollowState : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (PauseManager.IsPaused) return;
+
         /**
         soundTimer -= Time.deltaTime;
         if (soundTimer <= 0f && enemy.followSound != null)

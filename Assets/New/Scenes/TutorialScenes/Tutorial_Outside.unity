@@ -1271,7 +1271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6107827436815739192, guid: ada716a0e128c0c458ee46017ed52e25, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -215867,6 +215867,10 @@ PrefabInstance:
       propertyPath: attributeImages.Array.data[2]
       value: 
       objectReference: {fileID: 1106263337}
+    - target: {fileID: 4481813356437012346, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
+      propertyPath: attributeOverrides.Array.data[0]
+      value: 
+      objectReference: {fileID: 22100000, guid: 656f2c49e758b9c418abdc47f54316b1, type: 2}
     - target: {fileID: 6234848510416873537, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: m_Name
       value: Player

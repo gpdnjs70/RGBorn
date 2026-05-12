@@ -57,6 +57,7 @@ public class Player_Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PauseManager.IsPaused) return;
         if (!entity.CanAct) return;
 
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
@@ -103,7 +104,19 @@ public class Player_Attack : MonoBehaviour
 
         myrigidbody.velocity = Vector2.zero;
 
-        yield return new WaitForSeconds(0.5f);
+        float elapsed = 0f;
+        while (elapsed < 0.5f)
+        {
+            // 일시정지 중이면 루프를 돌며 대기 (시간 계산 안 함)
+            if (PauseManager.IsPaused)
+            {
+                yield return null;
+                continue;
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
 
         movement.SetAttacking(false);
     }

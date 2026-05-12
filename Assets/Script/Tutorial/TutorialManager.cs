@@ -198,17 +198,29 @@ public class TutorialManager : MonoBehaviour
         // 걷기 애니메이션 켜기
         if (anim != null) anim.SetBool("isMove", true);
 
-        // 목표 위치를 향한 방향 벡터 계산 (애니메이션 방향 설정용)
-        Vector3 direction = (target.position - player.transform.position).normalized;
-        if (anim != null)
-        {
-            anim.SetFloat("DirX", direction.x);
-            anim.SetFloat("DirY", direction.y);
-        }
-
         // 플레이어의 현재 위치와 목표 위치의 거리가 0.05f보다 클 때까지 계속 이동
         while (Vector3.Distance(player.transform.position, target.position) > 0.05f)
         {
+            // [일시정지 체크 추가]
+            if (PauseManager.IsPaused)
+            {
+                if (anim != null) anim.speed = 0f; // 애니메이션 정지
+                if (SoundManager.instance != null) SoundManager.instance.PauseVariableSFX(); // 사운드 일시정지
+                yield return null;
+                continue; // 아래 이동/사운드 로직 실행 안 함
+            }
+
+            // 일시정지 해제 시 복구
+            if (anim != null) anim.speed = 1f;
+            if (SoundManager.instance != null) SoundManager.instance.ResumeVariableSFX();
+
+            Vector3 direction = (target.position - player.transform.position).normalized;
+            if (anim != null)
+            {
+                anim.SetFloat("DirX", direction.x);
+                anim.SetFloat("DirY", direction.y);
+            }
+
             player.transform.position = Vector3.MoveTowards(
                 player.transform.position,
                 target.position,
@@ -229,10 +241,9 @@ public class TutorialManager : MonoBehaviour
             anim.SetBool("isMove", false);
         }
 
-        if (SoundManager.instance != null)
-        {
-            SoundManager.instance.StopVariableSFX();
-        }
+        player.transform.position = target.position;
+        if (anim != null) { anim.speed = 1f; anim.SetBool("isMove", false); }
+        if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
     }
 
     private IEnumerator WaitForUserInput()
@@ -241,7 +252,7 @@ public class TutorialManager : MonoBehaviour
 
         while (true)
         {
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+            if (!PauseManager.IsPaused && (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)))
             {
                 break;
             }
@@ -256,6 +267,13 @@ public class TutorialManager : MonoBehaviour
 
         while (elapsed < duration)
         {
+            // 일시정지 중이면 흔들림 계산을 건너뜀
+            if (PauseManager.IsPaused)
+            {
+                yield return null;
+                continue;
+            }
+
             float x = Random.Range(-1f, 1f) * magnitude;
             float y = Random.Range(-1f, 1f) * magnitude;
 
@@ -289,7 +307,7 @@ public class TutorialManager : MonoBehaviour
 
             bool hasAttacked = false;
             yield return new WaitUntil(() => {
-                if (Input.GetMouseButtonDown(0)) hasAttacked = true;
+                if (!PauseManager.IsPaused && Input.GetMouseButtonDown(0)) hasAttacked = true;
                 return hasAttacked && (slimeAI1.enabled == false);
             });
 
@@ -388,6 +406,10 @@ public class TutorialManager : MonoBehaviour
         }
         yield return new WaitForSeconds(1.0f);
 
+        if (playerAttributeScript != null)
+        {
+            playerAttributeScript.SetNoneColor();
+        }
         SetPlayerControllable(TutorialStep.None);
 
         // npc idle 상태로 전환
@@ -427,7 +449,7 @@ public class TutorialManager : MonoBehaviour
             Debug.Log("모든 튜토리얼 단계 완료: 세이브 포인트 활성화");
         }
 
-        SetPlayerControllable(TutorialStep.All);
+        SetPlayerControllable(TutorialStep.Attack);
     }
 
     // NPC의 dialogueList 중 하나를 끝까지 재생하고 창을 닫는 공용 함수
@@ -519,6 +541,13 @@ public class TutorialManager : MonoBehaviour
 
         while (currentTime < fadeDuration)
         {
+            // 일시정지 중이면 페이드 진행 중단
+            if (PauseManager.IsPaused)
+            {
+                yield return null;
+                continue;
+            }
+
             currentTime += Time.deltaTime;
             panelCanvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, currentTime / fadeDuration);
             yield return null;

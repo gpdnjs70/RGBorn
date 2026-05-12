@@ -28,6 +28,15 @@ public class SkillCoolTime : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (tooltipObject != null) tooltipObject.SetActive(false); // 시작 시 설명창 끄기
     }
 
+    private void Update()
+    {
+        // 일시정지 되는 순간 툴팁이 켜져 있다면 강제로 끔
+        if (PauseManager.IsPaused && tooltipObject != null && tooltipObject.activeSelf)
+        {
+            tooltipObject.SetActive(false);
+        }
+    }
+
     public void UseSkill()
     {
         TryUseSkill();
@@ -89,6 +98,7 @@ public class SkillCoolTime : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (PauseManager.IsPaused) return;
         if (tooltipObject == null) return;
 
         // 설명창 내용 세팅

@@ -13,7 +13,7 @@ public class shockState : StateMachineBehaviour
     override public void OnStateUpdate(
         Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // 아무 것도 안 함
+        if (PauseManager.IsPaused) return;
     }
 
     override public void OnStateExit(
