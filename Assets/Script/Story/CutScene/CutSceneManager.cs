@@ -37,12 +37,36 @@ public class CutSceneManager : MonoBehaviour
     {
         for (int i = 0; i < cutsceneScenes.Length; i++)
         {
-            // 이미지와 텍스트 교체
+            // 1. 현재 장면 설정
             if (imageDisplay != null) imageDisplay.sprite = cutsceneScenes[i].illustration;
             if (textDisplay != null) textDisplay.text = cutsceneScenes[i].dialogue;
 
-            // 설정된 시간만큼 대기
-            yield return new WaitForSeconds(cutsceneScenes[i].displayTime);
+            float timer = 0;
+            bool skipRequested = false;
+
+            // 2. 대기 루프 (시간 기반 + 입력 감지)
+            while (timer < cutsceneScenes[i].displayTime)
+            {
+                // 일시정지 상태가 아닐 때만 동작
+                if (Time.timeScale > 0)
+                {
+                    timer += Time.deltaTime;
+
+                    // 마우스 좌클릭(0) 또는 스페이스바 감지
+                    if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+                    {
+                        skipRequested = true;
+                        break; // 루프 탈출 -> 즉시 다음 장면으로
+                    }
+                }
+                yield return null;
+            }
+
+            // 입력 겹침 방지를 위해 한 프레임 정도 짧게 대기 (선택 사항)
+            if (skipRequested)
+            {
+                yield return null;
+            }
         }
 
         EndCutscene();

@@ -126234,6 +126234,7 @@ GameObject:
   - component: {fileID: 553796831}
   - component: {fileID: 553796829}
   - component: {fileID: 553796830}
+  - component: {fileID: 553796833}
   m_Layer: 5
   m_Name: book
   m_TagString: Untagged
@@ -126319,6 +126320,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 200}
   m_SizeDelta: {x: 1400, y: 1260}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &553796833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553796828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47e50ca09a563da4eab86422f334d28b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pageTurnClip: {fileID: 8300000, guid: c85c60d1e58e70444a85486ff717c101, type: 3}
+  bookCloseClip: {fileID: 8300000, guid: 62aa906afebbe4c4ca302a4ad3907cbf, type: 3}
 --- !u!1 &561294809
 GameObject:
   m_ObjectHideFlags: 0
