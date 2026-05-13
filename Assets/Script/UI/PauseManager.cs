@@ -10,7 +10,7 @@ public class PauseManager : MonoBehaviour
     public CanvasGroup mainGroup;
     public CanvasGroup optionGroup;
 
-    public static bool IsPaused { get; private set; } = false;
+    public static bool IsPaused { get; set; } = false;
 
     [Header("Sliders")]
     public Slider bgmSlider;

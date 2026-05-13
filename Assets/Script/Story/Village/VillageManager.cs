@@ -48,10 +48,10 @@ public class VillageManager : MonoBehaviour
     {
         if (SavePoint != null) SavePoint.SetActive(false);
 
-        yield return new WaitUntil(() => talkedToNPC1 && talkedToNPC3);
+        yield return new WaitUntil(() => !PauseManager.IsPaused && talkedToNPC1 && talkedToNPC3);
         Debug.Log("모든 조건 충족! 이제 NPC 2와 대화하면 다음 씬으로 넘어갑니다.");
 
-        yield return new WaitUntil(() => talkedToNPC2);
+        yield return new WaitUntil(() => !PauseManager.IsPaused && talkedToNPC2);
 
         Debug.Log("모든 대화 완료! 세이브 포인트 오브젝트를 활성화합니다.");
         if (SavePoint != null)
@@ -103,8 +103,9 @@ public class VillageManager : MonoBehaviour
     {
         if (isDialogueActive) yield break;
 
-        isDialogueActive = true;
+        if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
 
+        isDialogueActive = true;
         // 2. 플레이어 조작 정지 및 애니메이션 초기화
         SetPlayerControllable(false);
 
@@ -143,8 +144,11 @@ public class VillageManager : MonoBehaviour
         yield return null; // 입력 중복 방지
         while (true)
         {
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
-                break;
+            if (!PauseManager.IsPaused)
+            {
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+                    break;
+            }
             yield return null;
         }
     }
@@ -178,8 +182,9 @@ public class VillageManager : MonoBehaviour
                 // 만약 애니메이션이 완전히 끝날 때까지 입력을 막고 싶다면 아래 주석을 해제하세요.
 
                 yield return new WaitUntil(() =>
-                    storyBookContentAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f
-                    && !storyBookContentAnimator.IsInTransition(0));
+                    !PauseManager.IsPaused && // 일시정지가 아닐 때만 진행 상황 체크
+                    storyBookContentAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f &&
+                    !storyBookContentAnimator.IsInTransition(0));            
             }
         }
 

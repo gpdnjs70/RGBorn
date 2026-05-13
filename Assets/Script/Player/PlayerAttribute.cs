@@ -27,7 +27,7 @@ public class PlayerAttribute : MonoBehaviour
 
         string sceneName = SceneManager.GetActiveScene().name;
 
-        if (sceneName == "Tutorial_Inside" || sceneName == "Tutorial_Outside" || sceneName == "Town")
+        if (sceneName == "Tutorial_Inside" || sceneName == "Tutorial_Outside" || sceneName == "Town" || sceneName == "Temple" || sceneName == "Stage3")
         {
             currentModeIndex = 0;
         }
@@ -82,6 +82,18 @@ public class PlayerAttribute : MonoBehaviour
     {
         currentModeIndex = 0; // None ¿Œµ¶Ω∫
         SetColor(ColorMode.None);
+    }
+
+    public void SetRGBColor(ColorMode targetMode)
+    {
+        int index = (int)targetMode;
+        if (index < 0 || index > 3)
+        {
+            return;
+        }
+
+        currentModeIndex = index;
+        SetColor(targetMode);
     }
 
     private void UpdateUIAlpha(int activeIndex)

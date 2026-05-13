@@ -85,7 +85,9 @@ public class RBossSceneManager : MonoBehaviour
         // 대화용 NPC 제거 및 실제 적 개체 활성화
         if (bossNPC != null) bossNPC.SetActive(false);
         if (bossEnemy != null) bossEnemy.SetActive(true);
-        if(statePanel != null) statePanel.SetActive(true);
+
+        playerAttributeScript.SetRGBColor(ColorMode.Red);
+        if (statePanel != null) statePanel.SetActive(true);
 
         // 플레이어 조작 권한 반환
         SetPlayerControllable(true);

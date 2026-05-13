@@ -53,6 +53,8 @@ public class FadeTransition : MonoBehaviour
     {
         isTransitioning = true;
 
+        SetPauseState(true);
+
         // 페이드 시작할 때 클릭 차단 활성화
         if (fadeImage != null) fadeImage.raycastTarget = true;
 
@@ -60,7 +62,7 @@ public class FadeTransition : MonoBehaviour
         yield return StartCoroutine(Fade(0f, 1f, fadeOutTime));
 
         if (blackHoldTime > 0f)
-            yield return new WaitForSeconds(blackHoldTime);
+            yield return new WaitForSecondsRealtime(blackHoldTime);
 
         yield return SceneManager.LoadSceneAsync(sceneName);
 
@@ -70,6 +72,7 @@ public class FadeTransition : MonoBehaviour
         // 페이드 완전히 끝났으므로 클릭 차단 해제!
         if (fadeImage != null) fadeImage.raycastTarget = false;
 
+        SetPauseState(false);
         isTransitioning = false;
     }
 
@@ -101,6 +104,8 @@ public class FadeTransition : MonoBehaviour
     private IEnumerator FadeActionRoutine(System.Action onBlack)
     {
         isTransitioning = true;
+        SetPauseState(true);
+
         if (fadeImage != null) fadeImage.raycastTarget = true;
 
         // 1. 암전
@@ -110,12 +115,20 @@ public class FadeTransition : MonoBehaviour
         onBlack?.Invoke();
 
         if (blackHoldTime > 0f)
-            yield return new WaitForSeconds(blackHoldTime);
+            yield return new WaitForSecondsRealtime(blackHoldTime);
 
         // 3. 다시 밝아짐
         yield return StartCoroutine(Fade(1f, 0f, fadeInTime));
 
         if (fadeImage != null) fadeImage.raycastTarget = false;
+
+        SetPauseState(false);
         isTransitioning = false;
+    }
+
+    private void SetPauseState(bool pause)
+    {
+        PauseManager.IsPaused = pause; // TutorialManager가 참조하는 변수 업데이트
+        Time.timeScale = pause ? 0f : 1f;
     }
 }
