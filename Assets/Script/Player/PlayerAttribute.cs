@@ -27,7 +27,7 @@ public class PlayerAttribute : MonoBehaviour
 
         string sceneName = SceneManager.GetActiveScene().name;
 
-        if (sceneName == "Tutorial_Inside" || sceneName == "Tutorial_Outside" || sceneName == "Town" || sceneName == "Temple" || sceneName == "Stage3")
+        if (sceneName == "Tutorial_Inside" || sceneName == "Tutorial_Outside" || sceneName == "Town" || sceneName == "Temple" || sceneName == "Stage3" || sceneName == "RBoss")
         {
             currentModeIndex = 0;
         }

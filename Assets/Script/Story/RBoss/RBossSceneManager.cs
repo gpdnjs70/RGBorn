@@ -70,12 +70,14 @@ public class RBossSceneManager : MonoBehaviour
 
         // 3. 보스 대화 시작 (PlayDialogue 함수 재사용)
         yield return StartCoroutine(PlayDialogue(bossNPC, 0));
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSecondsRealtime(0.5f);
 
         StartCoroutine(CameraShake(0.5f, 0.1f));
         yield return StartCoroutine(PlayDialogue(bossNPC, 1));
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSecondsRealtime(2.0f);
+
+        if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
 
         StartBossBattle();
     }
@@ -99,8 +101,10 @@ public class RBossSceneManager : MonoBehaviour
     {
         // 중복 실행 방지
         if (isDialogueActive) yield break;
-        isDialogueActive = true;
 
+        if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
+
+        isDialogueActive = true;
         // 1. 플레이어 조작 정지 및 물리 초기화 (확실히 고정)
         SetPlayerControllable(false);
 
@@ -121,7 +125,7 @@ public class RBossSceneManager : MonoBehaviour
         yield return new WaitUntil(() => dialogueSystem.isDialogueFinished);
 
         // 5. 대화 종료 후 약간의 여유 (연타 방지)
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSecondsRealtime(0.1f);
         isDialogueActive = false;
     }
 
@@ -132,26 +136,40 @@ public class RBossSceneManager : MonoBehaviour
 
         while (Vector3.Distance(obj.transform.position, targetPos) > 0.05f)
         {
-            obj.transform.position = Vector3.MoveTowards(
-                obj.transform.position,
-                targetPos,
-                speed * Time.deltaTime
-            );
+            if (!PauseManager.IsPaused)
+            {
+                if (anim != null) anim.speed = 1f;
 
-            // 플레이어인 경우 발소리 재생 등 추가 가능
-            if (obj == player && playerMoveScript != null)
-                playerMoveScript.PlayGroundSound();
+                obj.transform.position = Vector3.MoveTowards(
+                    obj.transform.position,
+                    targetPos,
+                    speed * Time.deltaTime
+                );
 
+                if (obj == player && playerMoveScript != null)
+                    playerMoveScript.PlayGroundSound();
+            }
+            else
+            {
+                // 일시정지 중이면 애니메이션 멈춤
+                if (anim != null) anim.speed = 0f;
+            }
             yield return null;
         }
 
         obj.transform.position = targetPos;
-        if (anim != null) anim.SetBool("isMove", false);
+        if (anim != null)
+        {
+            anim.speed = 1f;
+            anim.SetBool("isMove", false);
+        }
     }
 
     public void SetPlayerControllable(bool canControl)
     {
         if (player == null) return;
+
+        if (PauseManager.IsPaused && canControl) return;
 
         // 이동, 공격, 속성, 스킬 스크립트 전체 제어
         if (playerMoveScript) playerMoveScript.enabled = canControl;
@@ -177,8 +195,11 @@ public class RBossSceneManager : MonoBehaviour
         float elapsed = 0.0f;
         while (elapsed < duration)
         {
-            Camera.main.transform.localPosition = originalPos + (Vector3)Random.insideUnitCircle * magnitude;
-            elapsed += Time.deltaTime;
+            if (!PauseManager.IsPaused)
+            {
+                Camera.main.transform.localPosition = originalPos + (Vector3)Random.insideUnitCircle * magnitude;
+                elapsed += Time.deltaTime;
+            }
             yield return null;
         }
         Camera.main.transform.localPosition = originalPos;

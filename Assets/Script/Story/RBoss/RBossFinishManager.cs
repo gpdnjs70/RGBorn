@@ -51,10 +51,13 @@ public class RBossFinishManager : MonoBehaviour
     private void Update()
     {
         // 상호작용 대기 상태에서 E키를 누르면 시퀀스 진행
-        if (canInteract && !hasInteracted && Input.GetKeyDown(KeyCode.E))
+        if (canInteract && !hasInteracted && !PauseManager.IsPaused)
         {
-            hasInteracted = true;
-            HideControlGuide();
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                hasInteracted = true;
+                HideControlGuide();
+            }
         }
     }
 
@@ -70,7 +73,7 @@ public class RBossFinishManager : MonoBehaviour
         }
 
         // 2. 약간의 페이드 인 시간 등을 고려한 대기
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSecondsRealtime(1.0f);
 
         // 3. 대화 실행 (이미 씬에 bossNPC가 배치되어 있다고 가정)
         if (bossNPC != null)
@@ -81,11 +84,13 @@ public class RBossFinishManager : MonoBehaviour
 
         if (bossNPC != null)
         {
+            if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
+
             Animator RBossAnim = bossNPC.GetComponent<Animator>();
             RBossAnim.SetTrigger("Death");
         }
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSecondsRealtime(1.0f);
 
         canInteract = true;
         ShowControlGuide(0);
@@ -93,6 +98,8 @@ public class RBossFinishManager : MonoBehaviour
 
         if (bossNPC != null)
         {
+            if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
+
             Animator RBossAnim = bossNPC.GetComponent<Animator>();
             RBossAnim.SetTrigger("Final");
         }
@@ -111,6 +118,9 @@ public class RBossFinishManager : MonoBehaviour
     public IEnumerator PlayDialogue(GameObject npcObj, int dialogueIndex)
     {
         if (isDialogueActive) yield break;
+
+        if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
+
         isDialogueActive = true;
 
         // 혹시 모를 조작 방지 재확인
@@ -134,16 +144,21 @@ public class RBossFinishManager : MonoBehaviour
 
     public void SetPlayerControllable(bool canControl)
     {
+        if (PauseManager.IsPaused && canControl) return;
+
         if (playerMoveScript) playerMoveScript.enabled = canControl;
         if (attackScript) attackScript.enabled = canControl;
         if (playerAttributeScript) playerAttributeScript.enabled = canControl;
         if (playerSkillScript) playerSkillScript.enabled = canControl;
 
-        if (!canControl && rigid != null)
+        if (!canControl)
         {
-            rigid.velocity = Vector2.zero;
-            Animator anim = player.GetComponent<Animator>();
-            if (anim != null) anim.SetBool("isMove", false);
+            if (rigid != null) rigid.velocity = Vector2.zero;
+
+            // 발소리 등 사운드 즉시 중단
+            if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
+
+            if (playerAnim != null) playerAnim.SetBool("isMove", false);
         }
     }
 

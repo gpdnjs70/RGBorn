@@ -72,7 +72,14 @@ public class Player_Movement : MonoBehaviour
 
     private void Update()
     {
-        if (PauseManager.IsPaused) return;
+        if (PauseManager.IsPaused)
+        {
+            // 일시정지 중일 때 입력값을 초기화하여 해제 직후 오작동 방지
+            moveInput = Vector2.zero;
+            anim.SetBool("isMove", false);
+            SoundManager.instance.StopVariableSFX(); // 발소리 중단 확인
+            return;
+        }
 
         if (!entity.CanAct) return;
         if (IsMovementLocked) return;
@@ -117,6 +124,12 @@ public class Player_Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (PauseManager.IsPaused)
+        {
+            rigid.velocity = Vector2.zero;
+            return;
+        }
+
         if (isDashing || isKnockBack)
             return;
 

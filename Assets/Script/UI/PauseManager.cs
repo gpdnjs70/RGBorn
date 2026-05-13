@@ -11,6 +11,7 @@ public class PauseManager : MonoBehaviour
     public CanvasGroup optionGroup;
 
     public static bool IsPaused { get; set; } = false;
+    public bool IsPauseMenuActive => pauseMenuUI.activeSelf;
 
     [Header("Sliders")]
     public Slider bgmSlider;

@@ -56,6 +56,8 @@ public class TempleManager : MonoBehaviour
     {
         if (!hasTriggeredPaladin)
         {
+            if (PauseManager.IsPaused) return;
+
             hasTriggeredPaladin = true;
             StartCoroutine(PaladinDialogueSequence());
         }
@@ -64,6 +66,11 @@ public class TempleManager : MonoBehaviour
     private IEnumerator PaladinDialogueSequence()
     {
         SetPlayerControllable(false);
+
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.StopVariableSFX();
+        }
 
         Animator playerAnim = player.GetComponent<Animator>();
         if (playerAnim != null)
@@ -98,7 +105,7 @@ public class TempleManager : MonoBehaviour
             // 3. 보스 대화 시작 (이동 완료 후 바로 실행)
             yield return StartCoroutine(PlayDialogue(finalBoss, 0));
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSecondsRealtime(1f);
 
             yield return StartCoroutine(PlayDialogue(finalBoss, 1));
         }
@@ -121,9 +128,11 @@ public class TempleManager : MonoBehaviour
 
         while (elapsed < duration)
         {
-            // Lerp를 사용하여 부드럽게 이동
-            cameraDummy.transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
-            elapsed += Time.deltaTime;
+            if (!PauseManager.IsPaused)
+            {
+                elapsed += Time.deltaTime;
+                cameraDummy.transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+            }
             yield return null;
         }
         cameraDummy.transform.position = targetPos;
@@ -147,14 +156,37 @@ public class TempleManager : MonoBehaviour
 
         while (elapsed < duration)
         {
-            player.transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
-            elapsed += Time.deltaTime;
+            if (!PauseManager.IsPaused)
+            {
+                elapsed += Time.deltaTime;
+                player.transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+
+                // 애니메이션 속도 조절 (일시정지 시 멈춤)
+                if (playerAnim != null) playerAnim.speed = 1f;
+
+                if (playerMoveScript != null)
+                {
+                    playerMoveScript.PlayGroundSound();
+                }
+            }
+            else
+            {
+                // 일시정지 시 애니메이션 멈춤
+                if (playerAnim != null) playerAnim.speed = 0f;
+                if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
+            }
             yield return null;
         }
 
         player.transform.position = targetPos;
 
-        if (playerAnim != null) playerAnim.SetBool("isMove", false);
+        if (playerAnim != null)
+        {
+            playerAnim.speed = 1f;
+            playerAnim.SetBool("isMove", false);
+        }
+
+        if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
     }
 
     private IEnumerator MoveBoss(GameObject boss, Vector3 targetPos, float duration)
@@ -168,18 +200,40 @@ public class TempleManager : MonoBehaviour
 
         while (elapsed < duration)
         {
-            boss.transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
-            elapsed += Time.deltaTime;
+            if (!PauseManager.IsPaused)
+            {
+                elapsed += Time.deltaTime;
+                boss.transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+                if (bossAnim != null) bossAnim.speed = 1f;
+
+                if (playerMoveScript != null)
+                {
+                    playerMoveScript.PlayGroundSound();
+                }
+            }
+            else
+            {
+                if (bossAnim != null) bossAnim.speed = 0f;
+                if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
+            }
             yield return null;
         }
 
         boss.transform.position = targetPos;
-        if (bossAnim != null) bossAnim.SetBool("isMove", false);
+        if (bossAnim != null)
+        {
+            bossAnim.speed = 1f;
+            bossAnim.SetBool("isMove", false);
+        }
+
+        if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
     }
 
     // VillageManager와 동일한 방식의 대화 처리 루틴
     public IEnumerator PlayDialogue(GameObject npcObj, int dialogueIndex)
     {
+        if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
+
         SetPlayerControllable(false); // 대화 시작 시 조작 금지
 
         ObjData npcData = npcObj.GetComponent<ObjData>();
@@ -199,11 +253,13 @@ public class TempleManager : MonoBehaviour
         // TutorialDialogue가 스스로 isDialogueFinished를 true로 만들 때까지 대기
         yield return new WaitUntil(() => dialogueSystem.isDialogueFinished);
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSecondsRealtime(0.1f);
     }
 
     public void SetPlayerControllable(bool canControl)
     {
+        if (PauseManager.IsPaused && canControl) return;
+
         if (playerMoveScript) playerMoveScript.enabled = canControl;
 
         if (!canControl && rigid != null)

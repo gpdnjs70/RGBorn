@@ -55,6 +55,8 @@ public class FadeTransition : MonoBehaviour
 
         SetPauseState(true);
 
+        if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
+
         // 페이드 시작할 때 클릭 차단 활성화
         if (fadeImage != null) fadeImage.raycastTarget = true;
 
@@ -130,5 +132,14 @@ public class FadeTransition : MonoBehaviour
     {
         PauseManager.IsPaused = pause; // TutorialManager가 참조하는 변수 업데이트
         Time.timeScale = pause ? 0f : 1f;
+
+        if (SoundManager.instance != null)
+        {
+            // PauseAllSFX가 PauseManager 내 Resume/Pause에서 쓰는 것과 동일한 로직이라면 호출하세요.
+            SoundManager.instance.PauseAllSFX(pause);
+
+            // 만약 발소리(VariableSFX)가 별도로 관리된다면 그것도 멈춰야 합니다.
+            if (pause) SoundManager.instance.StopVariableSFX();
+        }
     }
 }

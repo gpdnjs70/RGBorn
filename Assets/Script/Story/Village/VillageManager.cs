@@ -109,6 +109,8 @@ public class VillageManager : MonoBehaviour
         // 2. 플레이어 조작 정지 및 애니메이션 초기화
         SetPlayerControllable(false);
 
+        if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
+
         // 3. NPC의 ObjData 가져오기 및 대사 SO 설정
         ObjData npcData = npcObj.GetComponent<ObjData>();
         if (npcData == null)
@@ -133,7 +135,9 @@ public class VillageManager : MonoBehaviour
         // -----------------------
 
         // 대화가 완전히 끝난 후 약간의 여유 (연타 방지)
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSecondsRealtime(0.1f);
+
+        if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
 
         SetPlayerControllable(true);
         isDialogueActive = false;
@@ -146,8 +150,11 @@ public class VillageManager : MonoBehaviour
         {
             if (!PauseManager.IsPaused)
             {
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
-                    break;
+                if (!PauseManager.IsPaused)
+                {
+                    if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+                        break;
+                }
             }
             yield return null;
         }
@@ -174,10 +181,12 @@ public class VillageManager : MonoBehaviour
             // 5. 다음 페이지 애니메이션 실행
             if (storyBookContentAnimator != null)
             {
+                if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
+
                 storyBookContentAnimator.SetTrigger("NextPage");
 
                 // 6. 애니메이션이 시작되고 전환되는 동안 아주 잠깐 대기 (연타 방지)
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSecondsRealtime(0.1f);
 
                 // 만약 애니메이션이 완전히 끝날 때까지 입력을 막고 싶다면 아래 주석을 해제하세요.
 

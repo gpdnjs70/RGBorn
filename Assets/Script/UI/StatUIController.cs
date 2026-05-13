@@ -40,8 +40,13 @@ public class StatUIController : MonoBehaviour
 
     private void Update()
     {
-        // UI가 떠 있을 때 스페이스바를 누르면 다음으로
-        if (isDisplaying && Input.GetKeyDown(KeyCode.Space))
+        if (!isDisplaying) return;
+
+        PauseManager pm = FindObjectOfType<PauseManager>();
+
+        bool isESCMenuShowing = (pm != null && pm.IsPauseMenuActive);
+
+        if (!isESCMenuShowing && Input.GetKeyDown(KeyCode.Space))
         {
             ShowNextContent();
         }
@@ -63,6 +68,13 @@ public class StatUIController : MonoBehaviour
 
         isDisplaying = true;
         currentIndex = 0;
+
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.StopVariableSFX();
+        }
+
+        PauseManager.IsPaused = true;
 
         panelGroup.gameObject.SetActive(true);
         panelGroup.alpha = 1;
@@ -103,6 +115,14 @@ public class StatUIController : MonoBehaviour
         panelGroup.alpha = 0;
         panelGroup.blocksRaycasts = false;
         panelGroup.gameObject.SetActive(false);
+
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.StopVariableSFX();
+        }
+
+        // 게임 일시정지 해제
+        PauseManager.IsPaused = false;
 
         if (onSequenceComplete != null)
         {

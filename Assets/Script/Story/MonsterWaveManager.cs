@@ -78,6 +78,8 @@ public class MonsterWaveManager : MonoBehaviour
     {
         if (playerObject == null) return;
 
+        if (PauseManager.IsPaused && canControl) return;
+
         if (playerMove != null) playerMove.enabled = canControl;
         if (playerAttack != null) playerAttack.enabled = canControl;
         if(playerSkill != null) playerSkill.enabled = canControl;
@@ -108,6 +110,8 @@ public class MonsterWaveManager : MonoBehaviour
 
     private IEnumerator StartPhaseSequence(int index)
     {
+        if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
+
         isWaveStarted = true;
         WavePhase cp = phases[index];
 
@@ -261,8 +265,15 @@ public class MonsterWaveManager : MonoBehaviour
     {
         Vector3 originalPos = Camera.main.transform.localPosition;
         float elapsed = 0.0f;
+
         while (elapsed < duration)
         {
+            if (PauseManager.IsPaused)
+            {
+                yield return null;
+                continue;
+            }
+
             Camera.main.transform.localPosition = originalPos + (Vector3)Random.insideUnitCircle * magnitude;
             elapsed += Time.deltaTime;
             yield return null;

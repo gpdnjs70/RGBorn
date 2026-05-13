@@ -143,6 +143,13 @@ public class TutorialDialogue : MonoBehaviour
 
         foreach (char letter in sentence.ToCharArray())
         {
+            while (PauseManager.IsPaused)
+            {
+                // 일시정지 중에는 소리도 나지 않게 하고 루프를 돌며 기다립니다.
+                if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
+                yield return null;
+            }
+
             if (!isTyping) break;
 
             talkText.text += letter; // 한 글자씩 추가
