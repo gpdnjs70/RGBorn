@@ -261,18 +261,23 @@ MonoBehaviour:
       \uB35C \uB74C \uAC70\uC608\uC694."
     portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}
     customOffset: {x: 0, y: 4, z: 0}
-  - talkerType: 1
-    talkerName: player
-    context: "\u2026\uACE0\uB9C8\uC6CC\uC694. \uC2E0\uACBD \uC368\uC8FC\uC154\uC11C."
-    portrait: {fileID: 21300000, guid: a34b477634cf616498ee38019259667b, type: 3}
-    customOffset: {x: 0, y: 4, z: 0}
-  - talkerType: 1
-    talkerName: player
-    context: "\uB9C8\uC744\uB85C \uAC00\uBCFC\uAC8C\uC694."
-    portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
+  - talkerType: 0
+    talkerName: "\uB8E8\uC2DC\uC548"
+    context: "\uADF8\uB9AC\uACE0 \uC774\uAC74, \uC0C9\uC744 \uBC1B\uC740 \uC0AC\uC81C\uBD84\uB4E4\uC774
+      \uC870\uC6A9\uD788 \uB098\uAC00\uACE0 \uC2F6\uC744 \uB54C \uC0AC\uC6A9\uD558\uB294
+      \uAC74\uB370\uC694."
+    portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}
     customOffset: {x: 0, y: 4, z: 0}
   - talkerType: 0
     talkerName: "\uB8E8\uC2DC\uC548"
-    context: "\uBCC4\uB9D0\uC500\uC744\uC694. \uBD80\uB514 \uBB34\uC0AC\uD558\uC138\uC694\xB7\xB7\xB7"
-    portrait: {fileID: 21300000, guid: 3f3c7f35a186b41498edc6d1f47191ad, type: 3}
+    context: "\uC7A0\uC2DC \uB3D9\uC548 \uD3C9\uBC94\uD558\uAC8C \uBCF4\uC774\uAC8C
+      \uD574\uC918\uC694."
+    portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}
+    customOffset: {x: 0, y: 4, z: 0}
+  - talkerType: 0
+    talkerName: "\uB8E8\uC2DC\uC548"
+    context: "\uB098\uC911\uC5D0 \uB9C8\uC744 \uC785\uAD6C\uC5D0 \uB3C4\uCC29\uD558\uBA74
+      \uC0AC\uC6A9\uD558\uC138\uC694. \uADF8\uB7FC \uC2DC\uC120\uC744 \uD53C\uD560
+      \uC218 \uC788\uC744 \uAC70\uC5D0\uC694."
+    portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}
     customOffset: {x: 0, y: 4, z: 0}

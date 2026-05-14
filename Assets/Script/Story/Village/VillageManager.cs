@@ -28,9 +28,14 @@ public class VillageManager : MonoBehaviour
     [SerializeField] private Animator storyBookContentAnimator; // 애니메이션이 실행되는 자식 오브젝트의 애니메이터
     [SerializeField] private int totalPageCount = 5; // 애니메이터에 설정된 총 페이지(상태) 수
 
+    [Header("Stat UI Settings")]
+    [SerializeField] private List<Sprite> itemSprites;
+    [SerializeField] private List<string> itemTexts;
+
     [SerializeField] private GameObject SavePoint;
 
     public bool isDialogueActive { get; private set; }
+    private bool hasPlayedIntro = false;
 
     private void Awake()
     {
@@ -99,7 +104,7 @@ public class VillageManager : MonoBehaviour
         }
     }
 
-    public IEnumerator PlayDialogue(GameObject npcObj, int dialogueIndex)
+    public IEnumerator PlayDialogue(GameObject npcObj, int dialogueIndex, bool restoreControlAtEnd = true)
     {
         if (isDialogueActive) yield break;
 
@@ -137,9 +142,11 @@ public class VillageManager : MonoBehaviour
         // 대화가 완전히 끝난 후 약간의 여유 (연타 방지)
         yield return new WaitForSecondsRealtime(0.1f);
 
-        if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
-
-        SetPlayerControllable(true);
+        if (restoreControlAtEnd)
+        {
+            if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
+            SetPlayerControllable(true);
+        }
         isDialogueActive = false;
     }
 
@@ -199,5 +206,48 @@ public class VillageManager : MonoBehaviour
 
         // 7. 모든 과정이 끝나면 배경 패널까지 비활성화
         if (storyBookPanel != null) storyBookPanel.SetActive(false);
+    }
+
+    public void TriggerPlayerMonologue()
+    {
+        if (hasPlayedIntro) return;
+        hasPlayedIntro = true;
+
+        StartCoroutine(PlayerMonologueSequence());
+    }
+
+    private IEnumerator PlayerMonologueSequence()
+    {
+        // 1. 조작 복구 옵션을 false로 주어 독백이 끝나도 플레이어가 움직이지 못하게 함
+        yield return StartCoroutine(PlayDialogue(player, 0, false));
+
+        // [일시정지 예외처리] 대기 시간 중에도 일시정지 체크
+        float timer = 0;
+        while (timer < 0.5f)
+        {
+            if (!PauseManager.IsPaused) timer += Time.deltaTime;
+            yield return null;
+        }
+
+        bool isStatUIFinished = false;
+
+        if (StatUIController.Instance != null)
+        {
+            StatUIController.Instance.StartUISequence(itemSprites, itemTexts, () => {
+                isStatUIFinished = true;
+            });
+
+            // UI가 열려있는 동안에는 StatUIController 내부에서 PauseManager.IsPaused를 처리하므로
+            // 여기서는 단순히 종료 플래그만 기다리면 됩니다.
+            yield return new WaitUntil(() => isStatUIFinished);
+        }
+
+        // 모든 시퀀스가 진짜로 끝났을 때만 조작 해제
+        if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
+
+        yield return new WaitForSeconds(0.2f);
+        SetPlayerControllable(true);
+
+        Debug.Log("마을 입구 독백 및 아이템 장착 연출 완료");
     }
 }

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20bdf63e76a8fc4f8e40d14f0fcc1a1, type: 3}
+  m_Name: 6
+  m_EditorClassIdentifier: 
+  id: 0
+  lines:
+  - talkerType: 1
+    talkerName: player
+    context: "\u2026\uACE0\uB9C8\uC6CC\uC694. \uC2E0\uACBD \uC368\uC8FC\uC154\uC11C."
+    portrait: {fileID: 21300000, guid: a34b477634cf616498ee38019259667b, type: 3}
+    customOffset: {x: 0, y: 4, z: 0}
+  - talkerType: 1
+    talkerName: player
+    context: "\uB9C8\uC744\uB85C \uAC00\uBCFC\uAC8C\uC694."
+    portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
+    customOffset: {x: 0, y: 4, z: 0}
+  - talkerType: 0
+    talkerName: "\uB8E8\uC2DC\uC548"
+    context: "\uBCC4\uB9D0\uC500\uC744\uC694. \uBD80\uB514 \uBB34\uC0AC\uD558\uC138\uC694."
+    portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}
+    customOffset: {x: 0, y: 4, z: 0}

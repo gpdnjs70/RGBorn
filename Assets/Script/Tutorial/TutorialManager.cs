@@ -42,6 +42,9 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private Image controlImage;      // 스프라이트가 바뀔 이미지 컴포넌트
     [SerializeField] private List<Sprite> controlSprites = new List<Sprite>(); // 무한정 추가 가능한 리스트
 
+    [Header("Stat UI Settings")]
+    [SerializeField] private List<Sprite> GetItemSprites; // Stat UI에 띄울 이미지들
+    [SerializeField] private List<string> GetItemTexts;   // Stat UI에 띄울 설명들
     [SerializeField] private GameObject statePanel;
 
     [SerializeField] private GameObject tutorialSlime1;
@@ -440,6 +443,23 @@ public class TutorialManager : MonoBehaviour
 
         // NPC 대사 리스트의 3번 SO 재생
         yield return StartCoroutine(PlayDialogue(4));
+        yield return new WaitForSeconds(1.0f);
+
+        bool isStatUIFinished = false; // UI 종료 확인용 플래그
+
+        if (StatUIController.Instance != null)
+        {
+            // UI를 띄우고, 끝났을 때 isStatUIFinished를 true로 바꿈
+            StatUIController.Instance.StartUISequence(GetItemSprites, GetItemTexts, () => {
+                isStatUIFinished = true;
+            });
+
+            // UI가 닫힐 때까지 코루틴 대기
+            yield return new WaitUntil(() => isStatUIFinished);
+        }
+        yield return new WaitForSeconds(1.0f);
+
+        yield return StartCoroutine(PlayDialogue(5));
         yield return new WaitForSeconds(0.5f);
 
         // Debug.Log("조작법 및 구출 튜토리얼 완전 종료!");

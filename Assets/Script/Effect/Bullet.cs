@@ -8,10 +8,14 @@ using UnityEngine.UI;
 public class Bullet : MonoBehaviour
 {
     private Animator anim;
+    private SpriteRenderer spriteRenderer;
+    private PolygonCollider2D polyCollider;
+
+    private Sprite lastSprite;
+
     public float speed;
     private Vector2 dir = Vector2.right;
 
-    public float distance;
     public LayerMask isLayer;
 
     public float damage = 20f;
@@ -22,6 +26,8 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        polyCollider = GetComponent<PolygonCollider2D>();
     }
 
     void Start()
@@ -36,23 +42,33 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
-        RaycastHit2D ray = Physics2D.Raycast(transform.position, transform.right, distance, isLayer);
-        if(ray.collider != null)
+        transform.Translate(dir * speed * Time.deltaTime, Space.World);
+    }
+
+    private void LateUpdate()
+    {
+        UpdateColliderShape();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // 1. 충돌한 대상의 레이어가 isLayer에 포함되어 있는지 확인
+        if (((1 << collision.gameObject.layer) & isLayer) != 0)
         {
-            Entity target = ray.collider.GetComponent<Entity>();
+            Entity target = collision.GetComponent<Entity>();
+
             if (target != null && source != null)
             {
-                Entity actualTarget = source.ResolveAttackTarget(target);
+                // 자신(발사자)과는 충돌하지 않도록 예외 처리
+                if (target == source) return;
 
-                // 데미지 계산 + 디버프 전부 Entity에게 위임
+                Entity actualTarget = source.ResolveAttackTarget(target);
                 DealDamageWithAttribute(source, actualTarget);
             }
 
+            // 레이어에 걸렸으므로(적 혹은 벽 등) 총알 파괴
             DestroyBullet();
-            return;
         }
-
-        transform.Translate(dir * speed * Time.deltaTime, Space.World);
     }
 
     void DealDamageWithAttribute(Entity attacker, Entity target)
@@ -99,9 +115,33 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    private void UpdateColliderShape()
+    {
+        // 현재 렌더러의 스프라이트가 이전 프레임과 다를 때만 갱신
+        if (spriteRenderer.sprite != lastSprite)
+        {
+            lastSprite = spriteRenderer.sprite;
+
+            // 스프라이트가 없으면 처리 안 함
+            if (lastSprite == null) return;
+
+            // 기존 콜라이더의 경로 개수를 현재 스프라이트의 외곽선 개수로 맞춤
+            polyCollider.pathCount = lastSprite.GetPhysicsShapeCount();
+
+            // 각 경로(Path)를 돌며 새로운 모양 대입
+            List<Vector2> path = new List<Vector2>();
+            for (int i = 0; i < polyCollider.pathCount; i++)
+            {
+                path.Clear();
+                lastSprite.GetPhysicsShape(i, path);
+                polyCollider.SetPath(i, path.ToArray());
+            }
+        }
+    }
 
     void DestroyBullet()
     {
+        CancelInvoke("DestroyBullet");
         Destroy(gameObject);
     }
 

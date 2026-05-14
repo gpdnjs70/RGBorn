@@ -219295,6 +219295,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6791e33064ad2de4da21a1c7485b292d, type: 3}
   - {fileID: 21300000, guid: a190827017965c949b621f371dfe2407, type: 3}
   - {fileID: 21300000, guid: 13ab10d53b7c00e458ab0e346bd0f910, type: 3}
+  GetItemSprites:
+  - {fileID: 21300000, guid: 76b9b0742525e9145933c0d28d368a47, type: 3}
+  GetItemTexts:
+  - "\uD314\uCC0C: \uC0C9\uC744 \uC228\uAE30\uAC8C \uD574\uC8FC\uB294 \uB3C4\uAD6C"
   statePanel: {fileID: 1106263340}
   tutorialSlime1: {fileID: 950119183}
   SlimeController1: {fileID: 9100000, guid: 2cc60aaee184e6b4ca5d6aec36b2661f, type: 2}
@@ -391179,6 +391183,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b402634541002644d9944b7dfa00793c, type: 2}
   - {fileID: 11400000, guid: cc0345225bfef194abdcb935a5c29ca8, type: 2}
   - {fileID: 11400000, guid: 18a52663615900943812fdf1bb0af342, type: 2}
+  - {fileID: 11400000, guid: 9b23ac522dcbe7c41aaeacafd7cca4a4, type: 2}
   dialogue: {fileID: 11400000, guid: cb7b7f8d65d0bfe489506f546bcabe54, type: 2}
   isNPC: 1
 --- !u!114 &1907403845
