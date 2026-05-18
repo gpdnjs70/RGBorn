@@ -16,7 +16,7 @@ MonoBehaviour:
   lines:
   - talkerType: 1
     talkerName: player
-    context: "\u2026\uACE0\uB9C8\uC6CC\uC694. \uC2E0\uACBD \uC368\uC8FC\uC154\uC11C."
+    context: "\u2026\uACE0\uB9C8\uC6CC\uC694.\n\uC2E0\uACBD \uC368\uC8FC\uC154\uC11C. "
     portrait: {fileID: 21300000, guid: a34b477634cf616498ee38019259667b, type: 3}
     customOffset: {x: 0, y: 4, z: 0}
   - talkerType: 1
@@ -26,6 +26,6 @@ MonoBehaviour:
     customOffset: {x: 0, y: 4, z: 0}
   - talkerType: 0
     talkerName: "\uB8E8\uC2DC\uC548"
-    context: "\uBCC4\uB9D0\uC500\uC744\uC694. \uBD80\uB514 \uBB34\uC0AC\uD558\uC138\uC694."
+    context: "\uBCC4\uB9D0\uC500\uC744\uC694.\n\uBD80\uB514 \uBB34\uC0AC\uD558\uC138\uC694."
     portrait: {fileID: 21300000, guid: 450779376b334f54ba25c45863312f47, type: 3}
     customOffset: {x: 0, y: 4, z: 0}

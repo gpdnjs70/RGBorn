@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MonsterWaveManager : MonoBehaviour
@@ -22,8 +23,11 @@ public class MonsterWaveManager : MonoBehaviour
     private int currentPhaseIndex = 0;
 
     [Header("UI References")]
-    [SerializeField] private GameObject controlPanel;
+    [SerializeField] public GameObject controlPanel;
     [SerializeField] private Image controlImage;
+    [SerializeField] private List<Sprite> controlSprites = new List<Sprite>();
+
+    [SerializeField] private GameObject itemUIPanel;
 
     [Header("Wave Objects")]
     [SerializeField] private GameObject mapParent;
@@ -41,7 +45,8 @@ public class MonsterWaveManager : MonoBehaviour
     private PlayerAttribute playerAttribute;
     private Rigidbody2D playerRigid;
     private Animator playerAnim;
-
+    [SerializeField] private RuntimeAnimatorController newAnimatorController;
+    
     private int aliveCount;
     private bool isWaveStarted = false;
 
@@ -66,12 +71,67 @@ public class MonsterWaveManager : MonoBehaviour
     void Start()
     {
         if (controlPanel != null) controlPanel.SetActive(false);
+        if (itemUIPanel != null) itemUIPanel.SetActive(false);
+
         foreach (var phase in phases)
         {
             foreach (var wall in phase.phaseWalls) if (wall != null) wall.SetActive(false);
             foreach (var mon in phase.monsters) if (mon != null) mon.SetActive(false);
             if (phase.bossMonster != null) phase.bossMonster.SetActive(false);
         }
+
+        if (SceneManager.GetActiveScene().name == "Stage1_after")
+        {
+            StartCoroutine(Stage1AfterIntroSequence());
+        }
+    }
+
+    private IEnumerator Stage1AfterIntroSequence()
+    {
+        // 1. 씬 시작하자마자 플레이어 조작 차단
+        SetPlayerControl(false);
+
+        // 첫 프레임 입력 중복 방지 및 대기 (일시정지 체크)
+        float timer = 0f;
+        while (timer < 0.2f)
+        {
+            if (!PauseManager.IsPaused) timer += Time.deltaTime;
+            yield return null;
+        }
+
+        // 2. 연출 UI 및 E키 안내 동시 활성화
+        if (itemUIPanel != null) itemUIPanel.SetActive(true);
+        ShowControlGuide(1); // 인스펙터 리스트의 1번 스프라이트(E키) 출력
+
+        // 3. 일시정지가 아닐 때 플레이어의 E키 입력 대기
+        yield return null;
+        while (true)
+        {
+            if (!PauseManager.IsPaused)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    // 4. E키를 누르면 플레이어의 애니메이터 컨트롤러 교체
+                    if (playerAnim != null && newAnimatorController != null)
+                    {
+                        playerAnim.runtimeAnimatorController = newAnimatorController;
+                        playerAttribute.SetRGBColor(ColorMode.Red);
+                    }
+                    break; // 입력 대기 루프 탈출
+                }
+            }
+            yield return null;
+        }
+
+        // 5. 오픈했던 연출용 UI들 비활성화
+        if (itemUIPanel != null) itemUIPanel.SetActive(false);
+        HideControlGuide();
+
+        if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
+        yield return new WaitForSeconds(0.2f);
+
+        // 6. 플레이어 조작 복구 (이제 게임 플레이 가능)
+        SetPlayerControl(true);
     }
 
     public void SetPlayerControl(bool canControl)
@@ -225,6 +285,18 @@ public class MonsterWaveManager : MonoBehaviour
                 if (show && controlImage != null) controlImage.sprite = chestInteractionSprite;
             }
         }
+    }
+
+    public void ShowControlGuide(int spriteIndex)
+    {
+        if (controlPanel == null) return;
+        controlPanel.SetActive(true);
+        controlImage.sprite = controlSprites[spriteIndex];
+    }
+
+    public void HideControlGuide()
+    {
+        if (controlPanel != null) controlPanel.SetActive(false);
     }
 
     public bool CanInteractWithChest()

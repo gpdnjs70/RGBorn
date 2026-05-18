@@ -28,9 +28,9 @@ public class VillageManager : MonoBehaviour
     [SerializeField] private Animator storyBookContentAnimator; // 애니메이션이 실행되는 자식 오브젝트의 애니메이터
     [SerializeField] private int totalPageCount = 5; // 애니메이터에 설정된 총 페이지(상태) 수
 
-    [Header("Stat UI Settings")]
-    [SerializeField] private List<Sprite> itemSprites;
-    [SerializeField] private List<string> itemTexts;
+    [SerializeField] private AnimatorOverrideController newOverrideController;
+
+    [SerializeField] private GameObject imageUIPanel;
 
     [SerializeField] private GameObject SavePoint;
 
@@ -46,6 +46,8 @@ public class VillageManager : MonoBehaviour
     private void Start()
     {
         if (controlPanel != null) controlPanel.SetActive(false);
+        if (imageUIPanel != null) imageUIPanel.SetActive(false);
+
         StartCoroutine(VillageStorySequence());
     }
 
@@ -229,25 +231,37 @@ public class VillageManager : MonoBehaviour
             yield return null;
         }
 
-        bool isStatUIFinished = false;
+        if (imageUIPanel != null) imageUIPanel.SetActive(true);
+        ShowControlGuide(1);
 
-        if (StatUIController.Instance != null)
+        yield return null; // 연타 방지를 위해 한 프레임 쉬고 시작
+        while (true)
         {
-            StatUIController.Instance.StartUISequence(itemSprites, itemTexts, () => {
-                isStatUIFinished = true;
-            });
+            if (!PauseManager.IsPaused)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (player != null)
+                    {
+                        Animator playerAnim = player.GetComponent<Animator>();
+                        if (playerAnim != null && newOverrideController != null)
+                        {
+                            playerAnim.runtimeAnimatorController = newOverrideController;
+                        }
+                    }
 
-            // UI가 열려있는 동안에는 StatUIController 내부에서 PauseManager.IsPaused를 처리하므로
-            // 여기서는 단순히 종료 플래그만 기다리면 됩니다.
-            yield return new WaitUntil(() => isStatUIFinished);
+                    break; // E키 누르면 루프 탈출
+                }
+            }
+            yield return null;
         }
 
-        // 모든 시퀀스가 진짜로 끝났을 때만 조작 해제
+        if (imageUIPanel != null) imageUIPanel.SetActive(false);
+        HideControlGuide();
+
         if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
-
         yield return new WaitForSeconds(0.2f);
-        SetPlayerControllable(true);
 
-        Debug.Log("마을 입구 독백 및 아이템 장착 연출 완료");
+        SetPlayerControllable(true);
     }
 }

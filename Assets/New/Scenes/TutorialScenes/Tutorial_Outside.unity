@@ -630,10 +630,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1321588027178500580, guid: f561275bdb7da324aa26b23b8743a859, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1922383166123797733, guid: 5ac212f735860a64ebf6a48f35ce4451, type: 3}
       propertyPath: m_Name
       value: Slime_mono
@@ -742,6 +738,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 3df5e7dc40179ce40827a930782dda92, type: 3}
+    - target: {fileID: 1321588027178500580, guid: f561275bdb7da324aa26b23b8743a859, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2445609723672324685, guid: 6f4c62999d4ab3a48b8ca3ee9baaaabb, type: 3}
       propertyPath: m_Controller
       value: 
@@ -215624,6 +215624,11 @@ PrefabInstance:
     - target: {fileID: 1601600474144253547, guid: 487431f66f6293946b961b20727242de, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3366343974367224819, guid: 487431f66f6293946b961b20727242de, type: 3}
+      propertyPath: m_Text
+      value: "\uC740\uC778\uB2D8\uC774\u2026 \n\uADF8 \uC608\uC5B8 \uC18D \uC874\uC7AC\uC77C\uC9C0\uB3C4
+        \n\uBAB0\uB77C\uC694."
       objectReference: {fileID: 0}
     - target: {fileID: 6789909538255051698, guid: 487431f66f6293946b961b20727242de, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
