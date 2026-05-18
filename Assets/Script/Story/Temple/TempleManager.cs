@@ -14,6 +14,8 @@ public class TempleManager : MonoBehaviour
     [SerializeField] private GameObject finalBoss;
     [SerializeField] private Transform bossTargetPos;
     public TutorialDialogue dialogueSystem;
+    [SerializeField] private AnimatorOverrideController newOverrideController;
+    [SerializeField] private GameObject imageUIPanel;
 
     [SerializeField] private Transform playerTargetPos;
 
@@ -23,6 +25,13 @@ public class TempleManager : MonoBehaviour
     // 대화 상태 확인용
     public bool isDialogueActive { get; private set; }
     private bool hasTriggeredPaladin = false; // 중복 실행 방지
+
+    private bool hasPlayedIntro = false;
+
+    [Header("조작 UI")]
+    [SerializeField] public GameObject controlPanel;
+    [SerializeField] private Image controlImage;
+    [SerializeField] private List<Sprite> controlSprites = new List<Sprite>(); // 0: E키 등
 
     [Header("Camera Event")]
     [SerializeField] private CameraFollow cameraFollow; // 기존 카메라 스크립트 참조
@@ -230,17 +239,24 @@ public class TempleManager : MonoBehaviour
     }
 
     // VillageManager와 동일한 방식의 대화 처리 루틴
-    public IEnumerator PlayDialogue(GameObject npcObj, int dialogueIndex)
+    public IEnumerator PlayDialogue(GameObject npcObj, int dialogueIndex, bool restoreControlAtEnd = true)
     {
+        if (isDialogueActive) yield break;
+
         if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
 
+        isDialogueActive = true;
+
         SetPlayerControllable(false); // 대화 시작 시 조작 금지
+
+        if (SoundManager.instance != null) SoundManager.instance.StopVariableSFX();
 
         ObjData npcData = npcObj.GetComponent<ObjData>();
         if (npcData == null)
         {
             Debug.LogError(npcObj.name + "에 ObjData가 없습니다!");
             SetPlayerControllable(true);
+            isDialogueActive = false;
             yield break;
         }
 
@@ -253,7 +269,7 @@ public class TempleManager : MonoBehaviour
         // TutorialDialogue가 스스로 isDialogueFinished를 true로 만들 때까지 대기
         yield return new WaitUntil(() => dialogueSystem.isDialogueFinished);
 
-        yield return new WaitForSecondsRealtime(0.1f);
+        isDialogueActive = false;
     }
 
     public void SetPlayerControllable(bool canControl)
@@ -272,5 +288,72 @@ public class TempleManager : MonoBehaviour
         {
             anim.SetBool("isMove", false);
         }
+    }
+
+    public void ShowControlGuide(int spriteIndex)
+    {
+        if (controlPanel == null) return;
+        controlPanel.SetActive(true);
+        controlImage.sprite = controlSprites[spriteIndex];
+    }
+
+    public void HideControlGuide()
+    {
+        if (controlPanel != null) controlPanel.SetActive(false);
+    }
+
+    public void TriggerPlayerMonologue()
+    {
+        if (hasPlayedIntro) return;
+        hasPlayedIntro = true;
+
+        StartCoroutine(PlayerMonologueSequence());
+    }
+
+    private IEnumerator PlayerMonologueSequence()
+    {
+        // 1. 조작 복구 옵션을 false로 주어 독백이 끝나도 플레이어가 움직이지 못하게 함
+        yield return StartCoroutine(PlayDialogue(player, 0, false));
+
+        // [일시정지 예외처리] 대기 시간 중에도 일시정지 체크
+        float timer = 0;
+        while (timer < 0.5f)
+        {
+            if (!PauseManager.IsPaused) timer += Time.deltaTime;
+            yield return null;
+        }
+
+        if (imageUIPanel != null) imageUIPanel.SetActive(true);
+        ShowControlGuide(0);
+
+        yield return null; // 연타 방지를 위해 한 프레임 쉬고 시작
+        while (true)
+        {
+            if (!PauseManager.IsPaused)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (player != null)
+                    {
+                        Animator playerAnim = player.GetComponent<Animator>();
+                        if (playerAnim != null && newOverrideController != null)
+                        {
+                            playerAnim.runtimeAnimatorController = newOverrideController;
+                        }
+                    }
+
+                    break; // E키 누르면 루프 탈출
+                }
+            }
+            yield return null;
+        }
+
+        if (imageUIPanel != null) imageUIPanel.SetActive(false);
+        HideControlGuide();
+
+        if (PauseManager.IsPaused) yield return new WaitUntil(() => !PauseManager.IsPaused);
+        yield return new WaitForSeconds(0.2f);
+
+        SetPlayerControllable(true);
     }
 }
