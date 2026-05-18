@@ -18,6 +18,7 @@ public class RBossSceneManager : MonoBehaviour
     [SerializeField] private GameObject bossEnemy;   // 실제 전투용 보스 (Enemy 레이어)
     [SerializeField] private Transform playerStandPos; // 대화 시 플레이어가 서 있을 위치
     [SerializeField] private Transform bossSpawnPos;  // 보스가 등장할 위치
+    [SerializeField] private AnimatorOverrideController newOverrideController;
 
     [SerializeField] private float cutsceneMoveSpeed = 1.5f;
 
@@ -73,6 +74,17 @@ public class RBossSceneManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.5f);
 
         StartCoroutine(CameraShake(0.5f, 0.1f));
+        if (player != null)
+        {
+            Animator playerAnim = player.GetComponent<Animator>();
+            if (playerAnim != null && newOverrideController != null)
+            {
+                playerAnim.runtimeAnimatorController = newOverrideController;
+
+                playerAnim.SetFloat("DirX", 0);
+                playerAnim.SetFloat("DirY", 1);
+            }
+        }
         yield return StartCoroutine(PlayDialogue(bossNPC, 1));
 
         yield return new WaitForSecondsRealtime(2.0f);
