@@ -410,7 +410,7 @@ Animator:
   m_GameObject: {fileID: 3530756173012619840}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1935ddad757e5c246afbb6a99d559ba7, type: 2}
+  m_Controller: {fileID: 9100000, guid: a7be8a470e391bf47a98e924b6fed0bc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -497,7 +497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 1
-  colorOverride: {fileID: 22100000, guid: 6a7c9166b3043f8488a3bf7623a6cf8e, type: 2}
+  colorOverride: {fileID: 22100000, guid: dc90238cdc90937478e86c0221145087, type: 2}
 --- !u!114 &8697787603735060922
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -320,8 +320,8 @@ MonoBehaviour:
   boxSize: {x: 2.475, y: 1.8}
   bullet: {fileID: 0}
   shootCooldown: 0.1
-  meleeDamage: 2
-  criticalMeleeDamage: 5
+  meleeDamage: 4
+  criticalMeleeDamage: 10
   readySound: {fileID: 8300000, guid: 4381d75fcd110ab49a653280004ee4f5, type: 3}
   damagedSound: {fileID: 8300000, guid: 6cd735ba0ed1d95409ce55e625b2f4b0, type: 3}
   dieSound: {fileID: 8300000, guid: 135e9b722845e92479b3b312bd123c0f, type: 3}
