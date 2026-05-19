@@ -927,6 +927,7 @@ MonoBehaviour:
     dialogue: "\uD558\uC9C0\uB9CC \uC5B4\uBA38\uB2C8\uB294\u2014"
     displayTime: 3
   nextSceneName: Tutorial_Inside
+  skipButton: {fileID: 723729855}
 --- !u!1001 &1351482897
 PrefabInstance:
   m_ObjectHideFlags: 0

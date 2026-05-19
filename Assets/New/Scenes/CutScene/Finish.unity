@@ -769,6 +769,7 @@ MonoBehaviour:
     dialogue: "...\uB77C\uACE0 \uC804\uD574\uC9C4\uB2E4."
     displayTime: 3
   nextSceneName: MainMenu_Final
+  skipButton: {fileID: 2065329166}
 --- !u!1001 &1712512979
 PrefabInstance:
   m_ObjectHideFlags: 0

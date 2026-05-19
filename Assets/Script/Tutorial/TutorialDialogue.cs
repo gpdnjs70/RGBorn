@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class TutorialDialogue : MonoBehaviour
 {
@@ -43,9 +44,42 @@ public class TutorialDialogue : MonoBehaviour
     {
         if (PauseManager.IsPaused) return;
 
-        if (isAction && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)))
+        if (isAction)
         {
-            HandleInput();
+            // 1. 스페이스바는 언제나 정상 대사 진행
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                HandleInput();
+            }
+            // 2. 마우스 좌클릭 처리
+            else if (Input.GetMouseButtonDown(0))
+            {
+                // 스킵 버튼이 켜져 있고, 마우스가 정확히 무언가 UI를 가리키고 있을 때
+                if (skipButton != null && skipButton.activeSelf && EventSystem.current != null)
+                {
+                    // [핵심 예외 처리] 마우스가 가리키고 있는 UI 오브젝트가 스킵 버튼 본인이거나 그 자식 오브젝트(텍스트 등)인 경우
+                    if (EventSystem.current.IsPointerOverGameObject())
+                    {
+                        PointerEventData eventData = new PointerEventData(EventSystem.current);
+                        eventData.position = Input.mousePosition;
+                        List<RaycastResult> results = new List<RaycastResult>();
+                        EventSystem.current.RaycastAll(eventData, results);
+
+                        foreach (RaycastResult result in results)
+                        {
+                            // 레이캐스트에 걸린 UI가 스킵 버튼이거나, 스킵 버튼의 하위 오브젝트라면
+                            if (result.gameObject == skipButton || result.gameObject.transform.IsChildOf(skipButton.transform))
+                            {
+                                // 대사 넘기기를 실행하지 않고 리턴 (SkipDialogue 함수만 단독 실행되도록 보장)
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                // 스킵 버튼 영역이 아니라면 정상적으로 다음 대사 진행/타이핑 스킵
+                HandleInput();
+            }
         }
     }
 

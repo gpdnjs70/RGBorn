@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class CutSceneManager : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class CutSceneManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private CutsceneScene[] cutsceneScenes;
     [SerializeField] private string nextSceneName;
+
+    [SerializeField] private GameObject skipButton;
 
     private Coroutine cutsceneRoutine;
 
@@ -52,11 +55,27 @@ public class CutSceneManager : MonoBehaviour
                 {
                     timer += Time.deltaTime;
 
-                    // 마우스 좌클릭(0) 또는 스페이스바 감지
-                    if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+                    // 스페이스바 입력 감지
+                    if (Input.GetKeyDown(KeyCode.Space))
                     {
                         skipRequested = true;
-                        break; // 루프 탈출 -> 즉시 다음 장면으로
+                        break;
+                    }
+
+                    // 마우스 좌클릭(0) 감지
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        // 클릭한 위치에 스킵 버튼 UI가 있는지 검사
+                        if (IsPointerOverSkipButtons())
+                        {
+                            // 스킵 버튼을 누른 것이라면 장면 넘기기를 무시하고 대기 (버튼 고유의 스킵 함수만 실행되도록)
+                            yield return null;
+                            continue;
+                        }
+
+                        // 스킵 버튼 영역이 아니라면 정상적으로 다음 장면으로 진행
+                        skipRequested = true;
+                        break;
                     }
                 }
                 yield return null;
@@ -70,6 +89,29 @@ public class CutSceneManager : MonoBehaviour
         }
 
         EndCutscene();
+    }
+
+    private bool IsPointerOverSkipButtons()
+    {
+        if (EventSystem.current == null || skipButton == null)
+            return false;
+
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            PointerEventData eventData = new PointerEventData(EventSystem.current);
+            eventData.position = Input.mousePosition;
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, results);
+
+            foreach (RaycastResult result in results)
+            {
+                if (result.gameObject == skipButton || result.gameObject.transform.IsChildOf(skipButton.transform))
+                {
+                    return true; // 스킵 버튼 영역이 맞으므로 true 리턴
+                }
+            }
+        }
+        return false;
     }
 
     private void EndCutscene()
