@@ -85319,11 +85319,11 @@ PrefabInstance:
     - target: {fileID: 5311123713727263912, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
       propertyPath: teleportClip
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: cd0ab40ba1227bf4cbbd05efd5354bd0, type: 3}
     - target: {fileID: 5311123713727263912, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
       propertyPath: fireFieldClip
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: 11b548b0243d6ce4ab46cf4fe2a46443, type: 3}
     - target: {fileID: 6190142716537893031, guid: 13c5eefd61a91634298fedecba8ad045, type: 3}
       propertyPath: player
       value: 

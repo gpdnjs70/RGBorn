@@ -166,3 +166,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTime: 5
+  explodeClip: {fileID: 8300000, guid: ec5e5cb520e31fd48b33913718d3100e, type: 3}
+  expireClip: {fileID: 0}

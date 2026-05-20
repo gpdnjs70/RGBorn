@@ -9,6 +9,8 @@ public class fireField : MonoBehaviour
     private Collider2D col;
     private Animator anim;
 
+    [SerializeField] private AudioClip fireFieldClip;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();

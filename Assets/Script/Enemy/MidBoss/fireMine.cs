@@ -13,6 +13,10 @@ public class fireMine : MonoBehaviour
 
     public float lifeTime = 10f; // 지뢰 유지 시간
 
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip explodeClip; // 폭발 사운드 클립
+    [SerializeField] private AudioClip expireClip;  // 소화/만료 사운드 클립
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -69,5 +73,21 @@ public class fireMine : MonoBehaviour
     public void DestroyMineObject()
     {
         Destroy(gameObject);
+    }
+
+    public void PlayExplodeSound()
+    {
+        if (SoundManager.instance != null && explodeClip != null)
+        {
+            SoundManager.instance.SFXPlay("MineExplode", explodeClip);
+        }
+    }
+
+    public void PlayExpireSound()
+    {
+        if (SoundManager.instance != null && expireClip != null)
+        {
+            SoundManager.instance.SFXPlay("MineExpire", expireClip);
+        }
     }
 }

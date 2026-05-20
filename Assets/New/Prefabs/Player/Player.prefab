@@ -430,14 +430,14 @@ MonoBehaviour:
   dashingPower: 20
   dashingTime: 0.2
   dashCooldownUI: {fileID: 0}
-  dashClip: {fileID: 8300000, guid: c7d7f38adfb66ca44ac68b8cf265fbc4, type: 3}
+  dashClip: {fileID: 8300000, guid: e139a8adb0521ef45aea3befbc4af5a9, type: 3}
   lastDir: {x: 1, y: 0}
   dirX: 0
   dirY: 0
   isKnockBack: 0
-  grassClip: {fileID: 8300000, guid: 254c443b24a8e4e45a4fe7e684c75c5d, type: 3}
-  stoneClip: {fileID: 8300000, guid: 6ffdc6339eb04934392aa77ff713be6a, type: 3}
-  woodClip: {fileID: 8300000, guid: a1c9d2ee07be14a4c9427b2e174622a1, type: 3}
+  grassClip: {fileID: 8300000, guid: 558db400dcc117c488b1a1ec33318bc7, type: 3}
+  stoneClip: {fileID: 8300000, guid: 33dfa0e8e825fdd4fb843e18588a0ed2, type: 3}
+  woodClip: {fileID: 8300000, guid: e6cc51916a0791343a91ba797bacb890, type: 3}
 --- !u!114 &892609409066627205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,7 +465,7 @@ MonoBehaviour:
   - {x: -0.55, y: -0.2, z: 0}
   - {x: -0.55, y: -0.35, z: 0}
   attributeDB: {fileID: 11400000, guid: ff68df4989a520840a97d5d9234e4bee, type: 2}
-  clip: {fileID: 8300000, guid: f89c682650b770f49a5768f2daab34b6, type: 3}
+  clip: {fileID: 8300000, guid: ae54e11c6c8ef994b93fd1dcfb296ef1, type: 3}
 --- !u!114 &6815555458812477010
 MonoBehaviour:
   m_ObjectHideFlags: 0

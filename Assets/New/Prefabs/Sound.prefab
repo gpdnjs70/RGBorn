@@ -48,18 +48,18 @@ MonoBehaviour:
   mixer: {fileID: 24100000, guid: 65855e5b13dd82e4d9c0279bceed9474, type: 2}
   bgSound: {fileID: 7533681477056064885}
   bglist:
-  - {fileID: 8300000, guid: 39dcea6138b52b943972e8b16ac988bc, type: 3}
-  - {fileID: 8300000, guid: 1b6e08663b5b6a54eaaf40006080597b, type: 3}
-  - {fileID: 8300000, guid: 39dcea6138b52b943972e8b16ac988bc, type: 3}
-  - {fileID: 8300000, guid: 9ea7670cc44abd64faf5c7c4a2ff0c60, type: 3}
-  - {fileID: 8300000, guid: 39dcea6138b52b943972e8b16ac988bc, type: 3}
-  - {fileID: 8300000, guid: 9ea7670cc44abd64faf5c7c4a2ff0c60, type: 3}
-  - {fileID: 8300000, guid: 39dcea6138b52b943972e8b16ac988bc, type: 3}
-  - {fileID: 8300000, guid: 39dcea6138b52b943972e8b16ac988bc, type: 3}
-  - {fileID: 8300000, guid: 39dcea6138b52b943972e8b16ac988bc, type: 3}
-  - {fileID: 8300000, guid: 39dcea6138b52b943972e8b16ac988bc, type: 3}
-  - {fileID: 8300000, guid: 1b6e08663b5b6a54eaaf40006080597b, type: 3}
-  - {fileID: 8300000, guid: 39dcea6138b52b943972e8b16ac988bc, type: 3}
+  - {fileID: 8300000, guid: b6a32e56c11c12646a65ac225f1daefc, type: 3}
+  - {fileID: 8300000, guid: 82c622388abeeea48b67dbbc4dc08b10, type: 3}
+  - {fileID: 8300000, guid: b6a32e56c11c12646a65ac225f1daefc, type: 3}
+  - {fileID: 8300000, guid: 93d2ca413ec09ae4e8b4b907ab2fedd4, type: 3}
+  - {fileID: 8300000, guid: b6a32e56c11c12646a65ac225f1daefc, type: 3}
+  - {fileID: 8300000, guid: 93d2ca413ec09ae4e8b4b907ab2fedd4, type: 3}
+  - {fileID: 8300000, guid: b6a32e56c11c12646a65ac225f1daefc, type: 3}
+  - {fileID: 8300000, guid: b6a32e56c11c12646a65ac225f1daefc, type: 3}
+  - {fileID: 8300000, guid: b6a32e56c11c12646a65ac225f1daefc, type: 3}
+  - {fileID: 8300000, guid: b6a32e56c11c12646a65ac225f1daefc, type: 3}
+  - {fileID: 8300000, guid: 82c622388abeeea48b67dbbc4dc08b10, type: 3}
+  - {fileID: 8300000, guid: b6a32e56c11c12646a65ac225f1daefc, type: 3}
 --- !u!82 &7533681477056064885
 AudioSource:
   m_ObjectHideFlags: 0

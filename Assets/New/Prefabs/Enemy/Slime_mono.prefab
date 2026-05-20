@@ -322,9 +322,9 @@ MonoBehaviour:
   shootCooldown: 0.1
   meleeDamage: 2
   criticalMeleeDamage: 5
-  readySound: {fileID: 8300000, guid: 4381d75fcd110ab49a653280004ee4f5, type: 3}
-  damagedSound: {fileID: 8300000, guid: 6cd735ba0ed1d95409ce55e625b2f4b0, type: 3}
-  dieSound: {fileID: 8300000, guid: 135e9b722845e92479b3b312bd123c0f, type: 3}
+  readySound: {fileID: 8300000, guid: 86f1eda756eb0f84c92bdb067317255d, type: 3}
+  damagedSound: {fileID: 8300000, guid: e9a09cc5e0992ab438871266cca482c6, type: 3}
+  dieSound: {fileID: 8300000, guid: c5732c9f2b7c06743ac2574e387919a5, type: 3}
 --- !u!114 &4221959709380739335
 MonoBehaviour:
   m_ObjectHideFlags: 0

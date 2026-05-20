@@ -455,9 +455,9 @@ MonoBehaviour:
   shootCooldown: 0.1
   meleeDamage: 3
   criticalMeleeDamage: 6
-  readySound: {fileID: 8300000, guid: 4381d75fcd110ab49a653280004ee4f5, type: 3}
-  damagedSound: {fileID: 8300000, guid: f9d0102c6711c2746a4d9c3f76d00e90, type: 3}
-  dieSound: {fileID: 8300000, guid: 9e25457437b26f5408c84ee4e8d7c9e7, type: 3}
+  readySound: {fileID: 8300000, guid: ccca8d47cd0864747baafdf431c84343, type: 3}
+  damagedSound: {fileID: 8300000, guid: dc3876bbe1d5bf24caaded21103bdcc9, type: 3}
+  dieSound: {fileID: 8300000, guid: 37d731eabe8f16742a0ef9a89576109c, type: 3}
 --- !u!114 &7036343037904286666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -519,7 +519,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3530756173012619840}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1.6
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -531,7 +531,7 @@ NavMeshAgent:
   m_Height: 3.2
   m_BaseOffset: 1.6
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 0
+  m_ObstacleAvoidanceType: 1
 --- !u!1 &3696693903131800098
 GameObject:
   m_ObjectHideFlags: 0
