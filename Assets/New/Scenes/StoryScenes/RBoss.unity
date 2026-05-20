@@ -4391,6 +4391,7 @@ GameObject:
   - component: {fileID: 463603704}
   - component: {fileID: 463603703}
   - component: {fileID: 463603702}
+  - component: {fileID: 463603705}
   m_Layer: 0
   m_Name: earRing
   m_TagString: Untagged
@@ -4486,6 +4487,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &463603705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463603701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5edf6f63ffeee10449894ca4685736bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BreakClip: {fileID: 8300000, guid: 232da4ecc66b87a4297f5acce2bbd499, type: 3}
 --- !u!1 &535574322
 GameObject:
   m_ObjectHideFlags: 0

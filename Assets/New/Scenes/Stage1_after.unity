@@ -57780,6 +57780,7 @@ MonoBehaviour:
   shakeMagnitude: 0.2
   playerObject: {fileID: 1390846099}
   newAnimatorController: {fileID: 22100000, guid: ff6e8c33af0660745b72c332264c703c, type: 2}
+  wallSpawnClip: {fileID: 8300000, guid: 9bd6d4d32f66132468c429c32ce2eeb9, type: 3}
   boxPrefab: {fileID: 7412488732542958870, guid: 950125cc09841d44a9e3bf08af23f102, type: 3}
   SavePoint: {fileID: 689206975}
 --- !u!4 &538756508

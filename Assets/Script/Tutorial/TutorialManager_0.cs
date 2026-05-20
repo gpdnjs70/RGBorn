@@ -68,6 +68,9 @@ public class TutorialManager_0 : MonoBehaviour
     [SerializeField] private Sprite ColorNametagSprite;
     [SerializeField] private Sprite ColorFrameSprite;
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip MiracleClip;
+
     private void Awake()
     {
         if (SaveManager.Instance != null)
@@ -299,6 +302,11 @@ public class TutorialManager_0 : MonoBehaviour
 
             // 2. 컨트롤러 교체 (이때 모든 파라미터가 초기화됨)
             anim.runtimeAnimatorController = colorController;
+
+            if (!PauseManager.IsPaused && SoundManager.instance != null && MiracleClip != null)
+            {
+                SoundManager.instance.SFXPlay("WallSpawn", MiracleClip);
+            }
 
             // 3. 저장해둔 방향 값을 새 컨트롤러에 즉시 주입
             anim.SetFloat("DirX", lastDirX);

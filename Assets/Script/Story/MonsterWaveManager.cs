@@ -46,7 +46,11 @@ public class MonsterWaveManager : MonoBehaviour
     private Rigidbody2D playerRigid;
     private Animator playerAnim;
     [SerializeField] private RuntimeAnimatorController newAnimatorController;
-    
+
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip wallSpawnClip;
+
+    [Header("Etc")]
     private int aliveCount;
     private bool isWaveStarted = false;
 
@@ -185,6 +189,11 @@ public class MonsterWaveManager : MonoBehaviour
         foreach (var wall in cp.phaseWalls)
         {
             if (wall != null) wall.SetActive(true);
+        }
+
+        if (!PauseManager.IsPaused && SoundManager.instance != null && wallSpawnClip != null)
+        {
+            SoundManager.instance.SFXPlay("WallSpawn", wallSpawnClip);
         }
 
         yield return new WaitForSeconds(0.3f); // 살짝의 시간차 연출

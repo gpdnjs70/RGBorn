@@ -24601,6 +24601,7 @@ MonoBehaviour:
   ColorPanelSprite: {fileID: 21300000, guid: 5e8221bec04c74342b720ffcbef85f86, type: 3}
   ColorNametagSprite: {fileID: 21300000, guid: 3f4463adb33a31548bcfd6d9e16bcb2f, type: 3}
   ColorFrameSprite: {fileID: 21300000, guid: 541157e9fea1cab4c83068e113dbced3, type: 3}
+  MiracleClip: {fileID: 8300000, guid: ba43ee2894ac2d8448bd140ba5201ffa, type: 3}
 --- !u!1 &1761494910
 GameObject:
   m_ObjectHideFlags: 0
