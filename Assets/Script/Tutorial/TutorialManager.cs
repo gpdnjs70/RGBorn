@@ -47,6 +47,11 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private List<string> GetItemTexts;   // Stat UI에 띄울 설명들
     [SerializeField] private GameObject statePanel;
 
+    [Header("State UI")]
+    [SerializeField] private List<Image> SkillIcon;
+    [SerializeField] private List<GameObject> SkillLock;
+
+    [Header("Etc")]
     [SerializeField] private GameObject tutorialSlime1;
     [SerializeField] private RuntimeAnimatorController SlimeController1;
     private Enemy_HP enemyHPScript1;
@@ -66,6 +71,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject SavePoint;
 
     private bool isDialogueActive = false;
+
+    [SerializeField] private GameObject imageUIPanel;
 
     private void Awake()
     {
@@ -383,6 +390,28 @@ public class TutorialManager : MonoBehaviour
         yield return StartCoroutine(PlayDialogue(3));
         yield return new WaitForSeconds(0.5f);
 
+        if (SkillIcon != null)
+        {
+            foreach (Image iconImage in SkillIcon)
+            {
+                if (iconImage != null)
+                {
+                    iconImage.raycastTarget = true;
+                }
+            }
+        }
+
+        if (SkillLock != null)
+        {
+            foreach (GameObject lockObj in SkillLock)
+            {
+                if (lockObj != null)
+                {
+                    lockObj.SetActive(false); // 잠금 이미지나 자물쇠 아이콘 숨기기
+                }
+            }
+        }
+
         SetupGuideUI(3);
         SetPlayerControllable(TutorialStep.All);
 
@@ -445,17 +474,24 @@ public class TutorialManager : MonoBehaviour
         yield return StartCoroutine(PlayDialogue(4));
         yield return new WaitForSeconds(1.0f);
 
-        bool isStatUIFinished = false; // UI 종료 확인용 플래그
-
-        if (StatUIController.Instance != null)
+        if (imageUIPanel != null)
         {
-            // UI를 띄우고, 끝났을 때 isStatUIFinished를 true로 바꿈
-            StatUIController.Instance.StartUISequence(GetItemSprites, GetItemTexts, () => {
-                isStatUIFinished = true;
+            imageUIPanel.SetActive(true);
+
+            yield return null;
+
+            bool isClosed = false;
+
+            yield return new WaitUntil(() =>
+            {
+                if (!PauseManager.IsPaused && (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)))
+                {
+                    isClosed = true;
+                }
+                return isClosed;
             });
 
-            // UI가 닫힐 때까지 코루틴 대기
-            yield return new WaitUntil(() => isStatUIFinished);
+            imageUIPanel.SetActive(false); // 입력 확인 후 패널 비활성화
         }
         yield return new WaitForSeconds(1.0f);
 

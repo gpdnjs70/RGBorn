@@ -59230,7 +59230,7 @@ MonoBehaviour:
   isAction: 0
   talkIndex: 0
   isDialogueFinished: 0
-  typeClip: {fileID: 0}
+  typeClip: {fileID: 8300000, guid: 4b3d111a02278f34aa6afb42942f53f3, type: 3}
   typingSpeed: 0.05
   skipButton: {fileID: 0}
   skipThreshold: 5
@@ -249431,8 +249431,8 @@ RectTransform:
   - {fileID: 30940478}
   - {fileID: 426396280}
   - {fileID: 1970940161}
-  - {fileID: 1256246795}
   - {fileID: 388205092}
+  - {fileID: 1256246795}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

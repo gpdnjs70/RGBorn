@@ -15,6 +15,8 @@ public enum BTNType
     Quit,
     Scene,
     SceneBack,
+    LeftButton,
+    RightButton,
     Scene_Tutorial_Inside,
     Scene_Tutorial_Outside,
     Scene_Stage1,
@@ -33,7 +35,19 @@ public class BtnType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     Vector3 defaultScale;
     public CanvasGroup mainGroup;
     public CanvasGroup optionGroup;
-    public CanvasGroup sceneGroup;
+
+    [Header("Scene Selection Groups")]
+    public CanvasGroup sceneMenuParent;
+    public CanvasGroup sceneGroup1;
+    public CanvasGroup sceneGroup2;
+
+    static bool isScene1Active = true;
+
+    [Header("Page Image Settings")]
+    public Image dotImage1;
+    public Image dotImage2;
+    public Sprite dotOnSprite;
+    public Sprite dotOffSprite;
 
     public void Start()
     {
@@ -80,12 +94,41 @@ public class BtnType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 Debug.Log("앱 종료");
                 break;
             case BTNType.Scene:
-                CanvasGroupOn(sceneGroup);
-                CanvasGroupOff(optionGroup);
+                CanvasGroupOn(sceneMenuParent);
+                CanvasGroupOff(mainGroup);
+
+                CanvasGroupOn(sceneGroup1);
+                CanvasGroupOff(sceneGroup2);
+                isScene1Active = true;
+
+                UpdatePageImage();
                 break;
             case BTNType.SceneBack:
-                CanvasGroupOn(optionGroup);
-                CanvasGroupOff(sceneGroup);
+                CanvasGroupOn(mainGroup);
+
+                CanvasGroupOff(sceneMenuParent);
+                CanvasGroupOff(sceneGroup1);
+                CanvasGroupOff(sceneGroup2);
+                isScene1Active = true;
+                break;
+            case BTNType.LeftButton:
+            case BTNType.RightButton:
+                // 현재 1번이 켜져 있다면 -> 2번을 켬
+                if (isScene1Active)
+                {
+                    CanvasGroupOn(sceneGroup2);
+                    CanvasGroupOff(sceneGroup1);
+                    isScene1Active = false;
+                }
+                // 현재 2번이 켜져 있다면 -> 1번을 켬
+                else
+                {
+                    CanvasGroupOn(sceneGroup1);
+                    CanvasGroupOff(sceneGroup2);
+                    isScene1Active = true;
+                }
+
+                UpdatePageImage();
                 break;
             case BTNType.Scene_Tutorial_Inside:
                 SaveAndLoadScene("Tutorial_Inside", 50.0f, 5.0f, 1.0f);
@@ -117,6 +160,24 @@ public class BtnType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
+    private void UpdatePageImage()
+    {
+        if(dotImage1 == null || dotImage2 == null) return;
+
+        if (isScene1Active)
+        {
+            // 1페이지 활성화 상태: 1번은 켜고, 2번은 끎
+            dotImage1.sprite = dotOnSprite;
+            dotImage2.sprite = dotOffSprite;
+        }
+        else
+        {
+            // 2페이지 활성화 상태: 1번은 끄고, 2번은 켬
+            dotImage1.sprite = dotOffSprite;
+            dotImage2.sprite = dotOnSprite;
+        }
+    }
+
     public void CanvasGroupOn(CanvasGroup cg)
     {
         cg.alpha = 1;
@@ -133,11 +194,25 @@ public class BtnType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (currentType == BTNType.LeftButton ||
+            currentType == BTNType.RightButton ||
+            currentType == BTNType.SceneBack)
+        {
+            return; // 아무것도 하지 않고 함수를 빠져나감
+        }
+
         buttonScale.localScale = defaultScale * 1.2f;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (currentType == BTNType.LeftButton ||
+            currentType == BTNType.RightButton ||
+            currentType == BTNType.SceneBack)
+        {
+            return; // 아무것도 하지 않고 함수를 빠져나감
+        }
+
         buttonScale.localScale = defaultScale;
     }
 

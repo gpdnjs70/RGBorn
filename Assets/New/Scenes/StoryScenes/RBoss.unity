@@ -60492,7 +60492,7 @@ MonoBehaviour:
   isAction: 0
   talkIndex: 0
   isDialogueFinished: 0
-  typeClip: {fileID: 8300000, guid: 5b1c7039ecb261b45882e824648c1043, type: 3}
+  typeClip: {fileID: 8300000, guid: 4b3d111a02278f34aa6afb42942f53f3, type: 3}
   typingSpeed: 0.05
   skipButton: {fileID: 311322849}
   skipThreshold: 5
