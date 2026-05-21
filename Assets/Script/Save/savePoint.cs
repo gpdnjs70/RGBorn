@@ -19,6 +19,13 @@ public class savePoint : MonoBehaviour
     [SerializeField] private List<Sprite> upgradeSprites;
     [SerializeField] private List<string> upgradeTexts;
 
+    [Header("자동 정렬 설정")]
+    [SerializeField] private bool useAutoAlign = false;       // 자동으로 중심점에 맞출 것인가
+    [SerializeField] private float alignSpeed = 3f;          // 중심으로 걸어 들어가는 속도
+    [SerializeField] private bool teleportInstead = false;   // 걷지 않고 즉시 순간이동 시키려면 true
+
+    [SerializeField] private float yOffset = 0.5f;
+
     private void Start()
     {
         // 씬 시작 시 데이터 로드
@@ -84,8 +91,58 @@ public class savePoint : MonoBehaviour
 
     private IEnumerator InteractionSequence(Player_Movement playerMove)
     {
+        Rigidbody2D rigid = playerMove.GetComponent<Rigidbody2D>();
+        Animator anim = playerMove.GetComponent<Animator>();
         Player_HP playerHP = playerMove.GetComponent<Player_HP>();
         Player_Attack playerAtk = playerMove.GetComponent<Player_Attack>();
+
+        // 물리 속도 리셋 (밀림 방지)
+        if (rigid != null) rigid.velocity = Vector2.zero;
+
+        // -------------------------------------------------------------
+        // [신규 로직] 플레이어를 세이브 포인트의 중심 좌표로 강제 이동
+        // -------------------------------------------------------------
+        if (useAutoAlign)
+        {
+            Vector3 targetPos = new Vector3(transform.position.x, transform.position.y + yOffset, playerMove.transform.position.z);
+
+            if (teleportInstead)
+            {
+                // 방법 A: 즉시 순간이동
+                playerMove.transform.position = targetPos;
+            }
+            else
+            {
+                // 방법 B: 중심으로 스무스하게 걸어 들어가기
+                if (anim != null) anim.SetBool("isMove", true);
+
+                while (Vector3.Distance(playerMove.transform.position, targetPos) > 0.05f)
+                {
+                    // 방향 계산 및 애니메이션 방향 벡터 주입
+                    Vector3 direction = (targetPos - playerMove.transform.position).normalized;
+                    if (anim != null)
+                    {
+                        anim.SetFloat("DirX", direction.x);
+                        anim.SetFloat("DirY", direction.y);
+                    }
+
+                    playerMove.transform.position = Vector3.MoveTowards(
+                        playerMove.transform.position,
+                        targetPos,
+                        alignSpeed * Time.deltaTime
+                    );
+
+                    // 발소리가 있다면 재생
+                    playerMove.PlayGroundSound();
+
+                    yield return null;
+                }
+
+                // 위치 딲 맞춰주기
+                playerMove.transform.position = targetPos;
+                if (anim != null) anim.SetBool("isMove", false);
+            }
+        }
 
         // 1. 공통 로직: 무조건 풀피 회복 (수치 증가 전/후 상관없이 풀피)
         playerHP.RestoreFullHP();

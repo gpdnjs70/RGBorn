@@ -4499,7 +4499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5edf6f63ffeee10449894ca4685736bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BreakClip: {fileID: 8300000, guid: 232da4ecc66b87a4297f5acce2bbd499, type: 3}
+  BreakClip: {fileID: 8300000, guid: e379e0bc8bd7e4643a1de835dd135a61, type: 3}
 --- !u!1 &535574322
 GameObject:
   m_ObjectHideFlags: 0

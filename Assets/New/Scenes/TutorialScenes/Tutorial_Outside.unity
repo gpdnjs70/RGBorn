@@ -215864,15 +215864,15 @@ PrefabInstance:
     - target: {fileID: 143028736834017573, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: woodClip
       value: 
-      objectReference: {fileID: 8300000, guid: a1c9d2ee07be14a4c9427b2e174622a1, type: 3}
+      objectReference: {fileID: 8300000, guid: e6cc51916a0791343a91ba797bacb890, type: 3}
     - target: {fileID: 143028736834017573, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: grassClip
       value: 
-      objectReference: {fileID: 8300000, guid: 254c443b24a8e4e45a4fe7e684c75c5d, type: 3}
+      objectReference: {fileID: 8300000, guid: 558db400dcc117c488b1a1ec33318bc7, type: 3}
     - target: {fileID: 143028736834017573, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: stoneClip
       value: 
-      objectReference: {fileID: 8300000, guid: 6ffdc6339eb04934392aa77ff713be6a, type: 3}
+      objectReference: {fileID: 8300000, guid: 33dfa0e8e825fdd4fb843e18588a0ed2, type: 3}
     - target: {fileID: 143028736834017573, guid: a44e8eee6eda00d4d81113bd2b78cc63, type: 3}
       propertyPath: dashCooldownUI
       value: 
@@ -391211,6 +391211,10 @@ MonoBehaviour:
   upgradeTexts:
   - "\uCCB4\uB825 \uD68C\uBCF5"
   - "\uC800\uC7A5 \uC644\uB8CC"
+  useAutoAlign: 1
+  alignSpeed: 3
+  teleportInstead: 0
+  yOffset: 0.5
 --- !u!61 &1997980980
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -391243,7 +391247,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -1}
+  m_Offset: {x: 0, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -391254,7 +391258,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.85, y: 0.05}
+  m_Size: {x: 1.5, y: 0.05}
   m_EdgeRadius: 0
 --- !u!1001 &2016094389
 PrefabInstance:

@@ -43328,6 +43328,10 @@ MonoBehaviour:
   attackUpgradePercent: 0
   upgradeSprites: []
   upgradeTexts: []
+  useAutoAlign: 0
+  alignSpeed: 3
+  teleportInstead: 0
+  yOffset: 0.5
 --- !u!61 &205224353
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -57780,7 +57784,7 @@ MonoBehaviour:
   shakeMagnitude: 0.2
   playerObject: {fileID: 1390846099}
   newAnimatorController: {fileID: 22100000, guid: ff6e8c33af0660745b72c332264c703c, type: 2}
-  wallSpawnClip: {fileID: 8300000, guid: 9bd6d4d32f66132468c429c32ce2eeb9, type: 3}
+  wallSpawnClip: {fileID: 8300000, guid: b2f3faf735da8f447b8dd899b4be0ffb, type: 3}
   boxPrefab: {fileID: 7412488732542958870, guid: 950125cc09841d44a9e3bf08af23f102, type: 3}
   SavePoint: {fileID: 689206975}
 --- !u!4 &538756508
@@ -59518,6 +59522,10 @@ MonoBehaviour:
   - "\uCD5C\uB300 \uCCB4\uB825 \uC99D\uAC00 50 -> 100"
   - "\uCCB4\uB825 \uD68C\uBCF5"
   - "\uC800\uC7A5 \uC644\uB8CC"
+  useAutoAlign: 1
+  alignSpeed: 3
+  teleportInstead: 0
+  yOffset: 0.5
 --- !u!61 &689206982
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -59550,7 +59558,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -1}
+  m_Offset: {x: 0, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -59561,7 +59569,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.85, y: 0.05}
+  m_Size: {x: 1.5, y: 0.05}
   m_EdgeRadius: 0
 --- !u!1 &693825023
 GameObject:

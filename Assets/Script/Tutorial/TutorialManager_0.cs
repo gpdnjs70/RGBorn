@@ -293,6 +293,11 @@ public class TutorialManager_0 : MonoBehaviour
         // --- 5단계: 팔찌 장착 ---
         if (colorController != null)
         {
+            if (!PauseManager.IsPaused && SoundManager.instance != null && MiracleClip != null)
+            {
+                SoundManager.instance.SFXPlay("Miracle", MiracleClip);
+            }
+
             anim = player.GetComponent<Animator>();
 
             // 1. 교체 전 현재 방향(DirX, DirY) 값을 미리 저장
@@ -302,11 +307,6 @@ public class TutorialManager_0 : MonoBehaviour
 
             // 2. 컨트롤러 교체 (이때 모든 파라미터가 초기화됨)
             anim.runtimeAnimatorController = colorController;
-
-            if (!PauseManager.IsPaused && SoundManager.instance != null && MiracleClip != null)
-            {
-                SoundManager.instance.SFXPlay("WallSpawn", MiracleClip);
-            }
 
             // 3. 저장해둔 방향 값을 새 컨트롤러에 즉시 주입
             anim.SetFloat("DirX", lastDirX);
