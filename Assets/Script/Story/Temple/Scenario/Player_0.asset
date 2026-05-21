@@ -16,11 +16,11 @@ MonoBehaviour:
   lines:
   - talkerType: 1
     talkerName: player
-    context: "\uB4DC\uB514\uC5B4 \uC2E0\uC804\uC5D0 \uB3C4\uCC29\uD588\uB2E4..."
+    context: "\uB4DC\uB514\uC5B4 \uC2E0\uC804\uC774\uB2E4\u2026"
     portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
     customOffset: {x: 0, y: 5, z: 0}
   - talkerType: 1
     talkerName: player
-    context: "\uAE30\uC6B4\uC744 \uC228\uACA8\uC11C \uC7A1\uC785\uD558\uC790."
+    context: "\uB8E8\uC2DC\uC548\uC774 \uC900 \uAC78\n\uC368\uC57C\uACA0\uC5B4."
     portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
     customOffset: {x: 0, y: 5, z: 0}

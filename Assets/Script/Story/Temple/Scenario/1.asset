@@ -21,74 +21,51 @@ MonoBehaviour:
     customOffset: {x: 0, y: 4.5, z: 0}
   - talkerType: 0
     talkerName: "\uC131\uAE30\uC0AC"
-    context: "\uC2E0\uC804 \uC548\uC740 \uC544\uBB34\uB098 \uB4E4\uC5B4\uAC08 \uC218
-      \uC5C6\uC5B4."
+    context: "\uC5EC\uAE30\uB294 \uC544\uBB34\uB098\n\uB4E4\uC5B4\uAC08 \uC218 \uC788\uB294
+      \uACF3\uC774\n\uC544\uB2C8\uB2E4."
     portrait: {fileID: 21300000, guid: 51374dd5f50f3034094efda5fc9c2e69, type: 3}
     customOffset: {x: 0, y: 4.5, z: 0}
   - talkerType: 1
     talkerName: player
-    context: "\u2026\uC548\uC5D0 \uAF2D \uB4E4\uC5B4\uAC00\uC57C \uD560 \uC77C\uC774
+    context: "\u2026\uC548\uC5D0 \uAF2D \uB4E4\uC5B4\uAC00\uC57C\n\uD560 \uC77C\uC774
       \uC788\uC5B4\uC694."
-    portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
+    portrait: {fileID: 21300000, guid: 581a459d4b6c14d4e9a93d067b7cf9a6, type: 3}
     customOffset: {x: 0, y: 4, z: 0}
   - talkerType: 0
     talkerName: "\uC131\uAE30\uC0AC"
-    context: "\uC0AC\uC801\uC778 \uC6A9\uAC74\uC774\uBA74 \uB354\uB354\uC6B1 \uC548
-      \uB418\uACE0."
+    context: "\uC6A9\uAC74\uC774 \uBB50\uB4E0\n\uB4E4\uC5B4\uAC08 \uC21C \uC5C6\uB2E4."
     portrait: {fileID: 21300000, guid: 51374dd5f50f3034094efda5fc9c2e69, type: 3}
     customOffset: {x: 0, y: 4.5, z: 0}
   - talkerType: 0
     talkerName: "\uC131\uAE30\uC0AC"
-    context: "\uADF8\uB9CC \uB3CC\uC544\uAC00\uB3C4\uB85D \uD574."
+    context: "\uD5C8\uAC00\uBC1B\uC740 \uC790 \uC678\uC5D0\uB294\n\uCD9C\uC785 \uAE08\uC9C0\uB2E4."
     portrait: {fileID: 21300000, guid: 51374dd5f50f3034094efda5fc9c2e69, type: 3}
     customOffset: {x: 0, y: 4.5, z: 0}
   - talkerType: 1
     talkerName: player
-    context: "\u2026\uC65C\uC694?"
-    portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
+    context: "\u2026\uD55C \uBC88\uB9CC\n\uB4E4\uC5EC\uBCF4\uB0B4 \uC8FC\uC138\uC694."
+    portrait: {fileID: 21300000, guid: 581a459d4b6c14d4e9a93d067b7cf9a6, type: 3}
     customOffset: {x: 0, y: 4, z: 0}
   - talkerType: 0
     talkerName: "\uC131\uAE30\uC0AC"
-    context: "\uC774\uC720\uAE4C\uC9C0 \uC124\uBA85\uD574\uC918\uC57C \uD558\uB098?"
+    context: "\uC0C9\uC5D0 \uB208\uBA3C \uB188\uB4E4\uC740\n\uD558\uB098\uAC19\uC774
+      \uB611\uAC19\uAD70."
     portrait: {fileID: 21300000, guid: 51374dd5f50f3034094efda5fc9c2e69, type: 3}
     customOffset: {x: 0, y: 4.5, z: 0}
   - talkerType: 0
     talkerName: "\uC131\uAE30\uC0AC"
-    context: "\uC2E0\uC804\uC758 \uADDC\uCE59\uC774\uB2E4."
-    portrait: {fileID: 21300000, guid: 51374dd5f50f3034094efda5fc9c2e69, type: 3}
-    customOffset: {x: 0, y: 4.5, z: 0}
-  - talkerType: 1
-    talkerName: player
-    context: "\uC7A0\uAE50\uB9CC, \uC544\uC8FC \uC7A0\uAE50\uB9CC \uB4E4\uC5B4\uAC00\uBA74
-      \uB3FC\uC694."
-    portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
-    customOffset: {x: 0, y: 4, z: 0}
-  - talkerType: 0
-    talkerName: "\uC131\uAE30\uC0AC"
-    context: "\uB124 \uB188\uAC19\uC774 \uD0D0\uC695\uC744 \uBD80\uB9AC\uB294 \uAC83\uB4E4\uC740
-      \uC9C8\uC0C9\uC774\uC57C.."
+    context: "\uC5EC\uAE30\uAE4C\uC9C0 \uC654\uB2E4\uACE0\n\uB2E4 \uB4E4\uC5B4\uAC08
+      \uC218 \uC788\uB294 \uC904\n\uC544\uB098?"
     portrait: {fileID: 21300000, guid: 51374dd5f50f3034094efda5fc9c2e69, type: 3}
     customOffset: {x: 0, y: 4.5, z: 0}
   - talkerType: 0
     talkerName: "\uC131\uAE30\uC0AC"
-    context: "\uC548\uC5D0 \uB4E4\uC5B4\uAC08 \uC218 \uC788\uB294 \uC0AC\uB78C\uC740
-      \uB530\uB85C \uC788\uC5B4."
+    context: "\uB3CC\uC544\uAC00."
     portrait: {fileID: 21300000, guid: 51374dd5f50f3034094efda5fc9c2e69, type: 3}
     customOffset: {x: 0, y: 4.5, z: 0}
   - talkerType: 0
     talkerName: "\uC131\uAE30\uC0AC"
-    context: "\uB124\uAC8C \uAD00\uC6A9\uC744 \uBCA0\uD480\uC5B4\uC8FC\uB294 \uAC74
-      \uC5EC\uAE30\uC11C \uB05D\uC774\uB2E4."
-    portrait: {fileID: 21300000, guid: 51374dd5f50f3034094efda5fc9c2e69, type: 3}
-    customOffset: {x: 0, y: 4.5, z: 0}
-  - talkerType: 0
-    talkerName: "\uC131\uAE30\uC0AC"
-    context: "\uADF8\uB7FC\uC5D0\uB3C4 \uAF2D \uB4E4\uC5B4\uAC00\uC57C\uACA0\uB2E4\uACE0
-      \uD55C\uB2E4\uBA74\u2026"
-    portrait: {fileID: 21300000, guid: 51374dd5f50f3034094efda5fc9c2e69, type: 3}
-    customOffset: {x: 0, y: 4.5, z: 0}
-  - talkerType: 0
-    talkerName: "\uC131\uAE30\uC0AC"
-    context: "\uB9C9\uC744 \uC218\uBC16\uC5D0 \uC5C6\uACA0\uC9C0."
+    context: "\uB354 \uBC84\uD2F0\uBA74 \uD798\uC73C\uB85C\n\uB9C9\uC744 \uC218\uBC16\uC5D0
+      \uC5C6\uB2E4."
     portrait: {fileID: 21300000, guid: 51374dd5f50f3034094efda5fc9c2e69, type: 3}
     customOffset: {x: 0, y: 4.5, z: 0}
