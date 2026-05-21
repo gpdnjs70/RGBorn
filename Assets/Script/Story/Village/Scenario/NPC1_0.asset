@@ -21,6 +21,6 @@ MonoBehaviour:
     customOffset: {x: 0, y: 5, z: 0}
   - talkerType: 0
     talkerName: "\uB9C8\uC744 \uC0AC\uB78C1"
-    context: "\uC800\uD76C \uB9C8\uC744\uC740 \uB9C8\uC74C\uC5D0 \uB4DC\uC2DC\uB098\uC694?"
+    context: "\uC800\uD76C \uB9C8\uC744\uC740\n\uB9C8\uC74C\uC5D0 \uB4DC\uC2DC\uB098\uC694?"
     portrait: {fileID: 21300000, guid: 1d33c1067ef5170499fe6cbc2bc3026b, type: 3}
     customOffset: {x: 0, y: 5, z: 0}

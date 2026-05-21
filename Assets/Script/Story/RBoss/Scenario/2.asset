@@ -147,11 +147,6 @@ MonoBehaviour:
     context: "\uADF8\uB798\uB3C4 \uC544\uAE4C\uC6E0\uC9C0.\n\uAF64 \uC4F8 \uB9CC\uD588\uB294\uB370\u2026"
     portrait: {fileID: 21300000, guid: c6b401e6de6505748ab720424692d91f, type: 3}
     customOffset: {x: -3, y: 3.2, z: 0}
-  - talkerType: 1
-    talkerName: player
-    context: "\u2026"
-    portrait: {fileID: 21300000, guid: 3f8801288d77c1c479accccaf8d9369b, type: 3}
-    customOffset: {x: 7, y: -2, z: 0}
   - talkerType: 0
     talkerName: "R\uC8FC\uAD50"
     context: "\uADF8\uB9AC\uACE0  \uB124 \uC5C4\uB9C8.\n\uADF8\uAC74 \uC880 \uADC0\uCC2E\uC558\uC5B4."
