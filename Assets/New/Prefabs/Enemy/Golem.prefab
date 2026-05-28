@@ -437,7 +437,7 @@ MonoBehaviour:
   hp: {fileID: 7036343037904286666}
   entity: {fileID: 7036343037904286666}
   targetHP: {fileID: 0}
-  atkCoolTime: 2.5
+  atkCoolTime: 4
   atkDelay: 0
   powerBonusRate: 0.1
   attackPoints:

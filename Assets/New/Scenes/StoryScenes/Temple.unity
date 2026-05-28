@@ -21213,6 +21213,7 @@ MonoBehaviour:
   imageUIPanel: {fileID: 46569088}
   playerTargetPos: {fileID: 1430417546}
   SceneChange: {fileID: 806086335}
+  talkedToPaladinFinal: 0
   controlPanel: {fileID: 648808070}
   controlImage: {fileID: 1090426868}
   controlSprites:
@@ -140353,6 +140354,10 @@ MonoBehaviour:
   attackUpgradePercent: 0.2
   upgradeSprites: []
   upgradeTexts: []
+  useAutoAlign: 0
+  alignSpeed: 3
+  teleportInstead: 0
+  yOffset: 0.5
 --- !u!61 &1970462780
 BoxCollider2D:
   m_ObjectHideFlags: 0

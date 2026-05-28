@@ -452,18 +452,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coolTime: 0.8
   pos: {fileID: 8082843565654426771}
-  boxSize: {x: 1, y: 2.5}
+  boxSize: {x: 1.5, y: 3}
   movement: {fileID: 143028736834017573}
   damage: 5
   directionOffsets:
-  - {x: 0, y: -0.2, z: 0}
-  - {x: 0, y: -0.5, z: 0}
-  - {x: -0.55, y: -0.5, z: 0}
-  - {x: 0.55, y: -0.5, z: 0}
-  - {x: 0.55, y: -0.2, z: 0}
-  - {x: 0.55, y: -0.35, z: 0}
-  - {x: -0.55, y: -0.2, z: 0}
-  - {x: -0.55, y: -0.35, z: 0}
+  - {x: 0.15, y: 0.25, z: 0}
+  - {x: -0.15, y: -0.5, z: 0}
+  - {x: -0.6, y: -0.5, z: 0}
+  - {x: 0.6, y: -0.5, z: 0}
+  - {x: 0.55, y: 0.2, z: 0}
+  - {x: 0.5, y: -0.4, z: 0}
+  - {x: -0.55, y: 0.2, z: 0}
+  - {x: -0.5, y: -0.4, z: 0}
   attributeDB: {fileID: 11400000, guid: ff68df4989a520840a97d5d9234e4bee, type: 2}
   clip: {fileID: 8300000, guid: ae54e11c6c8ef994b93fd1dcfb296ef1, type: 3}
 --- !u!114 &6815555458812477010

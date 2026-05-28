@@ -362,7 +362,7 @@ public class TutorialManager : MonoBehaviour
             SetupGuideUI(2);
             SetPlayerControllable(TutorialStep.Attribute);
 
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(2f);
             yield return StartCoroutine(FadeOutPanel());
         }
 

@@ -71,6 +71,13 @@ public class TutorialManager_0 : MonoBehaviour
     [Header("Audio Settings")]
     [SerializeField] private AudioClip MiracleClip;
 
+    [Header("Quest Flags")]
+    [SerializeField] private GameObject Book;
+    [SerializeField] private GameObject Box;
+
+    public bool talkedToBook = false;
+    public bool openedBox = false;
+
     private void Awake()
     {
         if (SaveManager.Instance != null)
@@ -186,6 +193,8 @@ public class TutorialManager_0 : MonoBehaviour
         yield return StartCoroutine(PlayDialogue(3));
         SetPlayerControllable(TutorialStep.All);
 
+        Book.SetActive(true);
+
         yield return new WaitUntil(() => isNearBook);
 
         bool isBookGuiActive = false;
@@ -222,12 +231,14 @@ public class TutorialManager_0 : MonoBehaviour
         }
 
         yield return StartCoroutine(FadeOutPanel());
-
+        
         // 동화책 관련 이야기
         yield return StartCoroutine(PlayDialogue(4));
 
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(PlayFullStory());
+        talkedToBook = true;
+
         yield return new WaitForSeconds(1f);
 
         yield return StartCoroutine(PlayDialogue(5));
@@ -235,6 +246,7 @@ public class TutorialManager_0 : MonoBehaviour
 
         yield return StartCoroutine(PlayDialogue(6));
         SetPlayerControllable(TutorialStep.All);
+        Box.SetActive(true);
 
         yield return new WaitUntil(() => isNearBox);
         bool isGuiActive = false; // 현재 UI가 켜져 있는지 체크하는 플래그
@@ -273,6 +285,7 @@ public class TutorialManager_0 : MonoBehaviour
         }
 
         yield return StartCoroutine(FadeOutPanel());
+        
         SetPlayerControllable(TutorialStep.None);
 
         // --- 4단계: 팔찌 발견 ---
@@ -282,6 +295,8 @@ public class TutorialManager_0 : MonoBehaviour
         anim.SetFloat("DirY", 0);
         
         yield return StartCoroutine(PlayDialogue(7));
+
+        openedBox = true;
 
         if (targetBox != null) targetBox.PlayOpenAnimation();
         yield return new WaitForSeconds(1.5f);
@@ -333,7 +348,7 @@ public class TutorialManager_0 : MonoBehaviour
 
         StartCoroutine(CameraShake(shakeDuration, shakeMagnitude));
         yield return StartCoroutine(PlayDialogue(9));
-       
+
         isNearDoor = false;
         SetPlayerControllable(TutorialStep.All);
         yield return new WaitUntil(() => isNearDoor);
